@@ -11,6 +11,10 @@ const crearArchivo = () =>
     import ('@/views/archivos/crearArchivo')
 const listarArchivo = () =>
     import ('@/views/archivos/ListarArchivo')
+    const listarEspecialidad = () =>
+    import ('@/views/especialidades/ListarEspecialidad')
+    const crearEspecialidad = () =>
+    import ('@/views/especialidades/CrearEspecialidad')
 const Dashboard = () =>
     import ('@/views/Dashboard')
 
@@ -102,9 +106,9 @@ const User = () =>
     import ('@/views/users/User')
 
 Vue.use(Router)
-
+//eliminar el hastag cambiar el modo hastag a history
 export default new Router({
-    mode: 'hash', // https://router.vuejs.org/api/#mode
+    mode: 'history', // https://router.vuejs.org/api/#mode
     linkActiveClass: 'active',
     scrollBehavior: () => ({ y: 0 }),
     routes: configRoutes()
@@ -130,6 +134,16 @@ function configRoutes() {
 					path: 'archivos/crear',
 					name: 'Crear Archivo',
 					component: crearArchivo
+				},
+                {
+					path: 'especialidades/listar',
+					name: 'Especialidades',
+					component: listarEspecialidad
+				},
+                {
+					path: 'especialidades/crear',
+					name: 'Crear Especialidad',
+					component: crearEspecialidad
 				},
                 
                 {

@@ -28,6 +28,18 @@ export default [
         to: '/archivos/crear',
         icon: 'cil-drop'
     },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'Especialidades',
+      to: '/especialidades/listar',
+      icon: 'cil-drop'
+    },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'Crear especialidades',
+      to: '/especialidades/crear',
+      icon: 'cil-drop'
+  },
       {
         _name: 'CSidebarNavItem',
         name: 'Colors',

@@ -2,11 +2,10 @@
   <div>
 
     <CRow>
-        
-        <router-link to="/archivos/crear">
+        <router-link to="/especialidades/crear">
             <CButton block color="primary" shape="pill" size="lg" class="m-3">Registrar Nuevo</CButton>
         </router-link>
-        
+
       <CCol sm="12">
         <CTableWrapper
           :items="getShuffledUsersData()"
@@ -15,7 +14,7 @@
           border
           small
           fixed
-          caption="Listado de Archivos"
+          caption="Listado de Especialidades"
         />
       </CCol>
     </CRow>
@@ -32,12 +31,7 @@ export default {
   components: { CTableWrapper },
   methods: {
     shuffleArray (array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1))
-        let temp = array[i]
-        array[i] = array[j]
-        array[j] = temp
-      }
+
       return array
     },
 
