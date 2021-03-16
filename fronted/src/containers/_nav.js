@@ -18,6 +18,18 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
+        name: 'Archivos',
+        to: '/archivos/listar',
+        icon: 'cil-drop'
+    },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Crear Archivo',
+        to: '/archivos/crear',
+        icon: 'cil-drop'
+    },
+      {
+        _name: 'CSidebarNavItem',
         name: 'Colors',
         to: '/theme/colors',
         icon: 'cil-drop'
