@@ -2,6 +2,8 @@
   <div>
     <CRow>
       <CCol sm="10">
+				
+				
         <CCard>
           <CCardHeader>
             <strong>Registrar Especialidad </strong><small></small>
@@ -20,12 +22,21 @@
             <CRow>
               <CCol sm="6">
                 <CSelect
+								attrs="options.value"
                   label="Version"
-                  :options="options"
+                  :options="[ { value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML' } , { value: 'css', label: 'HTML' }]"
                   placeholder="Seleccione Version"
-                  v-bind="versionSelecionada"
+                  @change="ad"
                 />
               </CCol>
+							<CCol sm=" 6">
+								<select  v-model="versionSelecionada">
+									 <option v-for="option in options" v-bind:value="option.value">
+										{{ option.label }}
+									</option>
+								</select>
+								{{versionSelecionada}}
+							</CCol>
             </CRow>
 
           </CCardBody>
@@ -35,6 +46,7 @@
             </CButton >
           </CCardFooter>
         </CCard>
+				
       </CCol>
     </CRow>
 		
@@ -48,50 +60,26 @@ export default {
   data() {
     return {
         especialidad:'',
-        versionSelecionada:null,
-        selected: [], // Must be an array reference!
+        versionSelecionada: null,
+				version:0,
         show: true,
-        horizontal: { label: "col-3", input: "col-9" },
         options: [
             {
-                key:1,
-                value:"Option 1"
+                value:1,
+								label: "option 1",
             },
             {
-                key:2,
-                value:"Option 2"
+								value:2,
+                label:"Option 2",
             },
             {
-                key:3,
-                value:"Option 3"
+								value:3,
+                label:"Option 3",
             },
             
         ],
-        selectOptions: [
-            " 1",
-            " 2",
-            " 3",
-            {
-            value: "some value",
-            label: "Selected option",
-            },
-        ],
-        selectedOption: "some value",
 
-        formCollapsed: true,
-        checkboxNames: [
-            "Checkboxes",
-            "Inline Checkboxes",
-            "Checkboxes - custom",
-            "Inline Checkboxes - custom",
-        ],
-        radioNames: [
-            "Radios",
-            "Inline Radios",
-            "Radios - custom",
-            "Inline Radios - custom",
-        ],
-        };
+    };
   },
   methods: {
     validator(val) {
@@ -99,8 +87,12 @@ export default {
     },
     registrar(){
         console.log(this.especialidad);
-        console.log(this.version);
+        console.log(this.versionSelecionada);
     },
+		ad(at){
+			console.log(at);
+			this.versionSelecionada=at.target.name;
+		}
 
   },
 };

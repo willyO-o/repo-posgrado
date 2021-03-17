@@ -42,19 +42,22 @@
                   label="Sede"
                   :options="options"
                   placeholder="Seleccione"
+									v-model="sede"
                 />
+								{{sede}}
               </CCol>
             </CRow>
 
 						
 
-            <CInputFile label="Subir Archivo pdf" />
+            <CInputFile label="Subir Archivo pdf" @change="fileselect"/>
+						
 
             <CTextarea label="Resumen" placeholder="Resumen..." rows="9" />
           </CCardBody>
           <CCardFooter>
             <CButton type="submit" size="sm" color="primary"
-              ><CIcon name="cil-check-circle" /> Submit</CButton
+              ><CIcon name="cil-check-circle"  /> Submit</CButton
             >
             <CButton type="reset" size="sm" color="danger"
               ><CIcon name="cil-ban" /> Reset</CButton
@@ -98,6 +101,8 @@ export default {
   name: "Forms",
   data() {
     return {
+			sede:null,
+			archivo:null,
       selected: [], // Must be an array reference!
       show: true,
       horizontal: { label: "col-3", input: "col-9" },
@@ -132,6 +137,9 @@ export default {
     validator(val) {
       return val ? val.length >= 4 : false;
     },
+		fileselect(event){
+			console.log(event);
+		}
   },
 };
 </script>
