@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 14/03/2021 22:40:50
+ Date: 18/03/2021 00:14:39
 */
 
 
@@ -144,6 +144,10 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 -- Records of especialidades
 -- ----------------------------
+INSERT INTO "public"."especialidades" VALUES (3, 'metodologia de la investigacion');
+INSERT INTO "public"."especialidades" VALUES (4, 'MAESTRÍA EN DIRECCIÓN Y GESTIÓN ESTRATÉGICA DE INSTITUCIONES EDUCATIVAS');
+INSERT INTO "public"."especialidades" VALUES (5, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL');
+INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL');
 
 -- ----------------------------
 -- Table structure for roles
@@ -209,6 +213,10 @@ CREATE TABLE "public"."ver_esp" (
 -- ----------------------------
 -- Records of ver_esp
 -- ----------------------------
+INSERT INTO "public"."ver_esp" VALUES (2, 3);
+INSERT INTO "public"."ver_esp" VALUES (1, 4);
+INSERT INTO "public"."ver_esp" VALUES (1, 5);
+INSERT INTO "public"."ver_esp" VALUES (3, 6);
 
 -- ----------------------------
 -- Table structure for verisiones
@@ -223,6 +231,21 @@ CREATE TABLE "public"."verisiones" (
 -- ----------------------------
 -- Records of verisiones
 -- ----------------------------
+INSERT INTO "public"."verisiones" VALUES (1, 'VERSION I');
+INSERT INTO "public"."verisiones" VALUES (2, 'VERSION II');
+INSERT INTO "public"."verisiones" VALUES (3, 'VERSION III');
+
+-- ----------------------------
+-- View structure for view_especialidades
+-- ----------------------------
+DROP VIEW IF EXISTS "public"."view_especialidades";
+CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
+    ver_esp.id_especialidad,
+    especialidades.especialidad,
+    verisiones.version
+   FROM especialidades
+     JOIN ver_esp USING (id_especialidad)
+     JOIN verisiones USING (id_version);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -243,7 +266,7 @@ SELECT setval('"public"."categorias_id_categoria_seq"', 3, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 3, false);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 7, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -271,7 +294,7 @@ SELECT setval('"public"."usuarios_id_usuarios_seq"', 3, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."verisiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 3, false);
+SELECT setval('"public"."verisiones_id_version_seq"', 4, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
@@ -323,5 +346,5 @@ ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_id_rol_fkey" FOREIGN KE
 -- ----------------------------
 -- Foreign Keys structure for table ver_esp
 -- ----------------------------
-ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_especialidad_fkey" FOREIGN KEY ("id_especialidad") REFERENCES "public"."especialidades" ("id_especialidad") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_version_fkey" FOREIGN KEY ("id_version") REFERENCES "public"."verisiones" ("id_version") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_especialidad_fkey" FOREIGN KEY ("id_especialidad") REFERENCES "public"."especialidades" ("id_especialidad") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_version_fkey" FOREIGN KEY ("id_version") REFERENCES "public"."verisiones" ("id_version") ON DELETE CASCADE ON UPDATE CASCADE;
