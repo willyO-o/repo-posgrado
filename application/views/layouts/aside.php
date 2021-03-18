@@ -1,3 +1,4 @@
+<div id="applicacion">
 <div id="sidebar-nav" class="sidebar">
     <nav>
         <ul class="nav" id="sidebar-nav-menu">
@@ -5,14 +6,14 @@
             <li class="menu-group">Mi Panel</li>
             
             <li>
-                <router-link to="/inicio"><i class="ti-widget"></i> <span class="title">Inicio</span></router-link>
+                <router-link to="/" ><i class="ti-widget"></i> <span class="title">Inicio</span></router-link>
             </li>
             
             <li>
                 <router-link to="/users"><i class="ti-widget"></i> <span class="title">User</span></router-link>
             </li>
             <li>
-                <router-link to="/especialidades"><i class="ti-widget"></i> <span class="title">Especialidades</span></router-link>
+                <router-link to="/especialidades"  ><i class="ti-widget"></i> <span class="title">Especialidades</span></router-link>
             </li>
             
             <li class="panel">

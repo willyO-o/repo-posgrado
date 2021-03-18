@@ -14,6 +14,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script>
     let base_url="<?= base_url()?>"
   </script>
+
+<link href="assets/plugins/datatables.net-bs4/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Datatables extensions css -->
+<link href="<?=base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?=base_url() ?>assets/plugins/datatables.net-colreorder-bs4/colreorder.bootstrap4.min.html" rel="stylesheet" type="text/css" />
+
+
+
   <link href="<?=base_url() ?>assets/css/bootstrap-custom.min.css" rel="stylesheet" type="text/css" />
   <link href="<?=base_url() ?>assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
@@ -24,11 +33,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?=base_url()?>assets/img/icono.png">
+
   
 </head>
 <body>
   <!-- WRAPPER -->
   <div id="wrapper">
-    <div id="app">
+ 
 
     

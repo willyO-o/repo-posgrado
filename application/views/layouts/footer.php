@@ -4,6 +4,7 @@
 <footer>
   <div class="container-fluid">
     <p class="copyright">&copy; 2020 <a href="https://www.themeineed.com/" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+
   </div>
 </footer>
 <!-- end footer -->
@@ -28,65 +29,40 @@
 </div>
 </div>
 <!-- END WRAPPER -->
+	
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<!-- <script type="module" src="<?= base_url() ?>assets/js/axios.min.js"> </script> -->
+<!-- <script type="module" src="<?= base_url() ?>assets/js/axios.js"> </script> -->
 <!-- Vendor -->
-<script src="<?= base_url() ?>assets/js/vendor.min.js"></script>
+<script src="<?= base_url() ?>assets/js/vendor.min.js" ></script>
 
 <!-- App -->
 <script src="<?= base_url() ?>assets/js/app.min.js"></script>
 
-<script>
-      const card = () => import (base_url+'assets/js/templates/card.js');
-  const Foo = { 
-    template: '<h1>card</h1>'
-  }
-  const Bar = { 
-    template://html
-     `
-    <div> users</div>`
-  }
-  const Car = { 
-    template:'<h2> asdas</h2>'
-  }
 
 
+  <!-- Datables Extension -->
+	<script src="<?=base_url() ?>assets/plugins/datatables.net/jquery.dataTables.min.js"></script>
+  <script src="<?=base_url() ?>assets/plugins/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
+
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/jszip/jszip.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder/dataTables.colReorder.min.js"></script>
+  <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder-bs4/colReorder.bootstrap4.min.js"></script>
+	<script type="module" src="<?= base_url() ?>assets/js/main.js"> </script>
 
 
+	<script>
 
-  // 2. Define some routes
-  // Each route should map to a component. The "component" can
-  // either be an actual component constructor created via
-  // `Vue.extend()`, or just a component options object.
-  // We'll talk about nested routes later.
-  const routes = [{
-      path: '/inicio',
-      component: Foo
-    },
-    {
-      path: '/users',
-      component: Car
-    },
-    {
-      path: '/especialidades',
-      component: Bar
-    },
-  ]
+	</script>
 
-  // 3. Create the router instance and pass the `routes` option
-  // You can pass in additional options here, but let's
-  // keep it simple for now.
-  const router = new VueRouter({
-    //mode:'history',
-    routes // short for `routes: routes`
-  })
-
-  // 4. Create and mount the root instance.
-  // Make sure to inject the router with the router option to make the
-  // whole app router-aware.
-  const app = new Vue({
-    router
-  }).$mount('#app')
-</script>
 </body>
 
 </html>
