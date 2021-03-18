@@ -33,7 +33,7 @@ class Especialidad_model extends CI_Model {
 
     public function delete_especialidad(int $id_esp)
     {
-        $this->db->where('id_especialidades', $id_esp);
+        $this->db->where('id_especialidad', $id_esp);
         return $this->db->delete('especialidades');
         
     }

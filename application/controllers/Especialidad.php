@@ -44,6 +44,43 @@ class Especialidad extends CI_Controller {
 		echo json_encode($respuesta);
 	}
 
+	public function update()
+	{
+		echo json_encode($this->request);
+		die();
+
+		$id_especialidad=$this->request->id;
+		$datos = array(
+			'especialidad' => strtoupper($this->request->espec), 
+		);
+		$id_version=$this->request->id_version; 
+		$id_especialidad=$this->especialidad_model->set_especialidad($datos);
+		if ($id_especialidad) {
+			$data = array('id_especialidad' =>  $id_especialidad, 'id_version'=> $id_version);
+			if ($this->especialidad_model->set_ver_esp($data)) {
+				$respuesta['respuesta']=true;
+			}else{
+				$respuesta['respuesta']=false;
+			}	
+		}else{
+			$respuesta['respuesta']=false;
+		}
+
+		echo json_encode($respuesta);
+	}
+
+	public function delete()
+	{	
+		$id_especialidad= $this->request->id_especialidad; 
+	
+		if ($this->especialidad_model->delete_especialidad($id_especialidad)) {
+			$respuesta['respuesta']=true;
+		}else{
+			$respuesta['respuesta']=false;
+		}
+		echo json_encode($respuesta);
+	}
+
 }
 
 /* End of file Especialidad.php */
