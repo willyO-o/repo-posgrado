@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 18/03/2021 00:14:39
+ Date: 19/03/2021 00:10:53
 */
 
 
@@ -83,6 +83,17 @@ START 1
 CACHE 1;
 
 -- ----------------------------
+-- Sequence structure for ver_esp_id_ver_esp_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."ver_esp_id_ver_esp_seq";
+CREATE SEQUENCE "public"."ver_esp_id_ver_esp_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
 -- Sequence structure for verisiones_id_version_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."verisiones_id_version_seq";
@@ -130,6 +141,9 @@ CREATE TABLE "public"."categorias" (
 -- ----------------------------
 -- Records of categorias
 -- ----------------------------
+INSERT INTO "public"."categorias" VALUES (2, 'Diplomado');
+INSERT INTO "public"."categorias" VALUES (3, 'Maestria');
+INSERT INTO "public"."categorias" VALUES (4, 'Doctorado');
 
 -- ----------------------------
 -- Table structure for especialidades
@@ -144,10 +158,18 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 -- Records of especialidades
 -- ----------------------------
-INSERT INTO "public"."especialidades" VALUES (3, 'metodologia de la investigacion');
-INSERT INTO "public"."especialidades" VALUES (4, 'MAESTRÍA EN DIRECCIÓN Y GESTIÓN ESTRATÉGICA DE INSTITUCIONES EDUCATIVAS');
-INSERT INTO "public"."especialidades" VALUES (5, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL');
 INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL');
+INSERT INTO "public"."especialidades" VALUES (7, 'DIPLOMADO EN EDUCACION MAMANI');
+INSERT INTO "public"."especialidades" VALUES (5, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL AAA');
+INSERT INTO "public"."especialidades" VALUES (8, 'HOLA PRRO');
+INSERT INTO "public"."especialidades" VALUES (10, 'WWWWWWASCO');
+INSERT INTO "public"."especialidades" VALUES (11, 'KKKKKK');
+INSERT INTO "public"."especialidades" VALUES (13, 'QQQQQQQQQQQQQQ');
+INSERT INTO "public"."especialidades" VALUES (14, 'EGEGEGE');
+INSERT INTO "public"."especialidades" VALUES (15, 'AAAAAAAA');
+INSERT INTO "public"."especialidades" VALUES (16, 'BBBBBBBBBBBBBBBB');
+INSERT INTO "public"."especialidades" VALUES (17, 'FFFFFFFFFFFFFFFFFFFFFFF');
+INSERT INTO "public"."especialidades" VALUES (19, 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
 
 -- ----------------------------
 -- Table structure for roles
@@ -180,6 +202,8 @@ CREATE TABLE "public"."tipos" (
 -- ----------------------------
 -- Records of tipos
 -- ----------------------------
+INSERT INTO "public"."tipos" VALUES (2, 'tesis');
+INSERT INTO "public"."tipos" VALUES (3, 'Monografia');
 
 -- ----------------------------
 -- Table structure for usuarios
@@ -206,17 +230,26 @@ CREATE TABLE "public"."usuarios" (
 DROP TABLE IF EXISTS "public"."ver_esp";
 CREATE TABLE "public"."ver_esp" (
   "id_version" int4 NOT NULL,
-  "id_especialidad" int4 NOT NULL
+  "id_especialidad" int4 NOT NULL,
+  "id_ver_esp" int4 NOT NULL DEFAULT nextval('ver_esp_id_ver_esp_seq'::regclass)
 )
 ;
 
 -- ----------------------------
 -- Records of ver_esp
 -- ----------------------------
-INSERT INTO "public"."ver_esp" VALUES (2, 3);
-INSERT INTO "public"."ver_esp" VALUES (1, 4);
-INSERT INTO "public"."ver_esp" VALUES (1, 5);
-INSERT INTO "public"."ver_esp" VALUES (3, 6);
+INSERT INTO "public"."ver_esp" VALUES (3, 6, 3);
+INSERT INTO "public"."ver_esp" VALUES (1, 7, 4);
+INSERT INTO "public"."ver_esp" VALUES (3, 5, 2);
+INSERT INTO "public"."ver_esp" VALUES (1, 8, 5);
+INSERT INTO "public"."ver_esp" VALUES (3, 10, 7);
+INSERT INTO "public"."ver_esp" VALUES (1, 11, 8);
+INSERT INTO "public"."ver_esp" VALUES (1, 13, 10);
+INSERT INTO "public"."ver_esp" VALUES (1, 14, 11);
+INSERT INTO "public"."ver_esp" VALUES (3, 15, 12);
+INSERT INTO "public"."ver_esp" VALUES (1, 16, 13);
+INSERT INTO "public"."ver_esp" VALUES (2, 17, 14);
+INSERT INTO "public"."ver_esp" VALUES (2, 19, 16);
 
 -- ----------------------------
 -- Table structure for verisiones
@@ -242,6 +275,7 @@ DROP VIEW IF EXISTS "public"."view_especialidades";
 CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
     ver_esp.id_especialidad,
     especialidades.especialidad,
+    ver_esp.id_ver_esp,
     verisiones.version
    FROM especialidades
      JOIN ver_esp USING (id_especialidad)
@@ -259,14 +293,14 @@ SELECT setval('"public"."archivos_id_archivo_seq"', 3, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 3, false);
+SELECT setval('"public"."categorias_id_categoria_seq"', 5, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 7, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 20, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -280,7 +314,7 @@ SELECT setval('"public"."roles_id_rol_seq"', 6, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 3, false);
+SELECT setval('"public"."tipos_id_tipo_seq"', 4, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -288,6 +322,13 @@ SELECT setval('"public"."tipos_id_tipo_seq"', 3, false);
 ALTER SEQUENCE "public"."usuarios_id_usuarios_seq"
 OWNED BY "public"."usuarios"."id_usuarios";
 SELECT setval('"public"."usuarios_id_usuarios_seq"', 3, false);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
+OWNED BY "public"."ver_esp"."id_ver_esp";
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 17, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -325,6 +366,11 @@ ALTER TABLE "public"."tipos" ADD CONSTRAINT "tipos_pkey" PRIMARY KEY ("id_tipo")
 -- Primary Key structure for table usuarios
 -- ----------------------------
 ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_pkey" PRIMARY KEY ("id_usuarios");
+
+-- ----------------------------
+-- Primary Key structure for table ver_esp
+-- ----------------------------
+ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_pkey" PRIMARY KEY ("id_ver_esp");
 
 -- ----------------------------
 -- Primary Key structure for table verisiones
