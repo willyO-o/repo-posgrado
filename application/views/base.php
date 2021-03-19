@@ -15,14 +15,17 @@
 
     <div class="content-heading">
       <div class="heading-left">
-        <h1 class="page-title">Blank Page</h1>
-        <p class="page-subtitle">Create your new page based on this starter page.</p>
+        <h1 class="page-title">Administracion</h1>
+        <p class="page-subtitle">Bienvenido </p>
       </div>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i> Home</a></li>
-          <li class="breadcrumb-item"><a href="#">Parent</a></li>
-          <li class="breadcrumb-item active">Current</li>
+						<li>
+                <router-link to="/"  class="breadcrumb-item">
+								<i class="fa fa-home"></i> <span class="title">Inicio</span>
+								</router-link>
+            </li>
+  
         </ol>
       </nav>
     </div>

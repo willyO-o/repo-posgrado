@@ -1,8 +1,8 @@
 <div class="clearfix"></div>
 
 <!-- footer -->
-<footer>
-  <div class="container-fluid">
+<footer class="mt-5">
+  <div class="container-fluid fixed-bottom">
     <p class="copyright">&copy; 2020 <a href="https://www.themeineed.com/" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
 
   </div>
@@ -26,6 +26,7 @@
   <iframe src="demo-panel.html"></iframe>
 </div> -->
 <!-- END DEMO PANEL -->
+
 </div>
 </div>
 <!-- END WRAPPER -->
@@ -56,11 +57,18 @@
   <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder/dataTables.colReorder.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder-bs4/colReorder.bootstrap4.min.js"></script>
+
+
+  <script src="<?=base_url() ?>assets/plugins/dropify/js/dropify.min.js"></script>
+	<script src="<?= base_url()?>assets/js/forms-dragdropupload.init.min.js"></script>
 	<script type="module" src="<?= base_url() ?>assets/js/main.js"> </script>
 
 
-	<script>
 
+
+
+	<script>
+	
 	</script>
 
 </body>

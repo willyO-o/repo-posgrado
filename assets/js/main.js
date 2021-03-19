@@ -4,7 +4,8 @@ const Card = () =>
     import ('./components/card.js');
 const Especialidades = () =>
     import ('./components/especialidades.js');
-
+const subirArchivos = () =>
+    import ('./components/subirArchivos.js');
 
 const Bar = {
     template: "<div>hola aaaa </div>"
@@ -22,6 +23,11 @@ const routes = [{
     {
         path: '/especialidades',
         component: Especialidades
+    },
+    {
+        path: '/archivos/subir',
+        component: subirArchivos,
+
     },
 ]
 

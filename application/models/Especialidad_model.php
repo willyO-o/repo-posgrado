@@ -12,7 +12,7 @@ class Especialidad_model extends CI_Model {
 
     public function get_especialidad_id(int $id_esp)
     {
-        $this->db->where('id_especialidades', $id_esp);
+        $this->db->where('id_especialidad', $id_esp);
         return $this->db->get('especialidades')->row();
         
     }
@@ -26,7 +26,7 @@ class Especialidad_model extends CI_Model {
     }
     public function update_especialidad($datos,int $id_esp)
     {
-        $this->db->where('id_especialidades', $id_esp);
+        $this->db->where('id_especialidad', $id_esp);
         return $this->db->update('especialidades', $datos);
         
     }
@@ -77,6 +77,13 @@ class Especialidad_model extends CI_Model {
 	public function set_ver_esp($datos)
     {
         return $this->db->insert('ver_esp', $datos);
+        
+    }
+
+	public function update_ver_esp($datos,int $id_ver_esp)
+    {
+        $this->db->where('id_ver_esp', $id_ver_esp);
+        return $this->db->update('ver_esp', $datos);
         
     }
 

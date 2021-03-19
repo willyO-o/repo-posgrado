@@ -1,9 +1,10 @@
 export default {
     template: //html
         `
-		<div>
+		<div class="mb-5">
+		<h1>Especialidades</h1>
 		<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary"   @click="mostrarModal(); cambiarTitulo()">
+			<button type="button" class="btn btn-primary"   @click="mostrarModal()">
 				Registar Nuevo
 			</button>
 			<br/><br/>
@@ -13,7 +14,7 @@ export default {
 					<div class="modal-content">
 						<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">{{tituloEspecialidad}}</h5>
-						<button type="button" class="close" @click="ocultarModal(); editar=false">
+						<button type="button" class="close" @click="ocultarModal()">
 							<span aria-hidden="true">&times;</span>
 						</button>
 						</div>
@@ -58,7 +59,7 @@ export default {
 					  
 						</div>
 						<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" @click="ocultarModal(); editar=false">Cerrar</button>
+						<button type="button" class="btn btn-secondary" @click="ocultarModal()">Cerrar</button>
 						<button type="button" class="btn btn-primary"  @click="registrar();">Registrar</button>
 						</div>
 					</div>
@@ -66,9 +67,9 @@ export default {
 			</div>
 
 		
-			<div class="card">
+			<div class="card mb-5">
 				<div class="card-header">
-					<h3 class="card-title">Datatable with Export Features</h3>
+					<h3 class="card-title">Listado de Especialidades</h3>
 					</div>
 						<div class="card-body">
 						<div class="table-responsive">
@@ -88,7 +89,7 @@ export default {
 								<td>{{item.version}}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"   
-                                        @click="editarEspecialidad(item.id_especialidad,item.especialidad,item.id_version); cambiarTitulo()">
+                                        @click="editarEspecialidad(item)">
                                     <i class="ti-pencil"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_especialidad)">
@@ -115,18 +116,20 @@ export default {
             listaEspecialidades: null,
             tituloEspecialidad: '',
             editar: false,
-            
+
             especialidad: {
                 id: 0,
                 espec: '',
                 id_version: 0,
-                version: ''
+                version: '',
+                id_ver_esp: 0
             },
             defaulEspecialidad: {
                 id: 0,
                 espec: '',
                 id_version: 0,
-                version: ''
+                version: '',
+                id_ver_esp: 0
             },
             hasError: false,
             validar: {
@@ -152,6 +155,7 @@ export default {
             this.cambiarTitulo()
         },
         ocultarModal() {
+            this.editar = false
             $('#modal').modal('hide')
             this.cambiarTitulo()
             this.especialidad = Object.assign({}, this.defaulEspecialidad)
@@ -159,7 +163,7 @@ export default {
         cambiarTitulo() {
             if (this.editar) {
                 this.tituloEspecialidad = 'Editar Especialidad'
-                
+
             } else {
                 this.tituloEspecialidad = 'Registrar Especialidad'
                 this.especialidad = Object.assign({}, this.defaulEspecialidad)
@@ -171,59 +175,59 @@ export default {
 
                 if (this.editar) {
                     const res = await axios.post(base_url + "especialidad/update", this.especialidad)
-                    .then(res => {
-                        if (res.data.respuesta) {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Especialidad Actualizada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            this.listar()
-                            this.especialidad = Object.assign({}, this.defaulEspecialidad)
-                        } else {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: 'Ocurrio un error, Intente de nuevo',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
+                        .then(res => {
+                            if (res.data.respuesta) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Especialidad Actualizada',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.listar()
+                                this.ocultarModal()
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Ocurrio un error, Intente de nuevo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
 
-                    }).catch(res => {
-                        alert('error')
-                    })
+                        }).catch(res => {
+                            alert('error')
+                        })
                 } else {
                     const res = await axios.post(base_url + "especialidad/save", this.especialidad)
-                    .then(res => {
-                        if (res.data.respuesta) {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Especialidad Registrada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            this.listar()
-                            this.especialidad = Object.assign({}, this.defaulEspecialidad)
-                        } else {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: 'Ocurrio un error, Intente de nuevo',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
+                        .then(res => {
+                            if (res.data.respuesta) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Especialidad Registrada',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.listar()
+                                this.especialidad = Object.assign({}, this.defaulEspecialidad)
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Ocurrio un error, Intente de nuevo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
 
-                    }).catch(res => {
-                        alert('error')
-                    })
+                        }).catch(res => {
+                            alert('error')
+                        })
                 }
 
-                
+
 
             } else {
                 Swal.fire({
@@ -247,30 +251,33 @@ export default {
             this.listaEspecialidades = res.data.especialidades
 
 
+
             //this.articulos = res.data;
         },
         datatab() {
             if (this.listaVersiones && this.listaEspecialidades) {
-                this.datatable = $("#datatable-export").DataTable({ dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
+                this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
             } else {
                 setTimeout(() => {
-                    this.datatable = $("#datatable-export").DataTable({ dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
+                    this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
                 }, 1500);
             }
         },
-        editarEspecialidad(id_esp,esp,id_v){
-            console.log(id_esp);
-            console.log(esp);
-            console.log(id_v);
-            this.especialidad.id=id_esp
-            this.especialidad.espec=esp
-            this.especialidad.id_version=id_v
-            this.editar=true
+        editarEspecialidad(item) {
+            this.editar = true
+            this.cambiarTitulo()
+            this.especialidad.id = item.id_especialidad
+            this.especialidad.espec = item.especialidad
+            this.especialidad.id_version = item.id_version
+            this.especialidad.version = item.version
+            this.especialidad.id_ver_esp = item.id_ver_esp
+
+            //console.log(this.especialidad)
             this.mostrarModal()
 
         },
-        confirm(idEs){
-            this.especialidad.id=idEs
+        confirm(idEs) {
+            this.especialidad.id = idEs
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -279,46 +286,46 @@ export default {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     this.eliminar(idEs)
-                  Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                  )
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
                 }
-              })
+            })
         },
-        async eliminar(idEs){
+        async eliminar(idEs) {
 
-            let data={ id_especialidad:idEs }
-           
+            let data = { id_especialidad: idEs }
+
             const res = await axios.post(base_url + "especialidad/delete", data)
-                    .then(res => {
-                        if (res.data.respuesta) {
-                            console.log(res);
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Especialidad Eliminada',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            this.listar()
-                        } else {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: 'Ocurrio un error, Intente de nuevo',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
+                .then(res => {
+                    if (res.data.respuesta) {
+                        console.log(res);
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Especialidad Eliminada',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        this.listar()
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, Intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
 
-                    }).catch(res => {
-                        alert('error')
-                    })
+                }).catch(res => {
+                    alert('error')
+                })
         },
 
 

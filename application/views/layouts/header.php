@@ -30,6 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
   <script src="<?=base_url() ?>assets/js/vue/vue.js"></script>
   <script src="<?=base_url() ?>assets/js/vue/vue-router.js"></script>
+	<link href="<?= base_url()?>assets/plugins/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?=base_url()?>assets/img/icono.png">

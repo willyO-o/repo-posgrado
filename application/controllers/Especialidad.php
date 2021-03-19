@@ -46,18 +46,22 @@ class Especialidad extends CI_Controller {
 
 	public function update()
 	{
-		echo json_encode($this->request);
-		die();
+		// echo json_encode($this->request);
+		// die();
 
 		$id_especialidad=$this->request->id;
 		$datos = array(
 			'especialidad' => strtoupper($this->request->espec), 
 		);
 		$id_version=$this->request->id_version; 
-		$id_especialidad=$this->especialidad_model->set_especialidad($datos);
-		if ($id_especialidad) {
-			$data = array('id_especialidad' =>  $id_especialidad, 'id_version'=> $id_version);
-			if ($this->especialidad_model->set_ver_esp($data)) {
+		$id_ver_esp=$this->request->id_ver_esp; 
+
+		if ($this->especialidad_model->update_especialidad($datos, $id_especialidad)) {
+
+			$data = array(
+				'id_especialidad' =>  $id_especialidad,
+				 'id_version'=> $id_version);
+			if ($this->especialidad_model->update_ver_esp($data,$id_ver_esp)) {
 				$respuesta['respuesta']=true;
 			}else{
 				$respuesta['respuesta']=false;
