@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <script src="<?=base_url() ?>assets/js/vue/vue.js"></script>
   <script src="<?=base_url() ?>assets/js/vue/vue-router.js"></script>
 	<link href="<?= base_url()?>assets/plugins/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
-
+  <link href="<?= base_url()?>assets/plugins/select2/select2.min.css" rel="stylesheet">
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?=base_url()?>assets/img/icono.png">
 
