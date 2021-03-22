@@ -61,7 +61,7 @@
   <script src="<?= base_url()?>assets/plugins/select2/select2.min.js"></script>
 
   <script src="<?=base_url() ?>assets/plugins/dropify/js/dropify.min.js"></script>
-	<script src="<?= base_url()?>assets/js/forms-dragdropupload.init.min.js"></script>
+	<!-- <script src="<?= base_url()?>assets/js/forms-dragdropupload.init.min.js"></script> -->
 	<script type="module" src="<?= base_url() ?>assets/js/main.js"> </script>
 
 

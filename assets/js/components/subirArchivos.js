@@ -7,7 +7,10 @@ export default {
                 <form id="basic-form" method="post" novalidate>
                     <div class="form-group">
                         <label>Titulo</label>
-                        <input type="text" class="form-control" required>
+                            <div class="alert alert-danger" role="alert"  v-if="error.titulo" >
+									<b>Error:</b> Debe ingresar un Titulo
+							</div>
+                        <input type="text" class="form-control" required v-model="datosArchivo.titulo">
                     </div>
 				<div class="row">
 					<div class="col-md-6">
@@ -25,17 +28,23 @@ export default {
 							
                         <div class="form-group">
                             <label>Autor</label>
-                            <input type="text" class="form-control" required>
+                            <div class="alert alert-danger" role="alert"  v-if="error.autor" >
+									<b>Error:</b> Debe ingresar un Titulo
+							</div>
+                            <input type="text" class="form-control" required v-model="datosArchivo.autor">
                         </div>
                         <div class="form-group">
                             <label>Tutor <small>(opcional)</small></label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" class="form-control" required v-model="datosArchivo.tutor">
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
 							        <label for="sede">Sede</label>
-                                    <select class="custom-select" required id="sede">
+                                    <div class="alert alert-danger" role="alert"  v-if="error.sede" >
+                                            <b>Error:</b> Debe ingresar un Titulo
+                                    </div>
+                                    <select class="custom-select" required id="sede" v-model="datosArchivo.sede">
                                         <option value="0" disabled selected>Seleccione </option>
                                         <option value="La Paz - El Alto">La Paz - El Alto</option>
                                         <option value="Cochabamba">Cochabamba</option>
@@ -43,9 +52,12 @@ export default {
                                 </div>
                                 <div class="col-md-6">
 							        <label for="version">Tipo</label>
-                                    <select class="custom-select" required id="version">
+                                    <div class="alert alert-danger" role="alert"  v-if="error.id_tipo" >
+                                            <b>Error:</b> Debe ingresar un Titulo
+                                    </div>
+                                    <select class="custom-select" required id="version" v-model="datosArchivo.id_tipo">
                                         <option value="0" disabled selected>Seleccione </option>
-                                        <option >Monografia</option>
+                                        <option value='1'>Monografia</option>
                                     </select>
                                 </div>
                             </div>
@@ -59,25 +71,30 @@ export default {
                         <select id="select-especialidades" class="form-control w-100"
                          v-model="datosArchivo.id_especialidad" 
                          >
-                                    
-									<option v-for="row in listaEspecialidades" :value="row.id_especialidad" >
-										{{row.especialidad}} {{row.version}}
-									</option>
+								<option v-for="row in listaEspecialidades" :value="row.id_ver_esp">
+										{{row.especialidad}} {{row.version}} 
+								</option>
                                     
                         </select>
                     </div>
 
                     <div class="col-md-6">
 							<label for="categoria">Categoria</label>
-                            <select class="custom-select" required id="categoria">
+                            <div class="alert alert-danger" role="alert"  v-if="error.id_categoria" >
+									<b>Error:</b> Debe ingresar un Titulo
+							</div>
+                            <select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
                                 <option value="0" disabled selected>Seleccione </option>
-                                <option >Diplomado</option>
+                                <option value="3">Diplomado</option>
                             </select>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label>Resumen</label>
-                            <textarea class="form-control"  rows="6" required></textarea>
+                            <div class="alert alert-danger" role="alert"  v-if="error.resumen" >
+									<b>Error:</b> Debe ingresar un Titulo
+							</div>
+                            <textarea class="form-control"  rows="6" required v-model="datosArchivo.resumen"></textarea>
                         </div>
                     </div>
                     
@@ -96,7 +113,15 @@ export default {
             arc: null,
             listaEspecialidades: [],
             error: {
-                errorfile: false
+                errorfile: false,
+                titulo: false,
+                resumen: false,
+                autor: false,
+                tutor: false,
+                id_version: false,
+                sede: false,
+                id_tipo: false,
+                id_categoria: false
             },
             persona: {
                 nombre: 'willy',
@@ -109,11 +134,10 @@ export default {
                 resumen: '',
                 autor: '',
                 tutor: '',
-                id_especialidad: 0,
                 id_version: 0,
                 sede: '',
-                tipo: '',
-                categoria: ''
+                id_tipo: '',
+                id_categoria: ''
             },
             datosArchivoDefault: {
                 id_especialidad: '',
@@ -121,11 +145,10 @@ export default {
                 resumen: '',
                 autor: '',
                 tutor: '',
-                id_especialidad: 0,
                 id_version: 0,
                 sede: '',
-                tipo: '',
-                categoria: ''
+                id_tipo: '',
+                id_categoria: ''
             },
 
 
@@ -209,7 +232,15 @@ export default {
             //     })
         },
         mostrarSelect() {
-            console.log($('#select-especialidades').val());
+            let valor=$('#select-especialidades').val()
+            if(valor){
+                console.log(valor);
+            }else{
+                console.log('vacio');
+            }
+            this.validarCampos()
+            
+
         },
         listarEspecialidades() {
             axios.get(base_url + 'especialidad')
@@ -220,6 +251,52 @@ export default {
                 .catch(err => {
                     console.error(err);
                 })
+        },
+        validarCampos(){
+           
+            if (this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_version && this.datosArchivo.id_tipo &&
+                this.datosArchivo.resumen  && this.datosArchivo.autor  && this.datosArchivo.tutor  &&  this.datosArchivo.sede   )   {
+                return true;
+            }
+
+            if (!this.datosArchivo.titulo) {
+                this.error.titulo=true
+                
+            }
+            if (!this.datosArchivo.id_categoria) {
+                this.error.id_categoria=true
+            }
+            if (!this.datosArchivo.id_version) {
+                this.error.id_version=true
+            }
+            if (!this.datosArchivo.id_tipo) {
+                this.error.id_tipo=true
+            }
+            if (!this.datosArchivo.resumen) {
+                this.error.resumen=true
+            }
+            if (!this.datosArchivo.autor) {
+                this.error.autor=true
+            }
+            if (!this.datosArchivo.tutor) {
+                this.error.tutor=true
+            }
+            if (!this.datosArchivo.sede) {
+                this.error.sede=true
+            }
+
+            setTimeout(() => {
+                this.error.titulo=false
+                this.error.id_categoria=false
+                this.error.id_version=false
+                this.error.tipo=false
+                this.error.resumen=false
+                this.error.autor=false
+                this.error.tutor=false
+                this.error.sede=false
+            }, 3000);
+
+
         }
     },
 }
