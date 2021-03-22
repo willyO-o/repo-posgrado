@@ -14,7 +14,10 @@ export default {
 						
 							<div class="form-group">
 								<h4 class="h6">Tamaño maximo admitido 30Mb</h4>
-								<input type="file" class="dropify"  data-max-file-size="31M" data-allowed-file-extensions="pdf" @change="archivoSubido" >
+								<div class="alert alert-danger" role="alert"  v-if="error.errorfile" >
+									<b>Error:</b> Solo se Admiten Archivos PDF
+								</div>
+								<input type="file" class="dropify"  data-max-file-size="31M" data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
 							</div>
 
 					</div>
@@ -53,37 +56,14 @@ export default {
 					</div>
                     <div class="col-md-6">
                         <p>Seleccione una Especialidad</p>
-                        <select id="select-placeholder-single" class="form-control w-100"
-                         v-model="datosArchivo.id_especialidad" @change="mostrarSelect"
+                        <select id="select-especialidades" class="form-control w-100"
+                         v-model="datosArchivo.id_especialidad" 
                          >
-                                    <option></option>
-                                   
-                                    <option value="AK">aa</option>
-                                    <option value="HI">Hawaii</option>
                                     
-                                    <optgroup label="Pacific Time Zone">
-                                    <option value="CA">California</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-                                    </optgroup>
-                                    <optgroup label="Mountain Time Zone">
-                                    <option value="AZ">Arizona</option>
-                                    <option value="CO">Colorado</option>
-                                    <option value="ID">Idaho</option>
-                                    <option value="MT">Montana</option>
-                                    </optgroup>
-                                    <optgroup label="Central Time Zone">
-                                    <option value="AL">Alabama</option>
-                                    <option value="AR">Arkansas</option>
-                                    <option value="IL">Illinois</option>
-                                    <option value="IA">Iowa</option>
-                                    </optgroup>
-                                    <optgroup label="Eastern Time Zone">
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="FL">Florida</option>
-                                    </optgroup>
+									<option v-for="row in listaEspecialidades" :value="row.id_especialidad" >
+										{{row.especialidad}} {{row.version}}
+									</option>
+                                    
                         </select>
                     </div>
 
@@ -102,7 +82,7 @@ export default {
                     </div>
                     
 				</div>	
-				<button type="button" class="btn btn-primary">Validate</button>
+				<button type="button" class="btn btn-primary" @click="mostrarSelect()">Validate</button>
 			</form>	
 			</div>
 		</div>
@@ -113,15 +93,39 @@ export default {
         return {
             dropify: null,
             file: null,
-            arc:null,
-
+            arc: null,
+            listaEspecialidades: [],
+            error: {
+                errorfile: false
+            },
             persona: {
                 nombre: 'willy',
                 apellido: 'chana',
                 edad: 30
             },
-            datosArchivo:{
-                id_especialidad:''
+            datosArchivo: {
+                id_especialidad: '',
+                titulo: '',
+                resumen: '',
+                autor: '',
+                tutor: '',
+                id_especialidad: 0,
+                id_version: 0,
+                sede: '',
+                tipo: '',
+                categoria: ''
+            },
+            datosArchivoDefault: {
+                id_especialidad: '',
+                titulo: '',
+                resumen: '',
+                autor: '',
+                tutor: '',
+                id_especialidad: 0,
+                id_version: 0,
+                sede: '',
+                tipo: '',
+                categoria: ''
             },
 
 
@@ -130,14 +134,37 @@ export default {
     },
     created() {
         this.fileDropy()
+        this.listarEspecialidades()
     },
 
 
     methods: {
         archivoSubido(e) {
-            this.file = e.target.files[0];
 
-            console.log(this.file);
+
+
+
+
+            let fileInput = document.getElementById('documento');
+            let filePath = fileInput.value;
+            let allowedExtensions = /(.pdf)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                //alert('pro favor ingrese un archiv tipo PDF.');
+                fileInput.value = '';
+                this.error.errorfile = true
+                setTimeout(() => {
+                    this.error.errorfile = false
+                }, 3000);
+                return false;
+            } else {
+                // archivo correcto
+                alert("correcto...")
+                this.file = e.target.files[0];
+                console.log(this.file);
+                this.error.errorfile = false
+
+            }
+
 
             this.save();
         },
@@ -156,10 +183,10 @@ export default {
                     }
                 });
 
-                $('#select-placeholder-single').select2({
+                $('#select-especialidades').select2({
                     placeholder: 'Select a state',
                     allowClear: true
-                  });
+                });
             }, 1000);
 
 
@@ -181,8 +208,18 @@ export default {
             //         console.error(err);
             //     })
         },
-        mostrarSelect(e){
-            console.log(e);
+        mostrarSelect() {
+            console.log($('#select-especialidades').val());
+        },
+        listarEspecialidades() {
+            axios.get(base_url + 'especialidad')
+                .then(res => {
+                    console.log('respuesta servidor');
+                    this.listaEspecialidades = res.data.especialidades
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     },
 }

@@ -85,6 +85,15 @@ class Especialidad extends CI_Controller {
 		echo json_encode($respuesta);
 	}
 
+
+	public function selectArchivo()
+    {
+        
+		$data['especialidades']=$this->especialidad_model->get_especialidades();
+		
+		echo json_encode($data);
+    }
+
 }
 
 /* End of file Especialidad.php */
