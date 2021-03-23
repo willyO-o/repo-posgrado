@@ -29,7 +29,7 @@ export default {
                         <div class="form-group">
                             <label>Autor</label>
                             <div class="alert alert-danger" role="alert"  v-if="error.autor" >
-									<b>Error:</b> Debe ingresar un Titulo
+									<b>Error:</b> Debe ingresar un Autor
 							</div>
                             <input type="text" class="form-control" required v-model="datosArchivo.autor">
                         </div>
@@ -42,7 +42,7 @@ export default {
                                 <div class="col-md-6">
 							        <label for="sede">Sede</label>
                                     <div class="alert alert-danger" role="alert"  v-if="error.sede" >
-                                            <b>Error:</b> Debe ingresar un Titulo
+                                            <b>Error:</b> Debe Seleccionar una sede
                                     </div>
                                     <select class="custom-select" required id="sede" v-model="datosArchivo.sede">
                                         <option value="0" disabled selected>Seleccione </option>
@@ -53,7 +53,7 @@ export default {
                                 <div class="col-md-6">
 							        <label for="version">Tipo</label>
                                     <div class="alert alert-danger" role="alert"  v-if="error.id_tipo" >
-                                            <b>Error:</b> Debe ingresar un Titulo
+                                            <b>Error:</b> Debe Seleccionar el tipo de documento
                                     </div>
                                     <select class="custom-select" required id="version" v-model="datosArchivo.id_tipo">
                                         <option value="0" disabled selected>Seleccione </option>
@@ -68,7 +68,7 @@ export default {
 					</div>
                     <div class="col-md-6">
                         <p>Seleccione una Especialidad</p>
-                        <select id="select-especialidades" class="form-control w-100"
+                        <select id="select-especialidades" class="form-control" 
                          v-model="datosArchivo.id_especialidad" 
                          >
 								<option v-for="row in listaEspecialidades" :value="row.id_ver_esp">
@@ -81,7 +81,7 @@ export default {
                     <div class="col-md-6">
 							<label for="categoria">Categoria</label>
                             <div class="alert alert-danger" role="alert"  v-if="error.id_categoria" >
-									<b>Error:</b> Debe ingresar un Titulo
+									<b>Error:</b> Debe seleccionar una Categoria
 							</div>
                             <select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
                                 <option value="0" disabled selected>Seleccione </option>
@@ -92,14 +92,14 @@ export default {
                         <div class="form-group">
                             <label>Resumen</label>
                             <div class="alert alert-danger" role="alert"  v-if="error.resumen" >
-									<b>Error:</b> Debe ingresar un Titulo
+									<b>Error:</b> Debe ingresar un Resumen
 							</div>
                             <textarea class="form-control"  rows="6" required v-model="datosArchivo.resumen"></textarea>
                         </div>
                     </div>
                     
 				</div>	
-				<button type="button" class="btn btn-primary" @click="mostrarSelect()">Validate</button>
+				<button type="button" class="btn btn-primary" @click="save()">Validate</button>
 			</form>	
 			</div>
 		</div>
@@ -207,19 +207,25 @@ export default {
                 });
 
                 $('#select-especialidades').select2({
-                    placeholder: 'Select a state',
-                    allowClear: true
+                    placeholder: 'Seleccione (puede realizar busquedas)',
+                    allowClear: true,
+                    theme: "classic"
                 });
             }, 1000);
 
 
         },
         save() {
-            let fm = new FormData()
-            fm.append('archivo', this.file, this.file.name)
-            fm.append('nombre', this.persona.nombre)
-            fm.append('apellido', this.persona.apellido)
-            fm.append('edad', this.persona.edad)
+            if (this.validarCampos()) {
+                console.log("insertando");
+            } else {
+                console.log("falta llenar");
+            }
+            // let fm = new FormData()
+            // fm.append('archivo', this.file, this.file.name)
+            // fm.append('nombre', this.persona.nombre)
+            // fm.append('apellido', this.persona.apellido)
+            // fm.append('edad', this.persona.edad)
 
             // console.log(fm);
             // axios.post(base_url + 'archivo/save', fm)
@@ -232,14 +238,14 @@ export default {
             //     })
         },
         mostrarSelect() {
-            let valor=$('#select-especialidades').val()
-            if(valor){
+            let valor = $('#select-especialidades').val()
+            if (valor) {
                 console.log(valor);
-            }else{
+            } else {
                 console.log('vacio');
             }
             this.validarCampos()
-            
+
 
         },
         listarEspecialidades() {
@@ -252,49 +258,50 @@ export default {
                     console.error(err);
                 })
         },
-        validarCampos(){
-           
+        validarCampos() {
+
             if (this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_version && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen  && this.datosArchivo.autor  && this.datosArchivo.tutor  &&  this.datosArchivo.sede   )   {
+                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.tutor && this.datosArchivo.sede && this.file) {
                 return true;
             }
 
             if (!this.datosArchivo.titulo) {
-                this.error.titulo=true
-                
+                this.error.titulo = true
+
             }
             if (!this.datosArchivo.id_categoria) {
-                this.error.id_categoria=true
+                this.error.id_categoria = true
             }
             if (!this.datosArchivo.id_version) {
-                this.error.id_version=true
+                this.error.id_version = true
             }
             if (!this.datosArchivo.id_tipo) {
-                this.error.id_tipo=true
+                this.error.id_tipo = true
             }
             if (!this.datosArchivo.resumen) {
-                this.error.resumen=true
+                this.error.resumen = true
             }
             if (!this.datosArchivo.autor) {
-                this.error.autor=true
+                this.error.autor = true
             }
             if (!this.datosArchivo.tutor) {
-                this.error.tutor=true
+                this.error.tutor = true
             }
             if (!this.datosArchivo.sede) {
-                this.error.sede=true
+                this.error.sede = true
             }
 
             setTimeout(() => {
-                this.error.titulo=false
-                this.error.id_categoria=false
-                this.error.id_version=false
-                this.error.tipo=false
-                this.error.resumen=false
-                this.error.autor=false
-                this.error.tutor=false
-                this.error.sede=false
-            }, 3000);
+                this.error.titulo = false
+                this.error.id_categoria = false
+                this.error.id_version = false
+                this.error.id_tipo = false
+                this.error.resumen = false
+                this.error.autor = false
+                this.error.tutor = false
+                this.error.sede = false
+            }, 5000);
+
 
 
         }
