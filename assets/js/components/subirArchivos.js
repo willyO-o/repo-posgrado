@@ -1,6 +1,7 @@
 export default {
     template: //html
         `
+<div>
 	<div class="card">
 		<div class="card-header">Publicar Tesis/Monografia</div>
 			<div class="card-body">
@@ -13,15 +14,21 @@ export default {
                         <input type="text" class="form-control" required v-model="datosArchivo.titulo">
                     </div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-6 mb-2">
 						
 							<div class="form-group">
 								<h4 class="h6">Tamaño maximo admitido 30Mb</h4>
 								<div class="alert alert-danger" role="alert"  v-if="error.errorfile" >
 									<b>Error:</b> Solo se Admiten Archivos PDF
 								</div>
+                                <div class="alert alert-danger" role="alert"  v-if="error.sinfile" >
+									<b>Error:</b> Debe adjuntar un Documento
+								</div>
 								<input type="file" class="dropify"  data-max-file-size="31M" data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
 							</div>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                Vista previa
+                            </button>
 
 					</div>
 					<div class="col-md-6">
@@ -68,6 +75,9 @@ export default {
 					</div>
                     <div class="col-md-6">
                         <p>Seleccione una Especialidad</p>
+                        <div class="alert alert-danger" role="alert"  v-if="error.id_especialidad" >
+							<b>Error:</b> Debe seleccionar una especialidad
+						</div>
                         <select id="select-especialidades" class="form-control" 
                          v-model="datosArchivo.id_especialidad" 
                          >
@@ -99,12 +109,35 @@ export default {
                     </div>
                     
 				</div>	
-				<button type="button" class="btn btn-primary" @click="save()">Validate</button>
+				<button type="button" class="btn btn-primary btn-block" @click="save()">Validate</button>
 			</form>	
 			</div>
 		</div>
-	</div>
+        
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Vista Previa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <embed  type="aplication/pdf" id="vistaDocumento">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--modal-->
+	</div>
+    
+</div>
 	`,
     data() {
         return {
@@ -121,7 +154,8 @@ export default {
                 id_version: false,
                 sede: false,
                 id_tipo: false,
-                id_categoria: false
+                id_categoria: false,
+                sinfile:false
             },
             persona: {
                 nombre: 'willy',
@@ -181,10 +215,16 @@ export default {
                 return false;
             } else {
                 // archivo correcto
-                alert("correcto...")
+                //alert("correcto...")
                 this.file = e.target.files[0];
-                console.log(this.file);
+                // console.log(this.file);
                 this.error.errorfile = false
+
+                let doc=document.getElementById('documento').files[0]
+
+                let urldoc=URL.createObjectURL(doc);
+                document.querySelector('#vistaDocumento').setAttribute('src',urldoc)
+                console.log(doc);
 
             }
 
@@ -218,6 +258,8 @@ export default {
         save() {
             if (this.validarCampos()) {
                 console.log("insertando");
+
+
             } else {
                 console.log("falta llenar");
             }
@@ -259,12 +301,16 @@ export default {
                 })
         },
         validarCampos() {
-
-            if (this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_version && this.datosArchivo.id_tipo &&
+            this.datosArchivo.id_especialidad=$('#select-especialidades').val();
+            if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_version && this.datosArchivo.id_tipo &&
                 this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.tutor && this.datosArchivo.sede && this.file) {
                 return true;
             }
 
+            if (!this.datosArchivo.id_especialidad) {
+                this.error.id_especialidad = true
+
+            }
             if (!this.datosArchivo.titulo) {
                 this.error.titulo = true
 
@@ -290,8 +336,12 @@ export default {
             if (!this.datosArchivo.sede) {
                 this.error.sede = true
             }
+            if (!this.file) {
+                this.error.sinfile = true
+            }
 
             setTimeout(() => {
+                this.error.id_especialidad = false
                 this.error.titulo = false
                 this.error.id_categoria = false
                 this.error.id_version = false
@@ -300,6 +350,7 @@ export default {
                 this.error.autor = false
                 this.error.tutor = false
                 this.error.sede = false
+                this.error.sinfile = false
             }, 5000);
 
 

@@ -31,11 +31,12 @@
 </div>
 <!-- END WRAPPER -->
 	
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+<script src="<?= base_url() ?>assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 
 <!-- <script type="module" src="<?= base_url() ?>assets/js/axios.min.js"> </script> -->
-<!-- <script type="module" src="<?= base_url() ?>assets/js/axios.js"> </script> -->
+<script src="<?= base_url() ?>assets/js/axios.js"> </script>
 <!-- Vendor -->
 <script src="<?= base_url() ?>assets/js/vendor.min.js" ></script>
 
