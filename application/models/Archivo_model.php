@@ -35,6 +35,12 @@ class Archivo_model extends CI_Model {
         
     }
 
+	public function get_ver_est_id(int $id_ver_esp)
+    {
+        $this->db->where('id_ver_esp', $id_ver_esp);
+        return $this->db->get('ver_esp')->row();
+        
+    }
 
 
 }

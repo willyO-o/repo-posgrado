@@ -24,9 +24,11 @@ export default {
                                 <div class="alert alert-danger" role="alert"  v-if="error.sinfile" >
 									<b>Error:</b> Debe adjuntar un Documento
 								</div>
-								<input type="file" class="dropify"  data-max-file-size="31M" data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
+								<input type="file" class="dropify"  data-max-file-size="31M" 
+								data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
 							</div>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-success" data-toggle="modal"
+							 data-target="#exampleModal" v-if="modalVistaPrevia">
                                 Vista previa
                             </button>
 
@@ -126,7 +128,7 @@ export default {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <embed  type="aplication/pdf" id="vistaDocumento">
+                    <iframe  type="aplication/pdf" id="vistaDocumento" width="100%" height="600rem"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,6 +146,7 @@ export default {
             dropify: null,
             file: null,
             arc: null,
+            modalVistaPrevia: false,
             listaEspecialidades: [],
             error: {
                 errorfile: false,
@@ -155,13 +158,9 @@ export default {
                 sede: false,
                 id_tipo: false,
                 id_categoria: false,
-                sinfile:false
+                sinfile: false
             },
-            persona: {
-                nombre: 'willy',
-                apellido: 'chana',
-                edad: 30
-            },
+
             datosArchivo: {
                 id_especialidad: '',
                 titulo: '',
@@ -194,44 +193,31 @@ export default {
         this.listarEspecialidades()
     },
 
-
     methods: {
         archivoSubido(e) {
-
-
-
-
 
             let fileInput = document.getElementById('documento');
             let filePath = fileInput.value;
             let allowedExtensions = /(.pdf)$/i;
             if (!allowedExtensions.exec(filePath)) {
-                //alert('pro favor ingrese un archiv tipo PDF.');
                 fileInput.value = '';
                 this.error.errorfile = true
+                this.modalVistaPrevia = false
                 setTimeout(() => {
                     this.error.errorfile = false
                 }, 3000);
                 return false;
             } else {
-                // archivo correcto
-                //alert("correcto...")
                 this.file = e.target.files[0];
-                // console.log(this.file);
                 this.error.errorfile = false
-
-                let doc=document.getElementById('documento').files[0]
-
-                let urldoc=URL.createObjectURL(doc);
-                document.querySelector('#vistaDocumento').setAttribute('src',urldoc)
-                console.log(doc);
-
+                let doc = document.getElementById('documento').files[0]
+                let urldoc = URL.createObjectURL(doc);
+                document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
+                this.modalVistaPrevia = true
             }
-
-
-            this.save();
         },
         fileDropy() {
+
             setTimeout(() => {
                 this.dropify = $(".dropify").dropify({
                     messages: {
@@ -257,27 +243,34 @@ export default {
         },
         save() {
             if (this.validarCampos()) {
-                console.log("insertando");
+                let fm = new FormData()
+                fm.append('archivo', this.file, this.file.name)
+                fm.append('id_ver_esp', this.datosArchivo.id_especialidad)
+                fm.append('titulo', this.datosArchivo.titulo)
+                fm.append('resumen', this.datosArchivo.resumen)
+                fm.append('autor', this.datosArchivo.autor)
+                fm.append('tutor', this.datosArchivo.tutor)
+                fm.append('id_version', this.datosArchivo.id_version)
+                fm.append('sede', this.datosArchivo.sede)
+                fm.append('id_tipo', this.datosArchivo.id_tipo)
+                fm.append('id_categoria', this.datosArchivo.id_categoria)
+
+                console.log(fm);
+                axios.post(base_url + 'archivo/save', fm)
+                    .then(res => {
+                        console.log('respuesta servidor');
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+
 
 
             } else {
                 console.log("falta llenar");
             }
-            // let fm = new FormData()
-            // fm.append('archivo', this.file, this.file.name)
-            // fm.append('nombre', this.persona.nombre)
-            // fm.append('apellido', this.persona.apellido)
-            // fm.append('edad', this.persona.edad)
-
-            // console.log(fm);
-            // axios.post(base_url + 'archivo/save', fm)
-            //     .then(res => {
-            //         console.log('respuesta servidor');
-            //         console.log(res)
-            //     })
-            //     .catch(err => {
-            //         console.error(err);
-            //     })
+            //
         },
         mostrarSelect() {
             let valor = $('#select-especialidades').val()
@@ -301,8 +294,10 @@ export default {
                 })
         },
         validarCampos() {
-            this.datosArchivo.id_especialidad=$('#select-especialidades').val();
-            if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_version && this.datosArchivo.id_tipo &&
+            //this.file = document.getElementById('documento').files[0];
+            //console.log(this.file);
+            this.datosArchivo.id_especialidad = $('#select-especialidades').val();
+            if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
                 this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.tutor && this.datosArchivo.sede && this.file) {
                 return true;
             }
@@ -318,9 +313,7 @@ export default {
             if (!this.datosArchivo.id_categoria) {
                 this.error.id_categoria = true
             }
-            if (!this.datosArchivo.id_version) {
-                this.error.id_version = true
-            }
+
             if (!this.datosArchivo.id_tipo) {
                 this.error.id_tipo = true
             }
@@ -338,6 +331,7 @@ export default {
             }
             if (!this.file) {
                 this.error.sinfile = true
+                this.modalVistaPrevia = false
             }
 
             setTimeout(() => {

@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 19/03/2021 00:10:53
+ Date: 24/03/2021 01:08:38
 */
 
 
@@ -114,12 +114,12 @@ CREATE TABLE "public"."archivos" (
   "ruta" varchar(300) COLLATE "pg_catalog"."default" NOT NULL,
   "autor" varchar(300) COLLATE "pg_catalog"."default" NOT NULL,
   "tutor" varchar(300) COLLATE "pg_catalog"."default",
-  "fecha_publicacion" date NOT NULL,
+  "fecha_publicacion" date NOT NULL DEFAULT CURRENT_DATE,
   "uuid" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "resumen" text COLLATE "pg_catalog"."default" NOT NULL,
   "id_categoria" int4 NOT NULL,
   "id_tipo" int4 NOT NULL,
-  "id_especialidad" int4 NOT NULL,
+  "id_ver_esp" int4 NOT NULL,
   "sede" varchar(50) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
@@ -127,6 +127,7 @@ CREATE TABLE "public"."archivos" (
 -- ----------------------------
 -- Records of archivos
 -- ----------------------------
+INSERT INTO "public"."archivos" VALUES (2, 'REDES NEURONALES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ', '605ac90da4064.pdf', 'WILLY CHANA', 'JOSE COLQUE', '2021-03-24', '605ac90da4064', 'asdasd resumen', 3, 1, 11, 'La Paz - El Alto');
 
 -- ----------------------------
 -- Table structure for categorias
@@ -203,7 +204,7 @@ CREATE TABLE "public"."tipos" (
 -- Records of tipos
 -- ----------------------------
 INSERT INTO "public"."tipos" VALUES (2, 'tesis');
-INSERT INTO "public"."tipos" VALUES (3, 'Monografia');
+INSERT INTO "public"."tipos" VALUES (1, 'Monografia');
 
 -- ----------------------------
 -- Table structure for usuarios
@@ -286,7 +287,7 @@ CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 3, false);
+SELECT setval('"public"."archivos_id_archivo_seq"', 3, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -381,8 +382,8 @@ ALTER TABLE "public"."verisiones" ADD CONSTRAINT "verisiones_pkey" PRIMARY KEY (
 -- Foreign Keys structure for table archivos
 -- ----------------------------
 ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_categoria_fkey" FOREIGN KEY ("id_categoria") REFERENCES "public"."categorias" ("id_categoria") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_especialidad_fkey" FOREIGN KEY ("id_especialidad") REFERENCES "public"."especialidades" ("id_especialidad") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_tipo_fkey" FOREIGN KEY ("id_tipo") REFERENCES "public"."tipos" ("id_tipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_ver_esp_fkey" FOREIGN KEY ("id_ver_esp") REFERENCES "public"."ver_esp" ("id_ver_esp") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table usuarios
