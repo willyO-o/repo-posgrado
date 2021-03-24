@@ -14,12 +14,11 @@ class Archivo extends CI_Controller {
 	}
 	
 
-	public function index()
+	public function getArchivo()
 	{
-		
-		
-		
-		
+		$data['archivos']=$this->archivo_model->get_archivos();
+		echo json_encode($data);
+	
 	}
 	public function save()
 	{

@@ -32,6 +32,7 @@ export default {
                                 Vista previa
                             </button>
 
+
 					</div>
 					<div class="col-md-6">
 							
@@ -189,8 +190,11 @@ export default {
         }
     },
     created() {
-        this.fileDropy()
         this.listarEspecialidades()
+    },
+    mounted(){
+        this.fileDropy()
+       
     },
 
     methods: {
@@ -216,9 +220,10 @@ export default {
                 this.modalVistaPrevia = true
             }
         },
+    
         fileDropy() {
 
-            setTimeout(() => {
+            
                 this.dropify = $(".dropify").dropify({
                     messages: {
                         default: 'Arrastra y suelta el archivo PDF aquí o haz clic',
@@ -232,13 +237,12 @@ export default {
                     }
                 });
 
-                $('#select-especialidades').select2({
-                    placeholder: 'Seleccione (puede realizar busquedas)',
-                    allowClear: true,
-                    theme: "classic"
-                });
-            }, 1000);
-
+            
+            $('#select-especialidades').select2({
+                placeholder: 'Seleccione (puede realizar busquedas)',
+                allowClear: true,
+                theme: "classic"
+            });
 
         },
         save() {
@@ -255,11 +259,35 @@ export default {
                 fm.append('id_tipo', this.datosArchivo.id_tipo)
                 fm.append('id_categoria', this.datosArchivo.id_categoria)
 
-                console.log(fm);
+                //console.log(fm);
                 axios.post(base_url + 'archivo/save', fm)
                     .then(res => {
-                        console.log('respuesta servidor');
-                        console.log(res)
+                        if (!res.data.error) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Documento Publicado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
+                            this.file=null
+                            let  drEvent = this.dropify
+                            drEvent = drEvent.data('dropify')
+                            drEvent.resetPreview()
+                            drEvent.clearElement()
+                            this.modalVistaPrevia = false
+                            $("#select-especialidades").empty();
+                            document.getElementById('documento').value=''
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Ocurrio un error, Intente de nuevo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
                     })
                     .catch(err => {
                         console.error(err);
@@ -298,7 +326,7 @@ export default {
             //console.log(this.file);
             this.datosArchivo.id_especialidad = $('#select-especialidades').val();
             if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.tutor && this.datosArchivo.sede && this.file) {
+                this.datosArchivo.resumen && this.datosArchivo.autor  && this.datosArchivo.sede && this.file) {
                 return true;
             }
 
@@ -323,9 +351,7 @@ export default {
             if (!this.datosArchivo.autor) {
                 this.error.autor = true
             }
-            if (!this.datosArchivo.tutor) {
-                this.error.tutor = true
-            }
+
             if (!this.datosArchivo.sede) {
                 this.error.sede = true
             }

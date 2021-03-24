@@ -260,7 +260,7 @@ export default {
             } else {
                 setTimeout(() => {
                     this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
-                }, 1500);
+                }, 1000);
             }
         },
         editarEspecialidad(item) {

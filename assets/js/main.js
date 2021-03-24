@@ -6,10 +6,9 @@ const Especialidades = () =>
     import ('./components/especialidades.js');
 const subirArchivos = () =>
     import ('./components/subirArchivos.js');
+const listarArchivos = () =>
+    import ('./components/listarArchivos.js');
 
-const Bar = {
-    template: "<div>hola aaaa </div>"
-}
 
 
 const routes = [{
@@ -27,6 +26,11 @@ const routes = [{
     {
         path: '/archivos/subir',
         component: subirArchivos,
+
+    },
+    {
+        path: '/archivos/listar',
+        component: listarArchivos,
 
     },
 ]
