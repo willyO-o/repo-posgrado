@@ -4,9 +4,8 @@ export default {
 		<div class="mb-5">
 		<h1>Archivos</h1>
 		<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary"   @click="mostrarModal()">
-				Registar Nuevo
-			</button>
+        <router-link to="/archivos/subir"  class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Archivo</span></router-link>
+
 			<br/><br/>
 			<!-- Modal -->
 			<div class="modal fade" id="modal" aria-hidden="true" data-backdrop="static" >
@@ -25,34 +24,7 @@ export default {
 						<div class="container-fluid">
 						<!-- validation by Bootstrap -->
 			
-							<div class="row">
-							  <div class="col-12">
-								<form class="needs-validation">
-								  <div class="form-group">
-									<div class="mb-3">
-										<label for="especialidad">Especialidad</label>
-										<textarea class="form-control "  id="especialidad" placeholder="Ingrese la Especialidad" v-model="especialidad.espec" required></textarea>
-										<div class="invalid-feedback">
-											{{especialidad.espc}}
-										</div>
-									</div>
-									
-								  </div>
-								  <div class="form-group">
-								  <label for="version">Version</label>
-									<select class="custom-select" required id="version" v-model="especialidad.id_version">
-									  <option value="0" disabled >Seleccione Version</option>
-									  <option  v-for="row in listaVersiones" :value="row.id_version">{{ row.version }}</option>
-									</select>
-									<div class="invalid-feedback">
-											{{especialidad.id_version}}
-										</div>
-								  </div>
-
-								</form>
-							  </div>
-
-					  		</div>
+							
 					  <!-- end validation by Bootstrap -->
 					  </div>
 
@@ -60,7 +32,7 @@ export default {
 						</div>
 						<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" @click="ocultarModal()">Cerrar</button>
-						<button type="button" class="btn btn-primary"  @click="registrar();">Registrar</button>
+						
 						</div>
 					</div>
 				</div>
@@ -77,22 +49,22 @@ export default {
 							<thead class="thead-light">
 								<tr>
 									<th>#</th>
-									<th>Especialidad</th>
-									<th>Version</th>
+									<th>Titulo</th>
+									<th>Autor</th>
                                     <th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
-							<tr v-for="(item,index) of listaEspecialidades" :key="item.id_especialidad">
+							<tr v-for="(item,index) of listaArchivos" :key="item.id_archivo">
 								<td>{{index+1}}</td>
-								<td>{{item.especialidad}}</td>
-								<td>{{item.version}}</td>
+								<td>{{item.titulo}}</td>
+								<td>{{item.autor}}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm"   
                                         @click="editarEspecialidad(item)">
                                     <i class="ti-pencil"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_especialidad)">
+                                    <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_archivo)">
                                         <i class="ti-trash"></i>
                                     </button>
                                    
@@ -110,7 +82,7 @@ export default {
     data() {
         return {
             datatable: null,
-            listaArchivos:[],
+            listaArchivos: [],
 
             listaVersiones: null,
             listaEspecialidades: null,
@@ -243,7 +215,7 @@ export default {
             return (especialidad.length > 5 && this.especialidad.id_version != 0)
         },
         async listarArchivos() {
-            const res =await  axios.get(base_url + "archivo/getArchivo")
+            const res = await axios.get(base_url + "archivo/getArchivo")
 
 
             this.listaArchivos = res.data.archivos
@@ -255,10 +227,10 @@ export default {
         },
         datatab() {
             if (this.listaVersiones && this.listaEspecialidades) {
-                this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print",  "pdfHtml5"] });
+                this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
             } else {
                 setTimeout(() => {
-                    this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print",  "pdfHtml5"] });
+                    this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
                 }, 1000);
             }
         },
