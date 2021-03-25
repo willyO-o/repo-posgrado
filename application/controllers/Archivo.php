@@ -65,6 +65,20 @@ class Archivo extends CI_Controller {
 		
 	}
 
+	public function datosSelect()
+	{
+		$this->load->model('especialidad_model');
+		$data['especialidades']=$this->especialidad_model->get_especialidades();
+		$data['tipos']=$this->db->get('tipos')->result();
+		$data['categorias']=$this->db->get('categorias')->result();
+		
+
+		echo json_encode($data);
+		
+
+		
+	}
+
 }
 
 /* End of file Archivo.php */

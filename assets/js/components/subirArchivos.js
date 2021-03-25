@@ -44,7 +44,7 @@ export default {
                             <input type="text" class="form-control" required v-model="datosArchivo.autor">
                         </div>
                         <div class="form-group">
-                            <label>Tutor <small>(opcional)</small></label>
+                            <label>Tutor <small>(opcional, si amerita)</small></label>
                             <input type="text" class="form-control" required v-model="datosArchivo.tutor">
                         </div>
                         <div class="form-group">
@@ -54,8 +54,8 @@ export default {
                                     <div class="alert alert-danger" role="alert"  v-if="error.sede" >
                                             <b>Error:</b> Debe Seleccionar una sede
                                     </div>
-                                    <select class="custom-select" required id="sede" v-model="datosArchivo.sede">
-                                        <option value="0" disabled selected>Seleccione </option>
+                                    <select class="custom-select" required id="sede" v-model="datosArchivo.sede" placeholder="Seleccione">
+                                        <option value="0" selected disabled>Seleccione </option>
                                         <option value="La Paz - El Alto">La Paz - El Alto</option>
                                         <option value="Cochabamba">Cochabamba</option>
                                     </select>
@@ -66,8 +66,8 @@ export default {
                                             <b>Error:</b> Debe Seleccionar el tipo de documento
                                     </div>
                                     <select class="custom-select" required id="version" v-model="datosArchivo.id_tipo">
-                                        <option value="0" disabled selected>Seleccione </option>
-                                        <option value='1'>Monografia</option>
+                                        <option value="0" selected disabled>Seleccione </option>
+                                        <option :value='tipo.id_tipo' v-for="tipo of listaTipos"> {{tipo.tipo}} </option>
                                     </select>
                                 </div>
                             </div>
@@ -97,8 +97,8 @@ export default {
 									<b>Error:</b> Debe seleccionar una Categoria
 							</div>
                             <select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
-                                <option value="0" disabled selected>Seleccione </option>
-                                <option value="3">Diplomado</option>
+                                <option value="0"  selected disabled>Seleccione </option>
+                                <option :value="categoria.id_categoria" v-for="categoria of listaCategorias"> {{categoria.categoria}} </option>
                             </select>
                     </div>
                     <div class="col-12">
@@ -112,7 +112,7 @@ export default {
                     </div>
                     
 				</div>	
-				<button type="button" class="btn btn-primary btn-block" @click="save()">Validate</button>
+				<button type="button" class="btn btn-primary btn-block" @click="save()">Registrar</button>
 			</form>	
 			</div>
 		</div>
@@ -149,6 +149,8 @@ export default {
             arc: null,
             modalVistaPrevia: false,
             listaEspecialidades: [],
+            listaTipos: [],
+            listaCategorias: [],
             error: {
                 errorfile: false,
                 titulo: false,
@@ -192,9 +194,9 @@ export default {
     created() {
         this.listarEspecialidades()
     },
-    mounted(){
+    mounted() {
         this.fileDropy()
-       
+
     },
 
     methods: {
@@ -220,24 +222,24 @@ export default {
                 this.modalVistaPrevia = true
             }
         },
-    
+
         fileDropy() {
 
-            
-                this.dropify = $(".dropify").dropify({
-                    messages: {
-                        default: 'Arrastra y suelta el archivo PDF aquí o haz clic',
-                        replace: 'Arrastra y suelta o haz clic para reemplazar',
-                        remove: 'Eliminar',
-                        error: 'Ooops, sucedio un error, Intenta de nuevo'
-                    },
-                    error: {
-                        'fileSize': 'El Tamaño maximo admintido es ({{ value }} ).',
-                        'imageFormat': 'El formato de archivo ({{ value }} no esta permitido).'
-                    }
-                });
 
-            
+            this.dropify = $(".dropify").dropify({
+                messages: {
+                    default: 'Arrastra y suelta el archivo PDF aquí o haz clic',
+                    replace: 'Arrastra y suelta o haz clic para reemplazar',
+                    remove: 'Eliminar',
+                    error: 'Ooops, sucedio un error, Intenta de nuevo'
+                },
+                error: {
+                    'fileSize': 'El Tamaño maximo admintido es ({{ value }} ).',
+                    'imageFormat': 'El formato de archivo ({{ value }} no esta permitido).'
+                }
+            });
+
+
             $('#select-especialidades').select2({
                 placeholder: 'Seleccione (puede realizar busquedas)',
                 allowClear: true,
@@ -271,14 +273,14 @@ export default {
                                 timer: 1500
                             })
                             this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
-                            this.file=null
-                            let  drEvent = this.dropify
+                            this.file = null
+                            let drEvent = this.dropify
                             drEvent = drEvent.data('dropify')
                             drEvent.resetPreview()
                             drEvent.clearElement()
                             this.modalVistaPrevia = false
                             $("#select-especialidades").empty();
-                            document.getElementById('documento').value=''
+                            document.getElementById('documento').value = ''
                         } else {
                             Swal.fire({
                                 position: 'top-end',
@@ -300,22 +302,14 @@ export default {
             }
             //
         },
-        mostrarSelect() {
-            let valor = $('#select-especialidades').val()
-            if (valor) {
-                console.log(valor);
-            } else {
-                console.log('vacio');
-            }
-            this.validarCampos()
 
-
-        },
         listarEspecialidades() {
-            axios.get(base_url + 'especialidad')
+            axios.get(base_url + 'archivo/datosSelect')
                 .then(res => {
-                    console.log('respuesta servidor');
+
                     this.listaEspecialidades = res.data.especialidades
+                    this.listaCategorias = res.data.categorias
+                    this.listaTipos = res.data.tipos
                 })
                 .catch(err => {
                     console.error(err);
@@ -326,7 +320,7 @@ export default {
             //console.log(this.file);
             this.datosArchivo.id_especialidad = $('#select-especialidades').val();
             if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.autor  && this.datosArchivo.sede && this.file) {
+                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.file) {
                 return true;
             }
 
