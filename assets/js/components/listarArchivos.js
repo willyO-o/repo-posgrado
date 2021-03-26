@@ -33,32 +33,20 @@ export default {
 											<img :src="imagenArchivo" class="" alt="Avatar" width="100%">
 											
 										</div>
-										<div class="profile-stat">
-											<div class="row">
-											<div class="col-md-4 col-sm-12 stat-item">
-												45 <span>Projects</span>
-											</div>
-											<div class="col-md-4 stat-item">
-												15 <span>Awards</span>
-											</div>
-											<div class="col-md-4 stat-item">
-												2174 <span>Points</span>
-											</div>
-											</div>
-										</div>
+										
 										</div>
 										<!-- end profile header -->
 					
 										<!-- profile detail -->
 										<div class="profile-detail">
 										<div class="profile-info">
-											<h4 class="heading">Basic Info</h4>
+											<h4 class="heading">Informacion</h4>
 											<dl class="row">
-											<dt class="col-sm-4">Birthdate</dt>
-											<dd class="col-sm-8 text-right">24 Aug, 2016</dd>
+											<dt class="col-sm-4">Autor:</dt>
+											<dd class="col-sm-8 text-right">{{detallesArchivo.autor}}</dd>
 					
-											<dt class="col-sm-4">Mobile</dt>
-											<dd class="col-sm-8 text-right">(124) 823409234</dd>
+											<dt class="col-sm-4" v-if="detallesArchivo.tutor!='' ">Tutor:</dt>
+											<dd class="col-sm-8 text-right"  v-if="detallesArchivo.tutor!='' ">{{detallesArchivo.tutor}}</dd>
 					
 											<dt class="col-sm-4">Email</dt>
 											<dd class="col-sm-8 text-right">samuel@mydomain.com</dd>
@@ -137,20 +125,20 @@ export default {
 										<div class="tab-pane fade show active" id="tab-bottom-left1">
 											<ul class="list-unstyled activity-timeline">
 											<li>
-												<i class="fa fa-comment activity-icon"></i>
-															<p>Commented on post <a href="#">Prototyping</a> <span class="timestamp">2 minutes ago</span></p>
+												<i class="fa fa-calendar activity-icon"></i>
+												<p>{{detallesArchivo.fecha_publicacion}} <span class="timestamp">Fecha de Publicacion</span></p>
 											</li>
 											<li>
 												<i class="fa fa-cloud-upload activity-icon"></i>
-												<p>Uploaded new file <a href="#">Proposal.docx</a> to project <a href="#">New Year Campaign</a> <span class="timestamp">7 hours ago</span></p>
+												<p>{{ detallesArchivo.tipo }} <span class="timestamp">Tipo de Documento</span></p>
 											</li>
 											<li>
 												<i class="fa fa-plus activity-icon"></i>
-												<p>Added <a href="#">Martin</a> and <a href="#">3 others colleagues</a> to project repository <span class="timestamp">Yesterday</span></p>
+												<p> {{detallesArchivo.categoria}} <span class="timestamp"> Categoria </span></p>
 											</li>
 											<li>
 												<i class="fa fa-check activity-icon"></i>
-												<p>Finished 80% of all <a href="#">assigned tasks</a> <span class="timestamp">1 day ago</span></p>
+												<p> {{detallesArchivo.especialidad}} {{detallesArchivo.version}} <span class="timestamp">Especialidad</span></p>
 											</li>
 											</ul>
 											<div class="text-center"><a href="#" class="btn btn-outline-light">See all activity</a></div>
@@ -394,6 +382,7 @@ export default {
         verDetallesArchivo(item) {
             this.detallesArchivo.titulo = item.titulo
             this.detallesArchivo.autor = item.autor
+            this.detallesArchivo.tutor = item.tutor
             this.detallesArchivo.categoria = item.categoria
             this.detallesArchivo.fecha_publicacion = item.fecha_publicacion
             this.detallesArchivo.especialidad = item.especialidad
