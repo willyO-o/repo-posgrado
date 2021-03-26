@@ -6,7 +6,7 @@ class Archivo_model extends CI_Model {
 
     public function get_archivos()
     {
-        return $this->db->get('archivos')->result();    
+        return $this->db->get('view_archivos')->result();    
     }
 
     public function get_archivo_id(int $id_archivo)

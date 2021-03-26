@@ -58,6 +58,7 @@
   <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder/dataTables.colReorder.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder-bs4/colReorder.bootstrap4.min.js"></script>
+	<!-- <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script> -->
 
   <script src="<?= base_url()?>assets/plugins/select2/select2.min.js"></script>
 

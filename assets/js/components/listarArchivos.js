@@ -9,7 +9,7 @@ export default {
 			<br/><br/>
 			<!-- Modal -->
 			<div class="modal fade" id="modal" aria-hidden="true" data-backdrop="static" >
-				<div class="modal-dialog">
+				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">{{tituloEspecialidad}}</h5>
@@ -20,13 +20,154 @@ export default {
 						<div class="modal-body">
 						
 
-
-						<div class="container-fluid">
-						<!-- validation by Bootstrap -->
-			
-							
-					  <!-- end validation by Bootstrap -->
-					  </div>
+							<div class="container-fluid">
+								<div class="card card-profile">
+								<div class="row ">
+									<!-- left column -->
+									<div class="col-md-4">
+									<div class="profile-left">
+										<!-- profile header -->
+										<div class="profile-header" >
+										<div class="overlay"   style="width:100%"></div>
+										<div class="profile-main">
+											<img :src="imagenArchivo" class="" alt="Avatar" width="100%">
+											
+										</div>
+										<div class="profile-stat">
+											<div class="row">
+											<div class="col-md-4 col-sm-12 stat-item">
+												45 <span>Projects</span>
+											</div>
+											<div class="col-md-4 stat-item">
+												15 <span>Awards</span>
+											</div>
+											<div class="col-md-4 stat-item">
+												2174 <span>Points</span>
+											</div>
+											</div>
+										</div>
+										</div>
+										<!-- end profile header -->
+					
+										<!-- profile detail -->
+										<div class="profile-detail">
+										<div class="profile-info">
+											<h4 class="heading">Basic Info</h4>
+											<dl class="row">
+											<dt class="col-sm-4">Birthdate</dt>
+											<dd class="col-sm-8 text-right">24 Aug, 2016</dd>
+					
+											<dt class="col-sm-4">Mobile</dt>
+											<dd class="col-sm-8 text-right">(124) 823409234</dd>
+					
+											<dt class="col-sm-4">Email</dt>
+											<dd class="col-sm-8 text-right">samuel@mydomain.com</dd>
+					
+											<dt class="col-sm-4">Website</dt>
+											<dd class="col-sm-8 text-right">aaa</dd>
+											</dl>
+										</div>
+										<div class="profile-info">
+	
+										</div>
+										<div class="profile-info">
+											<h4 class="heading">About</h4>
+											<p>Interactively fashion excellent information after distinctive outsourcing.</p>
+										</div>
+										<div class="text-center"><a href="#" class="btn btn-primary">Edit Profile</a></div>
+										</div>
+										<!-- end profile detail -->
+									</div>
+									</div>
+									<!-- end left column -->
+					
+									<!-- right column -->
+									<div class="col-md-8">
+									<div class="profile-right">
+										<h4 class="heading"> {{detallesArchivo.titulo}} </h4>
+					
+										<!-- awards -->
+										<div class="awards">
+										<div class="row">
+											<div class="col-md-3 col-sm-6">
+											<div class="award-item">
+												<div class="hexagon">
+												<span class="ti-light-bulb award-icon"></span>
+												</div>
+												<span>Most Bright Idea</span>
+											</div>
+											</div>
+											<div class="col-md-3 col-sm-6">
+											<div class="award-item">
+												<div class="hexagon">
+												<span class="ti-alarm-clock award-icon"></span>
+												</div>
+												<span>Most On-Time</span>
+											</div>
+											</div>
+											<div class="col-md-3 col-sm-6">
+											<div class="award-item">
+												<div class="hexagon">
+												<span class="ti-hummer award-icon"></span>
+												</div>
+												<span>Problem Solver</span>
+											</div>
+											</div>
+											<div class="col-md-3 col-sm-6">
+											<div class="award-item">
+												<div class="hexagon">
+												<span class="ti-heart award-icon"></span>
+												</div>
+												<span>Most Loved</span>
+											</div>
+											</div>
+										</div>
+										<div class="text-center"><a href="#" class="btn btn-outline-light">See all awards</a></div>
+										</div>
+										<!-- end awards -->
+					
+										<!-- tabbed content -->
+										<div class="custom-tabs-line tabs-line-bottom left-aligned">
+										<ul class="nav" role="tablist">
+											<li class="nav-item"><a href="#tab-bottom-left1" class="nav-link active" role="tab" data-toggle="tab">Recent Activity</a></li>
+											<li class="nav-item"><a href="#tab-bottom-left2" class="nav-link" role="tab" data-toggle="tab">Resumen </span></a></li>
+										</ul>
+										</div>
+										<div class="tab-content">
+										<div class="tab-pane fade show active" id="tab-bottom-left1">
+											<ul class="list-unstyled activity-timeline">
+											<li>
+												<i class="fa fa-comment activity-icon"></i>
+															<p>Commented on post <a href="#">Prototyping</a> <span class="timestamp">2 minutes ago</span></p>
+											</li>
+											<li>
+												<i class="fa fa-cloud-upload activity-icon"></i>
+												<p>Uploaded new file <a href="#">Proposal.docx</a> to project <a href="#">New Year Campaign</a> <span class="timestamp">7 hours ago</span></p>
+											</li>
+											<li>
+												<i class="fa fa-plus activity-icon"></i>
+												<p>Added <a href="#">Martin</a> and <a href="#">3 others colleagues</a> to project repository <span class="timestamp">Yesterday</span></p>
+											</li>
+											<li>
+												<i class="fa fa-check activity-icon"></i>
+												<p>Finished 80% of all <a href="#">assigned tasks</a> <span class="timestamp">1 day ago</span></p>
+											</li>
+											</ul>
+											<div class="text-center"><a href="#" class="btn btn-outline-light">See all activity</a></div>
+										</div>
+										<div class="tab-pane fade" id="tab-bottom-left2">
+											<div class="table-responsive">
+											<p>{{detallesArchivo.resumen}}</p>
+											</div>
+										</div>
+										<!-- end tabbed content -->
+									</div>
+									</div>
+									<!-- end right column -->
+								</div>
+								</div>
+							</div>
+							</div>
 
 					  
 						</div>
@@ -49,7 +190,7 @@ export default {
 							<thead class="thead-light">
 								<tr>
 									<th>#</th>
-									<th>Titulo</th>
+									<th style="width:5rem!important">Titulo</th>
 									<th>Autor</th>
                                     <th>Acciones</th>
 								</tr>
@@ -57,12 +198,16 @@ export default {
 							<tbody>
 							<tr v-for="(item,index) of listaArchivos" :key="item.id_archivo">
 								<td>{{index+1}}</td>
-								<td>{{item.titulo}}</td>
+								<td >{{item.titulo}}</td>
 								<td>{{item.autor}}</td>
                                 <td>
+									<button type="button" class="btn btn-info btn-sm"   
+                                        @click="verDetallesArchivo(item)">
+                                    	<i class="ti-eye"></i>
+                                    </button>
                                     <button type="button" class="btn btn-warning btn-sm"   
-                                        @click="editarEspecialidad(item)">
-                                    <i class="ti-pencil"></i>
+                                        @click="verDetallesArchivo(item)">
+                                    	<i class="ti-pencil"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_archivo)">
                                         <i class="ti-trash"></i>
@@ -83,6 +228,20 @@ export default {
         return {
             datatable: null,
             listaArchivos: [],
+            imagenArchivo: base_url + 'assets/img/documento.png',
+            detallesArchivo: {
+                titulo: '',
+                autor: '',
+                tutor: '',
+                resumen: '',
+                fecha_publicacion: '',
+                categoria: '',
+                especialidad: '',
+                tipo: '',
+                ruta: '',
+                sede: '',
+            },
+
 
             listaVersiones: null,
             listaEspecialidades: null,
@@ -226,24 +385,25 @@ export default {
             //this.articulos = res.data;
         },
         datatab() {
-            if (this.listaVersiones && this.listaEspecialidades) {
-                this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
-            } else {
-                setTimeout(() => {
-                    this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
-                }, 1000);
-            }
-        },
-        editarEspecialidad(item) {
-            this.editar = true
-            this.cambiarTitulo()
-            this.especialidad.id = item.id_especialidad
-            this.especialidad.espec = item.especialidad
-            this.especialidad.id_version = item.id_version
-            this.especialidad.version = item.version
-            this.especialidad.id_ver_esp = item.id_ver_esp
 
-            //console.log(this.especialidad)
+            setTimeout(() => {
+                this.datatable = $("#datatable-export").DataTable({ destroy: true, mdom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
+            }, 1000);
+
+        },
+        verDetallesArchivo(item) {
+            this.detallesArchivo.titulo = item.titulo
+            this.detallesArchivo.autor = item.autor
+            this.detallesArchivo.categoria = item.categoria
+            this.detallesArchivo.fecha_publicacion = item.fecha_publicacion
+            this.detallesArchivo.especialidad = item.especialidad
+            this.detallesArchivo.resumen = item.resumen
+            this.detallesArchivo.ruta = item.ruta
+            this.detallesArchivo.sede = item.sede
+            this.detallesArchivo.tipo = item.tipo
+            this.detallesArchivo.version = item.version
+
+            console.log(item)
             this.mostrarModal()
 
         },
