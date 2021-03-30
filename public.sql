@@ -5,14 +5,14 @@
  Source Server Type    : PostgreSQL
  Source Server Version : 130001
  Source Host           : localhost:5432
- Source Catalog        : repositorio
+ Source Catalog        : posgrado_repositorio
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 24/03/2021 01:08:38
+ Date: 30/03/2021 00:02:50
 */
 
 
@@ -23,7 +23,7 @@ DROP SEQUENCE IF EXISTS "public"."archivos_id_archivo_seq";
 CREATE SEQUENCE "public"."archivos_id_archivo_seq" 
 INCREMENT 1
 MINVALUE  1
-MAXVALUE 9223372036854775807
+MAXVALUE 2147483647
 START 1
 CACHE 1;
 
@@ -34,7 +34,7 @@ DROP SEQUENCE IF EXISTS "public"."categorias_id_categoria_seq";
 CREATE SEQUENCE "public"."categorias_id_categoria_seq" 
 INCREMENT 1
 MINVALUE  1
-MAXVALUE 1000
+MAXVALUE 32767
 START 1
 CACHE 1;
 
@@ -50,13 +50,24 @@ START 1
 CACHE 1;
 
 -- ----------------------------
+-- Sequence structure for metadatos_id_metadato_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."metadatos_id_metadato_seq";
+CREATE SEQUENCE "public"."metadatos_id_metadato_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
 -- Sequence structure for roles_id_rol_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."roles_id_rol_seq";
 CREATE SEQUENCE "public"."roles_id_rol_seq" 
 INCREMENT 1
 MINVALUE  1
-MAXVALUE 1000
+MAXVALUE 32767
 START 1
 CACHE 1;
 
@@ -67,15 +78,15 @@ DROP SEQUENCE IF EXISTS "public"."tipos_id_tipo_seq";
 CREATE SEQUENCE "public"."tipos_id_tipo_seq" 
 INCREMENT 1
 MINVALUE  1
-MAXVALUE 2147483647
+MAXVALUE 32767
 START 1
 CACHE 1;
 
 -- ----------------------------
--- Sequence structure for usuarios_id_usuarios_seq
+-- Sequence structure for usuarios_id_usuario_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."usuarios_id_usuarios_seq";
-CREATE SEQUENCE "public"."usuarios_id_usuarios_seq" 
+DROP SEQUENCE IF EXISTS "public"."usuarios_id_usuario_seq";
+CREATE SEQUENCE "public"."usuarios_id_usuario_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 32767
@@ -100,7 +111,7 @@ DROP SEQUENCE IF EXISTS "public"."verisiones_id_version_seq";
 CREATE SEQUENCE "public"."verisiones_id_version_seq" 
 INCREMENT 1
 MINVALUE  1
-MAXVALUE 2000
+MAXVALUE 32767
 START 1
 CACHE 1;
 
@@ -109,32 +120,26 @@ CACHE 1;
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."archivos";
 CREATE TABLE "public"."archivos" (
-  "id_archivo" int8 NOT NULL DEFAULT nextval('archivos_id_archivo_seq'::regclass),
-  "titulo" char(1000) COLLATE "pg_catalog"."default" NOT NULL,
-  "ruta" varchar(300) COLLATE "pg_catalog"."default" NOT NULL,
-  "autor" varchar(300) COLLATE "pg_catalog"."default" NOT NULL,
-  "tutor" varchar(300) COLLATE "pg_catalog"."default",
-  "fecha_publicacion" date NOT NULL DEFAULT CURRENT_DATE,
-  "uuid" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "resumen" text COLLATE "pg_catalog"."default" NOT NULL,
-  "id_categoria" int4 NOT NULL,
-  "id_tipo" int4 NOT NULL,
-  "id_ver_esp" int4 NOT NULL,
-  "sede" varchar(50) COLLATE "pg_catalog"."default" NOT NULL
+  "id_archivo" int4 NOT NULL DEFAULT nextval('archivos_id_archivo_seq'::regclass),
+  "descripcion" varchar(100) COLLATE "pg_catalog"."default",
+  "tamanio" numeric(5,2) NOT NULL,
+  "formato" varchar(25) COLLATE "pg_catalog"."default" NOT NULL,
+  "nombre" varchar(55) COLLATE "pg_catalog"."default" NOT NULL,
+  "uuid" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
 
 -- ----------------------------
 -- Records of archivos
 -- ----------------------------
-INSERT INTO "public"."archivos" VALUES (2, 'REDES NEURONALES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ', '605ac90da4064.pdf', 'WILLY CHANA', 'JOSE COLQUE', '2021-03-24', '605ac90da4064', 'asdasd resumen', 3, 1, 11, 'La Paz - El Alto');
+INSERT INTO "public"."archivos" VALUES (1, 'DOCUMENTO', 11.99, 'PDF', '6062882cee16b.pdf', '6062882cee16b');
 
 -- ----------------------------
 -- Table structure for categorias
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."categorias";
 CREATE TABLE "public"."categorias" (
-  "id_categoria" int4 NOT NULL DEFAULT nextval('categorias_id_categoria_seq'::regclass),
+  "id_categoria" int2 NOT NULL DEFAULT nextval('categorias_id_categoria_seq'::regclass),
   "categoria" varchar(100) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
@@ -142,9 +147,9 @@ CREATE TABLE "public"."categorias" (
 -- ----------------------------
 -- Records of categorias
 -- ----------------------------
-INSERT INTO "public"."categorias" VALUES (2, 'Diplomado');
-INSERT INTO "public"."categorias" VALUES (3, 'Maestria');
-INSERT INTO "public"."categorias" VALUES (4, 'Doctorado');
+INSERT INTO "public"."categorias" VALUES (1, 'DIPLOMADO ');
+INSERT INTO "public"."categorias" VALUES (2, 'MAESTRIA');
+INSERT INTO "public"."categorias" VALUES (3, 'DOCTORADO');
 
 -- ----------------------------
 -- Table structure for especialidades
@@ -159,18 +164,34 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 -- Records of especialidades
 -- ----------------------------
-INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL');
-INSERT INTO "public"."especialidades" VALUES (7, 'DIPLOMADO EN EDUCACION MAMANI');
-INSERT INTO "public"."especialidades" VALUES (5, 'MAESTRíA EN COMUNICACIóN ESTRATéGICA DIGITAL, MARKETING POLíTICO Y EMPRESARIAL AAA');
-INSERT INTO "public"."especialidades" VALUES (8, 'HOLA PRRO');
-INSERT INTO "public"."especialidades" VALUES (10, 'WWWWWWASCO');
-INSERT INTO "public"."especialidades" VALUES (11, 'KKKKKK');
-INSERT INTO "public"."especialidades" VALUES (13, 'QQQQQQQQQQQQQQ');
-INSERT INTO "public"."especialidades" VALUES (14, 'EGEGEGE');
-INSERT INTO "public"."especialidades" VALUES (15, 'AAAAAAAA');
-INSERT INTO "public"."especialidades" VALUES (16, 'BBBBBBBBBBBBBBBB');
-INSERT INTO "public"."especialidades" VALUES (17, 'FFFFFFFFFFFFFFFFFFFFFFF');
-INSERT INTO "public"."especialidades" VALUES (19, 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
+INSERT INTO "public"."especialidades" VALUES (1, 'MAESTRÍA EN INTERPRETACIÓN Y ARGUMENTACIÓN JURÍDICA GG');
+
+-- ----------------------------
+-- Table structure for metadatos
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."metadatos";
+CREATE TABLE "public"."metadatos" (
+  "id_metadato" int4 NOT NULL DEFAULT nextval('metadatos_id_metadato_seq'::regclass),
+  "autor" varchar(300) COLLATE "pg_catalog"."default" NOT NULL,
+  "fecha_publicacion" date NOT NULL,
+  "anio_creacion" numeric(4,0) NOT NULL,
+  "resumen" text COLLATE "pg_catalog"."default" NOT NULL,
+  "lenguaje" varchar(10) COLLATE "pg_catalog"."default",
+  "titulo" varchar(1500) COLLATE "pg_catalog"."default" NOT NULL,
+  "id_tipo" int2 NOT NULL,
+  "id_archivo" int4 NOT NULL,
+  "id_ver_esp" int4 NOT NULL,
+  "id_categoria" int4 NOT NULL,
+  "sede" varchar(40) COLLATE "pg_catalog"."default" NOT NULL,
+  "tutor" varchar(300) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of metadatos
+-- ----------------------------
+INSERT INTO "public"."metadatos" VALUES (1, 'AAAA', '2021-03-30', 2019, 'asdas dasdasdddddddddddddddd', 'ES', 'ASDASDASD', 1, 1, 1, 1, 'La Paz - El Alto', '2WWWW');
 
 -- ----------------------------
 -- Table structure for roles
@@ -178,46 +199,44 @@ INSERT INTO "public"."especialidades" VALUES (19, 'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK
 DROP TABLE IF EXISTS "public"."roles";
 CREATE TABLE "public"."roles" (
   "id_rol" int2 NOT NULL DEFAULT nextval('roles_id_rol_seq'::regclass),
-  "rol" varchar(25) COLLATE "pg_catalog"."default" NOT NULL
+  "rol" varchar(20) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
 
 -- ----------------------------
 -- Records of roles
 -- ----------------------------
-INSERT INTO "public"."roles" VALUES (1, '{"admin                  ');
-INSERT INTO "public"."roles" VALUES (2, 'Super Usuario');
-INSERT INTO "public"."roles" VALUES (3, 'Super Usuario');
-INSERT INTO "public"."roles" VALUES (4, 'Super Usuario');
 
 -- ----------------------------
 -- Table structure for tipos
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."tipos";
 CREATE TABLE "public"."tipos" (
-  "id_tipo" int4 NOT NULL DEFAULT nextval('tipos_id_tipo_seq'::regclass),
-  "tipo" varchar(50) COLLATE "pg_catalog"."default" NOT NULL
+  "id_tipo" int2 NOT NULL DEFAULT nextval('tipos_id_tipo_seq'::regclass),
+  "tipo" varchar(30) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
 
 -- ----------------------------
 -- Records of tipos
 -- ----------------------------
-INSERT INTO "public"."tipos" VALUES (2, 'tesis');
-INSERT INTO "public"."tipos" VALUES (1, 'Monografia');
+INSERT INTO "public"."tipos" VALUES (1, 'Tesis');
+INSERT INTO "public"."tipos" VALUES (2, 'Monografia');
+INSERT INTO "public"."tipos" VALUES (3, 'Especialidad');
+INSERT INTO "public"."tipos" VALUES (4, 'Tesina');
 
 -- ----------------------------
 -- Table structure for usuarios
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."usuarios";
 CREATE TABLE "public"."usuarios" (
-  "id_usuarios" int2 NOT NULL DEFAULT nextval('usuarios_id_usuarios_seq'::regclass),
+  "id_usuario" int2 NOT NULL DEFAULT nextval('usuarios_id_usuario_seq'::regclass),
   "usuario" varchar(150) COLLATE "pg_catalog"."default" NOT NULL,
   "password" varchar(200) COLLATE "pg_catalog"."default" NOT NULL,
-  "nombre" varchar(150) COLLATE "pg_catalog"."default",
-  "apellido" varchar(200) COLLATE "pg_catalog"."default",
+  "nombre" varchar(150) COLLATE "pg_catalog"."default" NOT NULL,
+  "apellido" varchar(150) COLLATE "pg_catalog"."default" NOT NULL,
   "estado" bool NOT NULL,
-  "id_rol" int4 NOT NULL DEFAULT 1
+  "id_rol" int4 NOT NULL
 )
 ;
 
@@ -230,44 +249,35 @@ CREATE TABLE "public"."usuarios" (
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."ver_esp";
 CREATE TABLE "public"."ver_esp" (
+  "id_ver_esp" int4 NOT NULL DEFAULT nextval('ver_esp_id_ver_esp_seq'::regclass),
   "id_version" int4 NOT NULL,
-  "id_especialidad" int4 NOT NULL,
-  "id_ver_esp" int4 NOT NULL DEFAULT nextval('ver_esp_id_ver_esp_seq'::regclass)
+  "id_especialidad" int4 NOT NULL
 )
 ;
 
 -- ----------------------------
 -- Records of ver_esp
 -- ----------------------------
-INSERT INTO "public"."ver_esp" VALUES (3, 6, 3);
-INSERT INTO "public"."ver_esp" VALUES (1, 7, 4);
-INSERT INTO "public"."ver_esp" VALUES (3, 5, 2);
-INSERT INTO "public"."ver_esp" VALUES (1, 8, 5);
-INSERT INTO "public"."ver_esp" VALUES (3, 10, 7);
-INSERT INTO "public"."ver_esp" VALUES (1, 11, 8);
-INSERT INTO "public"."ver_esp" VALUES (1, 13, 10);
-INSERT INTO "public"."ver_esp" VALUES (1, 14, 11);
-INSERT INTO "public"."ver_esp" VALUES (3, 15, 12);
-INSERT INTO "public"."ver_esp" VALUES (1, 16, 13);
-INSERT INTO "public"."ver_esp" VALUES (2, 17, 14);
-INSERT INTO "public"."ver_esp" VALUES (2, 19, 16);
+INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
+INSERT INTO "public"."ver_esp" VALUES (1, 2, 1);
 
 -- ----------------------------
--- Table structure for verisiones
+-- Table structure for versiones
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."verisiones";
-CREATE TABLE "public"."verisiones" (
+DROP TABLE IF EXISTS "public"."versiones";
+CREATE TABLE "public"."versiones" (
   "id_version" int2 NOT NULL DEFAULT nextval('verisiones_id_version_seq'::regclass),
-  "version" varchar(50) COLLATE "pg_catalog"."default" NOT NULL
+  "version" varchar(25) COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
 
 -- ----------------------------
--- Records of verisiones
+-- Records of versiones
 -- ----------------------------
-INSERT INTO "public"."verisiones" VALUES (1, 'VERSION I');
-INSERT INTO "public"."verisiones" VALUES (2, 'VERSION II');
-INSERT INTO "public"."verisiones" VALUES (3, 'VERSION III');
+INSERT INTO "public"."versiones" VALUES (1, 'VERSIÓN I ');
+INSERT INTO "public"."versiones" VALUES (2, 'VERSIÓN II');
+INSERT INTO "public"."versiones" VALUES (3, 'VERSIÓN III');
+INSERT INTO "public"."versiones" VALUES (4, 'VERSIÓN IV');
 
 -- ----------------------------
 -- View structure for view_especialidades
@@ -277,66 +287,107 @@ CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
     ver_esp.id_especialidad,
     especialidades.especialidad,
     ver_esp.id_ver_esp,
-    verisiones.version
+    versiones.version
    FROM especialidades
      JOIN ver_esp USING (id_especialidad)
-     JOIN verisiones USING (id_version);
+     JOIN versiones USING (id_version);
+
+-- ----------------------------
+-- View structure for view_archivos
+-- ----------------------------
+DROP VIEW IF EXISTS "public"."view_archivos";
+CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
+    metadatos.id_tipo,
+    metadatos.id_ver_esp,
+    archivos.id_archivo,
+    archivos.descripcion,
+    archivos.tamanio,
+    archivos.formato,
+    archivos.nombre,
+    archivos.uuid,
+    metadatos.id_metadato,
+    metadatos.autor,
+    metadatos.fecha_publicacion,
+    metadatos.anio_creacion,
+    metadatos.resumen,
+    metadatos.lenguaje,
+    metadatos.titulo,
+    metadatos.sede,
+    metadatos.tutor,
+    view_especialidades.id_version,
+    view_especialidades.id_especialidad,
+    view_especialidades.especialidad,
+    view_especialidades.version,
+    tipos.tipo,
+    categorias.categoria
+   FROM archivos
+     JOIN metadatos USING (id_archivo)
+     JOIN view_especialidades USING (id_ver_esp)
+     JOIN tipos USING (id_tipo)
+     JOIN categorias USING (id_categoria);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 3, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 2, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 5, true);
+SELECT setval('"public"."categorias_id_categoria_seq"', 4, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 20, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 6, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
+OWNED BY "public"."metadatos"."id_metadato";
+SELECT setval('"public"."metadatos_id_metadato_seq"', 2, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."roles_id_rol_seq"
 OWNED BY "public"."roles"."id_rol";
-SELECT setval('"public"."roles_id_rol_seq"', 6, true);
+SELECT setval('"public"."roles_id_rol_seq"', 2, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 4, true);
+SELECT setval('"public"."tipos_id_tipo_seq"', 5, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "public"."usuarios_id_usuarios_seq"
-OWNED BY "public"."usuarios"."id_usuarios";
-SELECT setval('"public"."usuarios_id_usuarios_seq"', 3, false);
+ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
+OWNED BY "public"."usuarios"."id_usuario";
+SELECT setval('"public"."usuarios_id_usuario_seq"', 2, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 17, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 6, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
-OWNED BY "public"."verisiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 4, true);
+OWNED BY "public"."versiones"."id_version";
+SELECT setval('"public"."verisiones_id_version_seq"', 5, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
@@ -354,6 +405,11 @@ ALTER TABLE "public"."categorias" ADD CONSTRAINT "categorias_pkey" PRIMARY KEY (
 ALTER TABLE "public"."especialidades" ADD CONSTRAINT "especialidades_pkey" PRIMARY KEY ("id_especialidad");
 
 -- ----------------------------
+-- Primary Key structure for table metadatos
+-- ----------------------------
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_pkey" PRIMARY KEY ("id_metadato");
+
+-- ----------------------------
 -- Primary Key structure for table roles
 -- ----------------------------
 ALTER TABLE "public"."roles" ADD CONSTRAINT "roles_pkey" PRIMARY KEY ("id_rol");
@@ -366,7 +422,7 @@ ALTER TABLE "public"."tipos" ADD CONSTRAINT "tipos_pkey" PRIMARY KEY ("id_tipo")
 -- ----------------------------
 -- Primary Key structure for table usuarios
 -- ----------------------------
-ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_pkey" PRIMARY KEY ("id_usuarios");
+ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_pkey" PRIMARY KEY ("id_usuario");
 
 -- ----------------------------
 -- Primary Key structure for table ver_esp
@@ -374,16 +430,17 @@ ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_pkey" PRIMARY KEY ("id_
 ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_pkey" PRIMARY KEY ("id_ver_esp");
 
 -- ----------------------------
--- Primary Key structure for table verisiones
+-- Primary Key structure for table versiones
 -- ----------------------------
-ALTER TABLE "public"."verisiones" ADD CONSTRAINT "verisiones_pkey" PRIMARY KEY ("id_version");
+ALTER TABLE "public"."versiones" ADD CONSTRAINT "verisiones_pkey" PRIMARY KEY ("id_version");
 
 -- ----------------------------
--- Foreign Keys structure for table archivos
+-- Foreign Keys structure for table metadatos
 -- ----------------------------
-ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_categoria_fkey" FOREIGN KEY ("id_categoria") REFERENCES "public"."categorias" ("id_categoria") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_tipo_fkey" FOREIGN KEY ("id_tipo") REFERENCES "public"."tipos" ("id_tipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."archivos" ADD CONSTRAINT "archivos_id_ver_esp_fkey" FOREIGN KEY ("id_ver_esp") REFERENCES "public"."ver_esp" ("id_ver_esp") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_archivo_fkey" FOREIGN KEY ("id_archivo") REFERENCES "public"."archivos" ("id_archivo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_categoria_fkey" FOREIGN KEY ("id_categoria") REFERENCES "public"."categorias" ("id_categoria") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_tipo_fkey" FOREIGN KEY ("id_tipo") REFERENCES "public"."tipos" ("id_tipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_ver_esp_fkey" FOREIGN KEY ("id_ver_esp") REFERENCES "public"."ver_esp" ("id_ver_esp") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
 -- Foreign Keys structure for table usuarios
@@ -394,4 +451,4 @@ ALTER TABLE "public"."usuarios" ADD CONSTRAINT "usuarios_id_rol_fkey" FOREIGN KE
 -- Foreign Keys structure for table ver_esp
 -- ----------------------------
 ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_especialidad_fkey" FOREIGN KEY ("id_especialidad") REFERENCES "public"."especialidades" ("id_especialidad") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_version_fkey" FOREIGN KEY ("id_version") REFERENCES "public"."verisiones" ("id_version") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."ver_esp" ADD CONSTRAINT "ver_esp_id_version_fkey" FOREIGN KEY ("id_version") REFERENCES "public"."versiones" ("id_version") ON DELETE NO ACTION ON UPDATE NO ACTION;
