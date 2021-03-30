@@ -43,26 +43,26 @@ class Especialidad_model extends CI_Model {
 	// versiones
 	public function get_versiones()
     {
-        return $this->db->get('verisiones')->result();
+        return $this->db->get('versiones')->result();
         
     }
 
     public function get_version_id(int $id_version)
     {
         $this->db->where('id_version', $id_version);
-        return $this->db->get('verisiones')->row();
+        return $this->db->get('versiones')->row();
         
     }
 
     public function set_version($datos)
     {
-        return $this->db->insert('verisiones', $datos);
+        return $this->db->insert('versiones', $datos);
         
     }
     public function update_version($datos,int $id_version)
     {
         $this->db->where('id_version', $id_version);
-        return $this->db->update('verisiones', $datos);
+        return $this->db->update('versiones', $datos);
         
     }
 

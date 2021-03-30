@@ -68,43 +68,64 @@ export default {
 
 		
 			<div class="card mb-5">
-				<div class="card-header">
-					<h3 class="card-title">Listado de Especialidades</h3>
+					<div class="card-header">
+						<h3 class="card-title">Listado de Especialidades</h3>
 					</div>
-						<div class="card-body">
-						<div class="table-responsive">
-						<table id="datatable-export" class="table table-striped">
-							<thead class="thead-light">
-								<tr>
-									<th>#</th>
-									<th>Especialidad</th>
-									<th>Version</th>
-                                    <th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-							<tr v-for="(item,index) of listaEspecialidades" :key="item.id_especialidad">
-								<td>{{index+1}}</td>
-								<td>{{item.especialidad}}</td>
-								<td>{{item.version}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm"   
-                                        @click="editarEspecialidad(item)">
-                                    <i class="ti-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_especialidad)">
-                                        <i class="ti-trash"></i>
-                                    </button>
-                                   
-                                </td>
-		
-							</tr>
-						</tbody>
-					</table>
+					<div class="card-body">
+							<div class="table-responsive">
+								<table id="datatable-export" class="table table-striped">
+									<thead class="thead-light">
+										<tr>
+											<th>#</th>
+											<th>Especialidad</th>
+											<th>Version</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(item,index) of listaEspecialidades" :key="item.id_especialidad">
+											<td>{{index+1}}</td>
+											<td>{{item.especialidad}}</td>
+											<td>{{item.version}}</td>
+											<td>
+												<button type="button" class="btn btn-warning btn-sm"   
+													@click="editarEspecialidad(item)">
+												<i class="ti-pencil"></i>
+												</button>
+												<button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_especialidad)">
+													<i class="ti-trash"></i>
+												</button>
+											
+											</td>
+					
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					</div>
+	  		</div>
+
+			  <div class="modal fade" id="modalConfimEliminar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-sm">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalConfimEliminarLabel">Eliminar Especialidad</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Esta Usted Seguro?
+						<p>Esta accion no se puede deshacer!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-danger" @click="eliminar()">confirmar</button>
+					</div>
+					</div>
 				</div>
-			</div>
-	  </div>
-	</div>
+			  </div>
+		</div>
 	
 	`,
     data() {
@@ -250,8 +271,6 @@ export default {
             this.listaVersiones = res.data.versiones
             this.listaEspecialidades = res.data.especialidades
 
-
-
             //this.articulos = res.data;
         },
         datatab() {
@@ -278,33 +297,18 @@ export default {
         },
         confirm(idEs) {
             this.especialidad.id = idEs
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.eliminar(idEs)
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                }
-            })
-        },
-        async eliminar(idEs) {
 
-            let data = { id_especialidad: idEs }
+            $('#modalConfimEliminar').modal('show')
+            console.log(this.especialidad.id);
+        },
+        async eliminar() {
+
+            let data = { id_especialidad: this.especialidad.id }
 
             const res = await axios.post(base_url + "especialidad/delete", data)
                 .then(res => {
                     if (res.data.respuesta) {
-                        console.log(res);
+
                         Swal.fire({
                             position: 'top-end',
                             icon: 'success',
@@ -313,6 +317,7 @@ export default {
                             timer: 1500
                         })
                         this.listar()
+                        $('#modalConfimEliminar').modal('hide')
                     } else {
                         Swal.fire({
                             position: 'top-end',

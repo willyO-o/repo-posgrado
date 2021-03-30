@@ -92,14 +92,32 @@ export default {
                     </div>
 
                     <div class="col-md-6">
-							<label for="categoria">Categoria</label>
-                            <div class="alert alert-danger" role="alert"  v-if="error.id_categoria" >
-									<b>Error:</b> Debe seleccionar una Categoria
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="categoria">Categoria</label>
+									<div class="alert alert-danger" role="alert"  v-if="error.id_categoria" >
+											<b>Error:</b> Debe seleccionar una Categoria
+									</div>
+									<select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
+										<option value="0"  selected disabled>Seleccione </option>
+										<option :value="categoria.id_categoria" v-for="categoria of listaCategorias"> {{categoria.categoria}} </option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label for="categoria">Año de publicacion</label>
+									<div class="alert alert-danger" role="alert"  v-if="error.anio" >
+											<b>Error:</b> Debe seleccionar un año de creacion
+									</div>
+									<select class="custom-select" required id="anio"  v-model="datosArchivo.anio">
+										<option value="0"  selected disabled>Seleccione </option>
+										<option :value="anio" v-for="anio of listaAnios"> {{anio}} </option>
+									</select>
+								</div>
 							</div>
-                            <select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
-                                <option value="0"  selected disabled>Seleccione </option>
-                                <option :value="categoria.id_categoria" v-for="categoria of listaCategorias"> {{categoria.categoria}} </option>
-                            </select>
+
+						</div>
+								
                     </div>
                     <div class="col-12">
                         <div class="form-group">
@@ -151,6 +169,7 @@ export default {
             listaEspecialidades: [],
             listaTipos: [],
             listaCategorias: [],
+            listaAnios: [],
             error: {
                 errorfile: false,
                 titulo: false,
@@ -161,7 +180,8 @@ export default {
                 sede: false,
                 id_tipo: false,
                 id_categoria: false,
-                sinfile: false
+                sinfile: false,
+                anio: false
             },
 
             datosArchivo: {
@@ -173,7 +193,8 @@ export default {
                 id_version: 0,
                 sede: '',
                 id_tipo: '',
-                id_categoria: ''
+                id_categoria: '',
+                anio: 0
             },
             datosArchivoDefault: {
                 id_especialidad: '',
@@ -184,7 +205,8 @@ export default {
                 id_version: 0,
                 sede: '',
                 id_tipo: '',
-                id_categoria: ''
+                id_categoria: '',
+                anio: 0
             },
 
 
@@ -193,6 +215,7 @@ export default {
     },
     created() {
         this.listarEspecialidades()
+        this.generarAnios()
     },
     mounted() {
         this.fileDropy()
@@ -260,6 +283,7 @@ export default {
                 fm.append('sede', this.datosArchivo.sede)
                 fm.append('id_tipo', this.datosArchivo.id_tipo)
                 fm.append('id_categoria', this.datosArchivo.id_categoria)
+                fm.append('anio', this.datosArchivo.anio)
 
                 //console.log(fm);
                 axios.post(base_url + 'archivo/save', fm)
@@ -320,7 +344,7 @@ export default {
             //console.log(this.file);
             this.datosArchivo.id_especialidad = $('#select-especialidades').val();
             if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.file) {
+                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio && this.file) {
                 return true;
             }
 
@@ -349,6 +373,9 @@ export default {
             if (!this.datosArchivo.sede) {
                 this.error.sede = true
             }
+            if (!this.datosArchivo.anio) {
+                this.error.anio = true
+            }
             if (!this.file) {
                 this.error.sinfile = true
                 this.modalVistaPrevia = false
@@ -365,10 +392,20 @@ export default {
                 this.error.tutor = false
                 this.error.sede = false
                 this.error.sinfile = false
+                this.error.anio = false
             }, 5000);
 
 
 
-        }
+        },
+        generarAnios() {
+            let d = new Date();
+            let n = d.getFullYear();
+            let arr = []
+            for (let i = n; i >= 2000; i--) {
+                arr.push(i)
+            }
+            this.listaAnios = arr
+        },
     },
 }

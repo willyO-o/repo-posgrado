@@ -18,7 +18,16 @@ class Archivo_model extends CI_Model {
 
     public function set_archivos($datos)
     {
-        return $this->db->insert('archivos', $datos);
+        $this->db->insert('archivos', $datos);
+		return $this->db->insert_id();
+		 
+        
+    }
+	public function set_metadatos($datos)
+    {
+        $this->db->insert('metadatos', $datos);
+		return $this->db->insert_id();
+		 
         
     }
     public function update_archivos($datos,int $id_archivo)
