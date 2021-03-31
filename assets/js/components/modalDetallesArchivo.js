@@ -53,7 +53,12 @@ export default {
 						<div class="profile-info">
 
 						</div>
-						<div class="text-center"><button href="#" class="btn btn-primary">Editar</button></div>
+						<div class="text-center">
+							
+								<button class="btn btn-warning" @click="irEditar(); setStateEditarArchivo(detallesArchivo)">Editar Archivo</button>
+							
+						
+						</div>
 						</div>
 						<!-- end profile detail -->
 					</div>
@@ -127,11 +132,23 @@ export default {
     props: ['detallesArchivo'],
     methods: {
         mostrarDocumento() {
+            console.log(this.detallesArchivo);
             this.verDocumento = true;
             this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre
         },
         ocultarDocumento() {
             this.verDocumento = false;
         },
+        irEditar() {
+
+            $('#modal').modal('hide')
+
+            this.$router.push('/archivos/subir')
+
+        },
+        ...Vuex.mapMutations(['setStateEditarArchivo']),
+
+
     },
+
 }

@@ -30,6 +30,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet">
   <script src="<?=base_url() ?>assets/js/vue/vue.js"></script>
   <script src="<?=base_url() ?>assets/js/vue/vue-router.js"></script>
+	<script src="<?=base_url() ?>assets/js/vue/vuex.js"></script>
+	
 	<link href="<?= base_url()?>assets/plugins/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
 	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css"> -->
   <link href="<?= base_url()?>assets/plugins/select2/select2.min.css" rel="stylesheet">

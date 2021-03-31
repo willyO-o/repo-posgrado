@@ -59,7 +59,7 @@ export default {
                                     	<i class="ti-eye"></i>
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm"   
-                                        @click="verDetallesArchivo(item)">
+                                        @click="irEditar(item)">
                                     	<i class="ti-pencil"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_archivo)">
@@ -149,6 +149,12 @@ export default {
             this.detallesArchivo.sede = item.sede
             this.detallesArchivo.tipo = item.tipo
             this.detallesArchivo.version = item.version
+            this.detallesArchivo.id_archivo = item.id_archivo
+            this.detallesArchivo.id_version = item.id_version
+            this.detallesArchivo.id_ver_esp = item.id_ver_esp
+            this.detallesArchivo.id_tipo = item.id_tipo
+            this.detallesArchivo.id_categoria = item.id_categoria
+            this.detallesArchivo.anio = item.anio_creacion
 
             this.mostrarModal()
 
@@ -212,7 +218,12 @@ export default {
             //         alert('error')
             //     })
         },
+        irEditar(item) {
+            console.log(item);
+            $('#modal').modal('hide')
+            this.$router.push('/archivos/subir')
 
+        }
 
 
     },
@@ -220,5 +231,6 @@ export default {
         this.datatab();
 
     },
+
 
 }

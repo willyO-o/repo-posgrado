@@ -185,6 +185,7 @@ export default {
             },
 
             datosArchivo: {
+                id_archivo: 0,
                 id_especialidad: '',
                 titulo: '',
                 resumen: '',
@@ -194,9 +195,11 @@ export default {
                 sede: '',
                 id_tipo: '',
                 id_categoria: '',
-                anio: 0
+                anio: 0,
+                archivo: ''
             },
             datosArchivoDefault: {
+                id_archivo: 0,
                 id_especialidad: '',
                 titulo: '',
                 resumen: '',
@@ -206,8 +209,10 @@ export default {
                 sede: '',
                 id_tipo: '',
                 id_categoria: '',
-                anio: 0
+                anio: 0,
+                archivo: ''
             },
+            especialidaSeleccionada: null,
 
 
 
@@ -219,10 +224,16 @@ export default {
     },
     mounted() {
         this.fileDropy()
+        if (this.editarArchivo) {
+            this.asignarEditar()
+            this.seleccionarEspecialidad()
+        }
+
 
     },
 
     methods: {
+
         archivoSubido(e) {
 
             let fileInput = document.getElementById('documento');
@@ -342,6 +353,7 @@ export default {
         validarCampos() {
             //this.file = document.getElementById('documento').files[0];
             //console.log(this.file);
+            console.log(this.datosArchivo);
             this.datosArchivo.id_especialidad = $('#select-especialidades').val();
             if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
                 this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio && this.file) {
@@ -406,6 +418,36 @@ export default {
                 arr.push(i)
             }
             this.listaAnios = arr
+
+
+
         },
+        asignarEditar() {
+            console.log(this.stateEditarArchivo);
+            this.datosArchivo.id_archivo = this.stateEditarArchivo.id
+            this.datosArchivo.titulo = this.stateEditarArchivo.titulo
+            this.datosArchivo.tutor = this.stateEditarArchivo.tutor
+            this.datosArchivo.autor = this.stateEditarArchivo.autor
+            this.datosArchivo.id_archivo = this.stateEditarArchivo.id_archivo
+            this.datosArchivo.id_especialidad = this.stateEditarArchivo.id_ver_esp
+            this.datosArchivo.id_categoria = this.stateEditarArchivo.id_categoria
+            this.datosArchivo.id_tipo = this.stateEditarArchivo.id_tipo
+            this.datosArchivo.resumen = this.stateEditarArchivo.resumen
+            this.datosArchivo.sede = this.stateEditarArchivo.sede
+            this.datosArchivo.anio = this.stateEditarArchivo.anio
+            this.datosArchivo.archivo = this.stateEditarArchivo.nombre
+            this.especialidaSeleccionada = this.stateEditarArchivo.id_ver_esp
+        },
+        seleccionarEspecialidad() {
+            // $('#select-especialidades').val(2).trigger('change')
+            $("#select-especialidades").select2("val", '1')
+                //$('#select-especialidades').val(2).trigger('change.select2')
+            console.log('select aaasd' + $('#select-especialidades').val());
+        }
+
+    },
+    computed: {
+        ...Vuex.mapState(['stateEditarArchivo', 'editarArchivo'])
+
     },
 }
