@@ -1,11 +1,22 @@
 export default {
     props: ['options', 'value'],
-    template: '#select2-template',
+    template: //html
+        ` 
+	<select>
+		<slot></slot>
+	</select>
+  	`,
     mounted: function() {
         var vm = this
         $(this.$el)
             // init select2
-            .select2({ data: this.options })
+            .select2({
+                data: this.options,
+                placeholder: 'Seleccione (puede realizar busquedas)',
+                allowClear: true,
+                theme: "classic",
+                val: null
+            })
             .val(this.value)
             .trigger('change')
             // emit event on change.

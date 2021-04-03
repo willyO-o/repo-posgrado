@@ -30,10 +30,10 @@ class Archivo_model extends CI_Model {
 		 
         
     }
-    public function update_archivos($datos,int $id_archivo)
+    public function update_metadatos($datos,int $id_archivo)
     {
         $this->db->where('id_archivo', $id_archivo);
-        return $this->db->update('archivos', $datos);
+        return $this->db->update('metadatos', $datos);
         
     }
 

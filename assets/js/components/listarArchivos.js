@@ -1,4 +1,4 @@
-import Card from './modalDetallesArchivo.js';
+import ModalArchivo from './modalDetallesArchivo.js';
 
 export default {
     template: //html
@@ -21,7 +21,7 @@ export default {
 						</div>
 						<div class="modal-body">
 
-							<Card :detallesArchivo="detallesArchivo"></Card>
+							<ModalArchivo :detallesArchivo="detallesArchivo"></ModalArchivo>
 							
 						</div>
 						<div class="modal-footer">
@@ -59,10 +59,10 @@ export default {
                                     	<i class="ti-eye"></i>
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm"   
-                                        @click="irEditar(item)">
+                                        @click="irEditar(); setStateEditarArchivo(item)">
                                     	<i class="ti-pencil"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_archivo)">
+                                    <button type="button" class="btn btn-danger btn-sm"   @click="confirm(item)">
                                         <i class="ti-trash"></i>
                                     </button>
                                    
@@ -74,27 +74,68 @@ export default {
 				</div>
 			</div>
 	  </div>
+
+	  <div class="modal fade" id="modalConfimEliminarArchivo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-sm">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalConfimEliminarArchivoLabel">Eliminar Archivo</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="limpiar()">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Esta Usted Seguro?
+						<h6> Desea eliminar el documento: </h6>
+						<h5> {{archivoEliminar}} </h5>
+						<p>Esta accion no se puede deshacer!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="limpiar()">Cancelar</button>
+						<button type="button" class="btn btn-danger" @click="eliminarConfirmado()">Confirmar</button>
+					</div>
+					</div>
+				</div>
+			  </div>
 	</div>
 	
 	`,
-    components: { Card },
+    components: { ModalArchivo },
     data() {
         return {
             datatable: null,
             listaArchivos: [],
-
+            modalEliminar: false,
+            archivoEliminar: '',
             detallesArchivo: {
-                titulo: '',
-                autor: '',
-                tutor: '',
-                resumen: '',
+
+                anio_creacion: 0,
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
                 fecha_publicacion: '',
-                categoria: '',
-                especialidad: '',
-                tipo: '',
+                formato: '',
+                id_archivo: '',
+                id_categoria: '',
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: '',
+                id_version: '',
+                lenguaje: '',
                 nombre: '',
+                resumen: '',
                 sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
+
             },
+
 
             idArchivo: '',
 
@@ -116,6 +157,13 @@ export default {
     },
 
     methods: {
+        mostrarModalEliminar() {
+            $('#modalConfimEliminarArchivo').modal('show')
+
+        },
+        ocultarModalEliminar() {
+            $('#modalConfimEliminarArchivo').modal('hide')
+        },
 
         mostrarModal() {
             $('#modal').modal('show')
@@ -124,10 +172,15 @@ export default {
         ocultarModal() {
             $('#modal').modal('hide')
         },
+        limpiar() {
+            this.idArchivo = 0
+            this.archivoEliminar = ''
+        },
 
         async listarArchivos() {
             const res = await axios.get(base_url + "archivo/getArchivo")
             this.listaArchivos = res.data.archivos
+
         },
 
         datatab() {
@@ -138,92 +191,61 @@ export default {
 
         },
         verDetallesArchivo(item) {
-            this.detallesArchivo.titulo = item.titulo
-            this.detallesArchivo.autor = item.autor
-            this.detallesArchivo.tutor = item.tutor
-            this.detallesArchivo.categoria = item.categoria
-            this.detallesArchivo.fecha_publicacion = item.fecha_publicacion
-            this.detallesArchivo.especialidad = item.especialidad
-            this.detallesArchivo.resumen = item.resumen
-            this.detallesArchivo.nombre = item.nombre
-            this.detallesArchivo.sede = item.sede
-            this.detallesArchivo.tipo = item.tipo
-            this.detallesArchivo.version = item.version
-            this.detallesArchivo.id_archivo = item.id_archivo
-            this.detallesArchivo.id_version = item.id_version
-            this.detallesArchivo.id_ver_esp = item.id_ver_esp
-            this.detallesArchivo.id_tipo = item.id_tipo
-            this.detallesArchivo.id_categoria = item.id_categoria
-            this.detallesArchivo.anio = item.anio_creacion
+
+            this.detallesArchivo = Object.assign({}, item)
 
             this.mostrarModal()
 
         },
 
-        confirm(id_arch) {
-            this.idArchivo = id_arch
-            this.eliminar()
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    console.log(this.idArchivo);
-                    this.eliminar()
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                }
-            })
-
-
+        confirm(item) {
+            this.mostrarModalEliminar()
+            this.idArchivo = item.id_archivo
+            this.archivoEliminar = item.titulo
         },
 
-        eliminar() {
-            console.log(this.idArchivo);
+
+        eliminarConfirmado() {
+
             let data = new FormData();
             data.append('id_archivo', this.idArchivo)
 
-            // axios.post(base_url + "archivo/delete", data)
-            //     .then(res => {
-            //         if (res.data.respuesta) {
-            //             console.log(res);
-            //             Swal.fire({
-            //                 position: 'top-end',
-            //                 icon: 'success',
-            //                 title: 'Especialidad Eliminada',
-            //                 showConfirmButton: false,
-            //                 timer: 1500
-            //             })
-            //             this.listar()
-            //         } else {
-            //             Swal.fire({
-            //                 position: 'top-end',
-            //                 icon: 'error',
-            //                 title: 'Ocurrio un error, Intente de nuevo',
-            //                 showConfirmButton: false,
-            //                 timer: 1500
-            //             })
-            //         }
+            axios.post(base_url + "archivo/delete", data)
+                .then(res => {
+                    if (res.data.respuesta) {
 
-            //     }).catch(res => {
-            //         alert('error')
-            //     })
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Especialidad Eliminada',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        this.listarArchivos()
+                        this.ocultarModalEliminar()
+                        this.limpiar()
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, Intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                }).catch(erro => {
+                    alert('error  la ptmrsss ' + erro)
+                })
         },
-        irEditar(item) {
-            console.log(item);
+        irEditar() {
+
             $('#modal').modal('hide')
             this.$router.push('/archivos/subir')
 
-        }
+        },
+        ...Vuex.mapMutations(['setStateEditarArchivo']),
+
 
 
     },

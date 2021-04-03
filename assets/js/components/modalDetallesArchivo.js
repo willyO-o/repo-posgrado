@@ -97,6 +97,10 @@ export default {
 								<p> {{detallesArchivo.categoria}} <span class="timestamp"> Categoria </span></p>
 							</li>
 							<li>
+								<i class="fa fa-calendar-o activity-icon"></i>
+								<p>{{detallesArchivo.anio_creacion}} <span class="timestamp">Año de creacion</span></p>
+							</li>
+							<li>
 								<i class="fa fa-calendar activity-icon"></i>
 								<p>{{detallesArchivo.fecha_publicacion}} <span class="timestamp">Fecha de Publicacion</span></p>
 							</li>
@@ -132,7 +136,7 @@ export default {
     props: ['detallesArchivo'],
     methods: {
         mostrarDocumento() {
-            console.log(this.detallesArchivo);
+
             this.verDocumento = true;
             this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre
         },

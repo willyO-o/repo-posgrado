@@ -1,9 +1,13 @@
+import Select2 from './select2.js'
+import Spinner from './spinner.js'
 export default {
     template: //html
         `
 <div>
+	
+	<button  class="btn btn-danger mb-2" @click="salir()"><i class="ti-arrow-left"></i> <span class="title">Cancelar </span></button>
 	<div class="card">
-		<div class="card-header">Publicar Tesis/Monografia</div>
+		<div class="card-header">{{ asignarTitulo() }} Tesis/Monografia</div>
 			<div class="card-body">
                 <form id="basic-form" method="post" novalidate>
                     <div class="form-group">
@@ -16,7 +20,7 @@ export default {
 				<div class="row">
 					<div class="col-md-6 mb-2">
 						
-							<div class="form-group">
+							<div class="form-group" v-if="!editarArchivo">
 								<h4 class="h6">Tamaño maximo admitido 30Mb</h4>
 								<div class="alert alert-danger" role="alert"  v-if="error.errorfile" >
 									<b>Error:</b> Solo se Admiten Archivos PDF
@@ -81,14 +85,10 @@ export default {
                         <div class="alert alert-danger" role="alert"  v-if="error.id_especialidad" >
 							<b>Error:</b> Debe seleccionar una especialidad
 						</div>
-                        <select id="select-especialidades" class="form-control" 
-                         v-model="datosArchivo.id_especialidad" 
-                         >
-								<option v-for="row in listaEspecialidades" :value="row.id_ver_esp">
-										{{row.especialidad}} {{row.version}} 
-								</option>
-                                    
-                        </select>
+
+						<Select2 :options="listaEspecialidades" v-model="datosArchivo.id_ver_esp"  class="form-control" />
+
+						
                     </div>
 
                     <div class="col-md-6">
@@ -109,7 +109,7 @@ export default {
 									<div class="alert alert-danger" role="alert"  v-if="error.anio" >
 											<b>Error:</b> Debe seleccionar un año de creacion
 									</div>
-									<select class="custom-select" required id="anio"  v-model="datosArchivo.anio">
+									<select class="custom-select" required id="anio"  v-model="datosArchivo.anio_creacion">
 										<option value="0"  selected disabled>Seleccione </option>
 										<option :value="anio" v-for="anio of listaAnios"> {{anio}} </option>
 									</select>
@@ -156,13 +156,23 @@ export default {
         </div>
         </div>
         <!--modal-->
+
+		<div class="modal fade" id="modalSpinner" aria-hidden="true" data-backdrop="static" >
+				<div class="modal-dialog modal-sm modal-dialog-centered">
+				<Spinner />
+				
+				<h1 class="text-white">Registrando...</h1>
+				</div>
+			</div>
 	</div>
     
 </div>
 	`,
+    components: { Select2, Spinner },
     data() {
         return {
             dropify: null,
+            select2: null,
             file: null,
             arc: null,
             modalVistaPrevia: false,
@@ -181,36 +191,63 @@ export default {
                 id_tipo: false,
                 id_categoria: false,
                 sinfile: false,
-                anio: false
+                anio: false,
+                id_especialidad: false,
             },
 
             datosArchivo: {
-                id_archivo: 0,
-                id_especialidad: '',
-                titulo: '',
-                resumen: '',
-                autor: '',
-                tutor: '',
-                id_version: 0,
-                sede: '',
-                id_tipo: '',
+
+                anio_creacion: 0,
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
+                fecha_publicacion: '',
+                formato: '',
+                id_archivo: '',
                 id_categoria: '',
-                anio: 0,
-                archivo: ''
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: null,
+                id_version: '',
+                lenguaje: '',
+                nombre: '',
+                resumen: '',
+                sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
+
             },
             datosArchivoDefault: {
-                id_archivo: 0,
-                id_especialidad: '',
-                titulo: '',
-                resumen: '',
-                autor: '',
-                tutor: '',
-                id_version: 0,
-                sede: '',
-                id_tipo: '',
+                anio_creacion: 0,
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
+                fecha_publicacion: '',
+                formato: '',
+                id_archivo: '',
                 id_categoria: '',
-                anio: 0,
-                archivo: ''
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: '',
+                id_version: '',
+                lenguaje: '',
+                nombre: '',
+                resumen: '',
+                sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
             },
             especialidaSeleccionada: null,
 
@@ -225,9 +262,18 @@ export default {
     mounted() {
         this.fileDropy()
         if (this.editarArchivo) {
+
             this.asignarEditar()
-            this.seleccionarEspecialidad()
+            this.modalVistaPrevia = true
+            this.file = true
+            document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
+            setTimeout(() => {
+                this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
+            }, 1000);
+
+
         }
+
 
 
     },
@@ -274,18 +320,15 @@ export default {
             });
 
 
-            $('#select-especialidades').select2({
-                placeholder: 'Seleccione (puede realizar busquedas)',
-                allowClear: true,
-                theme: "classic"
-            });
+
+
 
         },
         save() {
             if (this.validarCampos()) {
                 let fm = new FormData()
-                fm.append('archivo', this.file, this.file.name)
-                fm.append('id_ver_esp', this.datosArchivo.id_especialidad)
+
+                fm.append('id_ver_esp', this.datosArchivo.id_ver_esp)
                 fm.append('titulo', this.datosArchivo.titulo)
                 fm.append('resumen', this.datosArchivo.resumen)
                 fm.append('autor', this.datosArchivo.autor)
@@ -294,11 +337,22 @@ export default {
                 fm.append('sede', this.datosArchivo.sede)
                 fm.append('id_tipo', this.datosArchivo.id_tipo)
                 fm.append('id_categoria', this.datosArchivo.id_categoria)
-                fm.append('anio', this.datosArchivo.anio)
+                fm.append('anio', this.datosArchivo.anio_creacion)
+                fm.append('actualizar', true)
+                fm.append('id_archivo', this.datosArchivo.id_archivo)
 
-                //console.log(fm);
+                if (!this.editarArchivo) {
+                    fm.append('archivo', this.file, this.file.name)
+
+                    fm.append('actualizar', false)
+                }
+
+                $('#modalSpinner').modal('show');
+
+
                 axios.post(base_url + 'archivo/save', fm)
                     .then(res => {
+                        $('#modalSpinner').modal('hide');
                         if (!res.data.error) {
                             Swal.fire({
                                 position: 'top-end',
@@ -309,13 +363,18 @@ export default {
                             })
                             this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
                             this.file = null
-                            let drEvent = this.dropify
-                            drEvent = drEvent.data('dropify')
-                            drEvent.resetPreview()
-                            drEvent.clearElement()
-                            this.modalVistaPrevia = false
-                            $("#select-especialidades").empty();
-                            document.getElementById('documento').value = ''
+                            if (this.editarArchivo) {
+                                this.salir()
+                            } else {
+                                let drEvent = this.dropify
+                                drEvent = drEvent.data('dropify')
+                                drEvent.resetPreview()
+                                drEvent.clearElement()
+                                this.modalVistaPrevia = false
+                                $("#select-especialidades").empty();
+                                document.getElementById('documento').value = ''
+                            }
+
                         } else {
                             Swal.fire({
                                 position: 'top-end',
@@ -327,7 +386,14 @@ export default {
                         }
                     })
                     .catch(err => {
-                        console.error(err);
+                        $('#modalSpinner').modal('hide');
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, Intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     })
 
 
@@ -342,25 +408,35 @@ export default {
             axios.get(base_url + 'archivo/datosSelect')
                 .then(res => {
 
-                    this.listaEspecialidades = res.data.especialidades
+
+                    this.listaEspecialidades = res.data.especialidades.map((obj) => {
+                        var rObj = { id: obj.id_ver_esp, text: obj.especialidad + ' ' + obj.version };
+
+                        return rObj;
+                    });
+
+                    let def = { id: 0, text: 'Seleccione' }
+
+                    this.listaEspecialidades.unshift(def)
+
                     this.listaCategorias = res.data.categorias
                     this.listaTipos = res.data.tipos
+
                 })
                 .catch(err => {
                     console.error(err);
                 })
         },
         validarCampos() {
-            //this.file = document.getElementById('documento').files[0];
-            //console.log(this.file);
-            console.log(this.datosArchivo);
-            this.datosArchivo.id_especialidad = $('#select-especialidades').val();
-            if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio && this.file) {
+
+
+
+            if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
+                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio_creacion && this.file) {
                 return true;
             }
 
-            if (!this.datosArchivo.id_especialidad) {
+            if (!this.datosArchivo.id_ver_esp || this.datosArchivo == '') {
                 this.error.id_especialidad = true
 
             }
@@ -385,7 +461,7 @@ export default {
             if (!this.datosArchivo.sede) {
                 this.error.sede = true
             }
-            if (!this.datosArchivo.anio) {
+            if (!this.datosArchivo.anio_creacion) {
                 this.error.anio = true
             }
             if (!this.file) {
@@ -423,31 +499,26 @@ export default {
 
         },
         asignarEditar() {
-            console.log(this.stateEditarArchivo);
-            this.datosArchivo.id_archivo = this.stateEditarArchivo.id
-            this.datosArchivo.titulo = this.stateEditarArchivo.titulo
-            this.datosArchivo.tutor = this.stateEditarArchivo.tutor
-            this.datosArchivo.autor = this.stateEditarArchivo.autor
-            this.datosArchivo.id_archivo = this.stateEditarArchivo.id_archivo
-            this.datosArchivo.id_especialidad = this.stateEditarArchivo.id_ver_esp
-            this.datosArchivo.id_categoria = this.stateEditarArchivo.id_categoria
-            this.datosArchivo.id_tipo = this.stateEditarArchivo.id_tipo
-            this.datosArchivo.resumen = this.stateEditarArchivo.resumen
-            this.datosArchivo.sede = this.stateEditarArchivo.sede
-            this.datosArchivo.anio = this.stateEditarArchivo.anio
-            this.datosArchivo.archivo = this.stateEditarArchivo.nombre
-            this.especialidaSeleccionada = this.stateEditarArchivo.id_ver_esp
+
+            this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
+
         },
-        seleccionarEspecialidad() {
-            // $('#select-especialidades').val(2).trigger('change')
-            $("#select-especialidades").select2("val", '1')
-                //$('#select-especialidades').val(2).trigger('change.select2')
-            console.log('select aaasd' + $('#select-especialidades').val());
-        }
+
+        asignarTitulo() {
+            return this.editarArchivo ? 'Editar' : 'Publicar'
+        },
+        salir() {
+            this.setDefaultStateEditarArchivo(this.datosArchivoDefault)
+            this.$router.push('/archivos/listar')
+        },
+        ...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
+
 
     },
     computed: {
         ...Vuex.mapState(['stateEditarArchivo', 'editarArchivo'])
 
     },
+
+
 }
