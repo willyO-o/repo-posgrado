@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 30/03/2021 00:02:50
+ Date: 04/04/2021 19:02:47
 */
 
 
@@ -133,6 +133,11 @@ CREATE TABLE "public"."archivos" (
 -- Records of archivos
 -- ----------------------------
 INSERT INTO "public"."archivos" VALUES (1, 'DOCUMENTO', 11.99, 'PDF', '6062882cee16b.pdf', '6062882cee16b');
+INSERT INTO "public"."archivos" VALUES (8, 'DOCUMENTO', 2.51, 'PDF', '6067edbb0639b.pdf', '6067edbb0639b');
+INSERT INTO "public"."archivos" VALUES (9, 'DOCUMENTO', 0.57, 'PDF', '6067f77230ef5.pdf', '6067f77230ef5');
+INSERT INTO "public"."archivos" VALUES (10, 'DOCUMENTO', 0.22, 'PDF', '6067fc0a60cef.pdf', '6067fc0a60cef');
+INSERT INTO "public"."archivos" VALUES (11, 'DOCUMENTO', 0.66, 'PDF', '6067fc2e2d06d.pdf', '6067fc2e2d06d');
+INSERT INTO "public"."archivos" VALUES (12, 'DOCUMENTO', 16.60, 'PDF', '6067fd186cb68.pdf', '6067fd186cb68');
 
 -- ----------------------------
 -- Table structure for categorias
@@ -166,6 +171,8 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
 INSERT INTO "public"."especialidades" VALUES (1, 'MAESTRÍA EN INTERPRETACIÓN Y ARGUMENTACIÓN JURÍDICA GG');
+INSERT INTO "public"."especialidades" VALUES (6, 'ASDASD');
+INSERT INTO "public"."especialidades" VALUES (7, 'WWWWWW');
 
 -- ----------------------------
 -- Table structure for metadatos
@@ -191,7 +198,12 @@ CREATE TABLE "public"."metadatos" (
 -- ----------------------------
 -- Records of metadatos
 -- ----------------------------
-INSERT INTO "public"."metadatos" VALUES (1, 'AAAA', '2021-03-30', 2019, 'asdas dasdasdddddddddddddddd', 'ES', 'ASDASDASD', 1, 1, 1, 1, 'La Paz - El Alto', '2WWWW');
+INSERT INTO "public"."metadatos" VALUES (1, 'WILLY CHANA', '2021-03-30', 2021, 'hola papiiiiiii jajaja', 'ES', 'REDES NEURONALES PYTHON', 2, 1, 2, 3, 'Cochabamba', 'JOSE COLQUE');
+INSERT INTO "public"."metadatos" VALUES (8, 'WILLY CHANA ', '2021-04-03', 2020, 'Este proyecto se trata sobre programacion orientada a objetos ', 'ES', 'PROGRAMAXION ORIENTADA A OBJETOS ', 2, 8, 1, 2, 'La Paz - El Alto', 'JOSé ');
+INSERT INTO "public"."metadatos" VALUES (10, 'JUAN LIMACHI', '2021-04-03', 2020, 'Es un archivo css jaja', 'ES', 'CSS QUE MAMADA', 2, 10, 2, 1, 'La Paz - El Alto', '');
+INSERT INTO "public"."metadatos" VALUES (11, 'DDDD', '2021-04-03', 2016, 'Kksbdbd', 'ES', 'JSJDVDD', 2, 11, 2, 2, 'La Paz - El Alto', 'XDX');
+INSERT INTO "public"."metadatos" VALUES (9, 'Y9 SOY', '2021-04-03', 2005, 'sadasdasdasdasd jajsjsjs', 'ES', 'ALAVERGA', 2, 9, 1, 2, 'La Paz - El Alto', 'YO MISMOD');
+INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBB', '2021-04-03', 2015, 'Jejeje', 'ES', 'ARCHIVO REDES ', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKK');
 
 -- ----------------------------
 -- Table structure for roles
@@ -260,6 +272,8 @@ CREATE TABLE "public"."ver_esp" (
 -- ----------------------------
 INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
 INSERT INTO "public"."ver_esp" VALUES (1, 2, 1);
+INSERT INTO "public"."ver_esp" VALUES (6, 1, 6);
+INSERT INTO "public"."ver_esp" VALUES (7, 4, 7);
 
 -- ----------------------------
 -- Table structure for versiones
@@ -331,7 +345,7 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 2, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 13, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -345,14 +359,14 @@ SELECT setval('"public"."categorias_id_categoria_seq"', 4, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 6, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 8, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 2, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 13, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -380,7 +394,7 @@ SELECT setval('"public"."usuarios_id_usuario_seq"', 2, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 6, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 8, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -437,7 +451,7 @@ ALTER TABLE "public"."versiones" ADD CONSTRAINT "verisiones_pkey" PRIMARY KEY ("
 -- ----------------------------
 -- Foreign Keys structure for table metadatos
 -- ----------------------------
-ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_archivo_fkey" FOREIGN KEY ("id_archivo") REFERENCES "public"."archivos" ("id_archivo") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_archivo_fkey" FOREIGN KEY ("id_archivo") REFERENCES "public"."archivos" ("id_archivo") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_categoria_fkey" FOREIGN KEY ("id_categoria") REFERENCES "public"."categorias" ("id_categoria") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_tipo_fkey" FOREIGN KEY ("id_tipo") REFERENCES "public"."tipos" ("id_tipo") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."metadatos" ADD CONSTRAINT "metadatos_id_ver_esp_fkey" FOREIGN KEY ("id_ver_esp") REFERENCES "public"."ver_esp" ("id_ver_esp") ON DELETE NO ACTION ON UPDATE NO ACTION;
