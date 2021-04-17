@@ -21,6 +21,12 @@ class Archivo extends CI_Controller
 		echo json_encode($data);
 	}
 
+	public function listar()
+	{
+		$data['archivos'] = $this->archivo_model->get_archivos_public();
+		echo json_encode($data);
+	}
+
 	public function save()
 	{	
 

@@ -8,6 +8,16 @@ class Archivo_model extends CI_Model {
     {
         return $this->db->get('view_archivos')->result();    
     }
+	public function get_archivos_public()
+	{
+		$sql= 'SELECT id_archivo, nombre, titulo, autor, anio_creacion, substr(resumen, 1, 250) as resumen
+				FROM  archivos
+				JOIN metadatos 
+				USING(id_archivo)';
+		return $this->db->query($sql)->result();
+		 
+		
+	}
 
     public function get_archivo_id(int $id_archivo)
     {

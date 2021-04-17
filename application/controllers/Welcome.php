@@ -7,8 +7,12 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$data['consulta']=$this->db->get('roles')->result();
-		
-		
+		$this->load->view('layouts/publico/base_publico',$data);
+	}
+
+	public function admin()
+	{
+		$data['consulta']=$this->db->get('roles')->result();
 		$this->load->view('base',$data);
 	}
 }

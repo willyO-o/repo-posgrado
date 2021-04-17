@@ -131,40 +131,40 @@ export default {
                     
 				</div>	
 				<button type="button" class="btn btn-primary btn-block" @click="save()">Registrar</button>
-			</form>	
+				</form>	
 			</div>
 		</div>
         
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Vista Previa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe  type="aplication/pdf" id="vistaDocumento" width="100%" height="600rem"></iframe>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Vista Previa</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<iframe  type="aplication/pdf" id="vistaDocumento" width="100%" height="600rem"></iframe>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
         </div>
         <!--modal-->
-
-		<div class="modal fade" id="modalSpinner" aria-hidden="true" data-backdrop="static" >
-				<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal fade" id="modalSpinner" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm modal-dialog-centered">
 				<Spinner />
 				
 				<h1 class="text-white">Registrando...</h1>
-				</div>
 			</div>
-	</div>
+		</div>
+		
+	
     
 </div>
 	`,
@@ -259,6 +259,7 @@ export default {
         this.listarEspecialidades()
         this.generarAnios()
     },
+
     mounted() {
         this.fileDropy()
         if (this.editarArchivo) {
@@ -350,10 +351,16 @@ export default {
                 $('#modalSpinner').modal('show');
 
 
+
+
                 axios.post(base_url + 'archivo/save', fm)
                     .then(res => {
-                        $('#modalSpinner').modal('hide');
-                        if (!res.data.error) {
+                        setTimeout(() => {
+                            $('#modalSpinner').modal('hide');
+                        }, 1000);
+
+                        if (res.data.error == 0) {
+
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
@@ -364,7 +371,9 @@ export default {
                             this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
                             this.file = null
                             if (this.editarArchivo) {
-                                this.salir()
+                                setTimeout(() => {
+                                    this.salir()
+                                }, 1000);
                             } else {
                                 let drEvent = this.dropify
                                 drEvent = drEvent.data('dropify')
@@ -402,6 +411,7 @@ export default {
                 console.log("falta llenar");
             }
             //
+
         },
 
         listarEspecialidades() {
