@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 04/04/2021 19:02:47
+ Date: 18/04/2021 23:44:52
 */
 
 
@@ -138,6 +138,13 @@ INSERT INTO "public"."archivos" VALUES (9, 'DOCUMENTO', 0.57, 'PDF', '6067f77230
 INSERT INTO "public"."archivos" VALUES (10, 'DOCUMENTO', 0.22, 'PDF', '6067fc0a60cef.pdf', '6067fc0a60cef');
 INSERT INTO "public"."archivos" VALUES (11, 'DOCUMENTO', 0.66, 'PDF', '6067fc2e2d06d.pdf', '6067fc2e2d06d');
 INSERT INTO "public"."archivos" VALUES (12, 'DOCUMENTO', 16.60, 'PDF', '6067fd186cb68.pdf', '6067fd186cb68');
+INSERT INTO "public"."archivos" VALUES (13, 'DOCUMENTO', 0.71, 'PDF', '6078dedab0e33.pdf', '6078dedab0e33');
+INSERT INTO "public"."archivos" VALUES (14, 'DOCUMENTO', 0.04, 'PDF', '6078dff94f5c8.pdf', '6078dff94f5c8');
+INSERT INTO "public"."archivos" VALUES (15, 'DOCUMENTO', 0.04, 'PDF', '6078e0c19c0f4.pdf', '6078e0c19c0f4');
+INSERT INTO "public"."archivos" VALUES (16, 'DOCUMENTO', 0.04, 'PDF', '6078e16088927.pdf', '6078e16088927');
+INSERT INTO "public"."archivos" VALUES (18, 'DOCUMENTO', 0.04, 'PDF', '6078e4b4d0031.pdf', '6078e4b4d0031');
+INSERT INTO "public"."archivos" VALUES (20, 'DOCUMENTO', 0.26, 'PDF', '6078e66b19b16.pdf', '6078e66b19b16');
+INSERT INTO "public"."archivos" VALUES (21, 'DOCUMENTO', 0.04, 'PDF', '6078f58a917d6.pdf', '6078f58a917d6');
 
 -- ----------------------------
 -- Table structure for categorias
@@ -169,10 +176,11 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 -- Records of especialidades
 -- ----------------------------
-INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
 INSERT INTO "public"."especialidades" VALUES (1, 'MAESTRÍA EN INTERPRETACIÓN Y ARGUMENTACIÓN JURÍDICA GG');
-INSERT INTO "public"."especialidades" VALUES (6, 'ASDASD');
 INSERT INTO "public"."especialidades" VALUES (7, 'WWWWWW');
+INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
+INSERT INTO "public"."especialidades" VALUES (6, 'ASDASD');
+INSERT INTO "public"."especialidades" VALUES (8, 'ASDFFDDSSSSS');
 
 -- ----------------------------
 -- Table structure for metadatos
@@ -198,12 +206,18 @@ CREATE TABLE "public"."metadatos" (
 -- ----------------------------
 -- Records of metadatos
 -- ----------------------------
-INSERT INTO "public"."metadatos" VALUES (1, 'WILLY CHANA', '2021-03-30', 2021, 'hola papiiiiiii jajaja', 'ES', 'REDES NEURONALES PYTHON', 2, 1, 2, 3, 'Cochabamba', 'JOSE COLQUE');
-INSERT INTO "public"."metadatos" VALUES (8, 'WILLY CHANA ', '2021-04-03', 2020, 'Este proyecto se trata sobre programacion orientada a objetos ', 'ES', 'PROGRAMAXION ORIENTADA A OBJETOS ', 2, 8, 1, 2, 'La Paz - El Alto', 'JOSé ');
-INSERT INTO "public"."metadatos" VALUES (10, 'JUAN LIMACHI', '2021-04-03', 2020, 'Es un archivo css jaja', 'ES', 'CSS QUE MAMADA', 2, 10, 2, 1, 'La Paz - El Alto', '');
-INSERT INTO "public"."metadatos" VALUES (11, 'DDDD', '2021-04-03', 2016, 'Kksbdbd', 'ES', 'JSJDVDD', 2, 11, 2, 2, 'La Paz - El Alto', 'XDX');
-INSERT INTO "public"."metadatos" VALUES (9, 'Y9 SOY', '2021-04-03', 2005, 'sadasdasdasdasd jajsjsjs', 'ES', 'ALAVERGA', 2, 9, 1, 2, 'La Paz - El Alto', 'YO MISMOD');
-INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBB', '2021-04-03', 2015, 'Jejeje', 'ES', 'ARCHIVO REDES ', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKK');
+INSERT INTO "public"."metadatos" VALUES (14, 'ASDASDASDASD', '2021-04-16', 2020, 'Quas dolorum adipisci veritatis blanditiis nulla explicabo nam nisi totam error, laboriosam maxime sint velit minima suscipit similique ducimus ullam nihil repudiandae reprehenderit magnam voluptatem necessitatibus dicta aliquam! Minima, quas!Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'AAAAASDASD123123', 2, 14, 2, 1, 'La Paz - El Alto', 'ASD');
+INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBBASDASDASD', '2021-04-03', 2015, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ARCHIVO REDES  EEE', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKKAAAAAAAAAAAAA');
+INSERT INTO "public"."metadatos" VALUES (13, 'COMO EDTA QUE HACED', '2021-04-16', 2012, 'Ducimus distinctio ad quasi obcaecati natus alias harum expedita quaerat debitis iste quae, ut perspiciatis corrupti voluptate omnis autem doloribus officiis consequatur commodi minus necessitatibus quos! Velit magnam officia eius.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'LABO5', 1, 13, 1, 1, 'La Paz - El Alto', 'WWW');
+INSERT INTO "public"."metadatos" VALUES (10, 'JUAN LIMACHI', '2021-04-03', 2020, 'Impedit, accusamus praesentium distinctio quia reiciendis illo, facere odio inventore ullam, repellendus deleniti nulla cupiditate sapiente optio? Magni consectetur aspernatur fugiat ipsa atque dolore nam aliquid distinctio, vero a optio.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'CSS QUE MAMADA', 2, 10, 2, 1, 'La Paz - El Alto', '');
+INSERT INTO "public"."metadatos" VALUES (20, 'KKKK', '2021-04-16', 2010, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'HHHHHHHHHHHHHHHHHH', 2, 20, 2, 1, 'La Paz - El Alto', '');
+INSERT INTO "public"."metadatos" VALUES (18, '123123', '2021-04-16', 2009, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '112231232222', 2, 18, 2, 1, 'La Paz - El Alto', '123123');
+INSERT INTO "public"."metadatos" VALUES (16, '2123123', '2021-04-16', 2007, 'ssssqqqqqq1111Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ESTE SE MODIFICO', 2, 16, 1, 1, 'La Paz - El Alto', '123123');
+INSERT INTO "public"."metadatos" VALUES (1, 'WILLY CHANA', '2021-03-30', 2021, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laLorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.boriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'REDES NEURONALES PYTHON', 2, 1, 2, 3, 'Cochabamba', 'JOSE COLQUE');
+INSERT INTO "public"."metadatos" VALUES (15, '123123', '2021-04-16', 2010, 'Nihil id quo, ipsam repellat blanditiis sequi? Ad, cumque repellendus. Nostrum incidunt quasi eligendi cupiditate! Quidem, temporibus quo nisi dolorem facilis at quae, ea suscipit dolor sapiente saepe quos explicabo?Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '123123', 2, 15, 2, 2, 'La Paz - El Alto', '');
+INSERT INTO "public"."metadatos" VALUES (11, 'DDDD', '2021-04-03', 2016, 'Soluta sit aspernatur illo sed excepturi doloribus, exercitationem, provident laboriosam deleniti error, itaque nulla in eum laudantium eius ducimus nihil amet distinctio omnis recusandae repellat quidem facere consectetur. Praesentium, hic.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'JSJDVDDASSDASDASD', 2, 11, 2, 2, 'La Paz - El Alto', 'XDXAASDASD');
+INSERT INTO "public"."metadatos" VALUES (8, 'WILLY CHANA ', '2021-04-03', 2020, 'Delectus atque qui, eligendi, officia veritatis repellat illo totam consectetur voluptatem molestiae, optio architecto deleniti excepturi dolores aliquid. Fugiat maiores iure tempora vero explicabo aliquam non necessitatibus molestiae ex expedita?Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'PROGRAMAXION ORIENTADA A OBJETOS PROGRAMAXION ORIENTADA A OBJETOS  PROGRAMAXION ORIENTADA A OBJETOS  PROGRAMAXION ORIENTADA A OBJETOS ', 2, 8, 1, 2, 'La Paz - El Alto', 'JOSé ');
+INSERT INTO "public"."metadatos" VALUES (21, '1111111111111111111', '2021-04-16', 2006, 'a1111111111111111111111111111111Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '1111111111111111111111', 2, 21, 1, 1, 'La Paz - El Alto', '');
 
 -- ----------------------------
 -- Table structure for roles
@@ -270,10 +284,11 @@ CREATE TABLE "public"."ver_esp" (
 -- ----------------------------
 -- Records of ver_esp
 -- ----------------------------
-INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
 INSERT INTO "public"."ver_esp" VALUES (1, 2, 1);
-INSERT INTO "public"."ver_esp" VALUES (6, 1, 6);
 INSERT INTO "public"."ver_esp" VALUES (7, 4, 7);
+INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
+INSERT INTO "public"."ver_esp" VALUES (6, 1, 6);
+INSERT INTO "public"."ver_esp" VALUES (8, 4, 8);
 
 -- ----------------------------
 -- Table structure for versiones
@@ -345,7 +360,7 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 13, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 22, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -359,14 +374,14 @@ SELECT setval('"public"."categorias_id_categoria_seq"', 4, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 8, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 9, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 13, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 22, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -394,7 +409,7 @@ SELECT setval('"public"."usuarios_id_usuario_seq"', 2, false);
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 8, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 9, true);
 
 -- ----------------------------
 -- Alter sequences owned by
