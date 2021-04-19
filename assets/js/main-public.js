@@ -4,10 +4,9 @@ const Login = () =>
     import ('./publicComponents/login.js');
 const verDocumento = () =>
     import ('./publicComponents/verDocumento.js');
-// const subirArchivos = () =>
-//     import ('./publicComponents/subirArchivos.js');
-// const listarArchivos = () =>
-//     import ('./publicComponents/listarArchivos.js');
+const verDocumentoFull = () =>
+    import ('./publicComponents/verDocumentoFull.js');
+
 
 
 
@@ -23,6 +22,10 @@ const routes = [{
         path: '/document/:name',
         component: verDocumento
     },
+    {
+        path: '/document/full/:name',
+        component: verDocumentoFull
+    },
 
 ]
 
@@ -37,20 +40,21 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
     state: {
-        listadoDocumentos: [],
+        stateDocumento: {},
     },
     mutations: {
 
-        setListadoDocumentos(state, documentos) {
-            state.listadoDocumentos = documentos
+        setstateDocumento(state, documento) {
+            state.stateDocumento = documento
         },
 
-    }
+    },
+
 })
 
 //vue
 const app = new Vue({
     el: '#applicacion',
     router,
-    //store
+    store
 })

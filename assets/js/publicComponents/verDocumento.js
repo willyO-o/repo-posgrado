@@ -34,7 +34,8 @@ export default {
 							</li>
 							<li class="my-3 sidebar_list_item " >
 								<h3>Metadatos</h3>
-								Mostrar el registro completo del item
+								<router-link :to="'/document/full/'+documento.uuid"class="trans_200" >Mostrar el registro completo del item </router-link>
+								
 							</li>
 						</ul>
 					</div>
@@ -84,18 +85,21 @@ export default {
     },
     mounted() {
         this.getDocumento();
+		
     },
 
     methods: {
         getDocumento() {
-
-
             axios.get(this.url + 'archivo/getArchivoName/' + this.uuid)
                 .then(res => {
                     console.log(res.data.documento);
                     this.documento = res.data.documento
+
                 })
-        }
+        },
+
+
 
     },
+
 }
