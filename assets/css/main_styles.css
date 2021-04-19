@@ -881,7 +881,9 @@ section {
     padding-bottom: 117px;
 }
 
-.section_title {}
+.pointer:hover {
+    cursor: pointer;
+}
 
 .section_title h1 {
     display: block;

@@ -22,8 +22,18 @@ class Archivo extends CI_Controller
 	}
 
 	public function listar()
+	{	
+		$this->load->model('especialidad_model');
+		$data['especialidades']=$this->especialidad_model->get_especialidades();
+		$data['archivos'] = $this->archivo_model->get_archivos();
+		$data['categorias'] = $this->archivo_model->get_categorias();
+		$data['tipos'] = $this->archivo_model->get_tipos();
+		echo json_encode($data);
+	}
+
+	public function getArchivoName($uuid)
 	{
-		$data['archivos'] = $this->archivo_model->get_archivos_public();
+		$data['documento']=$this->archivo_model->get_view_archivo_uuid($uuid);
 		echo json_encode($data);
 	}
 
@@ -118,6 +128,45 @@ class Archivo extends CI_Controller
 
 
 		echo json_encode($data);
+	}
+
+	public function pdf($pdf='')
+	{
+		if ($pdf=='') {
+			redirect(base_url()."error404");
+			die();
+		}
+		$this->db->where('nombre', $pdf);
+		$this->db->from('archivos');
+		if(!$this->db->count_all_results()>0) {
+			redirect(base_url()."error404");
+			die();
+		}
+		
+		echo '<!DOCTYPE html>
+		<html lang="es">
+		<head>
+			<meta charset="UTF-8">
+			<title>Document</title>
+			<style>
+				body{
+					margin:0;
+					height:100vh;
+					background-color:#000;
+					
+				}
+				iframe{
+					border:none
+				}	
+			</style>
+		</head>
+		<body>
+			<iframe  type="aplication/pdf" src="'.base_url().'uploads/'.$pdf.'"  id="vistaDocumento" width="100%" height="100%"></iframe>
+		</body>
+		</html>
+		'
+		;
+		
 	}
 
 	public function delete()

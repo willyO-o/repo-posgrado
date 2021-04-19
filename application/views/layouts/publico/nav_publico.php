@@ -25,9 +25,9 @@
 		</nav>
 	</div>
 	<div class="header_side d-flex flex-row justify-content-center align-items-center">
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control " type="search" placeholder="Buscar" aria-label="Search">
-			<button class="btn btn-outline-dark my-2 my-sm-0" type="button"><i class="fas fa-search"></i></button>
+		<form class="form-inline my-2 my-lg-0 px-3">
+			<input class="form-control " type="search" placeholder="Buscar" aria-label="Search" style="max-width: 150px;">
+			<button class="btn btn-outline-dark my-2 my-sm-0 p-2" type="button"><i class="fas fa-search"></i></button>
 		</form>
 	</div>
 

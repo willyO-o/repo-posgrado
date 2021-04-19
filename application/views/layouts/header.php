@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     let base_url="<?= base_url()?>"
   </script>
 
-<link href="assets/plugins/datatables.net-bs4/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="<?=base_url()?>assets/plugins/datatables.net-bs4/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 <!-- Datatables extensions css -->
 <link href="<?=base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />

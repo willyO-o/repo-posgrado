@@ -25,6 +25,11 @@ class Archivo_model extends CI_Model {
         return $this->db->get('archivos')->row();
         
     }
+	public function get_view_archivo_uuid($uuid)
+	{
+		$this->db->where('uuid', $uuid);
+		return $this->db->get('view_archivos')->row();
+	}
 
     public function set_archivos($datos)
     {
@@ -60,6 +65,17 @@ class Archivo_model extends CI_Model {
         return $this->db->get('ver_esp')->row();
         
     }
+
+	//******************  categorias y tipos de  documentos***************
+
+	public function get_categorias()
+	{
+		return $this->db->get('categorias')->result();
+	}
+	public function get_tipos()
+	{
+		return $this->db->get('tipos')->result();
+	}
 
 
 }
