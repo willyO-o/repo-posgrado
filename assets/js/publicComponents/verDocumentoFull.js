@@ -57,7 +57,7 @@ export default {
                         </tr>
                         <tr>
                             <td> dc.description.abstract </td>
-                            <td> {{documento.resumen}} </td>
+                            <td class="text-resumen "> {{documento.resumen}} </td>
                             <td> {{documento.lenguaje}} </td>
                         </tr>
                         <tr>
@@ -131,7 +131,7 @@ export default {
     },
     mounted() {
         this.getDocumento();
-		
+
     },
 
     methods: {
@@ -144,7 +144,7 @@ export default {
                 })
         },
 
-	
+
 
     },
 

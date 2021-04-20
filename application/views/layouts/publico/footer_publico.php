@@ -33,6 +33,8 @@
 	<script src="<?= base_url() ?>assets/plugins/scrollTo/jquery.scrollTo.min.js"></script>
 	<script src="<?= base_url() ?>assets/plugins/easing/easing.js"></script>
 	<script src="<?= base_url() ?>assets/plugins/custom.js"></script>
+
+	<script src="<?= base_url() ?>assets/js/publicComponents/search.js"></script>
 	<script type="module" src="<?= base_url() ?>assets/js/main-public.js"> </script>
 
 </body>

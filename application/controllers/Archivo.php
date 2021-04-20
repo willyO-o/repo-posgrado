@@ -22,9 +22,9 @@ class Archivo extends CI_Controller
 	}
 
 	public function listar()
-	{	
+	{
 		$this->load->model('especialidad_model');
-		$data['especialidades']=$this->especialidad_model->get_especialidades();
+		$data['especialidades'] = $this->especialidad_model->get_especialidades();
 		$data['archivos'] = $this->archivo_model->get_archivos();
 		$data['categorias'] = $this->archivo_model->get_categorias();
 		$data['tipos'] = $this->archivo_model->get_tipos();
@@ -33,16 +33,16 @@ class Archivo extends CI_Controller
 
 	public function getArchivoName($uuid)
 	{
-		$data['documento']=$this->archivo_model->get_view_archivo_uuid($uuid);
+		$data['documento'] = $this->archivo_model->get_view_archivo_uuid($uuid);
 		echo json_encode($data);
 	}
 
 	public function save()
-	{	
+	{
 
-		if ($this->input->post('actualizar')=='true') {
+		if ($this->input->post('actualizar') == 'true') {
 
-			$id_archivo= $this->input->post('id_archivo');
+			$id_archivo = $this->input->post('id_archivo');
 			$metadata = array(
 				'autor' => strtoupper($this->input->post('autor')),
 				'anio_creacion' => $this->input->post('anio'),
@@ -54,15 +54,12 @@ class Archivo extends CI_Controller
 				'id_tipo' => $this->input->post('id_tipo'),
 				'id_ver_esp' => $this->input->post('id_ver_esp'),
 			);
-			if ($this->archivo_model->update_metadatos($metadata,$id_archivo)) {
+			if ($this->archivo_model->update_metadatos($metadata, $id_archivo)) {
 
 				$respuesta = array('error' => 0);
 			} else {
 				$respuesta = array('error' => 1);
 			}
-			
-
-
 		} else {
 
 			$uuid = uniqid();
@@ -130,19 +127,19 @@ class Archivo extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function pdf($pdf='')
+	public function pdf($pdf = '')
 	{
-		if ($pdf=='') {
-			redirect(base_url()."error404");
+		if ($pdf == '') {
+			redirect(base_url() . "error404");
 			die();
 		}
 		$this->db->where('nombre', $pdf);
 		$this->db->from('archivos');
-		if(!$this->db->count_all_results()>0) {
-			redirect(base_url()."error404");
+		if (!$this->db->count_all_results() > 0) {
+			redirect(base_url() . "error404");
 			die();
 		}
-		
+
 		echo '<!DOCTYPE html>
 		<html lang="es">
 		<head>
@@ -161,12 +158,10 @@ class Archivo extends CI_Controller
 			</style>
 		</head>
 		<body>
-			<iframe  type="aplication/pdf" src="'.base_url().'uploads/'.$pdf.'"  id="vistaDocumento" width="100%" height="100%"></iframe>
+			<iframe  type="aplication/pdf" src="' . base_url() . 'uploads/' . $pdf . '"  id="vistaDocumento" width="100%" height="100%"></iframe>
 		</body>
 		</html>
-		'
-		;
-		
+		';
 	}
 
 	public function delete()
@@ -183,6 +178,52 @@ class Archivo extends CI_Controller
 		} else {
 			$data['respuesta'] = 0;
 		}
+		echo json_encode($data);
+	}
+
+	public function search()
+	{
+		$search = $this->input->post('search');
+		$id_categoria = $this->input->post('id_categoria');
+		$anio = $this->input->post('anio');
+
+		// var_dump($this->input->post());die();
+		$sql = "SELECT * FROM view_archivos ";
+		if ($search != '') {
+			$palabra = explode(" ", $search);
+			$sql .= "	WHERE titulo ILIKE '%" . $palabra[0] . "%' OR resumen ILIKE '%" . $palabra[0] . "%' OR especialidad ILIKE '%" . $palabra[0] . "%' ";
+
+			for ($i = 1; $i < count($palabra); $i++) {
+				if (!empty($palabra[$i])) {
+					$sql .= " OR titulo ILIKE '%" . $palabra[$i] . "%' OR resumen ILIKE '%" . $palabra[$i] . "%' OR especialidad ILIKE '%" . $palabra[$i] . "%' ";
+				}
+			}
+			
+		}
+		if ($id_categoria != 0) {
+			$subconsulta="SELECT * FROM (".$sql.") consulta ";
+			$sql=$subconsulta;
+			$sql .=  " WHERE id_categoria=" . $id_categoria ;
+	
+		}
+		if ($anio != 0) {
+			if ($id_categoria==0) {
+				$subconsulta="SELECT * FROM (".$sql.") consulta ";
+				$sql=$subconsulta;
+				$sql .=  "WHERE anio_creacion=" . $anio ;
+			}else{
+				
+				$sql .=  " AND anio_creacion=" . $anio ;
+			}
+
+		}
+
+		//echo json_encode($sql);die();
+
+		$data['archivos'] = $this->archivo_model->get_busqueda($sql);
+
+		$data['categorias'] = $this->archivo_model->get_categorias();
+
 		echo json_encode($data);
 	}
 }

@@ -77,6 +77,11 @@ class Archivo_model extends CI_Model {
 		return $this->db->get('tipos')->result();
 	}
 
+	public function get_busqueda($sql)
+	{
+		return $this->db->query($sql)->result();
+	}
+
 
 }
 

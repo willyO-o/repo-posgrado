@@ -47,7 +47,7 @@ export default {
 							<h3 class="">Titulo</h3>
 							<p class="about_text">{{documento.titulo}}</p>
 							<h3 class="">Resumen</h3>
-							<p class="about_text">{{documento.resumen}}</p>
+							<p class="text-resumen" >{{documento.resumen}}</p>
 	
 							<ul class="sidebar_list">
 								<li class="my-3  " >
@@ -85,7 +85,7 @@ export default {
     },
     mounted() {
         this.getDocumento();
-		
+
     },
 
     methods: {

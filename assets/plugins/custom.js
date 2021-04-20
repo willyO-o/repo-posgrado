@@ -52,6 +52,7 @@ $(document).ready(function() {
 
     */
 
+
     function setHeader() {
         if (window.innerWidth < 992) {
             if ($(window).scrollTop() > 100) {

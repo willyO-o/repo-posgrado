@@ -6,7 +6,8 @@ const verDocumento = () =>
     import ('./publicComponents/verDocumento.js');
 const verDocumentoFull = () =>
     import ('./publicComponents/verDocumentoFull.js');
-
+const resultadosBusqueda = () =>
+    import ('./publicComponents/resultadosBusqueda.js');
 
 
 
@@ -26,6 +27,10 @@ const routes = [{
         path: '/document/full/:name',
         component: verDocumentoFull
     },
+    {
+        path: '/search',
+        component: resultadosBusqueda
+    },
 
 ]
 
@@ -41,11 +46,15 @@ const router = new VueRouter({
 const store = new Vuex.Store({
     state: {
         stateDocumento: {},
+        stateSearch: ''
     },
     mutations: {
 
         setstateDocumento(state, documento) {
             state.stateDocumento = documento
+        },
+        setStateSearch(state, search) {
+            state.stateSearch = search
         },
 
     },

@@ -5,6 +5,52 @@ export default {
 
 		<div class="row">
 			<div class="col-md-8">
+				<h1>Resultados de Busqueda</h1>
+				<div class="input-group my-2">
+					<div class="custom-file">
+						<input class="form-control" placeholder="Buscar" v-model="search">
+					</div>
+					<div class="input-group-append " >
+						<button class="btn btn-outline-secondary border" type="button" @click="generarBusqueda()"><i class="fas fa-search"></i></button>
+					</div>
+				</div>
+
+				<div id="accordion" class="mb-3">
+					<div class="card">
+						<div class="card-header p-0" id="headingOne">
+							
+							<div class="  accordion d-flex flex-row align-items-center " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" :class="{ active: accordion }" @click="accordion=!accordion">
+								Mostrar Filtros Avanzados
+							</div>
+						
+						</div>
+
+						<div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+							<div class="card-body ">
+								<div class="form-row mt-1">
+	
+								<div class="form-group col-md-6">
+								<label for="inputPassword4">Categoria</label>
+									<select id="inputState" class="form-control" v-model="categoria">
+										<option selected value="0">Todos</option>
+										<option v-for="row in listadoCategorias" :value="row.id_categoria"> {{row.categoria}}</option>
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+								<label for="inputPassword4">Año</label>
+									<select id="inputState" class="form-control" v-model="anio">
+										<option selected value="0">todos</option>
+										<option v-for="anio in listaAnios" >{{anio}}</option>
+									</select>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
 				<div class="mb-3" v-if="totalResultados()!=0">
 					mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados
 				</div>
@@ -61,8 +107,8 @@ export default {
 
 					<!-- especialidades -->
 					<div class="sidebar_section">
-						<Search></Search>
-						<div class="sidebar_section_title mt-4">
+
+						<div class="sidebar_section_title">
 							<h3>Areas</h3>
 						</div>
 						<ul class="sidebar_list">
@@ -118,6 +164,13 @@ export default {
             paginaActual: 1,
             inicio: 1,
             fin: 10,
+            accordion: false,
+            listaAnios: [],
+            categoria: 0,
+            anio: 0,
+
+            search: ''
+
 
 
 
@@ -126,6 +179,7 @@ export default {
     mounted() {
 
         this.cargarDocumentos()
+        this.generarAnios();
 
     },
 
@@ -164,20 +218,37 @@ export default {
         },
         cargarDocumentos() {
 
-            axios.get(this.url + 'archivo/listar')
+            let fm = new FormData()
+            fm.append('search', this.stateSearch)
+            fm.append('id_categoria', this.categoria)
+            fm.append('anio', this.anio)
+
+            axios.post(this.url + 'archivo/search', fm)
                 .then(res => {
-
-                    this.listadoDocumentos = res.data.archivos
-
-                    this.listadoDocumentosFiltrado = this.listadoDocumentos
-                    this.listadoEspecialidades = res.data.especialidades
+                    console.log(res)
                     this.listadoCategorias = res.data.categorias
-                    this.listadoTipos = res.data.tipos
+                    this.listadoDocumentos = res.data.archivos
+                    this.listadoDocumentosFiltrado = this.listadoDocumentos
                     this.getDataPagina(this.paginaActual)
                 })
                 .catch(err => {
                     console.error(err);
                 })
+
+            // axios.get(this.url + 'archivo/listar')
+            //     .then(res => {
+
+            //         this.listadoDocumentos = res.data.archivos
+
+            //         this.listadoDocumentosFiltrado = this.listadoDocumentos
+            //         this.listadoEspecialidades = res.data.especialidades
+            //         this.listadoCategorias = res.data.categorias
+            //         this.listadoTipos = res.data.tipos
+            //         this.getDataPagina(this.paginaActual)
+            //     })
+            //     .catch(err => {
+            //         console.error(err);
+            //     })
 
         },
         consultarDocumentosEspecialidad(id_especialidad) {
@@ -196,13 +267,28 @@ export default {
         listarTodo() {
             this.listadoDocumentosFiltrado = this.listadoDocumentos
             this.getDataPagina(1)
+        },
+        ...Vuex.mapMutations(['setStateSearch']),
+
+        generarAnios() {
+            let d = new Date();
+            let n = d.getFullYear();
+            let arr = []
+            for (let i = n; i >= 2008; i--) {
+                arr.push(i)
+            }
+            this.listaAnios = arr
+        },
+        generarBusqueda() {
+            this.setStateSearch(this.search)
+            this.cargarDocumentos()
         }
 
 
 
     },
     computed: {
-
+        ...Vuex.mapState(['stateSearch'])
 
     },
 }
