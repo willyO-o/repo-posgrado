@@ -92,11 +92,16 @@ export default {
         getDocumento() {
             axios.get(this.url + 'archivo/getArchivoName/' + this.uuid)
                 .then(res => {
-                    console.log(res.data.documento);
+                    
                     this.documento = res.data.documento
 
                 })
+				.catch(err => {
+                    console.error(err);
+                })
         },
+
+		
 
 
 

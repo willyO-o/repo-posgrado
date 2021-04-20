@@ -5,10 +5,10 @@ export default {
 
 		<div class="row">
 			<div class="col-md-8">
-				<h1>Resultados de Busqueda</h1>
+				<h1>Realizar Busquedas</h1>
 				<div class="input-group my-2">
 					<div class="custom-file">
-						<input class="form-control" placeholder="Buscar" v-model="search">
+						<input class="form-control" placeholder="Buscar" v-model="search" v-on:keyup.enter="generarBusqueda()" >
 					</div>
 					<div class="input-group-append " >
 						<button class="btn btn-outline-secondary border" type="button" @click="generarBusqueda()"><i class="fas fa-search"></i></button>
@@ -19,7 +19,7 @@ export default {
 					<div class="card">
 						<div class="card-header p-0" id="headingOne">
 							
-							<div class="  accordion d-flex flex-row align-items-center " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" :class="{ active: accordion }" @click="accordion=!accordion">
+							<div class="  accordion d-flex flex-row align-items-center " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" :class="{ active: accordion }" @click="estadoAcordeon()">
 								Mostrar Filtros Avanzados
 							</div>
 						
@@ -54,7 +54,7 @@ export default {
 				<div class="mb-3" v-if="totalResultados()!=0">
 					mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados
 				</div>
-				<h2 v-if="totalResultados()==0">No hay Archivos relacionados disponibles</h2>
+				<h2 v-if="totalResultados()==0">No hay Archivos que coinciden con la busqueda </h2>
 				<div class="row event_item"  v-for="row in datosPaginados">
 					<div class="col">
 						<div class="row d-flex flex-row align-items-end">
@@ -105,17 +105,6 @@ export default {
 			<div class="col-lg-4">
 				<div class="sidebar">
 
-					<!-- especialidades -->
-					<div class="sidebar_section">
-
-						<div class="sidebar_section_title">
-							<h3>Areas</h3>
-						</div>
-						<ul class="sidebar_list">
-							<li class="sidebar_list_item pointer"   v-for="row in listadoEspecialidades"  @click="consultarDocumentosEspecialidad(row.id_especialidad)"><a> {{row.especialidad}} </a></li>
-			
-						</ul>
-					</div>
 			
 						<!-- categorias -->
 					<div class="sidebar_section">
@@ -132,11 +121,11 @@ export default {
 			
 					<div class="sidebar_section">
 						<div class="sidebar_section_title">
-							<h3>Tipos de Documentos</h3>
+							<h3>Listar</h3>
 						</div>
 						<div class="tags d-flex flex-row flex-wrap">
-							<div class="tag pointer" v-for="row in listadoTipos" @click="consultarDocumentosTipo(row.id_tipo)"><a >{{row.tipo}}</a></div>
-							<div class="tag pointer" @click="listarTodo()"><a >Ver todos</a></div>
+							
+							<div class="tag pointer" @click="listarTodo()"><a >Listar todos</a></div>
 			
 						</div>
 
@@ -155,9 +144,9 @@ export default {
         return {
             listadoDocumentos: [],
             listadoDocumentosFiltrado: [],
-            listadoEspecialidades: [],
+            
             listadoCategorias: [],
-            listadoTipos: [],
+          
             url: base_url,
             elementosPagina: 10,
             datosPaginados: [],
@@ -225,7 +214,7 @@ export default {
 
             axios.post(this.url + 'archivo/search', fm)
                 .then(res => {
-                    console.log(res)
+                    
                     this.listadoCategorias = res.data.categorias
                     this.listadoDocumentos = res.data.archivos
                     this.listadoDocumentosFiltrado = this.listadoDocumentos
@@ -235,20 +224,6 @@ export default {
                     console.error(err);
                 })
 
-            // axios.get(this.url + 'archivo/listar')
-            //     .then(res => {
-
-            //         this.listadoDocumentos = res.data.archivos
-
-            //         this.listadoDocumentosFiltrado = this.listadoDocumentos
-            //         this.listadoEspecialidades = res.data.especialidades
-            //         this.listadoCategorias = res.data.categorias
-            //         this.listadoTipos = res.data.tipos
-            //         this.getDataPagina(this.paginaActual)
-            //     })
-            //     .catch(err => {
-            //         console.error(err);
-            //     })
 
         },
         consultarDocumentosEspecialidad(id_especialidad) {
@@ -265,8 +240,12 @@ export default {
             this.getDataPagina(1);
         },
         listarTodo() {
-            this.listadoDocumentosFiltrado = this.listadoDocumentos
-            this.getDataPagina(1)
+            this.search=''
+            this.setStateSearch(this.search)
+            this.anio=0
+            this.categoria=0
+            this.cargarDocumentos()
+
         },
         ...Vuex.mapMutations(['setStateSearch']),
 
@@ -282,6 +261,15 @@ export default {
         generarBusqueda() {
             this.setStateSearch(this.search)
             this.cargarDocumentos()
+            this.search=''
+        },
+        estadoAcordeon(){
+            this.accordion=!this.accordion
+            if (!this.accordion) {
+                
+                this.anio=0
+                this.categoria=0
+            }
         }
 
 
