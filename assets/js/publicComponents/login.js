@@ -1,19 +1,25 @@
 export default {
     template: //html
         `
-    <div class="event_items">
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
+    <div class="event_items ">
+    <div class="row justify-content-md-center rounded">
+        <div class="col-md-4 bg-light p-5 ">
             <h1> Login</h1>
             <hr>
-            <div class="newsletter_form">
+            <div class="newsletter_form ">
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="usuarioIncorrecto">
+					<strong>Error!:</strong> Usuario o Contraseña incorrectos.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Usuario</label>
-                    <input type="email" class="form-control newsletter_email border"  style="width:100%">
-                    <small id="emailHelp" class="form-text text-muted">Ingrese su usuario.</small>
+                    <label for="exampleInputEmail1"> <i class="fas fa-user"></i> Usuario</label>
+                    <input type="email" class="form-control newsletter_email border"  style="width:100%" :class="{'border-danger':errorUsuario}"  v-model="usuario">
+					<small  class="form-text  text-danger" v-if="errorUsuario">Ingrese su Usuario</small>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Password</label>
+                    <label for="exampleInputEmail1"><i class="fas fa-lock"></i> Password</label>
                     <input type="password" class="form-control newsletter_email border " :class="{'border-danger':errorPassword}" style="width:100%" v-model="password">
                     <small  class="form-text  text-danger" v-if="errorPassword">Ingrese su Password</small>
                 </div>
@@ -27,34 +33,49 @@ export default {
 
     data() {
         return {
-            errorPassword:false,
-            password:'',
-            usuario:'',
+            errorPassword: false,
+            errorUsuario: false,
+            usuarioIncorrecto: false,
+            password: '',
+            usuario: '',
+            url: base_url,
         }
     },
 
     methods: {
-        ingresar(){
-            
+        ingresar() {
+
             if (this.validar()) {
-                console.log('ingresandol...');
-            }else{
-                
+
+                let fm = new FormData()
+                fm.append('usuario', this.usuario)
+                fm.append('password', this.password)
+                axios.post(this.url + 'auth/login', fm)
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+                window.location.href = this.url + "welcome/admin"
             }
         },
-        validar(){
+        validar() {
             if (this.password && this.usuario) {
-                return false
+                return true
             }
             if (!this.password) {
-                this.errorPassword=true
+                this.errorPassword = true
             }
-
+            if (!this.usuario) {
+                this.errorUsuario = true
+            }
             setTimeout(() => {
-                this.errorPassword=false
+                this.errorPassword = false
+                this.errorUsuario = false
             }, 3500);
-            
-      
+
+
         }
     },
 }

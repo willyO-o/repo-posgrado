@@ -38,12 +38,13 @@ export default {
 					<h3 class="card-title">Listado de Especialidades</h3>
 					</div>
 						<div class="card-body">
-						<div class="table-responsive">
+						<!-- table-responsive-->
+						<div class="">
 						<table id="datatable-export" class="table table-striped">
 							<thead class="thead-light">
 								<tr>
 									<th>#</th>
-									<th style="width:5rem!important">Titulo</th>
+									<th style="width:50%!important">Titulo</th>
 									<th>Autor</th>
                                     <th>Acciones</th>
 								</tr>
