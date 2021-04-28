@@ -9,9 +9,5 @@ export default {
 		<div class="rect5"></div>
 	  </div>
 	`,
-    methods: {
-        sumar() {
-            this.contador = this.contador + 2
-        }
-    },
+
 }

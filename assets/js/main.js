@@ -1,7 +1,7 @@
 const Dashboard = () =>
     import ('./components/dashboard.js');
-const Card = () =>
-    import ('./components/card.js');
+const User = () =>
+    import ('./components/user.js');
 const Especialidades = () =>
     import ('./components/especialidades.js');
 const subirArchivos = () =>
@@ -17,7 +17,7 @@ const routes = [{
     },
     {
         path: '/users',
-        component: Card
+        component: User
     },
     {
         path: '/especialidades',
