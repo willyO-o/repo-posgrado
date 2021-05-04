@@ -52,7 +52,7 @@ export default {
 									<div class="invalid-feedback" v-if="error.confirmPassword"> {{error.msjConfirmPassword}} </div>
 								  </div>
 								  <div class="form-group">
-								  	<label for="password">Tipo de Usuario</label>
+								  	<label for="customRadio">Tipo de Usuario</label>
 									<div class="custom-control custom-radio">
 									<input type="radio" id="customRadio1" v-model="user.rol" value="1" class="custom-control-input" checked>
 									<label class="custom-control-label" for="customRadio1">Admin</label>
@@ -85,7 +85,7 @@ export default {
 					</div>
 					<div class="card-body">
 							<div class="table-responsive">
-								<table id="datatable-export" class="table table-striped">
+								<table id="table-users" class="table table-striped">
 									<thead class="thead-light">
 										<tr>
 											<th>#</th>
@@ -102,9 +102,9 @@ export default {
 											<td>{{index+1}}</td>
 											<td>{{usuario.usuario}}</td>
 											<td>{{usuario.nombre}}</td>
-											<td>{{usuario.apellido}}</td>
+											<td>{{usuario.apellido}} </td>
 											<td>
-												<button type="button" class="btn  btn-sm " @click="cambiarEstado(usuario)"  >
+												<button type="button" class="btn  btn-sm " @click="cambiarEstado(usuario)" :class="{'btn-success':usuario.estado==1,'btn-warning':usuario.estado==0}" >
 													{{ usuario.estado ? "activo":"inactivo" }}
 												</button>
 											</td>
@@ -115,7 +115,7 @@ export default {
 													@click="editarUsuario(usuario)">
 												<i class="ti-pencil"></i>
 												</button>
-												<button type="button" class="btn btn-danger btn-sm"   @click="confirm(usuario.id_especialidad)">
+												<button type="button" class="btn btn-danger btn-sm"   @click="confirm(usuario.id_usuario)">
 													<i class="ti-trash"></i>
 												</button>
 											
@@ -132,18 +132,20 @@ export default {
 				<div class="modal-dialog modal-dialog-centered modal-sm">
 					<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="modalConfimEliminarLabel">Eliminar Especialidad</h5>
+						<h5 class="modal-title" id="modalConfimEliminarLabel">{{tituloModal()}}</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						Esta Usted Seguro?
-						<p>Esta accion no se puede deshacer!</p>
+
+						{{mensajeModal()}}
+						
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-danger" @click="eliminar()">Confirmar</button>
+						<button v-if="accionEliminar" type="button" class="btn btn-danger" @click="eliminar()">Confirmar</button>
+						<button v-if="!accionEliminar" type="button" class="btn btn-info" @click="cambiarEstadoUsuario()">Cambiar Estado</button>
 					</div>
 					</div>
 				</div>
@@ -154,9 +156,21 @@ export default {
         return {
             listadoUsuarios: [],
             rol: 0,
-            editar: true,
+            editar: false,
+            accionEliminar: true,
             url: base_url,
+            datatable: null,
+            eliminar_id: 0,
+            estado_id: 0,
             user: {
+                usuario: '',
+                password: '',
+                nombre: '',
+                apellido: '',
+                rol: '2',
+                confirmPassword: '',
+            },
+            userDefault: {
                 usuario: '',
                 password: '',
                 nombre: '',
@@ -184,8 +198,12 @@ export default {
         getUsers() {
             axios.get(this.url + "user")
                 .then(res => {
-                    console.log(res)
+                    //console.log(res)
                     this.listadoUsuarios = res.data.usuarios
+                    setTimeout(() => {
+
+                        this.datatable = $("#table-users").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["excelHtml5", "pdfHtml5"] });
+                    }, 1000);
                 })
                 .catch(err => {
                     console.error(err);
@@ -194,26 +212,150 @@ export default {
         tituloUsuario() {
             return this.editar ? "Editar Usuario" : "Crear Nuevo Usuario"
         },
+        tituloModal() {
+            return this.accionEliminar ? "Eliminar Usuario" : "Cambiar Estado"
+        },
+        mensajeModal() {
+
+            return this.accionEliminar ? 'Esta Usted Seguro?. Esta accion no se puede deshacer!' : 'Desea Cambiar el Estado del usuario?'
+        },
         eliminar() {
+            let fm = new FormData();
+            fm.append('id_usuario', this.eliminar_id)
+            axios.post(this.url + 'user/delete', fm)
+                .then(res => {
+
+                    if (res.data.error == 0) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Usuario Eliminado',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        this.datatable.destroy();
+                        this.getUsers()
+                        this.eliminar_id = 0
+                        this.cerrarModaleliminar()
+
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        },
+        confirm(id) {
+            this.eliminar_id = id
+            this.accionEliminar = true
+            $('#modalConfimEliminar').modal('show')
 
         },
         mostrarModal() {
             $('#modal').modal('show')
         },
-        editarUsuario() {
+        cerrarModaleliminar() {
+            $('#modalConfimEliminar').modal('hide')
+        },
+        editarUsuario(usuario) {
+            this.editar = true
+            $('#modal').modal('show')
+            this.user = Object.assign({}, usuario)
+            this.user.rol = usuario.id_rol
+            this.user.password = ''
 
+        },
+        cambiarEstadoUsuario() {
+            let fm = new FormData()
+            fm.append('id_usuario', this.estado_id)
+            axios.post(this.url + 'user/estado', fm)
+                .then(res => {
+                    console.log(res)
+                    if (res.data.error == 0) {
+                        this.datatable.destroy();
+                        this.getUsers()
+                        this.estado_id = 0
+                        this.accionEliminar = true
+                        this.cerrarModaleliminar()
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         },
         ocultarModal() {
             $('#modal').modal('hide')
+            this.editar = false
         },
         save() {
             if (this.validate()) {
 
+                let fm = new FormData();
+                for (var key in this.user) {
+                    fm.append(key, this.user[key]);
+                }
+
+                axios.post(this.url + 'user/new', fm)
+                    .then(res => {
+
+                        switch (res.data.error) {
+                            case 0:
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Usuario creado',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.user = Object.assign({}, this.userDefault)
+                                this.datatable.destroy();
+                                this.getUsers()
+                                break;
+                            case 1:
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'El usuario ya existe!, intente con otro.',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                                break;
+                            case 2:
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Ocurrio un error, Intente de nuevo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
             } else {
 
             }
         },
+
         cambiarEstado(user) {
+            this.estado_id = user.id_usuario
+            this.accionEliminar = false
+            $('#modalConfimEliminar').modal('show')
 
         },
         validate() {

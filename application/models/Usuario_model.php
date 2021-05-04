@@ -9,6 +9,12 @@ class Usuario_model extends CI_Model {
         return $this->db->get('usuarios')->result();
         
     }
+	public function get_nombre_usuario($usuario)
+	{
+		$this->db->where('usuario', $usuario);
+		return $this->db->get('usuarios')->row();
+		
+	}
 
     public function get_usuario_id(int $id_user)
     {
@@ -35,10 +41,11 @@ class Usuario_model extends CI_Model {
         return $this->db->delete('usuarios');
         
     }
-    public function estado_usuario(int $id_user,int $estado)
+    public function estado_usuario(int $id_user)
     {
+		$this->db->set('estado', 'NOT estado', FALSE);
         $this->db->where('id_usuario', $id_user);
-        return $this->db->update('usuario', $estado);  
+        return $this->db->update('usuarios');  
     }
 }
 

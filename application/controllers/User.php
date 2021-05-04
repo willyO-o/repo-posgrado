@@ -20,26 +20,41 @@ class User extends CI_Controller
 	public function new()
 	{
 
+		$usuario = strtoupper($this->input->post('usuario'));
 
-		$password = password_hash("79515350", PASSWORD_DEFAULT, [12]);
-
-		$datos = array(
-			'usuario' => 'ctwilly1412',
-			'password' => $password,
-			'nombre' => "willy",
-			'apellido' => "chana",
-			'estado' => True,
-			'id_rol' => 1
-		);
-
-		$this->usuario_model->set_usuarios($datos);
+		if (!$this->usuario_model->get_nombre_usuario($usuario)) {
+			$password = $this->input->post('password');
+			$nombre = $this->input->post('nombre');
+			$apellido = $this->input->post('apellido');
+			$rol = $this->input->post('rol');
+			$password_hash = password_hash($password, PASSWORD_DEFAULT, [12]);
+			$datos = array(
+				'usuario' => $usuario,
+				'password' => $password_hash,
+				'nombre' => strtoupper($nombre),
+				'apellido' => strtoupper($apellido),
+				'estado' => True,
+				'id_rol' => $rol
+			);
+			$insertado = $this->usuario_model->set_usuarios($datos);
+			$respuesta['error'] = $insertado ? 0 : 2;
+		} else {
+			$respuesta['error'] = 1;
+		}
+		echo json_encode($respuesta);
 	}
-	public function show()
+
+	public function estado()
 	{
-	}
-	public function edit()
-	{
-		# code...
+		$id_usuario = $this->input->post('id_usuario');
+		$resultado = $this->usuario_model->estado_usuario($id_usuario);
+		if ($resultado) {
+			$respuesta['error'] = 0;
+		} else {
+			$respuesta['error'] = 1;
+		}
+
+		echo json_encode($respuesta);
 	}
 	public function update()
 	{
@@ -47,7 +62,14 @@ class User extends CI_Controller
 	}
 	public function delete()
 	{
-		# code...
+		$id_usuario = $this->input->post('id_usuario');
+		$resultado = $this->usuario_model->delete_usuario($id_usuario);
+		if ($resultado) {
+			$respuesta['error'] = 0;
+		} else {
+			$respuesta['error'] = 1;
+		}
+		echo json_encode($respuesta);
 	}
 }
 
