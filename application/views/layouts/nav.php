@@ -1,15 +1,12 @@
 <nav class="navbar navbar-expand fixed-top">
     <div class="navbar-brand d-none d-lg-block">
-        <a href="index.html"><img src="" alt="Klorofil Pro Logo" class="img-fluid logo" width="50"></a>
+        <a href="index.html"><img src="<?= base_url() ?>assets/img/logo-posgrado.png" alt="Klorofil Pro Logo" class="img-fluid logo" width="160" ></a>
     </div>
     <div class="container-fluid p-0">
         <button id="tour-fullwidth" type="button" class="btn btn-default btn-toggle-fullwidth"><i class="ti-menu"></i></button>
         <form class="form-inline search-form mr-auto d-none d-sm-block">
             <div class="input-group">
-                <input type="text" value="" class="form-control" placeholder="Search dashboard...">
-                <div class="input-group-append">
-                    <button type="button" class="btn"><i class="fa fa-search"></i></button>
-                </div>
+                
             </div>
         </form>
         <div id="navbar-menu">

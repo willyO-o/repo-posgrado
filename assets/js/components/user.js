@@ -41,16 +41,19 @@ export default {
 									<input id="usuario" class="form-control" v-model="user.usuario" placeholder="Ingrese Usuario" :class="{'is-invalid':error.usuario }">
 									<div class="invalid-feedback" v-if="error.usuario"> Por favor ingrese un nombre de usuario.</div>
 								  </div>
-								  <div class="form-group">
-								  	<label for="password">Password</label>
-									<input type="password" id="password" class="form-control" v-model="user.password" placeholder="Ingrese Password" :class="{'is-invalid':error.password }">
-									<div class="invalid-feedback" v-if="error.password"> {{error.msjPassword}}</div>
-								  </div>
-								  <div class="form-group">
-								  	<label for="confirmPassword">Confirmar Password</label>
-									<input type="password" id="confirmPassword" class="form-control" v-model="user.confirmPassword" placeholder="Confirmar password" :class="{'is-invalid':error.confirmPassword }">
-									<div class="invalid-feedback" v-if="error.confirmPassword"> {{error.msjConfirmPassword}} </div>
-								  </div>
+                                  <div v-if="updatePassword">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" id="password" class="form-control" v-model="user.password" placeholder="Ingrese Password" :class="{'is-invalid':error.password }">
+                                        <div class="invalid-feedback" v-if="error.password"> {{error.msjPassword}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword">Confirmar Password</label>
+                                        <input type="password" id="confirmPassword" class="form-control" v-model="user.confirmPassword" placeholder="Confirmar password" :class="{'is-invalid':error.confirmPassword }">
+                                        <div class="invalid-feedback" v-if="error.confirmPassword"> {{error.msjConfirmPassword}} </div>
+                                    </div>
+                                  </div>
+								  
 								  <div class="form-group">
 								  	<label for="customRadio">Tipo de Usuario</label>
 									<div class="custom-control custom-radio">
@@ -81,7 +84,7 @@ export default {
 		
 			<div class="card mb-5">
 					<div class="card-header">
-						<h3 class="card-title">Listado de Especialidades</h3>
+						<h3 class="card-title">Listado de Usuarios</h3>
 					</div>
 					<div class="card-body">
 							<div class="table-responsive">
@@ -162,6 +165,7 @@ export default {
             datatable: null,
             eliminar_id: 0,
             estado_id: 0,
+            updatePassword:false,
             user: {
                 usuario: '',
                 password: '',
@@ -260,6 +264,7 @@ export default {
         },
         mostrarModal() {
             $('#modal').modal('show')
+            this.updatePassword=true
         },
         cerrarModaleliminar() {
             $('#modalConfimEliminar').modal('hide')
@@ -270,6 +275,7 @@ export default {
             this.user = Object.assign({}, usuario)
             this.user.rol = usuario.id_rol
             this.user.password = ''
+            this.updatePassword=false
 
         },
         cambiarEstadoUsuario() {
