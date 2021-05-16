@@ -10,7 +10,7 @@
 				</li>
 
 				<li>
-					<router-link to="/users"><i class="ti-user"></i> <span class="title">User</span></router-link>
+					<router-link to="/users"><i class="ti-user"></i> <span class="title">Usuarios</span></router-link>
 				</li>
 				<li>
 					<router-link to="/especialidades"><i class="ti-widget"></i> <span class="title">Especialidades</span></router-link>

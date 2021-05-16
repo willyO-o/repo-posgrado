@@ -58,7 +58,18 @@ class User extends CI_Controller
 	}
 	public function update()
 	{
-		# code...
+
+
+		$password = $this->input->post('password');
+		$id_usuario = $this->input->post('id_usuario');
+		$password_hash = password_hash($password, PASSWORD_DEFAULT, [12]);
+		$datos = array(
+			'password' => $password_hash,
+		);
+		$insertado = $this->usuario_model->update_usuarios($datos, $id_usuario);
+		$respuesta['error'] = $insertado ? 0 : 1;
+
+		echo json_encode($respuesta);
 	}
 	public function delete()
 	{

@@ -7,11 +7,8 @@ export default {
             <h1> Login</h1>
             <hr>
             <div class="newsletter_form ">
-				<div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="usuarioIncorrecto">
+				<div class="alert alert-danger " role="alert" v-if="usuarioIncorrecto">
 					<strong>Error!:</strong> Usuario o Contraseña incorrectos.
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
                 <div class="form-group">
                     <label for="exampleInputEmail1"> <i class="fas fa-user"></i> Usuario</label>
@@ -52,12 +49,26 @@ export default {
                 fm.append('password', this.password)
                 axios.post(this.url + 'auth/login', fm)
                     .then(res => {
-                        console.log(res)
+
+                        if (!res.data.error) {
+                            window.location.replace(this.url + "admin");
+                        } else {
+                            this.usuarioIncorrecto = true
+                            setTimeout(() => {
+                                this.usuarioIncorrecto = false
+                            }, 3000);
+                        }
                     })
                     .catch(err => {
-                        console.error(err);
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     })
-                window.location.href = this.url + "welcome/admin"
+
             }
         },
         validar() {

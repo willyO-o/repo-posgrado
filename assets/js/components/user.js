@@ -25,24 +25,28 @@ export default {
 			
 							<div class="row">
 							  <div class="col-12">
-								
-								<div class="form-group">
-								  	<label for="nombre">Nombres</label>
-									<input  id="nombre" class="form-control" v-model="user.nombre" placeholder="Ingrese Nombres" :class="{'is-invalid':error.nombre }">
-									<div class="invalid-feedback" v-if="error.nombre"> Por favor ingrese un nombre.</div>
-								  </div>
-								  <div class="form-group">
-								  	<label for="apellido">Apellidos</label>
-									<input  id="apellido" class="form-control" v-model="user.apellido" placeholder="Ingrese Apellidos" :class="{'is-invalid':error.apellido }">
-									<div class="invalid-feedback" v-if="error.apellido"> Por favor ingrese apellidos.</div>
-								  </div>
-								  <div class="form-group">
-									<label for="usuario">Usuario</label>
-									<input id="usuario" class="form-control" v-model="user.usuario" placeholder="Ingrese Usuario" :class="{'is-invalid':error.usuario }">
-									<div class="invalid-feedback" v-if="error.usuario"> Por favor ingrese un nombre de usuario.</div>
-								  </div>
+									<div v-if="!updatePassword">
+										<label for="nombre">Usuario {{ usuarioEditar }}</label>
+									</div>
                                   <div v-if="updatePassword">
-                                    <div class="form-group">
+
+									<div class="form-group">
+										<label for="nombre">Nombres</label>
+										<input  id="nombre" class="form-control" v-model="user.nombre" placeholder="Ingrese Nombres" :class="{'is-invalid':error.nombre }">
+										<div class="invalid-feedback" v-if="error.nombre"> Por favor ingrese un nombre.</div>
+									</div>
+									<div class="form-group">
+										<label for="apellido">Apellidos</label>
+										<input  id="apellido" class="form-control" v-model="user.apellido" placeholder="Ingrese Apellidos" :class="{'is-invalid':error.apellido }">
+										<div class="invalid-feedback" v-if="error.apellido"> Por favor ingrese apellidos.</div>
+									</div>
+									<div class="form-group">
+										<label for="usuario">Usuario</label>
+										<input id="usuario" class="form-control" v-model="user.usuario" placeholder="Ingrese Usuario" :class="{'is-invalid':error.usuario }">
+										<div class="invalid-feedback" v-if="error.usuario"> Por favor ingrese un nombre de usuario.</div>
+									</div>
+                                  </div>
+								  <div class="form-group">
                                         <label for="password">Password</label>
                                         <input type="password" id="password" class="form-control" v-model="user.password" placeholder="Ingrese Password" :class="{'is-invalid':error.password }">
                                         <div class="invalid-feedback" v-if="error.password"> {{error.msjPassword}}</div>
@@ -52,19 +56,21 @@ export default {
                                         <input type="password" id="confirmPassword" class="form-control" v-model="user.confirmPassword" placeholder="Confirmar password" :class="{'is-invalid':error.confirmPassword }">
                                         <div class="invalid-feedback" v-if="error.confirmPassword"> {{error.msjConfirmPassword}} </div>
                                     </div>
-                                  </div>
 								  
-								  <div class="form-group">
-								  	<label for="customRadio">Tipo de Usuario</label>
-									<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio1" v-model="user.rol" value="1" class="custom-control-input" checked>
-									<label class="custom-control-label" for="customRadio1">Admin</label>
+									<div v-if="updatePassword">
+										 <div class="form-group">
+											<label for="customRadio">Tipo de Usuario</label>
+											<div class="custom-control custom-radio">
+												<input type="radio" id="customRadio1" v-model="user.rol" value="1" class="custom-control-input" checked>
+												<label class="custom-control-label" for="customRadio1">Admin</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" id="customRadio2" v-model="user.rol" value="2" class="custom-control-input">
+												<label class="custom-control-label" for="customRadio2">Publicador</label>
+											</div>
+										</div>
 									</div>
-									<div class="custom-control custom-radio">
-									<input type="radio" id="customRadio2" v-model="user.rol" value="2" class="custom-control-input">
-									<label class="custom-control-label" for="customRadio2">Publicador</label>
-									</div>
-								  </div>
+								 
 							  </div>
 
 					  		</div>
@@ -165,7 +171,7 @@ export default {
             datatable: null,
             eliminar_id: 0,
             estado_id: 0,
-            updatePassword:false,
+            updatePassword: false,
             user: {
                 usuario: '',
                 password: '',
@@ -192,7 +198,8 @@ export default {
                 msjPassword: '',
                 msjConfirmPassword: ''
 
-            }
+            },
+            usuarioEditar: '',
         }
     },
 
@@ -214,7 +221,7 @@ export default {
                 })
         },
         tituloUsuario() {
-            return this.editar ? "Editar Usuario" : "Crear Nuevo Usuario"
+            return this.editar ? "Cambiar Password de Usuario" : "Crear Nuevo Usuario"
         },
         tituloModal() {
             return this.accionEliminar ? "Eliminar Usuario" : "Cambiar Estado"
@@ -264,7 +271,7 @@ export default {
         },
         mostrarModal() {
             $('#modal').modal('show')
-            this.updatePassword=true
+            this.updatePassword = true
         },
         cerrarModaleliminar() {
             $('#modalConfimEliminar').modal('hide')
@@ -275,8 +282,8 @@ export default {
             this.user = Object.assign({}, usuario)
             this.user.rol = usuario.id_rol
             this.user.password = ''
-            this.updatePassword=false
-
+            this.updatePassword = false
+            this.usuarioEditar = usuario.usuario
         },
         cambiarEstadoUsuario() {
             let fm = new FormData()
@@ -299,6 +306,7 @@ export default {
         ocultarModal() {
             $('#modal').modal('hide')
             this.editar = false
+            this.user = Object.assign({}, this.userDefault)
         },
         save() {
             if (this.validate()) {
@@ -308,52 +316,95 @@ export default {
                     fm.append(key, this.user[key]);
                 }
 
-                axios.post(this.url + 'user/new', fm)
-                    .then(res => {
+                if (this.editar) {
+                    axios.post(this.url + 'user/update', fm)
+                        .then(res => {
 
-                        switch (res.data.error) {
-                            case 0:
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: 'Usuario creado',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                                this.user = Object.assign({}, this.userDefault)
-                                this.datatable.destroy();
-                                this.getUsers()
-                                break;
-                            case 1:
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: 'El usuario ya existe!, intente con otro.',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
+                            switch (res.data.error) {
+                                case 0:
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Contraseña de usuario Actualizada...',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    this.user = Object.assign({}, this.userDefault)
+                                    break;
+                                case 1:
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'error',
+                                        title: 'Ocurrio un error, intente de nuevo',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
 
-                                break;
-                            case 2:
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: 'Ocurrio un error, Intente de nuevo',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
+                                    break;
 
-                                break;
+                                default:
+                                    break;
+                            }
 
-                            default:
-                                break;
-                        }
+                        })
+                        .catch(err => {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Ocurrio un error, intente de nuevo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                } else {
+                    axios.post(this.url + 'user/new', fm)
+                        .then(res => {
 
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    })
-            } else {
+                            switch (res.data.error) {
+                                case 0:
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Usuario creado',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    this.user = Object.assign({}, this.userDefault)
+                                    this.datatable.destroy();
+                                    this.getUsers()
+                                    break;
+                                case 1:
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'error',
+                                        title: 'El usuario ya existe!, intente con otro.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+
+                                    break;
+                                case 2:
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'error',
+                                        title: 'Ocurrio un error, Intente de nuevo',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                }
+
+
 
             }
         },
