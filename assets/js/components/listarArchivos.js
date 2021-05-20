@@ -21,7 +21,7 @@ export default {
 						</div>
 						<div class="modal-body">
 
-							<ModalArchivo :detallesArchivo="detallesArchivo"></ModalArchivo>
+							<ModalArchivo :detallesArchivo="detallesArchivo" :verDocumento="verDoc"/>
 							
 						</div>
 						<div class="modal-footer">
@@ -108,6 +108,7 @@ export default {
             listaArchivos: [],
             modalEliminar: false,
             archivoEliminar: '',
+            verDoc:false,
             detallesArchivo: {
 
                 anio_creacion: 0,
@@ -172,6 +173,7 @@ export default {
         },
         ocultarModal() {
             $('#modal').modal('hide')
+            this.setStateVerDocumento(false)
         },
         limpiar() {
             this.idArchivo = 0
@@ -245,13 +247,17 @@ export default {
             this.$router.push('/archivos/subir')
 
         },
-        ...Vuex.mapMutations(['setStateEditarArchivo']),
+        ...Vuex.mapMutations(['setStateEditarArchivo','setStateVerDocumento']),
 
 
 
     },
     mounted() {
         this.datatab();
+
+    },
+    computed: {
+        ...Vuex.mapState(['verDocumento'])
 
     },
 

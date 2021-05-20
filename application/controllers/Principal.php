@@ -13,12 +13,12 @@ class Principal extends CI_Controller {
 	public function admin()
 	{
 		$this->load->library('session');
-		if (isset($this->session->id) && $this->session->login) {
+		// if (isset($this->session->id) && $this->session->login) {
 			$data['consulta']=$this->db->get('roles')->result();
 			$this->load->view('base',$data);
-		} else {
-			redirect(base_url());
-		}
+		// } else {
+		// 	redirect(base_url());
+		// }
 		
 		
 	}

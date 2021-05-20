@@ -147,7 +147,9 @@ export default {
 						</button>
 					</div>
 					<div class="modal-body">
-						<iframe  type="aplication/pdf" id="vistaDocumento" width="100%" height="600rem"></iframe>
+                        <div class="card card-profile">
+                            <iframe  :src="src"   width="100%" height="600rem"></iframe>
+                        </div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -175,6 +177,7 @@ export default {
             select2: null,
             file: null,
             arc: null,
+            src:'',
             modalVistaPrevia: false,
             listaEspecialidades: [],
             listaTipos: [],
@@ -267,7 +270,8 @@ export default {
             this.asignarEditar()
             this.modalVistaPrevia = true
             this.file = true
-            document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
+            this.src=base_url + 'uploads/' + this.datosArchivo.nombre
+            //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
             setTimeout(() => {
                 this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
             }, 1000);
@@ -299,7 +303,8 @@ export default {
                 this.error.errorfile = false
                 let doc = document.getElementById('documento').files[0]
                 let urldoc = URL.createObjectURL(doc);
-                document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
+                this.src=urldoc
+                //document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
                 this.modalVistaPrevia = true
             }
         },

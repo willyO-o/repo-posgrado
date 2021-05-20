@@ -1,38 +1,38 @@
 const Dashboard = () =>
-    import ('./components/dashboard.js');
+    import('./components/dashboard.js');
 const User = () =>
-    import ('./components/user.js');
+    import('./components/user.js');
 const Especialidades = () =>
-    import ('./components/especialidades.js');
+    import('./components/especialidades.js');
 const subirArchivos = () =>
-    import ('./components/subirArchivos.js');
+    import('./components/subirArchivos.js');
 const listarArchivos = () =>
-    import ('./components/listarArchivos.js');
+    import('./components/listarArchivos.js');
 
 
 
 const routes = [{
-        path: '/',
-        component: Dashboard
-    },
-    {
-        path: '/users',
-        component: User
-    },
-    {
-        path: '/especialidades',
-        component: Especialidades
-    },
-    {
-        path: '/archivos/subir',
-        component: subirArchivos,
+    path: '/',
+    component: Dashboard
+},
+{
+    path: '/users',
+    component: User
+},
+{
+    path: '/especialidades',
+    component: Especialidades
+},
+{
+    path: '/archivos/subir',
+    component: subirArchivos,
 
-    },
-    {
-        path: '/archivos/listar',
-        component: listarArchivos,
+},
+{
+    path: '/archivos/listar',
+    component: listarArchivos,
 
-    },
+},
 ]
 
 //router
@@ -46,6 +46,7 @@ const store = new Vuex.Store({
     state: {
         stateEditarArchivo: {},
         editarArchivo: false,
+        verDocumento: false,
 
     },
     mutations: {
@@ -56,7 +57,10 @@ const store = new Vuex.Store({
         setDefaultStateEditarArchivo(state, def) {
             state.editarArchivo = false
             state.stateEditarArchivo = Object.assign({}, def)
-        }
+        },
+        setStateVerDocumento(state, estado) {
+            state.verDocumento = estado
+        },
     }
 })
 

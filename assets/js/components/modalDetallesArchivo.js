@@ -129,7 +129,7 @@ export default {
 
     data() {
         return {
-            verDocumento: false,
+           
             imagenArchivo: base_url + 'assets/img/documento.png',
         }
     },
@@ -137,11 +137,13 @@ export default {
     methods: {
         mostrarDocumento() {
 
-            this.verDocumento = true;
+            //this.verDocumento = true;
+			this.setStateVerDocumento(true)
             this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre
         },
         ocultarDocumento() {
-            this.verDocumento = false;
+            //this.verDocumento = false;
+			this.setStateVerDocumento(false)
         },
         irEditar() {
 
@@ -150,8 +152,10 @@ export default {
             this.$router.push('/archivos/subir')
 
         },
-        ...Vuex.mapMutations(['setStateEditarArchivo']),
-
+        ...Vuex.mapMutations(['setStateEditarArchivo','setStateVerDocumento']),
+    },
+	computed: {
+        ...Vuex.mapState(['verDocumento'])
 
     },
 
