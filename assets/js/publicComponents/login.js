@@ -12,12 +12,12 @@ export default {
 				</div>
                 <div class="form-group">
                     <label for="exampleInputEmail1"> <i class="fas fa-user"></i> Usuario</label>
-                    <input type="email" class="form-control newsletter_email border"  style="width:100%" :class="{'border-danger':errorUsuario}"  v-model="usuario">
+                    <input type="email" class="form-control newsletter_email border"  style="width:100%" :class="{'border-danger':errorUsuario}"  v-model="usuario" @keyup.enter="ingresar()">
 					<small  class="form-text  text-danger" v-if="errorUsuario">Ingrese su Usuario</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" class="form-control newsletter_email border " :class="{'border-danger':errorPassword}" style="width:100%" v-model="password">
+                    <input type="password" class="form-control newsletter_email border " :class="{'border-danger':errorPassword}" style="width:100%" v-model="password" @keyup.enter="ingresar()">
                     <small  class="form-text  text-danger" v-if="errorPassword">Ingrese su Password</small>
                 </div>
                 <button  class="newsletter_submit_btn trans_300 " style="width:100%" @click="ingresar()">Ingresar</button>
