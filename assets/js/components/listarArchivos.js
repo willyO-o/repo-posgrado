@@ -6,9 +6,6 @@ export default {
 		<div class="mb-5">
 		<h1>Archivos</h1>
 		<!-- Button trigger modal -->
-        <router-link to="/archivos/subir"  class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Archivo</span></router-link>
-
-			<br/><br/>
 			<!-- Modal -->
 			<div class="modal fade" id="modal" aria-hidden="true" data-backdrop="static" >
 				<div class="modal-dialog modal-xl">
@@ -34,9 +31,10 @@ export default {
 
 		
 			<div class="card mb-5">
-				<div class="card-header">
-					<h3 class="card-title">Listado de Especialidades</h3>
-					</div>
+				<div class="card-header d-flex justify-content-between">
+					<h3 class="card-title mt-2">Listado de Especialidades</h3>
+					<router-link to="/archivos/subir"  class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Archivo</span></router-link>
+				</div>
 						<div class="card-body">
 						<!-- table-responsive-->
 						<div class="">
@@ -75,6 +73,7 @@ export default {
 				</div>
 			</div>
 	  </div>
+	  <br><br>
 
 	  <div class="modal fade" id="modalConfimEliminarArchivo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -108,7 +107,7 @@ export default {
             listaArchivos: [],
             modalEliminar: false,
             archivoEliminar: '',
-            verDoc:false,
+            verDoc: false,
             detallesArchivo: {
 
                 anio_creacion: 0,
@@ -189,7 +188,7 @@ export default {
         datatab() {
 
             setTimeout(() => {
-                this.datatable = $("#datatable-export").DataTable({ destroy: true, mdom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
+                this.datatable = $("#datatable-export").DataTable({ language: espaniol, destroy: true, mdom: "Bfrtip", buttons: ["print", "pdfHtml5"] });
             }, 1000);
 
         },
@@ -247,7 +246,7 @@ export default {
             this.$router.push('/archivos/subir')
 
         },
-        ...Vuex.mapMutations(['setStateEditarArchivo','setStateVerDocumento']),
+        ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
 
 
 

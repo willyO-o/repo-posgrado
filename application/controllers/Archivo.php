@@ -39,6 +39,7 @@ class Archivo extends CI_Controller
 
 	public function save()
 	{
+		$this->load->library('session');
 
 		if ($this->input->post('actualizar') == 'true') {
 
@@ -96,6 +97,7 @@ class Archivo extends CI_Controller
 						'id_tipo' => $this->input->post('id_tipo'),
 						'id_ver_esp' => $this->input->post('id_ver_esp'),
 						'id_archivo' => $id_archivo,
+						'id_usuario'=> $this->session->userdata('id'),
 					);
 					if ($this->archivo_model->set_metadatos($metadata)) {
 
@@ -157,8 +159,14 @@ class Archivo extends CI_Controller
 				}	
 			</style>
 		</head>
-		<body>
-			<iframe  type="aplication/pdf" src="' . base_url() . 'uploads/' . $pdf . '"  id="vistaDocumento" width="100%" height="100%"></iframe>
+		<body onload="disableContextMenu();" oncontextmenu="return false">
+			<iframe  id="pdf" src="' . base_url() . 'uploads/' . $pdf . '#toolbar=0"  id="vistaDocumento" width="100%" height="100%"></iframe>
+			<script type="text/javascript">
+			function disableContextMenu()
+  			{	
+				window.frames["pdf"].document.oncontextmenu = function(){ return false;};   
+			}
+			</script>
 		</body>
 		</html>
 		';

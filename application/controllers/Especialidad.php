@@ -1,24 +1,24 @@
-<?php 
+<?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Especialidad extends CI_Controller {
-    
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('especialidad_model');
+class Especialidad extends CI_Controller
+{
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('especialidad_model');
 		$this->request = json_decode(file_get_contents('php://input'));
-        
-    }
-    
-    public function index()
-    {
-        $data['versiones']=$this->especialidad_model->get_versiones();
-		$data['especialidades']=$this->especialidad_model->get_especialidades();
-		
+	}
+
+	public function index()
+	{
+		$data['versiones'] = $this->especialidad_model->get_versiones();
+		$data['especialidades'] = $this->especialidad_model->get_especialidades();
+
 		echo json_encode($data);
-    }
+	}
 
 	public function save()
 	{
@@ -26,19 +26,19 @@ class Especialidad extends CI_Controller {
 		// exit();
 
 		$datos = array(
-			'especialidad' => strtoupper($this->request->espec), 
+			'especialidad' => strtoupper($this->request->espec),
 		);
-		$id_version=$this->request->id_version; 
-		$id_especialidad=$this->especialidad_model->set_especialidad($datos);
+		$id_version = $this->request->id_version;
+		$id_especialidad = $this->especialidad_model->set_especialidad($datos);
 		if ($id_especialidad) {
-			$data = array('id_especialidad' =>  $id_especialidad, 'id_version'=> $id_version);
+			$data = array('id_especialidad' =>  $id_especialidad, 'id_version' => $id_version);
 			if ($this->especialidad_model->set_ver_esp($data)) {
-				$respuesta['respuesta']=true;
-			}else{
-				$respuesta['respuesta']=false;
-			}	
-		}else{
-			$respuesta['respuesta']=false;
+				$respuesta['respuesta'] = true;
+			} else {
+				$respuesta['respuesta'] = false;
+			}
+		} else {
+			$respuesta['respuesta'] = false;
 		}
 
 		echo json_encode($respuesta);
@@ -49,51 +49,78 @@ class Especialidad extends CI_Controller {
 		// echo json_encode($this->request);
 		// die();
 
-		$id_especialidad=$this->request->id;
+		$id_especialidad = $this->request->id;
 		$datos = array(
-			'especialidad' => strtoupper($this->request->espec), 
+			'especialidad' => strtoupper($this->request->espec),
 		);
-		$id_version=$this->request->id_version; 
-		$id_ver_esp=$this->request->id_ver_esp; 
+		$id_version = $this->request->id_version;
+		$id_ver_esp = $this->request->id_ver_esp;
 
 		if ($this->especialidad_model->update_especialidad($datos, $id_especialidad)) {
 
 			$data = array(
 				'id_especialidad' =>  $id_especialidad,
-				 'id_version'=> $id_version);
-			if ($this->especialidad_model->update_ver_esp($data,$id_ver_esp)) {
-				$respuesta['respuesta']=true;
-			}else{
-				$respuesta['respuesta']=false;
-			}	
-		}else{
-			$respuesta['respuesta']=false;
+				'id_version' => $id_version
+			);
+			if ($this->especialidad_model->update_ver_esp($data, $id_ver_esp)) {
+				$respuesta['respuesta'] = true;
+			} else {
+				$respuesta['respuesta'] = false;
+			}
+		} else {
+			$respuesta['respuesta'] = false;
 		}
 
 		echo json_encode($respuesta);
 	}
 
 	public function delete()
-	{	
-		$id_especialidad= $this->request->id_especialidad; 
-	
+	{
+		$id_especialidad = $this->request->id_especialidad;
+
 		if ($this->especialidad_model->delete_especialidad($id_especialidad)) {
-			$respuesta['respuesta']=true;
-		}else{
-			$respuesta['respuesta']=false;
+			$respuesta['respuesta'] = true;
+		} else {
+			$respuesta['respuesta'] = false;
 		}
 		echo json_encode($respuesta);
 	}
 
 
 	public function selectArchivo()
-    {
-        
-		$data['especialidades']=$this->especialidad_model->get_especialidades();
-		
-		echo json_encode($data);
-    }
+	{
 
+		$data['especialidades'] = $this->especialidad_model->get_especialidades();
+
+		echo json_encode($data);
+	}
+	//versiones
+	public function getVersiones()
+	{
+		$data['versiones'] = $this->especialidad_model->get_versiones();
+		echo json_encode($data);
+	}
+	public function registrarVersion()
+	{
+		$datos = array(
+			'version' => strtoupper($this->request->version),
+		);
+		$resultado = $this->especialidad_model->set_version($datos);
+		$respuesta['error'] = ($resultado) ? false : true;
+
+		echo json_encode($respuesta);
+	}
+	public function updateVersion()
+	{
+		$datos = array(
+			'version' => strtoupper($this->request->version),
+		);
+		$id_version=$this->request->id_version;
+		$resultado = $this->especialidad_model->update_version($datos,$id_version);
+		$respuesta['error'] = ($resultado) ? false : true;
+
+		echo json_encode($respuesta);
+	}
 }
 
 /* End of file Especialidad.php */

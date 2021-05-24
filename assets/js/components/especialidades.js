@@ -104,6 +104,98 @@ export default {
 					</div>
 	  		</div>
 
+			  
+			<h1>Versiones</h1>
+				<div class="card mb-5">
+				<div class="card-header d-flex justify-content-between">
+					<h2 class="card-title mt-2">Listado de Especialidades</h2>
+					<button type="button" class="btn btn-primary"   @click="mostrarModalVersion()">
+						Registar Nuevo
+					</button>
+				</div>
+				<div class="card-body">
+						<div class="table-responsive">
+							<table id="tabla-versiones" class="table table-striped">
+								<thead class="thead-light">
+									<tr>
+										<th>#</th>
+										<th>Version</th>
+										<th>Acciones</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of listaVersiones" :key="item.id_version">
+										<td>{{index+1}}</td>
+										<td>{{item.version}}</td>
+										<td>
+											<button type="button" class="btn btn-warning btn-sm"   
+												@click="editarVersionItem(item)">
+											<i class="ti-pencil"></i>
+											</button>
+											<button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_version)">
+												<i class="ti-trash"></i>
+											</button>
+										
+										</td>
+				
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+			</div>
+			  <!-- Modal -->
+			<div class="modal fade" id="modalVersion" aria-hidden="true" data-backdrop="static" >
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title">{{tituloVersion()}}</h5>
+					<button type="button" class="close" @click="ocultarModalVersion()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+					
+
+
+					<div class="container-fluid">
+					<!-- validation by Bootstrap -->
+		
+						<div class="row">
+						  <div class="col-12">
+							<form class="needs-validation">
+							  <div class="form-group">
+								<div class="mb-3">
+									<label for="versiones">Version</label>
+									<input class="form-control " :class="{'is-invalid':errorVersion}" id="versiones" placeholder="Ingrese la Version" v-model="version.version" required>
+									<div  class="invalid-feedback">
+                                        Por Favor rellene el campo
+                                    </div>
+								</div>
+								
+							  </div>
+
+							</form>
+						  </div>
+
+						  </div>
+				  <!-- end validation by Bootstrap -->
+				  </div>
+
+				  
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" @click="ocultarModalVersion()">Cerrar</button>
+					<button type="button" class="btn btn-primary"  @click="registrarVersion();">Registrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+	
+
+
 			  <div class="modal fade" id="modalConfimEliminar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-sm">
 					<div class="modal-content">
@@ -128,21 +220,26 @@ export default {
 
                 
 
-
+				<br><br>
               
 		</div>
 	
 	`,
     data() {
         return {
-            saludo: 'hola especialidad',
             contador: base_url,
-            datatable: null,
+            tablaEspecialidades: null,
             listaVersiones: null,
             listaEspecialidades: null,
             tituloEspecialidad: '',
             editar: false,
-
+            tablaVersiones: null,
+            url: base_url,
+            editarVersion: false,
+            version: {
+                version: '',
+                id_version: '',
+            },
             especialidad: {
                 id: 0,
                 espec: '',
@@ -157,6 +254,11 @@ export default {
                 version: '',
                 id_ver_esp: 0
             },
+            defaultVersion: {
+                version: '',
+                id_version: '',
+            },
+            errorVersion: false,
             hasError: false,
             validar: {
                 espe: ''
@@ -167,9 +269,7 @@ export default {
     created() {
 
         this.listar();
-
-
-
+        this.listarVersiones()
     },
 
     methods: {
@@ -195,12 +295,12 @@ export default {
                 this.especialidad = Object.assign({}, this.defaulEspecialidad)
             }
         },
-        async registrar() {
+        registrar() {
 
             if (this.validarCampos()) {
 
                 if (this.editar) {
-                    const res = await axios.post(base_url + "especialidad/update", this.especialidad)
+                    axios.post(base_url + "especialidad/update", this.especialidad)
                         .then(res => {
                             if (res.data.respuesta) {
                                 Swal.fire({
@@ -226,7 +326,7 @@ export default {
                             alert('error')
                         })
                 } else {
-                    const res = await axios.post(base_url + "especialidad/save", this.especialidad)
+                    axios.post(base_url + "especialidad/save", this.especialidad)
                         .then(res => {
                             if (res.data.respuesta) {
                                 Swal.fire({
@@ -279,13 +379,13 @@ export default {
             //this.articulos = res.data;
         },
         datatab() {
-            if (this.listaVersiones && this.listaEspecialidades) {
-                this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
-            } else {
-                setTimeout(() => {
-                    this.datatable = $("#datatable-export").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
-                }, 1000);
-            }
+
+            setTimeout(() => {
+                this.tablaEspecialidades = $("#datatable-export").DataTable({ language: espaniol, pageLength: 5, destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
+
+            }, 1000);
+
+
         },
         editarEspecialidad(item) {
             this.editar = true
@@ -306,11 +406,11 @@ export default {
             $('#modalConfimEliminar').modal('show')
             console.log(this.especialidad.id);
         },
-        async eliminar() {
+        eliminar() {
 
             let data = { id_especialidad: this.especialidad.id }
 
-            const res = await axios.post(base_url + "especialidad/delete", data)
+            axios.post(base_url + "especialidad/delete", data)
                 .then(res => {
                     if (res.data.respuesta) {
 
@@ -337,13 +437,140 @@ export default {
                     alert('error')
                 })
         },
+        listarVersiones() {
+            axios.get(this.url + 'especialidad/getVersiones')
+                .then(res => {
+                    this.listaVersiones = res.data.versiones
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        },
+        tituloVersion() {
+            return this.editarVersion ? "Editar Version" : "Crear Version"
+        },
+        mostrarModalVersion() {
+            $('#modalVersion').modal('show')
+            this.tituloVersion()
+        },
+        ocultarModalVersion() {
+            this.editarVersion = false
+            $('#modalVersion').modal('hide')
+            this.especialidad = Object.assign({}, this.defaulEspecialidad)
+        },
+        registrarVersion() {
+            if (this.validarVersion()) {
+                if (this.editarVersion) {
+                    axios.post(this.url + 'especialidad/updateVersion', this.version)
+                        .then(res => {
+                            console.log(res)
+                            if (!res.data.error) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Version Actualizada...',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.listarVersiones()
+                                this.version = Object.assign({}, this.defaultVersion)
+                                this.tablaVersiones.destroy()
+                                this.datatableVersion()
+                                this.ocultarModalVersion()
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Ocurrio un error, intente de nuevo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+
+                        })
+                        .catch(err => {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Ocurrio un error, intente de nuevo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+
+                } else {
+                    axios.post(this.url + 'especialidad/registrarVersion', this.version)
+                        .then(res => {
+                            console.log(res)
+                            if (!res.data.error) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Version Registrada...',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.listarVersiones()
+                                this.version = Object.assign({}, this.defaultVersion)
+                                this.tablaVersiones.destroy()
+                                this.datatableVersion()
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Ocurrio un error, intente de nuevo',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+
+                        })
+                        .catch(err => {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Ocurrio un error, intente de nuevo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                }
+            }
+        },
+        validarVersion() {
+            if (this.version.version) {
+                return true
+            }
+
+            if (!this.version.version) {
+                this.errorVersion = true
+            }
+
+            setTimeout(() => {
+                this.errorVersion = false
+            }, 3000);
+        },
+        editarVersionItem(item) {
+            this.editarVersion = true
+            this.version.version = item.version
+            this.version.id_version = item.id_version
+            this.mostrarModalVersion()
+        },
+        datatableVersion() {
+            setTimeout(() => {
+                this.tablaVersiones = $('#tabla-versiones').DataTable({ language: espaniol, pageLength: 5, bLengthChange: false });
+            }, 1000);
+
+        },
+
+
 
 
 
     },
     mounted() {
         this.datatab();
-
+        this.datatableVersion()
     },
 
 }

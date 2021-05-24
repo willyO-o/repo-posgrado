@@ -1,38 +1,45 @@
 const Dashboard = () =>
-    import('./components/dashboard.js');
+    import ('./components/dashboard.js');
 const User = () =>
-    import('./components/user.js');
+    import ('./components/user.js');
 const Especialidades = () =>
-    import('./components/especialidades.js');
+    import ('./components/especialidades.js');
 const subirArchivos = () =>
-    import('./components/subirArchivos.js');
+    import ('./components/subirArchivos.js');
 const listarArchivos = () =>
-    import('./components/listarArchivos.js');
+    import ('./components/listarArchivos.js');
+const page404 = () =>
+    import ('./components/page404.js');
+
 
 
 
 const routes = [{
-    path: '/',
-    component: Dashboard
-},
-{
-    path: '/users',
-    component: User
-},
-{
-    path: '/especialidades',
-    component: Especialidades
-},
-{
-    path: '/archivos/subir',
-    component: subirArchivos,
+        path: '/',
+        component: Dashboard
+    },
+    {
+        path: '/users',
+        component: User
+    },
+    {
+        path: '/especialidades',
+        component: Especialidades
+    },
+    {
+        path: '/archivos/subir',
+        component: subirArchivos,
 
-},
-{
-    path: '/archivos/listar',
-    component: listarArchivos,
+    },
+    {
+        path: '/archivos/listar',
+        component: listarArchivos,
 
-},
+    },
+    {
+        path: "*",
+        component: page404
+    }
 ]
 
 //router

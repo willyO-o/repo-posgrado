@@ -8,6 +8,8 @@ const verDocumentoFull = () =>
     import ('./publicComponents/verDocumentoFull.js');
 const resultadosBusqueda = () =>
     import ('./publicComponents/resultadosBusqueda.js');
+const page404 = () =>
+    import ('./components/page404.js');
 
 
 
@@ -31,12 +33,16 @@ const routes = [{
         path: '/search',
         component: resultadosBusqueda
     },
+    {
+        path: "/*",
+        component: page404
+    }
 
 ]
 
 //router
 const router = new VueRouter({
-    hashbang: false,
+    //hashbang: false,
     //mode: 'history',
     routes
 })

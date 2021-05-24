@@ -50,55 +50,61 @@ export default {
 
 				</div>
 
+				<div class="resultado-busquedas" >
 
-				<div class="mb-3" v-if="totalResultados()!=0">
-					mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados
-				</div>
-				<h2 v-if="totalResultados()==0">No hay Archivos que coinciden con la busqueda </h2>
-				<div class="row event_item"  v-for="row in datosPaginados">
-					<div class="col">
-						<div class="row d-flex flex-row align-items-end">
+					<div id="loader"  :class="{'display-none':!loader,'display-block':loader}"></div>
 
-							<div class="col-lg-3 order-lg-1 order-2">
-								<div class="event_date d-flex flex-column align-items-center justify-content-center" >
-									<div class="event_day" >
-										<router-link :to="'/document/'+row.uuid"class="trans_200" >
-											<img src="assets/img/documento.png"  width="100">
-										</router-link>
-			
-									</div>
-									
-								</div>
-							</div>
-			
-							<div class="col-lg-9 order-lg-2 order-3">
-								<div class="event_content">
-									<div class="event_name">
-										
-										<router-link :to="'/document/'+row.uuid"class="trans_200" >{{row.titulo}} </router-link>
-									</div>
-									<div class="event_location"> autor:  <b>{{row.autor}} </b> ({{row.anio_creacion}})</div>
-									<p> {{row.resumen.slice(0, 150)}}...</p>
-								</div>
-							</div>
+					<div  :class="{'display-none':loader,'display-block':!loader}"  class="animate-bottom">
 
+						<div class="mb-3" v-if="totalResultados()!=0">
+							mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados
 						</div>
-					</div>
-					<hr>
-				</div>
+						<h2 v-if="totalResultados()==0">No hay Archivos que coinciden con la busqueda </h2>
+						<div class="row event_item"  v-for="row in datosPaginados">
+							<div class="col">
+								<div class="row d-flex flex-row align-items-end">
+
+									<div class="col-lg-3 order-lg-1 order-2">
+										<div class="event_date d-flex flex-column align-items-center justify-content-center" >
+											<div class="event_day" >
+												<router-link :to="'/document/'+row.uuid"class="trans_200" >
+													<img src="assets/img/documento.png"  width="100">
+												</router-link>
+					
+											</div>
+											
+										</div>
+									</div>
+					
+									<div class="col-lg-9 order-lg-2 order-3">
+										<div class="event_content">
+											<div class="event_name">
+												
+												<router-link :to="'/document/'+row.uuid"class="trans_200" >{{row.titulo}} </router-link>
+											</div>
+											<div class="event_location"> autor:  <b>{{row.autor}} </b> ({{row.anio_creacion}})</div>
+											<p> {{row.resumen.slice(0, 150)}}...</p>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<hr>
+						</div>
 		
 
 				
-				
-					<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=0">
-						<ul>
-							<li class="text-center trans_200" @click="getPreviusPage()"><a><i class="fas fa-arrow-left"></i></a></li>
-							<li class=" text-center trans_200" v-for="pagina in totalPaginas()" @click="getDataPagina(pagina)" :class="isActive(pagina)"><a> {{pagina}} </a></li>
+					
+						<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=0">
+							<ul>
+								<li class="text-center trans_200" @click="getPreviusPage()"><a><i class="fas fa-arrow-left"></i></a></li>
+								<li class=" text-center trans_200" v-for="pagina in totalPaginas()" @click="getDataPagina(pagina)" :class="isActive(pagina)"><a> {{pagina}} </a></li>
 
-							<li class="text-center trans_200" @click="getNextPage()"><a><i class="fas fa-arrow-right"></i></a></li>
-						</ul>
+								<li class="text-center trans_200" @click="getNextPage()"><a><i class="fas fa-arrow-right"></i></a></li>
+							</ul>
+						</div>
 					</div>
-
+				</div>
 			</div>
 
 			<!-- sidebar -->
@@ -144,9 +150,9 @@ export default {
         return {
             listadoDocumentos: [],
             listadoDocumentosFiltrado: [],
-            
+
             listadoCategorias: [],
-          
+
             url: base_url,
             elementosPagina: 10,
             datosPaginados: [],
@@ -158,8 +164,8 @@ export default {
             categoria: 0,
             anio: 0,
 
-            search: ''
-
+            search: '',
+            loader: false,
 
 
 
@@ -184,6 +190,8 @@ export default {
             return this.paginaActual == nroPagina ? 'active' : ''
         },
         getDataPagina(nroPagina) {
+
+            this.loader = true
             this.paginaActual = nroPagina
             this.datosPaginados = []
             let inicio = (nroPagina * this.elementosPagina) - this.elementosPagina
@@ -191,6 +199,9 @@ export default {
             this.inicio = inicio + 1
             this.fin = (this.totalResultados() <= fin) ? this.totalResultados() : fin
             this.datosPaginados = this.listadoDocumentosFiltrado.slice(inicio, fin)
+            setTimeout(() => {
+                this.loader = false
+            }, 1500);
 
         },
         getPreviusPage() {
@@ -214,7 +225,7 @@ export default {
 
             axios.post(this.url + 'archivo/search', fm)
                 .then(res => {
-                    
+
                     this.listadoCategorias = res.data.categorias
                     this.listadoDocumentos = res.data.archivos
                     this.listadoDocumentosFiltrado = this.listadoDocumentos
@@ -240,10 +251,10 @@ export default {
             this.getDataPagina(1);
         },
         listarTodo() {
-            this.search=''
+            this.search = ''
             this.setStateSearch(this.search)
-            this.anio=0
-            this.categoria=0
+            this.anio = 0
+            this.categoria = 0
             this.cargarDocumentos()
 
         },
@@ -261,14 +272,14 @@ export default {
         generarBusqueda() {
             this.setStateSearch(this.search)
             this.cargarDocumentos()
-            this.search=''
+            this.search = ''
         },
-        estadoAcordeon(){
-            this.accordion=!this.accordion
+        estadoAcordeon() {
+            this.accordion = !this.accordion
             if (!this.accordion) {
-                
-                this.anio=0
-                this.categoria=0
+
+                this.anio = 0
+                this.categoria = 0
             }
         }
 

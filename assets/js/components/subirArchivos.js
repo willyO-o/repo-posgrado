@@ -10,13 +10,7 @@ export default {
 		<div class="card-header">{{ asignarTitulo() }} Tesis/Monografia</div>
 			<div class="card-body">
                 <form id="basic-form" method="post" novalidate>
-                    <div class="form-group">
-                        <label>Titulo</label>
-                            <div class="alert alert-danger" role="alert"  v-if="error.titulo" >
-									<b>Error:</b> Debe ingresar un Titulo
-							</div>
-                        <input type="text" class="form-control" required v-model="datosArchivo.titulo">
-                    </div>
+                   
 				<div class="row">
 					<div class="col-md-6 mb-2">
 						
@@ -31,46 +25,51 @@ export default {
 								<input type="file" class="dropify"  data-max-file-size="31M" 
 								data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
 							</div>
-                            <button type="button" class="btn btn-success" data-toggle="modal"
-							 data-target="#exampleModal" v-if="modalVistaPrevia">
-                                Vista previa
-                            </button>
+							<p>Vista previa</p>
+                            
 
+							<iframe  :src="src"   width="100%" height="600rem"></iframe>
 
 					</div>
 					<div class="col-md-6">
-							
+						<div class="form-group">
+							<label for="campotitulo">Titulo</label>
+								<div class="alert alert-danger" role="alert"  v-if="error.titulo" >
+										<b>Error:</b> Debe ingresar un Titulo
+								</div>
+							<textarea id="campotitulo" class="form-control" required v-model="datosArchivo.titulo" rows="3"></textarea>
+						</div>
                         <div class="form-group">
-                            <label>Autor</label>
+                            <label for="campoautor">Autor</label>
                             <div class="alert alert-danger" role="alert"  v-if="error.autor" >
 									<b>Error:</b> Debe ingresar un Autor
 							</div>
-                            <input type="text" class="form-control" required v-model="datosArchivo.autor">
+                            <input id="campoautor" class="form-control" required v-model="datosArchivo.autor">
                         </div>
                         <div class="form-group">
-                            <label>Tutor <small>(opcional, si amerita)</small></label>
-                            <input type="text" class="form-control" required v-model="datosArchivo.tutor">
+                            <label for="campotutor">Tutor <small>(opcional, si amerita)</small></label>
+                            <input id="campotutor" class="form-control" required v-model="datosArchivo.tutor">
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-							        <label for="sede">Sede</label>
+							        <label for="camposede">Sede</label>
                                     <div class="alert alert-danger" role="alert"  v-if="error.sede" >
                                             <b>Error:</b> Debe Seleccionar una sede
                                     </div>
-                                    <select class="custom-select" required id="sede" v-model="datosArchivo.sede" placeholder="Seleccione">
-                                        <option value="0" selected disabled>Seleccione </option>
+                                    <select class="custom-select" required id="camposede" v-model="datosArchivo.sede" placeholder="Seleccione">
+                                        <option value="" selected disabled>Seleccione </option>
                                         <option value="La Paz - El Alto">La Paz - El Alto</option>
                                         <option value="Cochabamba">Cochabamba</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-							        <label for="version">Tipo</label>
+							        <label for="campotipo">Tipo</label>
                                     <div class="alert alert-danger" role="alert"  v-if="error.id_tipo" >
                                             <b>Error:</b> Debe Seleccionar el tipo de documento
                                     </div>
-                                    <select class="custom-select" required id="version" v-model="datosArchivo.id_tipo">
-                                        <option value="0" selected disabled>Seleccione </option>
+                                    <select class="custom-select" required id="campotipo" v-model="datosArchivo.id_tipo">
+                                        <option value="" selected disabled>Seleccione </option>
                                         <option :value='tipo.id_tipo' v-for="tipo of listaTipos"> {{tipo.tipo}} </option>
                                     </select>
                                 </div>
@@ -78,20 +77,23 @@ export default {
 	
 						</div>
 						
+                        <div class="form-group">
+                            <label for="resumen">Resumen</label>
+                            <div class="alert alert-danger" role="alert"  v-if="error.resumen" >
+									<b>Error:</b> Debe ingresar un Resumen
+							</div>
+                            <textarea class="form-control"  rows="12" required v-model="datosArchivo.resumen" id="resumen"></textarea>
+                        </div>
+                    
+						<div class="form-group">
+							<label>Seleccione una Especialidad</label>
+							<div class="alert alert-danger" role="alert"  v-if="error.id_especialidad" >
+								<b>Error:</b> Debe seleccionar una especialidad
+							</div>
 
-					</div>
-                    <div class="col-md-6">
-                        <p>Seleccione una Especialidad</p>
-                        <div class="alert alert-danger" role="alert"  v-if="error.id_especialidad" >
-							<b>Error:</b> Debe seleccionar una especialidad
+							<Select2 :options="listaEspecialidades" v-model="datosArchivo.id_ver_esp"  class="form-control" />
+
 						</div>
-
-						<Select2 :options="listaEspecialidades" v-model="datosArchivo.id_ver_esp"  class="form-control" />
-
-						
-                    </div>
-
-                    <div class="col-md-6">
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-6">
@@ -100,7 +102,7 @@ export default {
 											<b>Error:</b> Debe seleccionar una Categoria
 									</div>
 									<select class="custom-select" required id="categoria"  v-model="datosArchivo.id_categoria">
-										<option value="0"  selected disabled>Seleccione </option>
+										<option value=""  selected disabled>Seleccione </option>
 										<option :value="categoria.id_categoria" v-for="categoria of listaCategorias"> {{categoria.categoria}} </option>
 									</select>
 								</div>
@@ -110,26 +112,25 @@ export default {
 											<b>Error:</b> Debe seleccionar un año de creacion
 									</div>
 									<select class="custom-select" required id="anio"  v-model="datosArchivo.anio_creacion">
-										<option value="0"  selected disabled>Seleccione </option>
+										<option value=""  selected disabled>Seleccione </option>
 										<option :value="anio" v-for="anio of listaAnios"> {{anio}} </option>
 									</select>
 								</div>
 							</div>
 
+
+					</div>
+                    
+
+                    <div class="col-md-6">
+						
 						</div>
 								
                     </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Resumen</label>
-                            <div class="alert alert-danger" role="alert"  v-if="error.resumen" >
-									<b>Error:</b> Debe ingresar un Resumen
-							</div>
-                            <textarea class="form-control"  rows="6" required v-model="datosArchivo.resumen"></textarea>
-                        </div>
-                    </div>
+                    
                     
 				</div>	
+				<br>
 				<button type="button" class="btn btn-primary btn-block" @click="save()">Registrar</button>
 				</form>	
 			</div>
@@ -137,26 +138,7 @@ export default {
         
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Vista Previa</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-                        <div class="card card-profile">
-                            <iframe  :src="src"   width="100%" height="600rem"></iframe>
-                        </div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-        </div>
+
         <!--modal-->
 		<div class="modal fade" id="modalSpinner" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm modal-dialog-centered">
@@ -177,7 +159,8 @@ export default {
             select2: null,
             file: null,
             arc: null,
-            src:'',
+            src: '',
+            inputDocumento: null,
             modalVistaPrevia: false,
             listaEspecialidades: [],
             listaTipos: [],
@@ -200,7 +183,7 @@ export default {
 
             datosArchivo: {
 
-                anio_creacion: 0,
+                anio_creacion: '',
                 autor: "",
                 categoria: "",
                 descripcion: "",
@@ -212,7 +195,7 @@ export default {
                 id_especialidad: '',
                 id_metadato: '',
                 id_tipo: '',
-                id_ver_esp: null,
+                id_ver_esp: '',
                 id_version: '',
                 lenguaje: '',
                 nombre: '',
@@ -227,7 +210,7 @@ export default {
 
             },
             datosArchivoDefault: {
-                anio_creacion: 0,
+                anio_creacion: '',
                 autor: "",
                 categoria: "",
                 descripcion: "",
@@ -270,8 +253,8 @@ export default {
             this.asignarEditar()
             this.modalVistaPrevia = true
             this.file = true
-            this.src=base_url + 'uploads/' + this.datosArchivo.nombre
-            //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
+            this.src = base_url + 'uploads/' + this.datosArchivo.nombre + '#toolbar=0'
+                //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
             setTimeout(() => {
                 this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
             }, 1000);
@@ -279,12 +262,22 @@ export default {
 
         }
 
+        setInterval(() => {
+            this.verificarInput()
+        }, 3000);
 
 
+        this.inputDocumento = document.getElementById('documento')
     },
 
     methods: {
 
+        verificarInput() {
+            console.log(this.inputDocumento.value);
+            if (!this.inputDocumento.value) {
+                this.src = ''
+            }
+        },
         archivoSubido(e) {
 
             let fileInput = document.getElementById('documento');
@@ -303,8 +296,8 @@ export default {
                 this.error.errorfile = false
                 let doc = document.getElementById('documento').files[0]
                 let urldoc = URL.createObjectURL(doc);
-                this.src=urldoc
-                //document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
+                this.src = urldoc + '#toolbar=0'
+                    //document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
                 this.modalVistaPrevia = true
             }
         },

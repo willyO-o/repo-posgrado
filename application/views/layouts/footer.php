@@ -3,7 +3,7 @@
 <!-- footer -->
 <footer class="mt-5">
   <div class="container-fluid fixed-bottom">
-    <p class="copyright">&copy; 2020 <a href="https://www.themeineed.com/" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+    <p class="copyright"> <a href="https://posgrado.upea.bo" target="_blank">Posgrado UPEA</a> &copy; 2021| Todos los Derechos Reservados.</p>
 
   </div>
 </footer>

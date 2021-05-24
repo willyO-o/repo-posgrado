@@ -213,7 +213,7 @@ export default {
                     this.listadoUsuarios = res.data.usuarios
                     setTimeout(() => {
 
-                        this.datatable = $("#table-users").DataTable({ destroy: true, dom: "Bfrtip", buttons: ["excelHtml5", "pdfHtml5"] });
+                        this.datatable = $("#table-users").DataTable({ language: espaniol, destroy: true, dom: "Bfrtip", buttons: ["excelHtml5", "pdfHtml5"] });
                     }, 1000);
                 })
                 .catch(err => {
