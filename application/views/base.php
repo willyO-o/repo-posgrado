@@ -1,10 +1,10 @@
-<?php $this->load->view('layouts/header'); ?>
+<?php $this->load->view('layouts/admin/header'); ?>
 <!-- NAVBAR -->
-<?php $this->load->view('layouts/nav'); ?>
+<?php $this->load->view('layouts/admin/nav'); ?>
 <!-- END NAVBAR -->
 
 <!-- LEFT SIDEBAR -->
-<?php $this->load->view('layouts/aside'); ?>
+<?php $this->load->view('layouts/admin/aside'); ?>
 <!-- END LEFT SIDEBAR -->
 
 <!-- MAIN -->
@@ -54,10 +54,10 @@
   <!-- END MAIN CONTENT -->
 
   <!-- RIGHT SIDEBAR -->
-  <?php $this->load->view('layouts/sidebar'); ?>
+  <?php $this->load->view('layouts/admin/sidebar'); ?>
   <!-- END RIGHT SIDEBAR -->
 
 </div>
 <!-- END MAIN -->
 
-<?php $this->load->view('layouts/footer'); ?>
+<?php $this->load->view('layouts/admin/footer'); ?>

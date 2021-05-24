@@ -17519,3 +17519,9 @@ body {
 
 
 /*# sourceMappingURL=app.min.css.map */
+
+.router-link-exact-active .router-link-active{
+	border-left-color: #0af;
+    background-color: transparent;
+    color: #0af;
+}

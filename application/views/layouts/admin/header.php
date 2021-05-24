@@ -46,5 +46,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- WRAPPER -->
   <div id="wrapper">
  
-
-    

@@ -121,6 +121,13 @@ class Especialidad extends CI_Controller
 
 		echo json_encode($respuesta);
 	}
+	public function deleteVersion()
+	{
+		$id_version=$this->request->id_version;
+		$resultado = $this->especialidad_model->delete_version($id_version);
+		$respuesta['error'] = ($resultado) ? false : true;
+		echo json_encode($respuesta);
+	}
 }
 
 /* End of file Especialidad.php */

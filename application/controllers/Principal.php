@@ -14,8 +14,10 @@ class Principal extends CI_Controller {
 	{
 		$this->load->library('session');
 		// if (isset($this->session->id) && $this->session->login) {
-			$data['consulta']=$this->db->get('roles')->result();
+			$data['usuario']=$this->session->userdata();
+
 			$this->load->view('base',$data);
+			
 		// } else {
 		// 	redirect(base_url());
 		// }

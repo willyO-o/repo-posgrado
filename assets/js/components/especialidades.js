@@ -132,9 +132,7 @@ export default {
 												@click="editarVersionItem(item)">
 											<i class="ti-pencil"></i>
 											</button>
-											<button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_version)">
-												<i class="ti-trash"></i>
-											</button>
+
 										
 										</td>
 				
@@ -434,7 +432,7 @@ export default {
                     }
 
                 }).catch(res => {
-                    alert('error')
+                    alert('error: Este item tiene archivos dependientes, no se puede eliminar')
                 })
         },
         listarVersiones() {
@@ -562,10 +560,6 @@ export default {
             }, 1000);
 
         },
-
-
-
-
 
     },
     mounted() {
