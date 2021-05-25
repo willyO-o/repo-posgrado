@@ -234,6 +234,18 @@ class Archivo extends CI_Controller
 
 		echo json_encode($data);
 	}
+
+	public function getEstadisticas()
+	{
+		$this->load->model('estadistica_model');
+		
+		$data['nroArchivos']=$this->estadistica_model->nroArchivos();
+		$data['nroEspecialidades']=$this->estadistica_model->nroEspecialidades();
+		$data['nroArchivosMes']=$this->estadistica_model->nroArchivosMes();
+
+		echo json_encode($data);
+		
+	}
 }
 
 /* End of file Archivo.php */

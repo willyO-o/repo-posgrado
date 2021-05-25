@@ -4,10 +4,6 @@ export default {
 		<div class="mb-5">
 		<h1>Usuarios</h1>
 		<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary"   @click="mostrarModal()">
-				Registar Nuevo
-			</button>
-			<br/><br/>
 			<!-- Modal -->
 			<div class="modal fade" id="modal" aria-hidden="true" data-backdrop="static" >
 				<div class="modal-dialog">
@@ -89,8 +85,11 @@ export default {
 
 		
 			<div class="card mb-5">
-					<div class="card-header">
+					<div class="card-header d-flex justify-content-between">
 						<h3 class="card-title">Listado de Usuarios</h3>
+						<button type="button" class="btn btn-primary"   @click="mostrarModal()">
+							Registar Nuevo
+						</button>
 					</div>
 					<div class="card-body">
 							<div class="table-responsive">
@@ -260,7 +259,8 @@ export default {
                     }
                 })
                 .catch(err => {
-                    console.error(err);
+
+                    alert('error:  El usuario no se puede eliminar porque tiene dependencias')
                 })
         },
         confirm(id) {
