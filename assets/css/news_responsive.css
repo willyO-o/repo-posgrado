@@ -44,7 +44,7 @@
 
 @media only screen and (max-width: 1380px) {
     .header {
-        width: 1200px;
+        width: 100%;
     }
     .header_content {
         width: calc(100% - 219px);
@@ -71,7 +71,7 @@
 
 @media only screen and (max-width: 1280px) {
     .header {
-        width: 90%;
+        width: 100%;
     }
     .header_content {
         width: 100%;
@@ -314,7 +314,7 @@
 @media only screen and (max-width: 479px) {
     .header {
         height: 60px;
-        top: 15px;
+
     }
 }
 

@@ -1,5 +1,5 @@
 <div id="applicacion">
-	<div id="sidebar-nav" class="sidebar">
+	<div id="sidebar-nav" class="sidebar ">
 		<nav>
 			<ul class="nav" id="sidebar-nav-menu">
 

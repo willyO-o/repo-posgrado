@@ -2,6 +2,9 @@ export default {
     template: //html
         `
 	<div class="">
+	<div class="alert alert-info text-center" role="alert" v-if="alerta">
+		<h3>Bienvenio <br> Panel de Inicio Repositorio Institucional, Direccion de Posgrado - UPEA</h3>
+	</div>
 	<div class="row">
 	  <div class="col-md-6">
 		<div class="widget widget-stat">
@@ -79,7 +82,7 @@ export default {
             cantidadEspecialidades: 0,
             cantidadArchivoMes: 0,
             url: base_url,
-
+			alerta:true,
 
 
         }
@@ -105,5 +108,10 @@ export default {
             return mesActual.toUpperCase()
         },
     },
+	mounted() {
+		setTimeout(() => {
+			this.alerta=false
+		}, 5000);
+	},
 
 }

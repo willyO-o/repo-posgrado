@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand fixed-top">
+<nav class="navbar navbar-expand fixed-top " style="background: #023887;opacity:.9">
     <div class="navbar-brand d-none d-lg-block">
         <a href="<?=base_url()?>"><img src="<?= base_url() ?>assets/img/logo-posgrado.png" alt="Klorofil Pro Logo" class="img-fluid logo" width="160" ></a>
     </div>
