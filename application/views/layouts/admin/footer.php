@@ -7,31 +7,13 @@
 
   </div>
 </footer>
-<!-- end footer -->
 
-<!-- DEMO PANEL -->
-<!-- for demo purpose only, you should remove it on your project directory -->
-<!-- <script type="text/javascript">
-  var toggleDemoPanel = function(e) {
-    e.preventDefault();
-
-    var panel = document.getElementById('demo-panel');
-    if (panel.className) panel.className = '';
-    else panel.className = 'active';
-  }
-</script>
-
-<div id="demo-panel">
-  <a href="#" onclick="toggleDemoPanel(event);"><i class="fa fa-cog fa-spin"></i></a>
-  <iframe src="demo-panel.html"></iframe>
-</div> -->
-<!-- END DEMO PANEL -->
 
 </div>
-</div>
+
 <!-- END WRAPPER -->
 	
-<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
 <script src="<?= base_url() ?>assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 
@@ -63,7 +45,7 @@
   <script src="<?= base_url()?>assets/plugins/select2/select2.min.js"></script>
 
   <script src="<?=base_url() ?>assets/plugins/dropify/js/dropify.min.js"></script>
-	<!-- <script src="<?= base_url()?>assets/js/forms-dragdropupload.init.min.js"></script> -->
+	
 	<script type="module" src="<?= base_url() ?>assets/js/main.js"> </script>
 
 

@@ -5,7 +5,7 @@
 		<!-- Logo -->
 		<div class="logo_container">
 			<div class="logo" style="width: 10rem;">
-				<img src="<?= base_url() ?>assets/img/logo-posgrado.png" alt="" width="100%">
+				<img src="<?= base_url() ?>assets/img/posgrado.png" alt="" width="100%">
 
 			</div>
 		</div>

@@ -2345,7 +2345,6 @@ ul.logged-user-menu>li>a i {
 }
 
 .sidebar {
-    margin-top: 13px;
     z-index: 9;
     border-right: 1px solid #e6e6e6
 }
@@ -2367,6 +2366,7 @@ ul.logged-user-menu>li>a i {
 }
 
 .sidebar .nav {
+    margin-top: 20px;
     margin-bottom: 5px
 }
 
@@ -17520,8 +17520,8 @@ body {
 
 /*# sourceMappingURL=app.min.css.map */
 
-.router-link-exact-active .router-link-active{
-	border-left-color: #0af;
+.router-link-exact-active .router-link-active {
+    border-left-color: #0af;
     background-color: transparent;
     color: #0af;
 }
