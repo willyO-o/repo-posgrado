@@ -82,6 +82,28 @@ class Archivo_model extends CI_Model {
 		return $this->db->query($sql)->result();
 	}
 
+	public function get_barras()
+	{
+		$sql="SELECT Mes,IFNULL(t,0) 'trancri',IFNULL(c,0) 'conso' FROM
+		(SELECT 1 as IdMes , 'Enero'     as Mes UNION
+		SELECT 2 as IdMes , 'Febrero'    as Mes UNION
+		SELECT 3 as IdMes , 'Marzo'      as Mes UNION
+		SELECT 4 as IdMes , 'Abril'      as Mes UNION
+		SELECT 5 as IdMes , 'Mayo'       as Mes UNION
+		SELECT 6 as IdMes , 'Junio'      as Mes UNION
+		SELECT 7 as IdMes , 'Julio'      as Mes UNION
+		SELECT 8 as IdMes , 'Agosto'     as Mes UNION
+		SELECT 9 as IdMes , 'Septiembre' as Mes UNION
+		SELECT 10 as IdMes, 'Octubre'    as Mes UNION
+		SELECT 11 as IdMes, 'Noviembre'  as Mes UNION
+		SELECT 12 as IdMes, 'Diciembre'  as Mes) TM
+		LEFT JOIN (SELECT month(fechReg) 'idMes', COUNT(*) 't' 
+					from boleta
+					GROUP BY idMes )TT USING(idMes)
+		LEFT JOIN (SELECT month(fechReg) 'idMes', COUNT(*) 'c' 
+					from boleta_consolidado
+					GROUP BY idMes )TC USING(idMes)";
+	}
 
 }
 

@@ -33,7 +33,7 @@
 
 
 
-    <div class="container-fluid">
+    <div class="container-fluid pb-5 mb-5">
       <!-- your content goes here -->
 
       <?php

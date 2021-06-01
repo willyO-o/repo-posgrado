@@ -1,10 +1,10 @@
 <div class="clearfix"></div>
 
 <!-- footer -->
-<footer class="mt-5">
-  <div class="container-fluid fixed-bottom">
+<footer class=" bg-white" style="width:calc(100% - 240px);margin-bottom: 0; z-index: 5;  ">
+  <div class="container-fluid d-flex justify-content-between">
+		<p class="copyright">Version 1.0.0</p>
     <p class="copyright"> <a href="https://posgrado.upea.bo" target="_blank">Posgrado UPEA</a> &copy; 2021| Todos los Derechos Reservados.</p>
-
   </div>
 </footer>
 
@@ -40,7 +40,10 @@
   <script src="<?= base_url() ?>assets/plugins/datatables.net-buttons-bs4/buttons.bootstrap4.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder/dataTables.colReorder.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/datatables.net-colreorder-bs4/colReorder.bootstrap4.min.js"></script>
-	<!-- <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script> -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+	<script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+
 
   <script src="<?= base_url()?>assets/plugins/select2/select2.min.js"></script>
 
@@ -48,13 +51,6 @@
 	
 	<script type="module" src="<?= base_url() ?>assets/js/main.js"> </script>
 
-
-
-
-
-	<script>
-	
-	</script>
 
 </body>
 
