@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : postgres13
+ Source Server         : posgress14
  Source Server Type    : PostgreSQL
  Source Server Version : 130001
  Source Host           : localhost:5432
@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 23/05/2021 22:21:44
+ Date: 01/06/2021 12:35:16
 */
 
 
@@ -184,8 +184,33 @@ INSERT INTO "public"."especialidades" VALUES (1, 'MAESTRÍA EN INTERPRETACIÓN Y
 INSERT INTO "public"."especialidades" VALUES (7, 'WWWWWW');
 INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
 INSERT INTO "public"."especialidades" VALUES (6, 'ASDASD');
-INSERT INTO "public"."especialidades" VALUES (8, 'ASDFFDDSSSSS');
-INSERT INTO "public"."especialidades" VALUES (10, 'RRRRRRRRR');
+INSERT INTO "public"."especialidades" VALUES (10, 'MAESTRIA 1');
+
+-- ----------------------------
+-- Table structure for meses
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."meses";
+CREATE TABLE "public"."meses" (
+  "id_mes" varchar(2) COLLATE "pg_catalog"."default" NOT NULL,
+  "mes" varchar(20) COLLATE "pg_catalog"."default" NOT NULL
+)
+;
+
+-- ----------------------------
+-- Records of meses
+-- ----------------------------
+INSERT INTO "public"."meses" VALUES ('01', 'Enero');
+INSERT INTO "public"."meses" VALUES ('02', 'Febrero');
+INSERT INTO "public"."meses" VALUES ('03', 'Marzo');
+INSERT INTO "public"."meses" VALUES ('04', 'Abril');
+INSERT INTO "public"."meses" VALUES ('05', 'Mayo');
+INSERT INTO "public"."meses" VALUES ('06', 'Junio');
+INSERT INTO "public"."meses" VALUES ('07', 'Julio');
+INSERT INTO "public"."meses" VALUES ('08', 'Agosto');
+INSERT INTO "public"."meses" VALUES ('09', 'Septiembre');
+INSERT INTO "public"."meses" VALUES ('10', 'Octubre');
+INSERT INTO "public"."meses" VALUES ('11', 'Noviembre');
+INSERT INTO "public"."meses" VALUES ('12', 'Diciembre');
 
 -- ----------------------------
 -- Table structure for metadatos
@@ -212,7 +237,6 @@ CREATE TABLE "public"."metadatos" (
 -- ----------------------------
 -- Records of metadatos
 -- ----------------------------
-INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBBASDASDASD', '2021-04-03', 2015, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ARCHIVO REDES  EEE', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKKAAAAAAAAAAAAA', 1);
 INSERT INTO "public"."metadatos" VALUES (13, 'COMO EDTA QUE HACED', '2021-04-16', 2012, 'Ducimus distinctio ad quasi obcaecati natus alias harum expedita quaerat debitis iste quae, ut perspiciatis corrupti voluptate omnis autem doloribus officiis consequatur commodi minus necessitatibus quos! Velit magnam officia eius.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'LABO5', 1, 13, 1, 1, 'La Paz - El Alto', 'WWW', 1);
 INSERT INTO "public"."metadatos" VALUES (10, 'JUAN LIMACHI', '2021-04-03', 2020, 'Impedit, accusamus praesentium distinctio quia reiciendis illo, facere odio inventore ullam, repellendus deleniti nulla cupiditate sapiente optio? Magni consectetur aspernatur fugiat ipsa atque dolore nam aliquid distinctio, vero a optio.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'CSS QUE MAMADA', 2, 10, 2, 1, 'La Paz - El Alto', '', 1);
 INSERT INTO "public"."metadatos" VALUES (20, 'KKKK', '2021-04-16', 2010, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'HHHHHHHHHHHHHHHHHH', 2, 20, 2, 1, 'La Paz - El Alto', '', 1);
@@ -289,6 +313,7 @@ pequeña cinta transportadora con contador de objetos y control a distancia por
 infrarrojo', 'ES', 'CINTA TRANSPORTADORA', 2, 25, 1, 1, 'La Paz - El Alto', 'ING. ELIAS ALI ALVAREZ', 1);
 INSERT INTO "public"."metadatos" VALUES (14, 'ASDASDASDASD', '2021-04-16', 2020, 'Quas dolorum adipisci veritatis blanditiis nulla explicabo nam nisi totam error, laboriosam maxime sint velit minima suscipit similique ducimus ullam nihil repudiandae reprehenderit magnam voluptatem necessitatibus dicta aliquam! Minima, quas!Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'AAAAASDASD123123', 2, 14, 2, 1, 'La Paz - El Alto', 'ASD', 1);
 INSERT INTO "public"."metadatos" VALUES (1, 'WILLY CHANA', '2021-03-30', 2021, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laLorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.boriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'REDES NEURONALES PYTHON', 2, 1, 2, 3, 'Cochabamba', 'JOSE COLQUE', 1);
+INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBBASDASDASD', '2021-02-02', 2015, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ARCHIVO REDES  EEE', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKKAAAAAAAAAAAAA', 1);
 
 -- ----------------------------
 -- Table structure for roles
@@ -342,9 +367,9 @@ CREATE TABLE "public"."usuarios" (
 -- ----------------------------
 -- Records of usuarios
 -- ----------------------------
-INSERT INTO "public"."usuarios" VALUES (4, 'CHJORGE1111', '$2y$10$XP3V0q4FjXb49EyxxCkGwO4V0NfJdKcHeWALAxTb/KvnhpyXsM2cS', 'JORGE', 'CHOQUE', 'f', 2);
-INSERT INTO "public"."usuarios" VALUES (2, 'CQMARCOS1111', '$2y$10$EHJYnZPMn./D.i6KorXXZege6Cw.7o.2iAIeCo3g4vv42Nk/mipLS', 'MARCOS', 'CHOQUE', 't', 2);
-INSERT INTO "public"."usuarios" VALUES (1, 'CTWILLY1412', '$2y$10$Ord5It5.KxtUcS/WULHLS.1KTVC1rKYGVsra2oPapJldJhUXa3NH2', 'willy', 'chana', 't', 1);
+INSERT INTO "public"."usuarios" VALUES (1, 'CTWILLY1412', '$2y$10$Ord5It5.KxtUcS/WULHLS.1KTVC1rKYGVsra2oPapJldJhUXa3NH2', 'WILLY', 'CHANA', 't', 1);
+INSERT INTO "public"."usuarios" VALUES (4, 'CHJORGE1111', '$2y$10$XP3V0q4FjXb49EyxxCkGwO4V0NfJdKcHeWALAxTb/KvnhpyXsM2cS', 'JORGE', 'CHOQUE', 't', 2);
+INSERT INTO "public"."usuarios" VALUES (2, 'CQMARCOS1111', '$2y$10$197Z96hhwqVyLh7QmgM6p.HMQ9CCvOjH.RbmFTdTgTmfDGZ/HMs2q', 'MARCOS', 'CHOQUE', 't', 2);
 
 -- ----------------------------
 -- Table structure for ver_esp
@@ -364,7 +389,6 @@ INSERT INTO "public"."ver_esp" VALUES (1, 2, 1);
 INSERT INTO "public"."ver_esp" VALUES (7, 4, 7);
 INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
 INSERT INTO "public"."ver_esp" VALUES (6, 1, 6);
-INSERT INTO "public"."ver_esp" VALUES (8, 4, 8);
 INSERT INTO "public"."ver_esp" VALUES (10, 1, 10);
 
 -- ----------------------------
@@ -389,11 +413,11 @@ INSERT INTO "public"."versiones" VALUES (6, 'SASD');
 INSERT INTO "public"."versiones" VALUES (8, 'GFFFF');
 INSERT INTO "public"."versiones" VALUES (9, 'ASDASD');
 INSERT INTO "public"."versiones" VALUES (10, 'ASSSSSSS');
-INSERT INTO "public"."versiones" VALUES (11, 'ZZZZZ');
-INSERT INTO "public"."versiones" VALUES (12, 'ASWQESSD');
 INSERT INTO "public"."versiones" VALUES (14, 'VERSION X');
 INSERT INTO "public"."versiones" VALUES (13, 'VERSION XI');
 INSERT INTO "public"."versiones" VALUES (7, 'VERSION IX');
+INSERT INTO "public"."versiones" VALUES (12, 'VERSION XXX');
+INSERT INTO "public"."versiones" VALUES (11, 'VERSION XXV');
 
 -- ----------------------------
 -- View structure for view_especialidades
@@ -447,63 +471,63 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 26, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 27, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 4, true);
+SELECT setval('"public"."categorias_id_categoria_seq"', 5, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 11, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 12, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 26, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 27, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."roles_id_rol_seq"
 OWNED BY "public"."roles"."id_rol";
-SELECT setval('"public"."roles_id_rol_seq"', 2, false);
+SELECT setval('"public"."roles_id_rol_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 5, true);
+SELECT setval('"public"."tipos_id_tipo_seq"', 6, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
 OWNED BY "public"."usuarios"."id_usuario";
-SELECT setval('"public"."usuarios_id_usuario_seq"', 6, true);
+SELECT setval('"public"."usuarios_id_usuario_seq"', 7, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 11, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 12, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."versiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 15, true);
+SELECT setval('"public"."verisiones_id_version_seq"', 16, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
@@ -519,6 +543,11 @@ ALTER TABLE "public"."categorias" ADD CONSTRAINT "categorias_pkey" PRIMARY KEY (
 -- Primary Key structure for table especialidades
 -- ----------------------------
 ALTER TABLE "public"."especialidades" ADD CONSTRAINT "especialidades_pkey" PRIMARY KEY ("id_especialidad");
+
+-- ----------------------------
+-- Primary Key structure for table meses
+-- ----------------------------
+ALTER TABLE "public"."meses" ADD CONSTRAINT "meses_pkey" PRIMARY KEY ("id_mes");
 
 -- ----------------------------
 -- Primary Key structure for table metadatos
