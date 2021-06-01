@@ -242,9 +242,19 @@ class Archivo extends CI_Controller
 		$data['nroArchivos']=$this->estadistica_model->nroArchivos();
 		$data['nroEspecialidades']=$this->estadistica_model->nroEspecialidades();
 		$data['nroArchivosMes']=$this->estadistica_model->nroArchivosMes();
+		$data['barras']=$this->estadistica_model->get_barra('2021');
 
 		echo json_encode($data);
 		
+	}
+
+	public function barras()
+	{
+		$this->load->model('estadistica_model');
+		$anio=date('Y');
+		$data['barras']=$this->estadistica_model->get_barra($anio);
+
+		echo json_encode($data);
 	}
 }
 
