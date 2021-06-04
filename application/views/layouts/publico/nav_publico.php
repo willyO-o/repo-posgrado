@@ -14,12 +14,20 @@
 		<nav class="main_nav_container">
 			<div class="main_nav">
 				<ul class="main_nav_list d-flex justify-content-start">
+
+					
 					<li class="main_nav_item ">
 						<router-link to="/"><i class="ti-export"></i> <span class="title">Inicio</span></router-link>
 					</li>
+					<?php if (isset($this->session->id) && $this->session->login) : ?>
+						<li class="main_nav_item ">
+							<a href="<?= base_url('admin#/') ?>"><i class="ti-export"></i> <span class="title">Administracion</span></a>
+						</li>
+					<?php else: ?>
 					<li class="main_nav_item">
 						<router-link to="/login"><i class="ti-export"></i> <span class="title">Login</span></router-link>
 					</li>
+					<?php endif ?>
 				</ul>
 			</div>
 		</nav>

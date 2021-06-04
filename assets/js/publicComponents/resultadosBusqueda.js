@@ -95,12 +95,13 @@ export default {
 
 				
 					
-						<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=0">
+						<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=1">
 							<ul>
-								<li class="text-center trans_200" @click="getPreviusPage()"><a><i class="fas fa-arrow-left"></i></a></li>
+								<li class="text-center trans_200" @click="getPreviusPage()" v-if="paginaActual!=1"><a><i class="fas fa-arrow-left"></i></a></li>
+
 								<li class=" text-center trans_200" v-for="pagina in totalPaginas()" @click="getDataPagina(pagina)" :class="isActive(pagina)"><a> {{pagina}} </a></li>
 
-								<li class="text-center trans_200" @click="getNextPage()"><a><i class="fas fa-arrow-right"></i></a></li>
+								<li class="text-center trans_200" @click="getNextPage()" v-if="paginaActual!=totalPaginas()"><a><i class="fas fa-arrow-right"></i></a></li>
 							</ul>
 						</div>
 					</div>

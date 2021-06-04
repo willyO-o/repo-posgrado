@@ -1,7 +1,7 @@
 <div class="clearfix"></div>
 
 <!-- footer -->
-<footer class=" bg-white" style="width:calc(100% - 240px);margin-bottom: 0; z-index: 5;  ">
+<footer class=" bg-white" >
   <div class="container-fluid d-flex justify-content-between">
 		<p class="copyright">Version 1.0.0</p>
     <p class="copyright"> <a href="https://posgrado.upea.bo" target="_blank">Posgrado UPEA</a> &copy; 2021| Todos los Derechos Reservados.</p>

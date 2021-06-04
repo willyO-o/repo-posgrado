@@ -4,7 +4,7 @@ Vue.component('Search', {
 	<div class="input-group ">
 		<input type="text" class="form-control" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2" v-model="search" @keyup.enter="buscar()" > 
 		<div class="input-group-append">
-			<button class="btn btn-outline-secondary border " type="button" @click="buscar()" ><i class="fas fa-search"></i></button>
+			<button class="btn btn-dark border " type="button" @click="buscar()" ><i class="fas fa-search"></i></button>
 		</div>
 	</div>
 	`,

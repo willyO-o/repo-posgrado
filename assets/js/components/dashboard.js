@@ -4,7 +4,7 @@ export default {
         `
 	<div class="mb-5">
 		<div class="alert alert-info text-center" role="alert" v-if="alerta">
-			<h3>Bienvenio <br> Panel de Inicio Repositorio Institucional, Direccion de Posgrado - UPEA</h3>
+			<h3>Bienvenido <br> Panel de Inicio Repositorio Institucional, Direccion de Posgrado - UPEA</h3>
 		</div>
 		<div class="row">
 		<div class="col-md-6">
@@ -31,12 +31,12 @@ export default {
 				<i class="fa fa-calendar icon-transparent-area custom-color-lightseagreen"></i>
 				</div>
 				<div class="media-body">
-				<span class="title">Documentos publicados este Mes ({{getMesActual()}}) </span>
-				<span class="value">{{cantidadArchivoMes}}</span>
+				<span class="title">Total de Especialidades Registradas </span>
+				<span class="value">{{cantidadEspecialidades}}</span>
 				</div>
 			</div>
 			<p class="footer text-primary"><i class="fa fa-arrow-right"></i> 
-			<router-link to="/archivos/listar">Ver mas...</router-link>
+			<router-link to="/especialidades">Ver mas...</router-link>
 			</p>
 			</div>
 		</div>
@@ -44,8 +44,16 @@ export default {
 		
 		</div>
 		<div style="" class="mb-5 card">
+			<div class="card-header bg-white d-flex justify-content-between">
+				<div>Grafica Documentos publicados por mes,  (año {{anio}}) </div>
+				<div>
+					<select class="form-control" v-model="anio" >
+						<option v-for="row in listadoAnios " :value="row.anios"> {{row.anios}} </option>
+					</select>
+				</div>
+			</div>
 			<div class="card-body">
-				<varChart/>
+				<varChart  :anio="anio"/>
 			</div>
 		</div>
   	</div>			
@@ -58,35 +66,32 @@ export default {
             cantidadArchivoMes: 0,
             url: base_url,
             alerta: true,
-
+            listadoAnios: [],
+            anio: '',
 
         }
     },
     created() {
+        this.anio = (new Date).getFullYear()
         this.getCantidades()
     },
     methods: {
         getCantidades() {
+
             axios.get(this.url + 'archivo/getEstadisticas')
                 .then(res => {
-                    console.log(res)
                     this.cantidadArchivos = res.data.nroArchivos
-                    this.cantidadArchivoMes = res.data.nroArchivosMes
                     this.cantidadEspecialidades = res.data.nroEspecialidades
+                    this.listadoAnios = res.data.anios
                 })
                 .catch(err => {
                     console.error(err);
                 })
         },
-        getMesActual() {
-            let mesActual = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(new Date());
-            return mesActual.toUpperCase()
-        },
+
     },
     mounted() {
-        setTimeout(() => {
-            this.alerta = false
-        }, 5000);
+
     },
 
 }

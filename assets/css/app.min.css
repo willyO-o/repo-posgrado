@@ -32,12 +32,17 @@ footer {
     padding-top: 15px;
     padding-bottom: 10px;
     background-color: #f5f6f9;
-    color: #a0aeba
+    color: #a0aeba;
+    width: calc(100% - 240px);
+    margin-bottom: 0;
+    z-index: 5;
+    position: fixed!important;
 }
 
 @media screen and (max-width:767px) {
     footer {
-        position: relative
+        position: relative;
+        width: 100%!important;
     }
 }
 
@@ -1479,7 +1484,7 @@ footer {
 }
 
 #wrapper {
-    overflow-x: hidden
+    /* overflow-x: hidden */
 }
 
 #wrapper .sidebar {
@@ -1501,7 +1506,8 @@ footer {
     position: relative;
     float: right;
     left: 0;
-    background-color: #f5f6f9
+    background-color: #f5f6f9;
+    min-height: 1550px!important;
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -2752,6 +2758,10 @@ ul.logged-user-menu>li>a i {
 
 .sidebar-widget {
     padding: 15px 25px
+}
+
+.heading-left {
+    margin-top: 15px;
 }
 
 .heading-border {
