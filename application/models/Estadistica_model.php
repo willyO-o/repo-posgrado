@@ -8,7 +8,7 @@ class Estadistica_model extends CI_Model {
 
 	public function nroArchivos()
 	{
-		$sql="SELECT COUNT(*) as nro FROM archivos";
+		$sql="SELECT COUNT(*) as nro FROM metadatos";
 		return $this->db->query($sql)->row()->nro;
 		
 	}

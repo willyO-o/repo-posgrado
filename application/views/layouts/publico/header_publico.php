@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <html lang="es">
 
 <head>
-	<title>Course</title>
+	<title>Repositorio Posgrado-UPEA</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Course Project">
