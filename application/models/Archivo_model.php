@@ -6,7 +6,7 @@ class Archivo_model extends CI_Model {
 
     public function get_archivos()
     {
-        return $this->db->get('view_archivos')->result();    
+        return $this->db->get('view_archivo')->result();    
     }
 	public function get_archivos_public()
 	{
@@ -28,7 +28,7 @@ class Archivo_model extends CI_Model {
 	public function get_view_archivo_uuid($uuid)
 	{
 		$this->db->where('uuid', $uuid);
-		return $this->db->get('view_archivos')->row();
+		return $this->db->get('view_archivo')->row();
 	}
 
     public function set_archivos($datos)

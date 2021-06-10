@@ -394,7 +394,6 @@ export default {
             this.especialidad.version = item.version
             this.especialidad.id_ver_esp = item.id_ver_esp
 
-            //console.log(this.especialidad)
             this.mostrarModal()
 
         },
@@ -402,7 +401,7 @@ export default {
             this.especialidad.id = idEs
 
             $('#modalConfimEliminar').modal('show')
-            console.log(this.especialidad.id);
+
         },
         eliminar() {
 
@@ -441,7 +440,7 @@ export default {
                     this.listaVersiones = res.data.versiones
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert("ocurrio un error: " + err);
                 })
         },
         tituloVersion() {
@@ -461,7 +460,7 @@ export default {
                 if (this.editarVersion) {
                     axios.post(this.url + 'especialidad/updateVersion', this.version)
                         .then(res => {
-                            console.log(res)
+
                             if (!res.data.error) {
                                 Swal.fire({
                                     position: 'top-end',
@@ -499,7 +498,7 @@ export default {
                 } else {
                     axios.post(this.url + 'especialidad/registrarVersion', this.version)
                         .then(res => {
-                            console.log(res)
+
                             if (!res.data.error) {
                                 Swal.fire({
                                     position: 'top-end',

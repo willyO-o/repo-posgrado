@@ -61,6 +61,9 @@ export default {
                                         <option value="" selected disabled>Seleccione </option>
                                         <option value="La Paz - El Alto">La Paz - El Alto</option>
                                         <option value="Cochabamba">Cochabamba</option>
+										<option value="Potosi">Potosi</option>
+										<option value="Sucre">Sucre</option>
+										<option value="Santa Cruz">Santa Cruz</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">

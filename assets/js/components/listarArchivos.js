@@ -237,7 +237,7 @@ export default {
                     }
 
                 }).catch(erro => {
-                    alert('error  la ptmrsss ' + erro)
+                    alert('error ! ' + erro)
                 })
         },
         irEditar() {

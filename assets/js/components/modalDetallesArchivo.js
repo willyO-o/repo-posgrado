@@ -105,6 +105,10 @@ export default {
 								<p>{{detallesArchivo.fecha_publicacion}} <span class="timestamp">Fecha de Publicacion</span></p>
 							</li>
 							<li>
+								<i class="fa fa-user activity-icon"></i>
+								<p>{{detallesArchivo.nombre_usuario+' '+detallesArchivo.apellido}} ({{detallesArchivo.usuario}}) <span class="timestamp">Usuario publicador</span></p>
+							</li>
+							<li>
 								<button class="btn btn-info" @click="mostrarDocumento()">Ver Documento</button>
 							</li>
 							</ul>
@@ -129,7 +133,7 @@ export default {
 
     data() {
         return {
-           
+
             imagenArchivo: base_url + 'assets/img/documento.png',
         }
     },
@@ -138,12 +142,12 @@ export default {
         mostrarDocumento() {
 
             //this.verDocumento = true;
-			this.setStateVerDocumento(true)
+            this.setStateVerDocumento(true)
             this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre
         },
         ocultarDocumento() {
             //this.verDocumento = false;
-			this.setStateVerDocumento(false)
+            this.setStateVerDocumento(false)
         },
         irEditar() {
 
@@ -152,9 +156,9 @@ export default {
             this.$router.push('/archivos/subir')
 
         },
-        ...Vuex.mapMutations(['setStateEditarArchivo','setStateVerDocumento']),
+        ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
     },
-	computed: {
+    computed: {
         ...Vuex.mapState(['verDocumento'])
 
     },
