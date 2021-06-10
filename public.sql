@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : posgress14
+ Source Server         : postgres13
  Source Server Type    : PostgreSQL
  Source Server Version : 130001
  Source Host           : localhost:5432
@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 01/06/2021 12:35:16
+ Date: 10/06/2021 00:12:06
 */
 
 
@@ -132,23 +132,11 @@ CREATE TABLE "public"."archivos" (
 -- ----------------------------
 -- Records of archivos
 -- ----------------------------
-INSERT INTO "public"."archivos" VALUES (1, 'DOCUMENTO', 11.99, 'PDF', '6062882cee16b.pdf', '6062882cee16b');
-INSERT INTO "public"."archivos" VALUES (8, 'DOCUMENTO', 2.51, 'PDF', '6067edbb0639b.pdf', '6067edbb0639b');
 INSERT INTO "public"."archivos" VALUES (9, 'DOCUMENTO', 0.57, 'PDF', '6067f77230ef5.pdf', '6067f77230ef5');
-INSERT INTO "public"."archivos" VALUES (10, 'DOCUMENTO', 0.22, 'PDF', '6067fc0a60cef.pdf', '6067fc0a60cef');
-INSERT INTO "public"."archivos" VALUES (11, 'DOCUMENTO', 0.66, 'PDF', '6067fc2e2d06d.pdf', '6067fc2e2d06d');
-INSERT INTO "public"."archivos" VALUES (12, 'DOCUMENTO', 16.60, 'PDF', '6067fd186cb68.pdf', '6067fd186cb68');
-INSERT INTO "public"."archivos" VALUES (13, 'DOCUMENTO', 0.71, 'PDF', '6078dedab0e33.pdf', '6078dedab0e33');
-INSERT INTO "public"."archivos" VALUES (14, 'DOCUMENTO', 0.04, 'PDF', '6078dff94f5c8.pdf', '6078dff94f5c8');
-INSERT INTO "public"."archivos" VALUES (15, 'DOCUMENTO', 0.04, 'PDF', '6078e0c19c0f4.pdf', '6078e0c19c0f4');
-INSERT INTO "public"."archivos" VALUES (16, 'DOCUMENTO', 0.04, 'PDF', '6078e16088927.pdf', '6078e16088927');
-INSERT INTO "public"."archivos" VALUES (18, 'DOCUMENTO', 0.04, 'PDF', '6078e4b4d0031.pdf', '6078e4b4d0031');
-INSERT INTO "public"."archivos" VALUES (20, 'DOCUMENTO', 0.26, 'PDF', '6078e66b19b16.pdf', '6078e66b19b16');
-INSERT INTO "public"."archivos" VALUES (21, 'DOCUMENTO', 0.04, 'PDF', '6078f58a917d6.pdf', '6078f58a917d6');
-INSERT INTO "public"."archivos" VALUES (22, 'DOCUMENTO', 0.04, 'PDF', '607f8a0e6f5cd.pdf', '607f8a0e6f5cd');
-INSERT INTO "public"."archivos" VALUES (23, 'DOCUMENTO', 0.57, 'PDF', '60aac028ebdd9.pdf', '60aac028ebdd9');
-INSERT INTO "public"."archivos" VALUES (24, 'DOCUMENTO', 0.57, 'PDF', '60aac0a518fde.pdf', '60aac0a518fde');
-INSERT INTO "public"."archivos" VALUES (25, 'DOCUMENTO', 1.72, 'PDF', '60aac27ddded3.pdf', '60aac27ddded3');
+INSERT INTO "public"."archivos" VALUES (28, 'DOCUMENTO', 5.36, 'PDF', '60c1793caa6b1.pdf', '60c1793caa6b1');
+INSERT INTO "public"."archivos" VALUES (29, 'DOCUMENTO', 4.15, 'PDF', '60c1879d6efb4.pdf', '60c1879d6efb4');
+INSERT INTO "public"."archivos" VALUES (30, 'DOCUMENTO', 3.45, 'PDF', '60c18fd7b08a6.pdf', '60c18fd7b08a6');
+INSERT INTO "public"."archivos" VALUES (31, 'DOCUMENTO', 6.02, 'PDF', '60c19047e2b1b.pdf', '60c19047e2b1b');
 
 -- ----------------------------
 -- Table structure for categorias
@@ -180,11 +168,24 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 -- Records of especialidades
 -- ----------------------------
-INSERT INTO "public"."especialidades" VALUES (1, 'MAESTRÍA EN INTERPRETACIÓN Y ARGUMENTACIÓN JURÍDICA GG');
-INSERT INTO "public"."especialidades" VALUES (7, 'WWWWWW');
-INSERT INTO "public"."especialidades" VALUES (2, 'DIPLOMADO EN DERECHO CONSTITUCIONAL Y PROCESAL CONSTITUCIONAL');
-INSERT INTO "public"."especialidades" VALUES (6, 'ASDASD');
-INSERT INTO "public"."especialidades" VALUES (10, 'MAESTRIA 1');
+INSERT INTO "public"."especialidades" VALUES (10, 'DIPLOMADO EN EDUCACIÓN SUPERIOR BASADO EN EL MODELO ACADÉMICO POR COMPETENCIAS');
+INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRÍA EN INVESTIGACIÓN CIENTÍFICA');
+INSERT INTO "public"."especialidades" VALUES (7, 'DIPLOMADO EN DOCENCIA EN EDUCACIÓN FÍSICA Y DEPORTES');
+INSERT INTO "public"."especialidades" VALUES (1, 'DIPLOMADO EN DOCENCIA Y GESTIÓN DE AULA EN EDUCACIÓN SUPERIOR');
+INSERT INTO "public"."especialidades" VALUES (13, 'MAESTRÍA EN ADMINISTRACIÓN Y GESTIÓN EDUCATIVA');
+INSERT INTO "public"."especialidades" VALUES (2, 'MAESTRÍA EN DERECHO CONSTITUCIONAL Y DERECHO PROCESAL');
+INSERT INTO "public"."especialidades" VALUES (14, 'MAESTRÍA EN CIENCIAS PENALES Y CRIMINOLOGIA');
+INSERT INTO "public"."especialidades" VALUES (15, 'DIPLOMADO EN DERECHO PROCESAL PENAL MENCIÓN: LEY 1173');
+INSERT INTO "public"."especialidades" VALUES (16, 'MAESTRÍA EN EDUCACIÓN SUPERIOR POR COMPETENCIAS ');
+INSERT INTO "public"."especialidades" VALUES (17, 'DIPLOMADO EN DIRECCIÓN Y GESTIÓN DE CENTROS INFANTILES');
+INSERT INTO "public"."especialidades" VALUES (18, 'DIPLOMADO EN INVESTIGACIÓN CIENTÍFICA APLICADA A LA ADMINISTRACIÓN');
+INSERT INTO "public"."especialidades" VALUES (19, 'DIPLOMADO EN INVESTIGACIÓN CUALITATIVA ');
+INSERT INTO "public"."especialidades" VALUES (20, 'DIPLOMADO EN DESARROLLO DEL ESPÍRITU EMPRENDEDOR');
+INSERT INTO "public"."especialidades" VALUES (21, 'DIPLOMADO EN COMPETENCIAS DIGITALES Y HERRAMIENTAS DE LAS TIC S EN ADMINISTRACIÓN EMPRESARIAL');
+INSERT INTO "public"."especialidades" VALUES (22, 'DOCTORADO EN CIENCIA Y TECNOLOGÍA');
+INSERT INTO "public"."especialidades" VALUES (23, 'DOCTORADO EN CIENCIAS DE LA EDUCACIÓN E INVESTIGACIÓN');
+INSERT INTO "public"."especialidades" VALUES (24, 'DIPLOMADO EN POLÍTICA FISCAL Y TRIBUTARIA');
+INSERT INTO "public"."especialidades" VALUES (25, 'DIPLOMADO EN DERECHOS REALES, DERECHO NOTARIAL Y REGISTRAL');
 
 -- ----------------------------
 -- Table structure for meses
@@ -237,83 +238,101 @@ CREATE TABLE "public"."metadatos" (
 -- ----------------------------
 -- Records of metadatos
 -- ----------------------------
-INSERT INTO "public"."metadatos" VALUES (13, 'COMO EDTA QUE HACED', '2021-04-16', 2012, 'Ducimus distinctio ad quasi obcaecati natus alias harum expedita quaerat debitis iste quae, ut perspiciatis corrupti voluptate omnis autem doloribus officiis consequatur commodi minus necessitatibus quos! Velit magnam officia eius.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'LABO5', 1, 13, 1, 1, 'La Paz - El Alto', 'WWW', 1);
-INSERT INTO "public"."metadatos" VALUES (10, 'JUAN LIMACHI', '2021-04-03', 2020, 'Impedit, accusamus praesentium distinctio quia reiciendis illo, facere odio inventore ullam, repellendus deleniti nulla cupiditate sapiente optio? Magni consectetur aspernatur fugiat ipsa atque dolore nam aliquid distinctio, vero a optio.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'CSS QUE MAMADA', 2, 10, 2, 1, 'La Paz - El Alto', '', 1);
-INSERT INTO "public"."metadatos" VALUES (20, 'KKKK', '2021-04-16', 2010, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'HHHHHHHHHHHHHHHHHH', 2, 20, 2, 1, 'La Paz - El Alto', '', 1);
-INSERT INTO "public"."metadatos" VALUES (18, '123123', '2021-04-16', 2009, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '112231232222', 2, 18, 2, 1, 'La Paz - El Alto', '123123', 1);
-INSERT INTO "public"."metadatos" VALUES (16, '2123123', '2021-04-16', 2007, 'ssssqqqqqq1111Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ESTE SE MODIFICO', 2, 16, 1, 1, 'La Paz - El Alto', '123123', 1);
-INSERT INTO "public"."metadatos" VALUES (11, 'DDDD', '2021-04-03', 2016, 'Soluta sit aspernatur illo sed excepturi doloribus, exercitationem, provident laboriosam deleniti error, itaque nulla in eum laudantium eius ducimus nihil amet distinctio omnis recusandae repellat quidem facere consectetur. Praesentium, hic.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'JSJDVDDASSDASDASD', 2, 11, 2, 2, 'La Paz - El Alto', 'XDXAASDASD', 1);
-INSERT INTO "public"."metadatos" VALUES (24, 'WILLY MARCOS CHANA TITO', '2021-05-23', 2012, 'v#define EA 10
-#define I1 9
-#define I2 8
-void setup()
-{
-pinMode(EA, OUTPUT);
-pinMode(I1, OUTPUT);
-pinMode(I2, OUTPUT);
-}
-void loop()
-{
-//Establecemos la velocidad a
-200
-analogWrite(EA, 200);
-//Hacia delante
-digitalWrite(I1, HIGH);
-digitalWrite(I2, LOW);
-delay(2000);
-//Y para atras
-digitalWrite(I1, LOW);
-digitalWrite(I2, HIGH);', 'ES', 'CONTROL DE MOTORES CON L298N', 1, 24, 1, 2, 'La Paz - El Alto', 'ING. ELIAS ALI ALVAREZ', 1);
-INSERT INTO "public"."metadatos" VALUES (15, '123123', '2021-04-16', 2010, 'Nihil id quo, ipsam repellat blanditiis sequi? Ad, cumque repellendus. Nostrum incidunt quasi eligendi cupiditate! Quidem, temporibus quo nisi dolorem facilis at quae, ea suscipit dolor sapiente saepe quos explicabo?Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '123123', 2, 15, 2, 2, 'La Paz - El Alto', '', 1);
-INSERT INTO "public"."metadatos" VALUES (22, 'WILLY CHANA', '2021-04-21', 2018, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda. Lorem ipsum dolor sit amet consectetur
-adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium. Ducimus distinctio ad quasi obcaecati natus alias harum expedita
-quaerat debitis iste quae, ut perspiciatis corrupti voluptate omnis autem doloribus officiis consequatur commodi minus necessitatibus quos! Velit magnam officia eius. Nihil id quo, ipsam repellat blanditiis sequi? Ad, cumque repellendus. Nostrum incidunt
-quasi eligendi cupiditate! Quidem, temporibus quo nisi dolorem facilis at quae, ea suscipit dolor sapiente saepe quos explicabo? Quas dolorum adipisci veritatis blanditiis nulla explicabo nam nisi totam error, laboriosam maxime sint velit minima suscipit
-similique ducimus ullam nihil repudiandae reprehenderit magnam voluptatem necessitatibus dicta aliquam! Minima, quas! Soluta sit aspernatur illo sed excepturi doloribus, exercitationem, provident laboriosam deleniti error, itaque nulla in eum laudantium
-eius ducimus nihil amet distinctio omnis recusandae repellat quidem facere consectetur. Praesentium, hic. Impedit, accusamus praesentium distinctio quia reiciendis illo, facere odio inventore ullam, repellendus deleniti nulla cupiditate sapiente optio?
-Magni consectetur aspernatur fugiat ipsa atque dolore nam aliquid distinctio, vero a optio. Delectus atque qui, eligendi, officia veritatis repellat illo totam consectetur voluptatem molestiae, optio architecto deleniti excepturi dolores aliquid. Fugiat
-maiores iure tempora vero explicabo aliquam non necessitatibus molestiae ex expedita? Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus
-quibusdam velit facere quod laboriosam assumenda. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti', 'ES', 'MI ARCHIVO', 4, 22, 6, 2, 'La Paz - El Alto', '', 1);
-INSERT INTO "public"."metadatos" VALUES (23, 'WILLY MARCOS CHANA TITO', '2021-05-23', 2019, '#define EA 10
-#define I1 9
-#define I2 8
-void setup()
-{
-pinMode(EA, OUTPUT);
-pinMode(I1, OUTPUT);
-pinMode(I2, OUTPUT);
-}
-void loop()
-{
-//Establecemos la velocidad a
-200
-analogWrite(EA, 200);
-//Hacia delante
-digitalWrite(I1, HIGH);
-digitalWrite(I2, LOW);
-delay(2000);
-//Y para atras
-digitalWrite(I1, LOW);
-digitalWrite(I2, HIGH);
-delay(2000);
-}', 'ES', 'CONTROL DE MOTORES CON L298N', 2, 23, 1, 1, 'Cochabamba', ' ING. ELIAS ALI ALVAREZ', 1);
-INSERT INTO "public"."metadatos" VALUES (21, '1111111111111111111', '2021-04-16', 2006, 'a1111111111111111111111111111111Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', '1111111111111111111111', 2, 21, 1, 1, 'La Paz - El Alto', '', 1);
-INSERT INTO "public"."metadatos" VALUES (8, 'WILLY CHANA  SSS', '2021-04-03', 2017, 'Delectus atque qui, eligendi, officia veritatis repellat illo totam consectetur voluptatem molestiae, optio architecto deleniti excepturi dolores aliquid. Fugiat maiores iure tempora vero explicabo aliquam non necessitatibus molestiae ex expedita?Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'PROGRAMAXION ORIENTADA A OBJETOS ES ESTE ARCHI DE PUREBA PROGRAMAXION ORIENTADA A OBJETOS ES ESTE ARCHI DE PUREBAPROGRAMAXION ORIENTADA A OBJETOS ES ESTE ARCHI DE PUREBA', 2, 8, 1, 2, 'La Paz - El Alto', 'JOSé  COLCQUE', 1);
-INSERT INTO "public"."metadatos" VALUES (25, 'GILDA ALCON MAURICIO', '2021-05-23', 2021, 'En las últimas tres décadas, se ha producido el gran progreso en el transporte,
-influenciado por las nuevas tecnologías y el desarrollo de diferentes herramientas
-informáticas y de automatización que aparecen a lo largo de los años.
-Las cintas transportadoras fueron uno de los inventos más importantes en 1795,
-debido a que estos ayudaron a facilitar el transporte de las materias primas y otros
-objetos que al transportarlos en vehículos o con máquinas resultan poco eficientes
-y muy costosos en combustible, y esto impulso el crecimiento de la industria.
-En este proyecto se aplicará todo el conocimiento adquirido hasta el momento en la
-materia de Robótica Industrial.
-Aplicaremos el uso de Arduino, sensores y motores en el funcionamiento de una
-pequeña cinta transportadora con contador de objetos y control a distancia por
-infrarrojo', 'ES', 'CINTA TRANSPORTADORA', 2, 25, 1, 1, 'La Paz - El Alto', 'ING. ELIAS ALI ALVAREZ', 1);
-INSERT INTO "public"."metadatos" VALUES (14, 'ASDASDASDASD', '2021-04-16', 2020, 'Quas dolorum adipisci veritatis blanditiis nulla explicabo nam nisi totam error, laboriosam maxime sint velit minima suscipit similique ducimus ullam nihil repudiandae reprehenderit magnam voluptatem necessitatibus dicta aliquam! Minima, quas!Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'AAAAASDASD123123', 2, 14, 2, 1, 'La Paz - El Alto', 'ASD', 1);
-INSERT INTO "public"."metadatos" VALUES (1, 'WILLY CHANA', '2021-03-30', 2021, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laLorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.boriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'REDES NEURONALES PYTHON', 2, 1, 2, 3, 'Cochabamba', 'JOSE COLQUE', 1);
-INSERT INTO "public"."metadatos" VALUES (12, 'AJDJDBBASDASDASD', '2021-02-02', 2015, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi commodi laboriosam fugit doloribus illum facilis enim quaerat cum, aspernatur minus, quod nemo. Libero animi optio accusamus eum corrupti quibusdam laudantium.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni tenetur qui blanditiis modi beatae nihil quisquam tempore facilis, eius tempora maxime odit sed voluptatibus quibusdam velit facere quod laboriosam assumenda.', 'ES', 'ARCHIVO REDES  EEE', 2, 12, 6, 2, 'La Paz - El Alto', 'KKKKKAAAAAAAAAAAAA', 1);
+INSERT INTO "public"."metadatos" VALUES (28, 'ING.  ESTANISLAO YAHUASI APAZA', '2021-06-10', 2020, 'En este proyecto se desarrolló el Sistema de información Web de Control
+Administrativo. Todo el sistema se desarrolla bajo el sistema de Software Libre
+utilizando como entorno de desarrollo Phalcon y el lenguaje de programación de Php
+para el Sistema Web.
+El objetivo principal fue desarrollar un Sistema Web para la Administración del
+Gimnasio Winner, para poder reducir el tiempo de registro e información, así mismo
+poder brindar una mejor información de todos los servicios, productos, rutinas que
+ofrece el gimnasio y dar una buena información a los clientes inscritos para poder
+brindar una buena atención al cliente. También se habilitará un formulario de reservas
+para que el cliente pueda realizar toda su duda que tenga sobres los servicios que
+ofrece el Gimnasio y poder mandar sus consultas.
+Empleamos la metodología UWE (UML-Based Web Engineering), porque es una
+herramienta para modelar aplicaciones web y es utilizada en la ingeniería web.
+Además, UWE, es especializada en la especificación de aplicaciones adaptativas que
+hace hincapié en las características de personalización. UWE, se basa en el proceso
+unificado (UML) pero adaptados al desarrollo web.', 'ES', 'SISTEMA DE INFORMACIÓN WEB DE CONTROL
+ADMINISTRATIVO', 1, 28, 22, 3, 'La Paz - El Alto', 'LIC. FREDDY SALGUEIRO TRUJILLO', 1);
+INSERT INTO "public"."metadatos" VALUES (29, 'LIC. FRANZ GROVER FLORES CALLAPA', '2021-06-10', 2018, 'La web ha evolucionado de forma rápida en diferentes aspectos, cabe mencionar
+que los sistemas de información transforman las instituciones y cambia su estructura
+por lo que permiten administrar, procesar datos en cualquier parte del mundo sin
+importar su plataforma para el procesamiento.
+El presente proyecto se desarrolló para el centro de imageneologia IMEDICA
+“imagen y vida”, dependiente del grupo radiológico cima, en donde se identificó
+problemas en distintas áreas como ser secretaría, laboratorio médico y laboratorio
+técnico, por lo tanto se implementó el presente proyecto titulado “SISTEMA DE
+REGISTRO Y CONTROL DE EXÁMENES Y TRATAMIENTOS MÉDICOS PARA
+ÁREA DE IMAGENEOLOGIA” con el cual se permite optimizar el tiempo y
+automatizar los procesos de la institución como ser: controlar las citas médicas,
+gestionar los diagnósticos emitidos por los médicos, controlar los pagos de los
+exámenes y verificar los estudios médicos mediante un visor DICOM 1y otros.
+La metodología empleada en el presente proyecto es la metodología META, que
+está dividida en Planteamiento, Acuerdos, Preparación, Análisis diseño,
+Construcción, Implantación y Retroalimentación. La evaluación de calidad de
+software se realizó con la norma ISO IEC 9126 que se basa en los parámetros de
+usabilidad, funcionabilidad, confiabilidad, mantenibilidad y portabilidad, en cuanto a
+seguridad de la información se recurrió a la norma ISO 227002 y finalmente para la
+estimación del costo del producto se usó COCOMO 3
+II con el modelo orgánico ya
+que las líneas de código no superan a los 50 KLDC4
+.
+Para el desarrollo del software las herramientas que se usaron fueron: el lenguaje
+de programación PHP, servidor de Base de Datos MariaDB, y en la parte del diseño
+HTML, JavaScript, Boostrap, Ajax y Css.', 'ES', 'SISTEMA DE REGISTRO Y CONTROL DE EXÁMENES Y
+TRATAMIENTOS MÉDICOS PARA ÁREA DE IMAGENEOLOGIA', 1, 29, 17, 2, 'Cochabamba', ' ING. YULY RAMIREZ LIMACHI', 1);
+INSERT INTO "public"."metadatos" VALUES (30, 'ING. GUILLEN PAREDES CALLISAYA ', '2021-06-10', 2020, 'Hoy en día los avances tecnológicos se van expandiendo más y más, aumentando su
+uso y generando una revolución muy importante en el mundo de la comunicación, a
+causa de esto las instituciones han optado en la implementación de sistemas e
+información vía web, con el objetivo de difundir y promocionar los servicios que
+ofrecen.
+Por esta razón que la Unidad Educativa Sergio Almaraz Paz vio la opción de contar
+con un sistema de información web, para automatizar en la recopilación de información
+y procesamiento de datos, de esta manera poder mejorar la Gestión Académica y
+brindar una mejor atención.
+Por esta razón el proyecto titulado “Sistema Web de Información Académica y Chat
+online” caso: Unidad Educativa Sergio Almaraz Paz, cumplirá con las necesidades,
+requerimientos y los objetivos deseados a realizar.
+Para su desarrollo se aplicó la metodología de Ingeniería Web, que permite un
+desarrollo de la aplicación en iteraciones, sucesivamente el sistema se desarrolló con
+el lenguaje de programación PHP, con la ayuda del framework Bootstrap y con el
+gestor de bases de datos MariaDB - MYSQL.
+Además que, para el análisis de calidad se utilizó el modelo de Métricas de Calidad el
+método de WebQEM
+Finalmente se aplicó el método COSMIC, para la determinación estimada del costo del
+proyecto.', 'ES', 'SISTEMA WEB DE INFORMACION ACADEMICA Y CHAT ONLINE', 2, 30, 23, 3, 'La Paz - El Alto', 'LIC. MARIA MAGDALENA AGUILAR GUANTO ', 1);
+INSERT INTO "public"."metadatos" VALUES (31, 'LIC. LUIS ABDON YANAPA CHAMBI', '2021-06-10', 2017, 'Las telecomunicaciones móviles en los últimos años son de mayor crecimiento y demanda
+dentro de los sistemas de comunicaciones a nivel mundial. En todo el mundo existe millones
+de usuarios que demandan el uso de teléfonos inteligentes con acceso a internet para
+comunicarse a través de la red.
+En sistemas de transmisión vía satélite empezaron a poner en marcha en 1960 gracias a su
+relación con el hombre y avance tecnológico para una comunicación rápida, accesible en el
+mínino tiempo posible. Los precursores de esta ciencia fueron los satélites meteorológicos
+gracias a los cuales se han predicho y evitado multitud de catástrofes naturales.
+Gracias a la llegada del sistema de comunicaciones móviles a Bolivia, creció la demanda del
+servicio en las áreas rurales de difícil acceso y se implementaron sistema de Micro RBS1
+en
+distintas localidades de nuestro territorio nacional utilizando el sistema VSAT2
+dependientes
+del uso de un satélite, prestando así el servicio de telefonía móvil integrando Bolivia. Las
+empresas legalmente establecidas de telefonía móvil en Bolivia avanzaron considerablemente
+en la cobertura en áreas urbanas y rurales con sistemas de transmisión MW3
+y FO4
+, cubriendo
+las necesidades de la sociedad garantizando así el derecho fundamental a la comunicación del
+ser humano.
+En Bolivia en el año 2015 a 2016 , se implementó Micro Radio Bases en áreas rurales con
+transmisión Satelital para brindar cobertura de voz y datos, en el departamento de La Paz fueron
+implementados 162 estaciones, de los cuales la mayoría serán migradas a otras tecnologías de
+transmisión por la gran demanda de servicio, el incremento continuo de usuarios UE y el avance
+del sistema de comunicaciones en servicios de cobertura de tercera y cuarta generación siendo
+que el sistema de telefonía móvil con transmisión satelital es cada vez más remplazado con
+sistemas transmisión Microondas o Fibra Óptica alcanzando mayor ancho de banda y
+throughput5
+,pero existen estaciones que no es posible migrarlas a mencionados sistemas de ', 'ES', 'OPTIMIZACIÓN EN TRÁFICO DE VOZ Y DATOS CON
+TECNOLOGÍA XIPLINK EN UN SISTEMA DE
+TELEFONÍA MÓVIL CON TRANSMISIÓN SATELITAL', 2, 31, 24, 1, 'La Paz - El Alto', ': M. SC. JUAN MARCOS MIRANDA NINA', 1);
 
 -- ----------------------------
 -- Table structure for roles
@@ -385,11 +404,24 @@ CREATE TABLE "public"."ver_esp" (
 -- ----------------------------
 -- Records of ver_esp
 -- ----------------------------
-INSERT INTO "public"."ver_esp" VALUES (1, 2, 1);
-INSERT INTO "public"."ver_esp" VALUES (7, 4, 7);
-INSERT INTO "public"."ver_esp" VALUES (2, 3, 2);
-INSERT INTO "public"."ver_esp" VALUES (6, 1, 6);
-INSERT INTO "public"."ver_esp" VALUES (10, 1, 10);
+INSERT INTO "public"."ver_esp" VALUES (10, 13, 10);
+INSERT INTO "public"."ver_esp" VALUES (6, 14, 6);
+INSERT INTO "public"."ver_esp" VALUES (7, 2, 7);
+INSERT INTO "public"."ver_esp" VALUES (1, 14, 1);
+INSERT INTO "public"."ver_esp" VALUES (13, 4, 13);
+INSERT INTO "public"."ver_esp" VALUES (2, 2, 2);
+INSERT INTO "public"."ver_esp" VALUES (14, 2, 14);
+INSERT INTO "public"."ver_esp" VALUES (15, 3, 15);
+INSERT INTO "public"."ver_esp" VALUES (16, 3, 16);
+INSERT INTO "public"."ver_esp" VALUES (17, 1, 17);
+INSERT INTO "public"."ver_esp" VALUES (18, 2, 18);
+INSERT INTO "public"."ver_esp" VALUES (19, 3, 19);
+INSERT INTO "public"."ver_esp" VALUES (20, 2, 20);
+INSERT INTO "public"."ver_esp" VALUES (21, 2, 21);
+INSERT INTO "public"."ver_esp" VALUES (22, 1, 22);
+INSERT INTO "public"."ver_esp" VALUES (23, 2, 23);
+INSERT INTO "public"."ver_esp" VALUES (24, 2, 24);
+INSERT INTO "public"."ver_esp" VALUES (25, 4, 25);
 
 -- ----------------------------
 -- Table structure for versiones
@@ -409,15 +441,53 @@ INSERT INTO "public"."versiones" VALUES (2, 'VERSIÓN II');
 INSERT INTO "public"."versiones" VALUES (3, 'VERSIÓN III');
 INSERT INTO "public"."versiones" VALUES (4, 'VERSIÓN IV');
 INSERT INTO "public"."versiones" VALUES (5, 'VERSION XXI');
-INSERT INTO "public"."versiones" VALUES (6, 'SASD');
-INSERT INTO "public"."versiones" VALUES (8, 'GFFFF');
-INSERT INTO "public"."versiones" VALUES (9, 'ASDASD');
-INSERT INTO "public"."versiones" VALUES (10, 'ASSSSSSS');
 INSERT INTO "public"."versiones" VALUES (14, 'VERSION X');
 INSERT INTO "public"."versiones" VALUES (13, 'VERSION XI');
 INSERT INTO "public"."versiones" VALUES (7, 'VERSION IX');
 INSERT INTO "public"."versiones" VALUES (12, 'VERSION XXX');
 INSERT INTO "public"."versiones" VALUES (11, 'VERSION XXV');
+INSERT INTO "public"."versiones" VALUES (6, 'VERSION V');
+INSERT INTO "public"."versiones" VALUES (8, 'VERSION VI');
+INSERT INTO "public"."versiones" VALUES (9, 'VERSION VII');
+INSERT INTO "public"."versiones" VALUES (10, 'VERSION VIII');
+
+-- ----------------------------
+-- View structure for view_archivo
+-- ----------------------------
+DROP VIEW IF EXISTS "public"."view_archivo";
+CREATE VIEW "public"."view_archivo" AS  SELECT metadatos.id_categoria,
+    metadatos.id_ver_esp,
+    archivos.id_archivo,
+    archivos.descripcion,
+    archivos.tamanio,
+    archivos.formato,
+    archivos.nombre,
+    archivos.uuid,
+    metadatos.id_metadato,
+    metadatos.autor,
+    metadatos.fecha_publicacion,
+    metadatos.anio_creacion,
+    metadatos.resumen,
+    metadatos.lenguaje,
+    metadatos.titulo,
+    metadatos.sede,
+    metadatos.tutor,
+    view_especialidades.id_version,
+    view_especialidades.id_especialidad,
+    view_especialidades.especialidad,
+    view_especialidades.version,
+    tipos.tipo,
+    categorias.categoria,
+    usuarios.id_usuario,
+    usuarios.nombre AS nombre_usuario,
+    usuarios.apellido,
+    usuarios.usuario
+   FROM archivos
+     JOIN metadatos USING (id_archivo)
+     JOIN view_especialidades USING (id_ver_esp)
+     JOIN tipos USING (id_tipo)
+     JOIN categorias USING (id_categoria)
+     JOIN usuarios USING (id_usuario);
 
 -- ----------------------------
 -- View structure for view_especialidades
@@ -471,63 +541,63 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 27, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 32, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 5, true);
+SELECT setval('"public"."categorias_id_categoria_seq"', 6, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 12, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 26, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 27, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 32, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."roles_id_rol_seq"
 OWNED BY "public"."roles"."id_rol";
-SELECT setval('"public"."roles_id_rol_seq"', 3, false);
+SELECT setval('"public"."roles_id_rol_seq"', 4, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 6, true);
+SELECT setval('"public"."tipos_id_tipo_seq"', 7, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
 OWNED BY "public"."usuarios"."id_usuario";
-SELECT setval('"public"."usuarios_id_usuario_seq"', 7, true);
+SELECT setval('"public"."usuarios_id_usuario_seq"', 8, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 12, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 26, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."versiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 16, true);
+SELECT setval('"public"."verisiones_id_version_seq"', 17, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
