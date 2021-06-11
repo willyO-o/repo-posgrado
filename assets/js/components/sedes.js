@@ -27,21 +27,21 @@ export default {
 								  <div class="form-group">
 									<div class="mb-3">
 										<label for="especialidad">Especialidad</label>
-										<textarea class="form-control " :class="{'is-invalid':errorEspecialidad.especialidad}"  id="especialidad" placeholder="Ingrese la Especialidad" v-model="especialidad.espec" required></textarea>
+										<textarea class="form-control "  id="especialidad" placeholder="Ingrese la Especialidad" v-model="especialidad.espec" required></textarea>
 										<div class="invalid-feedback">
-											Por favor rellene el campo
+											{{especialidad.espc}}
 										</div>
 									</div>
 									
 								  </div>
 								  <div class="form-group">
 								  <label for="version">Version</label>
-									<select class="custom-select" :class="{'is-invalid':errorEspecialidad.version}" required id="version" v-model="especialidad.id_version">
+									<select class="custom-select" required id="version" v-model="especialidad.id_version">
 									  <option value="0" disabled >Seleccione Version</option>
 									  <option  v-for="row in listaVersiones" :value="row.id_version">{{ row.version }}</option>
 									</select>
 									<div class="invalid-feedback">
-											Por favor seleccione una version
+											{{especialidad.id_version}}
 										</div>
 								  </div>
 
@@ -261,11 +261,7 @@ export default {
             validar: {
                 espe: ''
 
-            },
-            errorEspecialidad: {
-                especialidad: false,
-                version: false,
-            },
+            }
         }
     },
     created() {
@@ -357,25 +353,20 @@ export default {
 
 
 
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Error: Por favor rellene los campos',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
             }
         },
         validarCampos() {
-            if (this.especialidad.espec && this.especialidad.id_version) {
-                return true
-            }
-
-            if (!this.especialidad.espec) {
-                this.errorEspecialidad.especialidad = true
-            }
-            if (!this.especialidad.id_version) {
-                this.errorEspecialidad.version = true
-            }
-
-            setTimeout(() => {
-                this.errorEspecialidad.version = false
-                this.errorEspecialidad.especialidad = false
-            }, 3000);
-
+            let especialidad = this.especialidad.espec;
+            return (especialidad.length > 5 && this.especialidad.id_version != 0)
         },
         async listar() {
             const res = await axios.get(base_url + "especialidad")
