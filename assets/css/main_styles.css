@@ -1699,3 +1699,7 @@ input:last-of-type {
 .resultado-busquedas {
     height: 100%;
 }
+
+.login-box {
+    box-shadow: 0px 1px 10px 10px rgb(192 192 192 / 40%);
+}

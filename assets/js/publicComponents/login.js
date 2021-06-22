@@ -3,8 +3,8 @@ export default {
         `
     <div class="event_items ">
     <div class="row justify-content-md-center rounded">
-        <div class="col-md-4 bg-light p-5 ">
-            <h1> Login</h1>
+        <div class="col-md-4 bg-light p-5 rounded login-box">
+            <h1 class="text-center"> Login</h1>
             <hr>
             <div class="newsletter_form ">
 				<div class="alert alert-danger " role="alert" v-if="usuarioIncorrecto">

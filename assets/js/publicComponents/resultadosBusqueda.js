@@ -95,7 +95,7 @@ export default {
 
 				
 					
-						<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=1">
+						<div class="news_page_nav"style="margin-top:50px" v-if="totalResultados()!=0">
 							<ul>
 								<li class="text-center trans_200" @click="getPreviusPage()" v-if="paginaActual!=1"><a><i class="fas fa-arrow-left"></i></a></li>
 
