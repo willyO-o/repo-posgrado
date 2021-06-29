@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : posgress14
+ Source Server         : postgres13
  Source Server Type    : PostgreSQL
  Source Server Version : 130001
  Source Host           : localhost:5432
@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 10/06/2021 11:46:30
+ Date: 28/06/2021 22:56:07
 */
 
 
@@ -177,6 +177,7 @@ CREATE TABLE "public"."categorias" (
 INSERT INTO "public"."categorias" VALUES (1, 'DIPLOMADO ');
 INSERT INTO "public"."categorias" VALUES (2, 'MAESTRIA');
 INSERT INTO "public"."categorias" VALUES (3, 'DOCTORADO');
+INSERT INTO "public"."categorias" VALUES (8, 'POSTDOCTORADO');
 
 -- ----------------------------
 -- Table structure for especialidades
@@ -193,7 +194,6 @@ CREATE TABLE "public"."especialidades" (
 -- ----------------------------
 INSERT INTO "public"."especialidades" VALUES (10, 'DIPLOMADO EN EDUCACIÓN SUPERIOR BASADO EN EL MODELO ACADÉMICO POR COMPETENCIAS');
 INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRÍA EN INVESTIGACIÓN CIENTÍFICA');
-INSERT INTO "public"."especialidades" VALUES (7, 'DIPLOMADO EN DOCENCIA EN EDUCACIÓN FÍSICA Y DEPORTES');
 INSERT INTO "public"."especialidades" VALUES (1, 'DIPLOMADO EN DOCENCIA Y GESTIÓN DE AULA EN EDUCACIÓN SUPERIOR');
 INSERT INTO "public"."especialidades" VALUES (13, 'MAESTRÍA EN ADMINISTRACIÓN Y GESTIÓN EDUCATIVA');
 INSERT INTO "public"."especialidades" VALUES (2, 'MAESTRÍA EN DERECHO CONSTITUCIONAL Y DERECHO PROCESAL');
@@ -688,25 +688,6 @@ ciudad de El Alto.
 ', 'ES', 'ENFOQUE DE
 PROCESOS, PARA LA OPTIMIZACIÓN DE LA OTORGACIÓN
 DE CRÉDITOS', 1, 49, 6, 2, 'La Paz - El Alto', 'ING. MARISOL ARGUEDAS BALLADARES', 1);
-INSERT INTO "public"."metadatos" VALUES (49, 'ING. RUDY DAVID CASTILLO', '2021-06-10', 2020, 'El presente Proyecto de Grado consiste en implementar un SISTEMA DE
-EDUCACION VIRTUAL (E-LEARNING) COMO HERRAMIENTA DE ENSEÑANAZA
-CASO: TECHSBOL, surge del gran inconveniente que sufre TECHSBOL, que no
-disponen de oportunidades para publicar y promover su producción intelectual y
-capacitación en el mercado. El proyecto se centró en la venta del producto intelectual
-(CURSOS), desde el registro de los cursos, hasta reportes de ingresos a TECHSBOL
-de la venta de los mismos, administración de cursos, creación de carrito de compras,
-utilización de la pasarela de pagos incluyéndose Paypal y autenticación para controlar
-acceso al sistema. En la parte introductoria se demuestra los antecedentes y
-actividades que realiza la institución, también se muestra el análisis de los problemas
-y los objetivos propuestos. Para el desarrollo del presente proyecto se aplicó la
-metodología de desarrollo ágil SCRUM apoyándose junto a la metodología KANBAN
-y la metodología de desarrollo UWE para el modelado del diseño. El Sistema es un
-producto de calidad de acuerdo a la métrica de calidad Web-Site QEM. Para
-funcionamiento pleno del proyecto se toma como tarea final implementar la seguridad.
-Finalmente se concluye que los objetivos planteados fueron alcanzados y que el
-Sistema cumple con los requerimientos establecidos por el cliente.
-Palabras clave: Metodología ágil Kanban, UWE, Web-Site QEM, Sistema Web, Linux.', 'ES', 'EDUCACION VIRTUAL (E-LEARNING) COMO
-HERRAMIENTA DE ENSEÑANAZA', 1, 50, 1, 3, 'La Paz - El Alto', 'LIC. ROBERTO DAVID MAYTA ALIGA', 1);
 INSERT INTO "public"."metadatos" VALUES (50, 'SALVADOR ARUQUIPA MAQUERA', '2021-06-10', 2021, 'El siguiente proyecto “SISTEMA PARA EL SEGUIMIENTO DE LA INFORMACIÓN
 RESPECTO A EXÁMENES RADIOLÓGICOS” se basa en el que se basa en la
 metodología del desarrollo web por ser un enfoque ágil orientada a aplicaciones
@@ -825,6 +806,25 @@ En el capítulo quinto se arriba a las conclusiones, de acuerdo a los objetivos
 planteados en la primera parte y las recomendaciones para futuros trabajos.
 ', 'ES', 'MODELO DE PREDICCIÓN BASADO EN MINERÍA DE DATOS
 SOBRE ÍNDICES DE DESERCIÓN DE ALUMNOS', 2, 55, 21, 1, 'La Paz - El Alto', '', 1);
+INSERT INTO "public"."metadatos" VALUES (49, 'ING. RUDY DAVID CASTILLO', '2021-06-10', 2020, 'El presente Proyecto de Grado consiste en implementar un SISTEMA DE
+EDUCACION VIRTUAL (E-LEARNING) COMO HERRAMIENTA DE ENSEÑANAZA
+CASO: TECHSBOL, surge del gran inconveniente que sufre TECHSBOL, que no
+disponen de oportunidades para publicar y promover su producción intelectual y
+capacitación en el mercado. El proyecto se centró en la venta del producto intelectual
+(CURSOS), desde el registro de los cursos, hasta reportes de ingresos a TECHSBOL
+de la venta de los mismos, administración de cursos, creación de carrito de compras,
+utilización de la pasarela de pagos incluyéndose Paypal y autenticación para controlar
+acceso al sistema. En la parte introductoria se demuestra los antecedentes y
+actividades que realiza la institución, también se muestra el análisis de los problemas
+y los objetivos propuestos. Para el desarrollo del presente proyecto se aplicó la
+metodología de desarrollo ágil SCRUM apoyándose junto a la metodología KANBAN
+y la metodología de desarrollo UWE para el modelado del diseño. El Sistema es un
+producto de calidad de acuerdo a la métrica de calidad Web-Site QEM. Para
+funcionamiento pleno del proyecto se toma como tarea final implementar la seguridad.
+Finalmente se concluye que los objetivos planteados fueron alcanzados y que el
+Sistema cumple con los requerimientos establecidos por el cliente.
+Palabras clave: Metodología ágil Kanban, UWE, Web-Site QEM, Sistema Web, Linux.', 'ES', 'EDUCACION VIRTUAL (E-LEARNING) COMO
+HERRAMIENTA DE ENSEÑANAZA EDITADO', 1, 50, 1, 3, 'La Paz - El Alto', 'LIC. ROBERTO DAVID MAYTA ALIGA', 1);
 
 -- ----------------------------
 -- Table structure for roles
@@ -881,6 +881,7 @@ CREATE TABLE "public"."usuarios" (
 INSERT INTO "public"."usuarios" VALUES (1, 'CTWILLY1412', '$2y$10$Ord5It5.KxtUcS/WULHLS.1KTVC1rKYGVsra2oPapJldJhUXa3NH2', 'WILLY', 'CHANA', 't', 1);
 INSERT INTO "public"."usuarios" VALUES (4, 'CHJORGE1111', '$2y$10$XP3V0q4FjXb49EyxxCkGwO4V0NfJdKcHeWALAxTb/KvnhpyXsM2cS', 'JORGE', 'CHOQUE', 't', 2);
 INSERT INTO "public"."usuarios" VALUES (2, 'CQMARCOS1111', '$2y$10$197Z96hhwqVyLh7QmgM6p.HMQ9CCvOjH.RbmFTdTgTmfDGZ/HMs2q', 'MARCOS', 'CHOQUE', 't', 2);
+INSERT INTO "public"."usuarios" VALUES (10, 'PRUEBA1234', '$2y$10$J.7dKU0/IEZkBpIZODp2ZusXWhfvPx6xzjiMFY30eRa7LvnE99tVC', 'PRUEBA', 'PRUEBA', 't', 2);
 
 -- ----------------------------
 -- Table structure for ver_esp
@@ -898,7 +899,6 @@ CREATE TABLE "public"."ver_esp" (
 -- ----------------------------
 INSERT INTO "public"."ver_esp" VALUES (10, 13, 10);
 INSERT INTO "public"."ver_esp" VALUES (6, 14, 6);
-INSERT INTO "public"."ver_esp" VALUES (7, 2, 7);
 INSERT INTO "public"."ver_esp" VALUES (1, 14, 1);
 INSERT INTO "public"."ver_esp" VALUES (13, 4, 13);
 INSERT INTO "public"."ver_esp" VALUES (2, 2, 2);
@@ -944,19 +944,6 @@ INSERT INTO "public"."versiones" VALUES (9, 'VERSION VII');
 INSERT INTO "public"."versiones" VALUES (10, 'VERSION VIII');
 
 -- ----------------------------
--- View structure for view_especialidades
--- ----------------------------
-DROP VIEW IF EXISTS "public"."view_especialidades";
-CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
-    ver_esp.id_especialidad,
-    especialidades.especialidad,
-    ver_esp.id_ver_esp,
-    versiones.version
-   FROM especialidades
-     JOIN ver_esp USING (id_especialidad)
-     JOIN versiones USING (id_version);
-
--- ----------------------------
 -- View structure for view_archivo
 -- ----------------------------
 DROP VIEW IF EXISTS "public"."view_archivo";
@@ -986,13 +973,27 @@ CREATE VIEW "public"."view_archivo" AS  SELECT metadatos.id_categoria,
     usuarios.id_usuario,
     usuarios.nombre AS nombre_usuario,
     usuarios.apellido,
-    usuarios.usuario
+    usuarios.usuario,
+    metadatos.id_tipo
    FROM archivos
      JOIN metadatos USING (id_archivo)
      JOIN view_especialidades USING (id_ver_esp)
      JOIN tipos USING (id_tipo)
      JOIN categorias USING (id_categoria)
      JOIN usuarios USING (id_usuario);
+
+-- ----------------------------
+-- View structure for view_especialidades
+-- ----------------------------
+DROP VIEW IF EXISTS "public"."view_especialidades";
+CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
+    ver_esp.id_especialidad,
+    especialidades.especialidad,
+    ver_esp.id_ver_esp,
+    versiones.version
+   FROM especialidades
+     JOIN ver_esp USING (id_especialidad)
+     JOIN versiones USING (id_version);
 
 -- ----------------------------
 -- View structure for view_archivos
@@ -1033,63 +1034,63 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 56, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 57, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 7, true);
+SELECT setval('"public"."categorias_id_categoria_seq"', 9, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 27, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 29, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 55, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 56, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."roles_id_rol_seq"
 OWNED BY "public"."roles"."id_rol";
-SELECT setval('"public"."roles_id_rol_seq"', 5, false);
+SELECT setval('"public"."roles_id_rol_seq"', 6, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 8, true);
+SELECT setval('"public"."tipos_id_tipo_seq"', 9, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
 OWNED BY "public"."usuarios"."id_usuario";
-SELECT setval('"public"."usuarios_id_usuario_seq"', 9, true);
+SELECT setval('"public"."usuarios_id_usuario_seq"', 11, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 27, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 29, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."versiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 18, true);
+SELECT setval('"public"."verisiones_id_version_seq"', 19, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
