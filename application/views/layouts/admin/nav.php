@@ -16,7 +16,7 @@
                 <li class="dropdown">
                     <a href="#" id="tour-help" class="dropdown-toggle" data-toggle="dropdown"><i class="ti-help"></i> <span class="sr-only">Help</span></a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#" target="_blank"><i class="ti-direction"></i> Manual de uso</a></li>
+                        <li><a href="<?=base_url()?>uploads/manual.pdf" target="_blank"><i class="ti-direction"></i> Manual de uso</a></li>
 
                     </ul>
                 </li>

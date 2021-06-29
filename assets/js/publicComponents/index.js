@@ -202,6 +202,7 @@ export default {
         },
 
         consultarDocumentosTipo(id_tipo) {
+            console.log(this.listadoDocumentos);
             this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_tipo == id_tipo)
             this.getDataPagina(1);
         },
