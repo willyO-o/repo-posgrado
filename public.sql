@@ -12,7 +12,7 @@
  Target Server Version : 130001
  File Encoding         : 65001
 
- Date: 28/06/2021 22:56:07
+ Date: 30/06/2021 18:01:14
 */
 
 
@@ -160,6 +160,7 @@ INSERT INTO "public"."archivos" VALUES (52, 'DOCUMENTO', 4.50, 'PDF', '60c22f477
 INSERT INTO "public"."archivos" VALUES (53, 'DOCUMENTO', 2.59, 'PDF', '60c22f9d73190.pdf', '60c22f9d73190');
 INSERT INTO "public"."archivos" VALUES (54, 'DOCUMENTO', 6.71, 'PDF', '60c22fd8f2330.pdf', '60c22fd8f2330');
 INSERT INTO "public"."archivos" VALUES (55, 'DOCUMENTO', 5.94, 'PDF', '60c23037ea890.pdf', '60c23037ea890');
+INSERT INTO "public"."archivos" VALUES (57, 'DOCUMENTO', 4.02, 'PDF', '60dce62b4b5fa.pdf', '60dce62b4b5fa');
 
 -- ----------------------------
 -- Table structure for categorias
@@ -193,7 +194,6 @@ CREATE TABLE "public"."especialidades" (
 -- Records of especialidades
 -- ----------------------------
 INSERT INTO "public"."especialidades" VALUES (10, 'DIPLOMADO EN EDUCACIÓN SUPERIOR BASADO EN EL MODELO ACADÉMICO POR COMPETENCIAS');
-INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRÍA EN INVESTIGACIÓN CIENTÍFICA');
 INSERT INTO "public"."especialidades" VALUES (1, 'DIPLOMADO EN DOCENCIA Y GESTIÓN DE AULA EN EDUCACIÓN SUPERIOR');
 INSERT INTO "public"."especialidades" VALUES (13, 'MAESTRÍA EN ADMINISTRACIÓN Y GESTIÓN EDUCATIVA');
 INSERT INTO "public"."especialidades" VALUES (2, 'MAESTRÍA EN DERECHO CONSTITUCIONAL Y DERECHO PROCESAL');
@@ -209,6 +209,9 @@ INSERT INTO "public"."especialidades" VALUES (22, 'DOCTORADO EN CIENCIA Y TECNOL
 INSERT INTO "public"."especialidades" VALUES (23, 'DOCTORADO EN CIENCIAS DE LA EDUCACIÓN E INVESTIGACIÓN');
 INSERT INTO "public"."especialidades" VALUES (24, 'DIPLOMADO EN POLÍTICA FISCAL Y TRIBUTARIA');
 INSERT INTO "public"."especialidades" VALUES (25, 'DIPLOMADO EN DERECHOS REALES, DERECHO NOTARIAL Y REGISTRAL');
+INSERT INTO "public"."especialidades" VALUES (29, 'ESPECIALIDAD 10');
+INSERT INTO "public"."especialidades" VALUES (6, 'MAESTRÍA EN INVESTIGACIÓN CIENTÍFICA EDITADO
+');
 
 -- ----------------------------
 -- Table structure for meses
@@ -261,33 +264,6 @@ CREATE TABLE "public"."metadatos" (
 -- ----------------------------
 -- Records of metadatos
 -- ----------------------------
-INSERT INTO "public"."metadatos" VALUES (29, 'LIC. FRANZ GROVER FLORES CALLAPA', '2021-03-10', 2018, 'La web ha evolucionado de forma rápida en diferentes aspectos, cabe mencionar
-que los sistemas de información transforman las instituciones y cambia su estructura
-por lo que permiten administrar, procesar datos en cualquier parte del mundo sin
-importar su plataforma para el procesamiento.
-El presente proyecto se desarrolló para el centro de imageneologia IMEDICA
-“imagen y vida”, dependiente del grupo radiológico cima, en donde se identificó
-problemas en distintas áreas como ser secretaría, laboratorio médico y laboratorio
-técnico, por lo tanto se implementó el presente proyecto titulado “SISTEMA DE
-REGISTRO Y CONTROL DE EXÁMENES Y TRATAMIENTOS MÉDICOS PARA
-ÁREA DE IMAGENEOLOGIA” con el cual se permite optimizar el tiempo y
-automatizar los procesos de la institución como ser: controlar las citas médicas,
-gestionar los diagnósticos emitidos por los médicos, controlar los pagos de los
-exámenes y verificar los estudios médicos mediante un visor DICOM 1y otros.
-La metodología empleada en el presente proyecto es la metodología META, que
-está dividida en Planteamiento, Acuerdos, Preparación, Análisis diseño,
-Construcción, Implantación y Retroalimentación. La evaluación de calidad de
-software se realizó con la norma ISO IEC 9126 que se basa en los parámetros de
-usabilidad, funcionabilidad, confiabilidad, mantenibilidad y portabilidad, en cuanto a
-seguridad de la información se recurrió a la norma ISO 227002 y finalmente para la
-estimación del costo del producto se usó COCOMO 3
-II con el modelo orgánico ya
-que las líneas de código no superan a los 50 KLDC4
-.
-Para el desarrollo del software las herramientas que se usaron fueron: el lenguaje
-de programación PHP, servidor de Base de Datos MariaDB, y en la parte del diseño
-HTML, JavaScript, Boostrap, Ajax y Css.', 'ES', 'SISTEMA DE REGISTRO Y CONTROL DE EXÁMENES Y
-TRATAMIENTOS MÉDICOS PARA ÁREA DE IMAGENEOLOGIA', 1, 29, 17, 2, 'Cochabamba', ' ING. YULY RAMIREZ LIMACHI', 1);
 INSERT INTO "public"."metadatos" VALUES (31, 'LIC. LUIS ABDON YANAPA CHAMBI', '2021-05-10', 2017, 'Las telecomunicaciones móviles en los últimos años son de mayor crecimiento y demanda
 dentro de los sistemas de comunicaciones a nivel mundial. En todo el mundo existe millones
 de usuarios que demandan el uso de teléfonos inteligentes con acceso a internet para
@@ -378,6 +354,33 @@ finalizar el proyecto se vio que se lograron todos los objetivos planteados en e
 documento.', 'ES', 'SISTEMA WEB DE COMPRA, VENTA E INVENTARIO DE
 MEDICAMENTOS Y SERVICIOS COMPLEMENTARIOS', 2, 35, 17, 1, 'La Paz - El Alto', '', 1);
 INSERT INTO "public"."metadatos" VALUES (38, 'LIC. JHANNET MONICA CALAMANI', '2020-11-10', 2021, 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', 'ES', 'LOREM IPSUM IS SIMPLY DUMMY TEXT OF THE PRINTING ANA', 2, 39, 25, 1, 'La Paz - El Alto', '', 1);
+INSERT INTO "public"."metadatos" VALUES (29, 'LIC. FRANZ GROVER FLORES CALLAPA EDITADO', '2021-03-10', 2018, 'La web ha evolucionado de forma rápida en diferentes aspectos, cabe mencionar
+que los sistemas de información transforman las instituciones y cambia su estructura
+por lo que permiten administrar, procesar datos en cualquier parte del mundo sin
+importar su plataforma para el procesamiento.
+El presente proyecto se desarrolló para el centro de imageneologia IMEDICA
+“imagen y vida”, dependiente del grupo radiológico cima, en donde se identificó
+problemas en distintas áreas como ser secretaría, laboratorio médico y laboratorio
+técnico, por lo tanto se implementó el presente proyecto titulado “SISTEMA DE
+REGISTRO Y CONTROL DE EXÁMENES Y TRATAMIENTOS MÉDICOS PARA
+ÁREA DE IMAGENEOLOGIA” con el cual se permite optimizar el tiempo y
+automatizar los procesos de la institución como ser: controlar las citas médicas,
+gestionar los diagnósticos emitidos por los médicos, controlar los pagos de los
+exámenes y verificar los estudios médicos mediante un visor DICOM 1y otros.
+La metodología empleada en el presente proyecto es la metodología META, que
+está dividida en Planteamiento, Acuerdos, Preparación, Análisis diseño,
+Construcción, Implantación y Retroalimentación. La evaluación de calidad de
+software se realizó con la norma ISO IEC 9126 que se basa en los parámetros de
+usabilidad, funcionabilidad, confiabilidad, mantenibilidad y portabilidad, en cuanto a
+seguridad de la información se recurrió a la norma ISO 227002 y finalmente para la
+estimación del costo del producto se usó COCOMO 3
+II con el modelo orgánico ya
+que las líneas de código no superan a los 50 KLDC4
+.
+Para el desarrollo del software las herramientas que se usaron fueron: el lenguaje
+de programación PHP, servidor de Base de Datos MariaDB, y en la parte del diseño
+HTML, JavaScript, Boostrap, Ajax y Css.', 'ES', 'SISTEMA DE REGISTRO Y CONTROL DE EXÁMENES Y
+TRATAMIENTOS MÉDICOS PARA ÁREA DE IMAGENEOLOGIA', 1, 29, 17, 2, 'Cochabamba', ' ING. YULY RAMIREZ LIMACHI', 1);
 INSERT INTO "public"."metadatos" VALUES (36, 'ING. IVAN GROVER MONZON INTIPAMPA', '2020-09-10', 2016, 'La administración de personal, requerimientos y contratos enfrenta múltiples desafíos. El
 principal desafío consiste en ayudar a las empresas, organizaciones, e instituciones a mejorar su
 estabilidad y su utilidad. Es por eso que, el desarrollo de sistemas para el manejo de información
@@ -825,6 +828,21 @@ Finalmente se concluye que los objetivos planteados fueron alcanzados y que el
 Sistema cumple con los requerimientos establecidos por el cliente.
 Palabras clave: Metodología ágil Kanban, UWE, Web-Site QEM, Sistema Web, Linux.', 'ES', 'EDUCACION VIRTUAL (E-LEARNING) COMO
 HERRAMIENTA DE ENSEÑANAZA EDITADO', 1, 50, 1, 3, 'La Paz - El Alto', 'LIC. ROBERTO DAVID MAYTA ALIGA', 1);
+INSERT INTO "public"."metadatos" VALUES (56, 'ING. MARICEL YARARI MAMANI', '2021-06-30', 2020, 'Más de mil millones de personas viven en todo el mundo con alguna forma de
+discapacidad; de ellas, casi 200 millones experimentan dificultades considerables en
+su funcionamiento.
+En los años futuros, la discapacidad será un motivo de preocupación aún mayor, pues
+su prevalencia está aumentando. Esto se debe a que la población está envejeciendo
+y el riesgo de discapacidad es superior entre los adultos mayores y también al aumento
+mundial de enfermedades crónicas tales como la diabetes, las enfermedades
+cardiovasculares, el cáncer y los trastornos de la salud mental (Organización Mundial
+de la Salud, 2018).
+Alrededor del 15% de la población mundial vive con algún tipo de discapacidad, la más
+afectada por esta condición es la población vulnerable ya que vive en ambientes poco
+adecuados para llevar un estilo de vida en el cual pueda desarrollarse y ser más
+independiente de sus actividades diarias (Organización Mundial de la Salud, 2018). ', 'ES', 'PROTOTIPO SILLA DE RUEDAS AUTOMATIZADA CON
+MONITOREO CARDIACO Y LOCALIZACIÓN GPS BAJO LA
+PLATAFORMA DE INTERNET DE LAS COSAS ', 1, 57, 6, 2, 'La Paz - El Alto', 'LIC. KATYA MARICELA PéREZ MARTíNEZ ', 11);
 
 -- ----------------------------
 -- Table structure for roles
@@ -882,6 +900,8 @@ INSERT INTO "public"."usuarios" VALUES (1, 'CTWILLY1412', '$2y$10$Ord5It5.KxtUcS
 INSERT INTO "public"."usuarios" VALUES (4, 'CHJORGE1111', '$2y$10$XP3V0q4FjXb49EyxxCkGwO4V0NfJdKcHeWALAxTb/KvnhpyXsM2cS', 'JORGE', 'CHOQUE', 't', 2);
 INSERT INTO "public"."usuarios" VALUES (2, 'CQMARCOS1111', '$2y$10$197Z96hhwqVyLh7QmgM6p.HMQ9CCvOjH.RbmFTdTgTmfDGZ/HMs2q', 'MARCOS', 'CHOQUE', 't', 2);
 INSERT INTO "public"."usuarios" VALUES (10, 'PRUEBA1234', '$2y$10$J.7dKU0/IEZkBpIZODp2ZusXWhfvPx6xzjiMFY30eRa7LvnE99tVC', 'PRUEBA', 'PRUEBA', 't', 2);
+INSERT INTO "public"."usuarios" VALUES (11, 'ADMIN1234', '$2y$10$6aG68ShEIOg74wDhnwCPU.m7dkv09/806Ok7X.dHNB4Q2iE0PW8d2', 'ADMIN', 'ADMIN', 't', 1);
+INSERT INTO "public"."usuarios" VALUES (12, 'PRUEBA', '$2y$10$myNmHG9K22Furgvm8ub82ekN0ZFuLbr6b2f3ItNRREPuo5efiYXOK', 'PRUEBA', 'PRUEBA', 'f', 2);
 
 -- ----------------------------
 -- Table structure for ver_esp
@@ -898,7 +918,6 @@ CREATE TABLE "public"."ver_esp" (
 -- Records of ver_esp
 -- ----------------------------
 INSERT INTO "public"."ver_esp" VALUES (10, 13, 10);
-INSERT INTO "public"."ver_esp" VALUES (6, 14, 6);
 INSERT INTO "public"."ver_esp" VALUES (1, 14, 1);
 INSERT INTO "public"."ver_esp" VALUES (13, 4, 13);
 INSERT INTO "public"."ver_esp" VALUES (2, 2, 2);
@@ -914,6 +933,8 @@ INSERT INTO "public"."ver_esp" VALUES (22, 1, 22);
 INSERT INTO "public"."ver_esp" VALUES (23, 2, 23);
 INSERT INTO "public"."ver_esp" VALUES (24, 2, 24);
 INSERT INTO "public"."ver_esp" VALUES (25, 4, 25);
+INSERT INTO "public"."ver_esp" VALUES (29, 1, 29);
+INSERT INTO "public"."ver_esp" VALUES (6, 14, 6);
 
 -- ----------------------------
 -- Table structure for versiones
@@ -942,6 +963,7 @@ INSERT INTO "public"."versiones" VALUES (6, 'VERSION V');
 INSERT INTO "public"."versiones" VALUES (8, 'VERSION VI');
 INSERT INTO "public"."versiones" VALUES (9, 'VERSION VII');
 INSERT INTO "public"."versiones" VALUES (10, 'VERSION VIII');
+INSERT INTO "public"."versiones" VALUES (19, 'VERSION XXX');
 
 -- ----------------------------
 -- View structure for view_archivo
@@ -1034,7 +1056,7 @@ CREATE VIEW "public"."view_archivos" AS  SELECT metadatos.id_categoria,
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 57, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 58, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1048,14 +1070,14 @@ SELECT setval('"public"."categorias_id_categoria_seq"', 9, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 29, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 30, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."metadatos"."id_metadato";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 56, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 57, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1076,21 +1098,21 @@ SELECT setval('"public"."tipos_id_tipo_seq"', 9, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
 OWNED BY "public"."usuarios"."id_usuario";
-SELECT setval('"public"."usuarios_id_usuario_seq"', 11, true);
+SELECT setval('"public"."usuarios_id_usuario_seq"', 13, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 29, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 30, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."versiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 19, true);
+SELECT setval('"public"."verisiones_id_version_seq"', 20, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
