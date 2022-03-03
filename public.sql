@@ -966,6 +966,19 @@ INSERT INTO "public"."versiones" VALUES (10, 'VERSION VIII');
 INSERT INTO "public"."versiones" VALUES (19, 'VERSION XXX');
 
 -- ----------------------------
+-- View structure for view_especialidades
+-- ----------------------------
+DROP VIEW IF EXISTS "public"."view_especialidades";
+CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
+    ver_esp.id_especialidad,
+    especialidades.especialidad,
+    ver_esp.id_ver_esp,
+    versiones.version
+   FROM especialidades
+     JOIN ver_esp USING (id_especialidad)
+     JOIN versiones USING (id_version);
+
+-- ----------------------------
 -- View structure for view_archivo
 -- ----------------------------
 DROP VIEW IF EXISTS "public"."view_archivo";
@@ -1004,18 +1017,6 @@ CREATE VIEW "public"."view_archivo" AS  SELECT metadatos.id_categoria,
      JOIN categorias USING (id_categoria)
      JOIN usuarios USING (id_usuario);
 
--- ----------------------------
--- View structure for view_especialidades
--- ----------------------------
-DROP VIEW IF EXISTS "public"."view_especialidades";
-CREATE VIEW "public"."view_especialidades" AS  SELECT ver_esp.id_version,
-    ver_esp.id_especialidad,
-    especialidades.especialidad,
-    ver_esp.id_ver_esp,
-    versiones.version
-   FROM especialidades
-     JOIN ver_esp USING (id_especialidad)
-     JOIN versiones USING (id_version);
 
 -- ----------------------------
 -- View structure for view_archivos
