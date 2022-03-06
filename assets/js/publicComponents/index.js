@@ -38,7 +38,9 @@ export default {
 											<router-link :to="'/document/'+row.uuid"class="trans_200" >{{row.titulo}} </router-link>
 										</div>
 										<div class="event_location"> autor:  <b>{{row.autor}} </b> ({{row.anio_creacion}})</div>
-										<p> {{row.resumen.slice(0, 150)}}...</p>
+										<p> {{row.resumen.slice(0, 150)}}...  
+										<router-link :to="'/document/'+row.uuid"class="trans_200" >Leer mas </router-link>
+										</p>
 									</div>
 								</div>
 
@@ -126,21 +128,26 @@ export default {
             inicio: 1,
             fin: 10,
             loader: false,
+            totalArchivos: 0,
+            filtroCategoria: 0,
+            filtroArea: 0,
+            filtroTipoDocumento: 0,
+            paginar: 0,
         }
     },
     mounted() {
 
-        this.cargarDocumentos()
+        this.getDataPagina(1)
 
     },
 
 
     methods: {
         totalPaginas() {
-            return Math.ceil(this.listadoDocumentosFiltrado.length / this.elementosPagina)
+            return Math.ceil(this.totalArchivos / this.elementosPagina)
         },
         totalResultados() {
-            return this.listadoDocumentosFiltrado.length
+            return this.totalArchivos
         },
         isActive(nroPagina) {
             return this.paginaActual == nroPagina ? 'active' : ''
@@ -150,13 +157,14 @@ export default {
             this.paginaActual = nroPagina
             this.datosPaginados = []
             let inicio = (nroPagina * this.elementosPagina) - this.elementosPagina
+
             let fin = (nroPagina * this.elementosPagina)
             this.inicio = inicio + 1
-            this.fin = (this.totalResultados() <= fin) ? this.totalResultados() : fin
-            this.datosPaginados = this.listadoDocumentosFiltrado.slice(inicio, fin)
+            this.cargarDocumentos(inicio);
 
             setTimeout(() => {
                 this.loader = false
+                this.fin = (this.totalResultados() <= fin) ? this.totalResultados() : fin
             }, 1500);
 
         },
@@ -174,40 +182,56 @@ export default {
             }
             this.getDataPagina(this.paginaActual)
         },
-        cargarDocumentos() {
+        cargarDocumentos(ofset) {
 
-            axios.get(this.url + 'archivo/listar')
+            axios.get(this.url + `archivo/listar/${this.elementosPagina}/${ofset}/${this.paginar}/${this.filtroArea}/${this.filtroCategoria}/${this.filtroTipoDocumento}`)
                 .then(res => {
 
-                    this.listadoDocumentos = res.data.archivos
 
-                    this.listadoDocumentosFiltrado = this.listadoDocumentos
-                    this.listadoEspecialidades = res.data.especialidades
-                    this.listadoCategorias = res.data.categorias
-                    this.listadoTipos = res.data.tipos
-                    this.getDataPagina(this.paginaActual)
+                    this.totalArchivos = res.data.total_archivos
+                    this.datosPaginados = res.data.archivos
+
+                    if (!this.paginar) {
+
+                        this.listadoDocumentos = res.data.archivos
+                        this.listadoDocumentosFiltrado = this.listadoDocumentos
+                        this.listadoEspecialidades = res.data.especialidades
+                        this.listadoCategorias = res.data.categorias
+                        this.listadoTipos = res.data.tipos
+                        this.datosPaginados = res.data.archivos
+
+                        this.paginar = 1
+                    }
+
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert("Ocrrio un error, Intente de nuevo")
                 })
 
         },
         consultarDocumentosEspecialidad(id_especialidad) {
-            this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_especialidad == id_especialidad)
+            this.filtroCategoria = 0;
+            this.filtroTipoDocumento = 0;
+            this.filtroArea = id_especialidad;
             this.getDataPagina(1);
         },
         consultarDocumentosCategoria(id_categoria) {
-            this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_categoria == id_categoria)
+            this.filtroArea = 0;
+            this.filtroTipoDocumento = 0;
+            this.filtroCategoria = id_categoria
             this.getDataPagina(1);
         },
 
         consultarDocumentosTipo(id_tipo) {
-            console.log(this.listadoDocumentos);
-            this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_tipo == id_tipo)
+            this.filtroCategoria = 0;
+            this.filtroArea = 0;
+            this.filtroTipoDocumento = id_tipo
             this.getDataPagina(1);
         },
         listarTodo() {
-            this.listadoDocumentosFiltrado = this.listadoDocumentos
+            this.filtroCategoria = 0;
+            this.filtroTipoDocumento = 0;
+            this.filtroArea = 0;
             this.getDataPagina(1)
         },
 

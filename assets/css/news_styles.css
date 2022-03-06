@@ -91,7 +91,7 @@ p a {
     display: inline;
     position: relative;
     color: inherit;
-    border-bottom: solid 1px #ffa07f;
+    border-bottom: solid 1px #ffb606;
     -webkit-transition: all 200ms ease;
     -moz-transition: all 200ms ease;
     -ms-transition: all 200ms ease;
@@ -112,12 +112,12 @@ a:link {
 
 p a:active {
     position: relative;
-    color: #FF6347;
+    color: #ffb606;
 }
 
 p a:hover {
-    color: #FFFFFF;
-    background: #ffa07f;
+    color: #ffb606;
+    /* background: #ffb606; */
 }
 
 p a:hover::after {

@@ -4,18 +4,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Archivo_model extends CI_Model {
 
-    public function get_archivos()
+    public function get_archivos($limit=10,$ofset=0,$id_especialidad,$id_categoria,$id_tipo_documento)
     {
-        return $this->db->get('view_archivo')->result();    
+		$this->db->select('uuid, titulo, autor, anio_creacion,SUBSTRING(resumen, 0,150) as resumen');
+		$this->db->order_by('id_archivo', 'desc');
+		if ($id_especialidad!=0) {
+			$this->db->where('id_especialidad', $id_especialidad);
+		}
+		if ($id_categoria!=0) {
+			$this->db->where('id_categoria', $id_categoria);
+		}
+		if ($id_tipo_documento!=0) {
+			$this->db->where('id_tipo', $id_tipo_documento);
+		}
+		$resultado["total_resultados"]=$this->db->count_all_results('view_archivo', FALSE);
+		$this->db->limit($limit,$ofset);
+		
+        $resultado["archivos"]= $this->db->get()->result();    
+
+		return $resultado;
     }
-	public function get_archivos_public()
+	public function get_archivos_public($limit=10,$ofset=0)
 	{
-		$sql= 'SELECT id_archivo, nombre, titulo, autor, anio_creacion, substr(resumen, 1, 250) as resumen
-				FROM  archivos
-				JOIN metadatos 
-				USING(id_archivo)';
-		return $this->db->query($sql)->result();
-		 
+	
+
+		$this->db->select('id_archivo, nombre, titulo, autor, anio_creacion, substr(resumen, 1, 250) as resumen');
+		$this->db->from('archivos');
+		$this->db->join('metadatos', 'metadatos.id_archivo = archivos.id_archivo', 'left');
+		$this->db->limit($limit, $ofset);
+		
+		
+		
+		return $this->db->get()->result();
 		
 	}
 
@@ -66,6 +86,11 @@ class Archivo_model extends CI_Model {
         
     }
 
+	public function get_total_archivos()
+	{
+		return $this->db->count_all('view_archivo');
+	}
+
 	//******************  categorias y tipos de  documentos***************
 
 	public function get_categorias()
@@ -81,6 +106,7 @@ class Archivo_model extends CI_Model {
 	{
 		return $this->db->query($sql)->result();
 	}
+
 
 	
 

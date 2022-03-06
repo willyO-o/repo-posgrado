@@ -6,6 +6,8 @@ class Especialidad_model extends CI_Model {
 
     public function get_especialidades()
     {
+		$this->db->order_by('RANDOM()');
+		$this->db->limit(10);
         return $this->db->get('view_especialidades')->result();
         
     }

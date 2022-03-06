@@ -17,17 +17,23 @@ class Archivo extends CI_Controller
 
 	public function getArchivo()
 	{
-		$data['archivos'] = $this->archivo_model->get_archivos();
+		$data['archivos'] = $this->archivo_model->get_archivos(10,0,0,0,0);
 		echo json_encode($data);
 	}
 
-	public function listar()
+	public function listar($limit=10,$ofset=0,$paginar=1,$id_especialidad=0,$id_categoria=0,$id_tipo_documento=0)
 	{
 		$this->load->model('especialidad_model');
-		$data['especialidades'] = $this->especialidad_model->get_especialidades();
-		$data['archivos'] = $this->archivo_model->get_archivos();
-		$data['categorias'] = $this->archivo_model->get_categorias();
-		$data['tipos'] = $this->archivo_model->get_tipos();
+		$resultado = $this->archivo_model->get_archivos($limit,$ofset,$id_especialidad,$id_categoria,$id_tipo_documento);
+		$data['archivos']=$resultado['archivos'];
+		$data['total_archivos'] = $resultado["total_resultados"];
+
+		if (!$paginar) {
+			$data['especialidades'] = $this->especialidad_model->get_especialidades();
+			$data['categorias'] = $this->archivo_model->get_categorias();
+			$data['tipos'] = $this->archivo_model->get_tipos();
+		}
+
 		echo json_encode($data);
 	}
 

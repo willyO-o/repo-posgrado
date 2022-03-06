@@ -83,7 +83,9 @@ export default {
 												<router-link :to="'/document/'+row.uuid"class="trans_200" >{{row.titulo}} </router-link>
 											</div>
 											<div class="event_location"> autor:  <b>{{row.autor}} </b> ({{row.anio_creacion}})</div>
-											<p> {{row.resumen.slice(0, 150)}}...</p>
+											<p> {{row.resumen.slice(0, 150)}}...
+											<router-link :to="'/document/'+row.uuid"class="trans_200" >Leer mas </router-link>
+											</p>
 										</div>
 									</div>
 
