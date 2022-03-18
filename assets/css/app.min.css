@@ -17535,3 +17535,18 @@ body {
     background-color: transparent;
     color: #0af;
 }
+
+
+.icon-list{
+	font-weight: bold;
+	font-size: 16px;
+}
+.icon-list:hover{
+	cursor:pointer;
+	
+}
+
+.caja-buscardor{
+	width: 250;
+	float: right;
+}

@@ -17,7 +17,22 @@ class Archivo extends CI_Controller
 
 	public function getArchivo()
 	{
-		$data['archivos'] = $this->archivo_model->get_archivos(10,0,0,0,0);
+		$data = $this->archivo_model->get_archivos(10,0,0,0,0);
+		echo json_encode($data);
+	}
+
+	public function filtrar_datos()
+	{
+		$datos['id_categoria']=$this->input->post('id_categoria');
+		$datos['id_tipo_documento']=$this->input->post('id_tipo');
+		$datos['id_autor']=$this->input->post('id_autor');
+		$datos['id_especialidad']=$this->input->post('id_especialidad');
+		$datos['texto_buscar']=$this->input->post('texto_buscar');
+		$limit= $this->input->post('limit') ? $this->input->post('limit'): 10	;
+		$ofset= $this->input->post('ofset') ? $this->input->post('ofset'): 0	;
+
+		$data=$this->archivo_model->filtrar_datos($datos,$limit,$ofset);
+
 		echo json_encode($data);
 	}
 
