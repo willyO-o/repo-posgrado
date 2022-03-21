@@ -17,30 +17,30 @@ class Archivo extends CI_Controller
 
 	public function getArchivo()
 	{
-		$data = $this->archivo_model->get_archivos(10,0,0,0,0);
+		$data = $this->archivo_model->get_archivos(10, 0, 0, 0, 0);
 		echo json_encode($data);
 	}
 
 	public function filtrar_datos()
 	{
-		$datos['id_categoria']=$this->input->post('id_categoria');
-		$datos['id_tipo_documento']=$this->input->post('id_tipo');
-		$datos['id_autor']=$this->input->post('id_autor');
-		$datos['id_especialidad']=$this->input->post('id_especialidad');
-		$datos['texto_buscar']=$this->input->post('texto_buscar');
-		$limit= $this->input->post('limit') ? $this->input->post('limit'): 10	;
-		$ofset= $this->input->post('ofset') ? $this->input->post('ofset'): 0	;
+		$datos['id_categoria'] = $this->input->post('id_categoria');
+		$datos['id_tipo_documento'] = $this->input->post('id_tipo');
+		$datos['id_autor'] = $this->input->post('id_autor');
+		$datos['id_especialidad'] = $this->input->post('id_especialidad');
+		$datos['texto_buscar'] = $this->input->post('texto_buscar');
+		$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+		$ofset = $this->input->post('ofset') ? $this->input->post('ofset') : 0;
 
-		$data=$this->archivo_model->filtrar_datos($datos,$limit,$ofset);
+		$data = $this->archivo_model->filtrar_datos($datos, $limit, $ofset);
 
 		echo json_encode($data);
 	}
 
-	public function listar($limit=10,$ofset=0,$paginar=1,$id_especialidad=0,$id_categoria=0,$id_tipo_documento=0)
+	public function listar($limit = 10, $ofset = 0, $paginar = 1, $id_especialidad = 0, $id_categoria = 0, $id_tipo_documento = 0)
 	{
 		$this->load->model('especialidad_model');
-		$resultado = $this->archivo_model->get_archivos($limit,$ofset,$id_especialidad,$id_categoria,$id_tipo_documento);
-		$data['archivos']=$resultado['archivos'];
+		$resultado = $this->archivo_model->get_archivos($limit, $ofset, $id_especialidad, $id_categoria, $id_tipo_documento);
+		$data['archivos'] = $resultado['archivos'];
 		$data['total_archivos'] = $resultado["total_resultados"];
 
 		if (!$paginar) {
@@ -55,6 +55,13 @@ class Archivo extends CI_Controller
 	public function getArchivoName($uuid)
 	{
 		$data['documento'] = $this->archivo_model->get_view_archivo_uuid($uuid);
+		echo json_encode($data);
+	}
+
+	public function archivo_id()
+	{
+		$id_metadato=(int)$this->input->post('id_documento');
+		$data["documento"]=$this->archivo_model->listar_documento_id($id_metadato);
 		echo json_encode($data);
 	}
 
@@ -75,6 +82,7 @@ class Archivo extends CI_Controller
 				'id_categoria' => $this->input->post('id_categoria'),
 				'id_tipo' => $this->input->post('id_tipo'),
 				'id_ver_esp' => $this->input->post('id_ver_esp'),
+				'estado_documento'=> "actualizado",
 			);
 			if ($this->archivo_model->update_metadatos($metadata, $id_archivo)) {
 
@@ -118,7 +126,8 @@ class Archivo extends CI_Controller
 						'id_tipo' => $this->input->post('id_tipo'),
 						'id_ver_esp' => $this->input->post('id_ver_esp'),
 						'id_archivo' => $id_archivo,
-						'id_usuario'=> $this->session->userdata('id'),
+						'id_usuario' => $this->session->userdata('id'),
+						'estado_documento'=> "registrado",
 					);
 					if ($this->archivo_model->set_metadatos($metadata)) {
 
@@ -195,18 +204,15 @@ class Archivo extends CI_Controller
 
 	public function delete()
 	{
-		$id_archivo = $this->input->post('id_archivo');
-		$datos_archivo = $this->archivo_model->get_archivo_id($id_archivo);
-		if ($datos_archivo) {
-			if ($this->archivo_model->delete_archivo($id_archivo)) {
-				unlink('./uploads/' . $datos_archivo->nombre);
-				$data['respuesta'] = 1;
-			} else {
-				$data['respuesta'] = 0;
-			}
+		$id_documento = (int) $this->input->post('id_metadato');
+
+		$res=$this->archivo_model->delete_documento($id_documento);
+		if ($res) {
+			$data['respuesta'] = 1;
 		} else {
 			$data['respuesta'] = 0;
 		}
+
 		echo json_encode($data);
 	}
 
@@ -227,24 +233,21 @@ class Archivo extends CI_Controller
 					$sql .= " OR titulo ILIKE '%" . $palabra[$i] . "%' OR resumen ILIKE '%" . $palabra[$i] . "%' OR especialidad ILIKE '%" . $palabra[$i] . "%' ";
 				}
 			}
-			
 		}
 		if ($id_categoria != 0) {
-			$subconsulta="SELECT * FROM (".$sql.") consulta ";
-			$sql=$subconsulta;
-			$sql .=  " WHERE id_categoria=" . $id_categoria ;
-	
+			$subconsulta = "SELECT * FROM (" . $sql . ") consulta ";
+			$sql = $subconsulta;
+			$sql .=  " WHERE id_categoria=" . $id_categoria;
 		}
 		if ($anio != 0) {
-			if ($id_categoria==0) {
-				$subconsulta="SELECT * FROM (".$sql.") consulta ";
-				$sql=$subconsulta;
-				$sql .=  "WHERE anio_creacion=" . $anio ;
-			}else{
-				
-				$sql .=  " AND anio_creacion=" . $anio ;
-			}
+			if ($id_categoria == 0) {
+				$subconsulta = "SELECT * FROM (" . $sql . ") consulta ";
+				$sql = $subconsulta;
+				$sql .=  "WHERE anio_creacion=" . $anio;
+			} else {
 
+				$sql .=  " AND anio_creacion=" . $anio;
+			}
 		}
 
 		//echo json_encode($sql);die();
@@ -259,20 +262,42 @@ class Archivo extends CI_Controller
 	public function getEstadisticas()
 	{
 		$this->load->model('estadistica_model');
-		
-		$data['nroArchivos']=$this->estadistica_model->nroArchivos();
-		$data['nroEspecialidades']=$this->estadistica_model->nroEspecialidades();
-		$data['anios']=$this->estadistica_model->get_anios();
+
+		$data['nroArchivos'] = $this->estadistica_model->nroArchivos();
+		$data['nroEspecialidades'] = $this->estadistica_model->nroEspecialidades();
+		$data['anios'] = $this->estadistica_model->get_anios();
 
 		echo json_encode($data);
-		
 	}
 
 	public function barras($anio)
 	{
 		$this->load->model('estadistica_model');
 
-		$data['barras']=$this->estadistica_model->get_barra($anio);
+		$data['barras'] = $this->estadistica_model->get_barra($anio);
+
+		echo json_encode($data);
+	}
+
+	public function buscar_especialidad()
+	{
+
+		$this->load->model('especialidad_model');
+
+		$texto = $this->input->post('term');
+		$data = $this->especialidad_model->buscar_especialidad($texto);
+		echo json_encode($data);
+	}
+
+	public function listar_filtros()
+	{
+
+		$this->load->model('categoria_model');
+		$this->load->model('tipo_model');
+
+
+		$data["tipos_documento"] = $this->tipo_model->listar_tipos(true);
+		$data["categorias"] = $this->categoria_model->listar_categorias(true);
 
 		echo json_encode($data);
 	}

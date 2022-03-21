@@ -6,57 +6,92 @@ class Archivo_model extends CI_Model {
 
     public function get_archivos($limit=10,$ofset=0,$id_especialidad,$id_categoria,$id_tipo_documento)
     {
-		$this->db->select('uuid,SUBSTRING( titulo,0,70) as titulo, autor, anio_creacion,SUBSTRING(resumen, 0,150) as resumen');
-		$this->db->order_by('id_archivo', 'desc');
-		if ($id_especialidad!=0) {
-			$this->db->where('id_especialidad', $id_especialidad);
-		}
-		if ($id_categoria!=0) {
-			$this->db->where('id_categoria', $id_categoria);
-		}
-		if ($id_tipo_documento!=0) {
-			$this->db->where('id_tipo', $id_tipo_documento);
-		}
-		$resultado["total_resultados"]=$this->db->count_all_results('view_archivo', FALSE);
-		$this->db->limit($limit,$ofset);
-		
-        $resultado["archivos"]= $this->db->get()->result();    
-
-		return $resultado;
-    }
-
-	public function filtrar_datos(array $filtros,int $limit,int $ofset)
-	{
-		$filtros=(object)$filtros;
 		$this->db->start_cache() ;
-		$this->db->select('uuid,SUBSTRING( titulo,0,70) as titulo, autor, anio_creacion,SUBSTRING(resumen, 0,150) as resumen');
+		$this->db->select('uuid,SUBSTRING( titulo,0,70) as titulo, autor, anio_creacion, resumen, usuario,categoria,version,especialidad, 
+							anio_creacion, fecha_publicacion, formato, lenguaje,  sede, tipo, tutor , usuarios.nombre as nombre_usuario, apellido, archivos.nombre');
 		$this->db->from('archivos');
 		$this->db->join('metadatos', 'metadatos.id_archivo = archivos.id_archivo', 'left');
+		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = metadatos.id_ver_esp', 'left');
+		$this->db->join('especialidades', 'especialidades.id_especialidad = ver_esp.id_especialidad', 'left');
+		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
+		$this->db->join('categorias', 'categorias.id_categoria = metadatos.id_categoria', 'left');
+		$this->db->join('tipos', 'tipos.id_tipo = metadatos.id_tipo', 'left');
+		$this->db->join('usuarios', 'usuarios.id_usuario = metadatos.id_usuario', 'left');
 
-		if ($filtros->texto_buscar!="") {
-			$this->db->like("titulo", strtoupper($filtros->texto_buscar));
-			$this->db->or_like("autor", strtoupper($filtros->texto_buscar));
-
-		}
-		
-		
-		
-		if ($filtros->id_especialidad!=0) {
-			$this->db->where('id_especialidad', $filtros->id_especialidad);
-		}
-		if ($filtros->id_categoria!=0) {
-			$this->db->where('id_categoria', $filtros->id_categoria);
-		}
-		if ($filtros->id_tipo_documento!=0) {
-			$this->db->where('id_tipo', $filtros->id_tipo_documento);
-		}
-		$this->db->order_by('id_archivo', 'desc');
+		$this->db->order_by('metadatos.id_archivo', 'desc');
 		$this->db->stop_cache();
 		$resultado["total_resultados"]=$this->db->count_all_results();
 
 		$this->db->limit($limit,$ofset);
         $resultado["archivos"]= $this->db->get()->result();    
 		$this->db->flush_cache();
+		return $resultado;
+    }
+
+	public function filtrar_datos(array $filtros,int $limit,int $ofset, bool $es_admin=false)
+	{
+		$filtros=(object)$filtros;
+		$this->db->start_cache() ;
+		$this->db->select('SUBSTRING( titulo,0,70) as titulo, autor, anio_creacion, resumen,  
+							anio_creacion, fecha_publicacion,   sede, tutor,  id_metadato ');
+		$this->db->from('metadatos');
+		
+		if (!$es_admin) {
+			$this->db->where('metadatos.estado_documento !=', "eliminado");
+			
+		}
+
+		if ($filtros->texto_buscar!="") {
+			$this->db->like("titulo", strtoupper($filtros->texto_buscar));
+		//	$this->db->or_like("autor", strtoupper($filtros->texto_buscar));
+
+		}
+		
+		if ($filtros->id_especialidad!=0) {
+			$this->db->where('metadatos.id_ver_esp', $filtros->id_especialidad);
+		}
+		if ($filtros->id_categoria!=0) {
+			$this->db->where('metadatos.id_categoria', $filtros->id_categoria);
+		}
+		if ($filtros->id_tipo_documento!=0) {
+			$this->db->where('metadatos.id_tipo', $filtros->id_tipo_documento);
+		}
+
+
+		$this->db->order_by('id_archivo', 'desc');
+		$this->db->stop_cache();
+		$resultado["total_resultados"]=$this->db->count_all_results();
+
+		$this->db->limit($limit,$ofset);
+        $resultado["archivos"]= $this->db->get()->result(); 
+		$resultado["q"]=$this->db->last_query();
+		$this->db->flush_cache();
+		return $resultado;
+
+	}
+
+
+	public function listar_documento_id(int $id_documento, bool $es_admin=false)
+	{
+	
+		$this->db->start_cache() ;
+		$this->db->select('uuid, titulo, autor, anio_creacion, resumen, usuario,categoria,version,especialidad, metadatos.id_categoria ,metadatos.id_tipo, metadatos.id_ver_esp, 
+							anio_creacion, fecha_publicacion, formato, lenguaje,  sede, tipo, tutor, usuarios.nombre as nombre_usuario, apellido, archivos.nombre, id_metadato ');
+		$this->db->from('archivos');
+		$this->db->join('metadatos', 'metadatos.id_archivo = archivos.id_archivo', 'left');
+		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = metadatos.id_ver_esp', 'left');
+		$this->db->join('especialidades', 'especialidades.id_especialidad = ver_esp.id_especialidad', 'left');
+		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
+		$this->db->join('categorias', 'categorias.id_categoria = metadatos.id_categoria', 'left');
+		$this->db->join('tipos', 'tipos.id_tipo = metadatos.id_tipo', 'left');
+		$this->db->join('usuarios', 'usuarios.id_usuario = metadatos.id_usuario', 'left');
+		if (!$es_admin) {
+			$this->db->where('metadatos.estado_documento !=', "eliminado");
+		}
+		$this->db->where('metadatos.id_metadato', $id_documento);
+		
+		$resultado= $this->db->get()->row();
+		
 		return $resultado;
 
 	}
@@ -111,8 +146,15 @@ class Archivo_model extends CI_Model {
     public function delete_archivo(int $id_archivo)
     {
         $this->db->where('id_archivo', $id_archivo);
-        return $this->db->delete('archivos');
-        
+		return $this->db->update('archivos', ["estado_documento"=>"eliminado"]);
+		
+    }
+
+	public function delete_documento(int $id_documento)
+    {
+        $this->db->where('id_metadato', $id_documento);
+		return $this->db->update('metadatos', ["estado_documento"=>"eliminado"]);
+		
     }
 
 	public function get_ver_est_id(int $id_ver_esp)

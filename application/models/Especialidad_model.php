@@ -89,6 +89,23 @@ class Especialidad_model extends CI_Model {
         
     }
 
+	public function buscar_especialidad(string $texto)
+	{
+		$texto=strtolower($texto);
+		$this->db->select("ver_esp.id_ver_esp as id, especialidad || ' ' || version as text ");
+		$this->db->from('especialidades');
+		$this->db->join('ver_esp', 'ver_esp.id_especialidad = especialidades.id_especialidad', 'left');
+		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
+		$this->db->like('LOWER(especialidad)', $texto);
+		$this->db->or_like('LOWER(version)', $texto);
+		 $data=$this->db->get()->result();
+
+		array_unshift($data,(Object)["id"=>0, "text"=> "Todos"]);
+		
+		return $data;
+		
+	}
+
 }
 
 /* End of file especialidad_model.php */

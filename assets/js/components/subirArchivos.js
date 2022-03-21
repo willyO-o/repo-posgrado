@@ -276,7 +276,7 @@ export default {
     methods: {
 
         verificarInput() {
-            console.log(this.inputDocumento.value);
+            // console.log(this.inputDocumento.value);
             if (!this.inputDocumento.value) {
                 this.src = ''
             }

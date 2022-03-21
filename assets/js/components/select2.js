@@ -2,7 +2,7 @@ export default {
     props: ['options', 'value'],
     template: //html
         ` 
-	<select>
+	<select style="width:100%">
 		<slot></slot>
 	</select>
   	`,

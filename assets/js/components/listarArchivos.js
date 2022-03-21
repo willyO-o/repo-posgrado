@@ -1,9 +1,9 @@
 import ModalArchivo from './modalDetallesArchivo.js';
-
+import Select2Ajax from './select2Ajax.js';
 export default {
-	template: //html
-		`
-	<div class="mb-5">
+    template: //html
+        `
+	<div class="">
 		<h1>Documentos</h1>
 	
 		<!-- Modal -->
@@ -26,13 +26,44 @@ export default {
 			</div>
 		</div>
 	
-		<div class="card mb-5">
+		<div class="card mb-0">
 			<div class="card-header d-flex justify-content-between">
 				<h3 class="card-title mt-2">Listado de Documentos</h3>
 				<router-link to="/archivos/subir" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Documento</span></router-link>
 			</div>
 			<div class="card-body">
 				<!-- table-responsive-->
+					<fieldset class=" border p-3 mb-3" id="filtros-documento">
+						<legend class="w-auto px-3">Filtrar</legend>
+						<div class="row">
+							<div class="col-md-3 col-sm-6">
+								<label class="text-center w-100"> Especialidad</label>
+								<Select2Ajax :url="url_especialidad" v-model="filtro_id_especialidad"  class="form-control" />
+							</div>
+							<div class="col-md-3 col-sm-6">
+								<label class="text-center w-100"> Autor</label>
+								<select v-model="filtro_id_autor" class="form-control" >
+									<option value="0"> Todos</option>
+								</select>
+							</div>
+							<div class="col-md-3 col-sm-6">
+								<label class="text-center w-100"> Tipo Documento</label>
+								<select v-model="filtro_id_tipo" class="form-control" >
+									<option :selected="tipo.tipo === 'Todos'" :value="tipo.id_tipo" v-for="tipo in listaTipoDocumentos" :key="tipo.id_tipo"> {{tipo.tipo}} </option>
+
+								</select>
+							</div>
+							<div class="col-md-3 col-sm-6">
+								<label class="text-center w-100"> Categoria </label>
+								<select v-model="filtro_id_categoria" class="form-control" >
+									<option selected :value="categ.id_categoria" v-for="categ in listaCategorias" :key="categ.id_categoria"> {{categ.categoria}} </option>
+								</select>
+							</div>
+
+						</div>
+						
+					</fieldset>
+					
 					<div class="caja-buscardor">
 						<div class="input-group  mb-3">
 							<input type="search" class="form-control" v-model="filtros.textoBuscar" placeholder="Buscar"  @input="buscar()" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -42,7 +73,7 @@ export default {
 						</div>
 					</div>
 				
-					<table id="datatable-export" class="table table-striped">
+					<table id="tabla" class="table table-striped">
 						<thead class="thead-light">
 							<tr>
 								<th>#</th>
@@ -52,13 +83,13 @@ export default {
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(item,index) of listaArchivos" :key="item.id_archivo">
-								<td>{{index+1}}</td>
+							<tr v-for="(item,index) of listaArchivos" :key="item.id_metadato">
+								<td>{{index + indicePagina()+1 }}</td>
 								<td>{{item.titulo}}...</td>
 								<td>{{item.autor}}</td>
 								<td>
-									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item)"></i>
-									<i class="icon-list ti-pencil text-warning mx-2" @click="irEditar(); setStateEditarArchivo(item)"></i>
+									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_metadato)"></i>
+									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_metadato)"></i>
 									<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
 								</td>
 							</tr>
@@ -76,21 +107,25 @@ export default {
 							</tr>
 						</thead>
 					</table>
-					<div class="paginador">
+					<div class="paginador" id="paginador">
 						<nav aria-label="Page navigation example" v-if="totalResultados()!=0">
 							<ul class="pagination">
-								<li class="page-item disabled">
-									<a class="page-link" href="#" aria-label="Previous">
+								<li class="page-item " :class="esDisableAnterior()" @click="botonAnterior()">
+									<a class="page-link" aria-label="Previous">
 										Anterior
 									</a>
 								</li>
-								<li class="page-item active"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-								<li class="page-item"><a class="page-link" href="#">5</a></li>
-								<li class="page-item">
-									<a class="page-link" href="#" aria-label="Next">
+
+								<li class="page-item"  v-if="esPrincipio()"><a class="page-link">1</a></li>
+								<li class="page-item disabled" v-if="esPrincipio()"><a class="page-link">...</a></li>
+
+								<li class="page-item"  v-for="pagina in nroPaginas()" @click="buscar(pagina)" :class="esActivo(pagina)"><a class="page-link">{{pagina}}</a></li>
+								
+								<li class="page-item disabled"  v-if="esPrincipio()"><a class="page-link">...</a></li>
+								<li class="page-item" v-if="esPrincipio()"><a class="page-link">2</a></li>
+
+								<li class="page-item" :class="esDisableSiguiente()" @click="botonSiguiente()">
+									<a class="page-link" aria-label="Next">
 										Siguiente
 									</a>
 								</li>
@@ -128,209 +163,299 @@ export default {
 	</div>
 	
 	`,
-	components: { ModalArchivo },
-	data() {
-		return {
-			url: base_url,
-			datatable: null,
-			listaArchivos: [],
-			modalEliminar: false,
-			archivoEliminar: '',
-			verDoc: false,
-			totalResultadosQuery: 0,
-			detallesArchivo: {
+    components: { ModalArchivo, Select2Ajax },
+    data() {
+        return {
+            url: base_url,
+            datatable: null,
+            listaArchivos: [],
+            modalEliminar: false,
+            archivoEliminar: '',
+            verDoc: false,
+            totalResultadosQuery: 0,
+            pagina_actual: 1,
+            paginar: 0,
+            elementos_pagina: 10,
+            listaTipoDocumentos: [],
+            listaCategorias: [],
+            detallesArchivo: {
 
-				anio_creacion: 0,
-				autor: "",
-				categoria: "",
-				descripcion: "",
-				especialidad: "",
-				fecha_publicacion: '',
-				formato: '',
-				id_archivo: '',
-				id_categoria: '',
-				id_especialidad: '',
-				id_metadato: '',
-				id_tipo: '',
-				id_ver_esp: '',
-				id_version: '',
-				lenguaje: '',
-				nombre: '',
-				resumen: '',
-				sede: '',
-				tamanio: '',
-				tipo: '',
-				titulo: '',
-				tutor: '',
-				uuid: '',
-				version: '',
+                anio_creacion: 0,
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
+                fecha_publicacion: '',
+                formato: '',
+                id_archivo: '',
+                id_categoria: '',
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: '',
+                id_version: '',
+                lenguaje: '',
+                nombre: '',
+                resumen: '',
+                sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
 
-			},
-			filtros: {
-				id_categoria: 0,
-				id_especialidad: 0,
-				id_tipo: 0,
-				id_autor: 0,
-				textoBuscar: "",
-			},
-
-
-			idArchivo: '',
-
-			especialidad: {
-				id: 0,
-				espec: '',
-				id_version: 0,
-				version: '',
-				id_ver_esp: 0
-			},
-			textoBuscar: "",
-
-		}
-	},
-	created() {
-
-		this.listarArchivos();
+            },
+            filtros: {
+                id_categoria: 0,
+                id_especialidad: 0,
+                id_tipo: 0,
+                id_autor: 0,
+                textoBuscar: "",
+            },
 
 
-	},
+            idArchivo: '',
 
-	methods: {
-		mostrarModalEliminar() {
-			$('#modalConfimEliminarArchivo').modal('show')
+            especialidad: {
+                id: 0,
+                espec: '',
+                id_version: 0,
+                version: '',
+                id_ver_esp: 0
+            },
+            probando: 2,
+            textoBuscar: "",
+            filtro_id_especialidad: null,
+            filtro_id_autor: null,
+            filtro_id_tipo: null,
+            filtro_id_categoria: null,
+            indicePaginaSuma: 0,
 
-		},
-		ocultarModalEliminar() {
-			$('#modalConfimEliminarArchivo').modal('hide')
-		},
-
-		mostrarModal() {
-			$('#modal').modal('show')
-
-		},
-		ocultarModal() {
-			$('#modal').modal('hide')
-			this.setStateVerDocumento(false)
-		},
-		limpiar() {
-			this.idArchivo = 0
-			this.archivoEliminar = ''
-		},
-
-		listarArchivos() {
-
-			axios.post(this.url + "archivo/getArchivo")
-				.then(respuesta => {
-
-					this.listaArchivos = respuesta.data.archivos
-					this.totalResultadosQuery = respuesta.data.total_resultados
-					console.log(respuesta);
-
-				})
-				.catch(error => {
-					console.log(error);
-				})
-			//this.listaArchivos = res.data.archivos
-
-		},
-
-		datatab() {
-			//console.log(this.listaArchivos);
-
-		},
-		verDetallesArchivo(item) {
-
-			this.detallesArchivo = Object.assign({}, item)
-
-			this.mostrarModal()
-
-		},
-
-		confirm(item) {
-			this.mostrarModalEliminar()
-			this.idArchivo = item.id_archivo
-			this.archivoEliminar = item.titulo
-		},
+            url_autor: base_url + "archivo/buscar_autor",
+            url_especialidad: base_url + "archivo/buscar_especialidad",
 
 
-		eliminarConfirmado() {
+        }
+    },
+    created() {
 
-			let data = new FormData();
-			data.append('id_archivo', this.idArchivo)
+        this.buscar();
+        this.cargarFiltros();
 
-			axios.post(this.url + "archivo/delete", data)
-				.then(res => {
-					if (res.data.respuesta) {
+    },
 
-						Swal.fire({
-							position: 'top-end',
-							icon: 'success',
-							title: 'Especialidad Eliminada',
-							showConfirmButton: false,
-							timer: 1500
-						})
-						this.listarArchivos()
-						this.ocultarModalEliminar()
-						this.limpiar()
-					} else {
-						Swal.fire({
-							position: 'top-end',
-							icon: 'error',
-							title: 'Ocurrio un error, Intente de nuevo',
-							showConfirmButton: false,
-							timer: 1500
-						})
-					}
+    methods: {
+        nroPaginas() {
+            let total_paginas = Math.ceil(this.totalResultadosQuery / this.elementos_pagina)
+            let nro_paginas = total_paginas;
+            if (total_paginas > 5) {
+                nro_paginas = 5;
+            }
+            return nro_paginas;
+        },
+        esActivo(pagina) {
+            return this.pagina_actual == pagina ? "active" : "";
+        },
+        esDisableAnterior() {
+            return this.pagina_actual == 1 ? "disabled" : "";
+        },
+        esDisableSiguiente() {
+            return this.pagina_actual == this.nroPaginas() ? "disabled" : ""
+        },
 
-				}).catch(erro => {
-					alert('error ! ' + erro)
-				})
-		},
-		irEditar() {
+        esPrincipio() {
+            return false;
+        },
+        botonAnterior() {
+            if (this.pagina_actual > 1) {
+                this.pagina_actual--;
+                this.buscar(this.pagina_actual);
 
-			$('#modal').modal('hide')
-			this.$router.push('/archivos/subir')
+            }
 
-		},
-		totalResultados() {
-			return this.totalResultadosQuery;
-		}
-		,
-		buscar() {
+        },
+        botonSiguiente() {
+            if (this.pagina_actual < this.nroPaginas()) {
+                this.pagina_actual++;
+                this.buscar(this.pagina_actual);
 
-			let fm = new FormData();
-			fm.append("id_categoria", this.filtros.id_categoria);
-			fm.append("texto_buscar", this.filtros.textoBuscar);
-			fm.append("id_tipo", this.filtros.id_tipo);
-			fm.append("id_especialidad", this.filtros.id_especialidad);
-			fm.append("id_autor", this.filtros.id_autor);
+            }
 
-			axios.post(this.url + "archivo/filtrar_datos", fm)
-				.then(res => {
-					console.log(res)
-					this.listaArchivos = res.data.archivos;
-					this.totalResultadosQuery=res.data.total_resultados;
-				})
-				.catch(err => {
-					console.error(err);
-				})
+        },
+        indicePagina() {
+            return this.pagina_actual != 1 ? (this.pagina_actual - 1) * 10 : 0;
+        },
+        mostrarModalEliminar() {
+            $('#modalConfimEliminarArchivo').modal('show')
+
+        },
+        ocultarModalEliminar() {
+            $('#modalConfimEliminarArchivo').modal('hide')
+        },
+
+        mostrarModal() {
+            $('#modal').modal('show')
+
+        },
+        ocultarModal() {
+            $('#modal').modal('hide')
+            this.setStateVerDocumento(false)
+        },
+        limpiar() {
+            this.idArchivo = 0
+            this.archivoEliminar = ''
+        },
+
+        cargarFiltros() {
+
+            axios.post(this.url + "archivo/listar_filtros")
+                .then(respuesta => {
+                    this.listaCategorias = respuesta.data.categorias;
+                    this.listaTipoDocumentos = respuesta.data.tipos_documento;
+
+                })
+                .catch(error => {
+                    this.listaCategorias = [];
+                    this.listaTipoDocumentos = [];
+                })
+
+        },
+
+        verDetallesArchivo(id_documento) {
+
+            let fm = new FormData();
+            fm.append("id_documento", id_documento);
+            axios.post(this.url + "archivo/archivo_id", fm)
+                .then(res => {
+                    this.detallesArchivo = Object.assign({}, res.data.documento);
+                    this.mostrarModal();
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+        },
+
+        confirm(item) {
+            this.mostrarModalEliminar()
+            this.idArchivo = item.id_metadato
+            this.archivoEliminar = item.titulo
+            console.log(item);
+        },
+
+
+        eliminarConfirmado() {
+
+            let data = new FormData();
+            data.append('id_metadato', this.idArchivo)
+            console.log(this.idArchivo);
+            axios.post(this.url + "archivo/delete", data)
+                .then(res => {
+                    if (res.data.respuesta) {
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Especialidad Eliminada',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        this.ocultarModalEliminar()
+                        this.limpiar()
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, Intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+                }).catch(erro => {
+                    alert('error ! ' + erro)
+                })
+        },
+        irEditar() {
+
+            $('#modal').modal('hide')
+            this.$router.push('/archivos/subir')
+
+        },
+        totalResultados() {
+            return this.totalResultadosQuery;
+        },
+        buscar(pagina = 0) {
+            this.pagina_actual = pagina != 0 ? pagina : 1;
+            pagina != 0 ? pagina = (pagina - 1) * 10 : 0;
+            let fm = new FormData();
+            fm.append("id_categoria", this.filtros.id_categoria);
+            fm.append("texto_buscar", this.filtros.textoBuscar);
+            fm.append("id_tipo", this.filtros.id_tipo);
+            fm.append("id_especialidad", this.filtros.id_especialidad);
+            fm.append("id_autor", this.filtros.id_autor);
+            fm.append("ofset", pagina);
+
+
+            axios.post(this.url + "archivo/filtrar_datos", fm)
+                .then(res => {
+                    //console.log(res)
+                    this.listaArchivos = res.data.archivos;
+                    this.totalResultadosQuery = res.data.total_resultados;
+
+                })
+                .catch(err => {
+
+                    this.listaArchivos = [];
+                    this.totalResultadosQuery = 0;
+
+                })
 
 
 
-		},
-		...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
+        },
+        setEditarDocumento(id_documento) {
+            let fm = new FormData();
+            fm.append("id_documento", id_documento);
+            axios.post(this.url + "archivo/archivo_id", fm)
+                .then(res => {
+                    this.detallesArchivo = Object.assign({}, res.data.documento);
+                    this.setStateEditarArchivo(this.detallesArchivo);
+                    this.irEditar();
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+
+        },
+        ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
 
 
 
-	},
-	mounted() {
-		this.datatab();
+    },
+    watch: {
+        filtro_id_especialidad: function(val) {
+            this.filtros.id_especialidad = val;
+            this.buscar();
+        },
+        filtro_id_categoria: function(val) {
+            this.filtros.id_categoria = val;
+            this.buscar();
+        },
+        filtro_id_tipo: function(val) {
+            this.filtros.id_tipo = val;
+            this.buscar();
+        },
 
-	},
-	computed: {
-		...Vuex.mapState(['verDocumento'])
+    },
 
-	},
+    computed: {
+        ...Vuex.mapState(['verDocumento'])
+
+    },
 
 
 }

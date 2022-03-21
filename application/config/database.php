@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=posgrado_repositorio',
+	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=srp',
 	'hostname' => 'localhost',
 	'username' => 'postgres',
 	'password' => 'root',
-	'database' => 'posgrado_repositorio',
+	'database' => 'srp',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
