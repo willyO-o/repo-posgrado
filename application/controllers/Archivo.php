@@ -5,6 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Archivo extends CI_Controller
 {
 
+	private $ruta_archivos="./uploads/";
 
 	public function __construct()
 	{
@@ -60,8 +61,8 @@ class Archivo extends CI_Controller
 
 	public function archivo_id()
 	{
-		$id_metadato=(int)$this->input->post('id_documento');
-		$data["documento"]=$this->archivo_model->listar_documento_id($id_metadato);
+		$id_metadato = (int)$this->input->post('id_documento');
+		$data["documento"] = $this->archivo_model->listar_documento_id($id_metadato);
 		echo json_encode($data);
 	}
 
@@ -82,7 +83,7 @@ class Archivo extends CI_Controller
 				'id_categoria' => $this->input->post('id_categoria'),
 				'id_tipo' => $this->input->post('id_tipo'),
 				'id_ver_esp' => $this->input->post('id_ver_esp'),
-				'estado_documento'=> "actualizado",
+				'estado_documento' => "actualizado",
 			);
 			if ($this->archivo_model->update_metadatos($metadata, $id_archivo)) {
 
@@ -94,7 +95,7 @@ class Archivo extends CI_Controller
 
 			$uuid = uniqid();
 			$config['file_name'] = $uuid;
-			$config['upload_path'] = './uploads/';
+			$config['upload_path'] = $this->ruta_archivos;
 			$config['allowed_types'] = 'pdf';
 			$config['max_size']  = 32000;
 			$this->load->library('upload', $config);
@@ -127,13 +128,13 @@ class Archivo extends CI_Controller
 						'id_ver_esp' => $this->input->post('id_ver_esp'),
 						'id_archivo' => $id_archivo,
 						'id_usuario' => $this->session->userdata('id'),
-						'estado_documento'=> "registrado",
+						'estado_documento' => "registrado",
 					);
 					if ($this->archivo_model->set_metadatos($metadata)) {
 
 						$respuesta = array('error' => 0);
 					} else {
-						unlink('./uploads/' . $resultado['upload_data']['file_name']);
+						unlink($this->ruta_archivos . $resultado['upload_data']['file_name']);
 						$respuesta = array('error' => 1);
 					}
 				} else {
@@ -206,7 +207,7 @@ class Archivo extends CI_Controller
 	{
 		$id_documento = (int) $this->input->post('id_metadato');
 
-		$res=$this->archivo_model->delete_documento($id_documento);
+		$res = $this->archivo_model->delete_documento($id_documento);
 		if ($res) {
 			$data['respuesta'] = 1;
 		} else {
@@ -300,6 +301,27 @@ class Archivo extends CI_Controller
 		$data["categorias"] = $this->categoria_model->listar_categorias(true);
 
 		echo json_encode($data);
+	}
+
+	private function extraer_paginas_documento($ruta_documento = "")
+	{
+
+
+		if (!file_exists($this->ruta_archivos."60c22a1e86079.pdf"))
+			return 0;
+		if (!$fp = @fopen($this->ruta_archivos."60c22a1e86079.pdf", "r"))
+			return 0;
+		$i = 0;
+		$type = "/Contents";
+		while (!feof($fp)) {
+			$line = fgets($fp, 255);
+			$x = explode($type, $line);
+			if (count($x) > 1) {
+				$i++;
+			}
+		}
+		fclose($fp);
+		return (int) $i;
 	}
 }
 

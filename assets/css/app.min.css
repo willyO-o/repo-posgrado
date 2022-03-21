@@ -17550,7 +17550,7 @@ body {
     float: right;
 }
 
-#filtros-documento span.select2-selection {
+#applicacion span.select2-selection {
     display: block;
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
@@ -17567,7 +17567,7 @@ body {
     box-shadow: none;
 }
 
-#filtros-documento .select2-selection__rendered {
+#applicacion .select2-selection__rendered {
     line-height: 20px !important;
 }
 
@@ -17577,4 +17577,7 @@ body {
 
 a.page-link {
     color: #0af;
+}
+.dropify-wrapper{
+	height: 100px !important;
 }
