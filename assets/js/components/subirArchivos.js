@@ -1,8 +1,8 @@
-import Select2Ajax from './select2.js'
+import Select2Ajax from './select2Ajax.js'
 import Spinner from './spinner.js'
 export default {
-	template: //html
-		`
+    template: //html
+        `
 <div>
 	
 	<button  class="btn btn-danger mb-2" @click="salir()"><i class="ti-arrow-left"></i> <span class="title">Cancelar </span></button>
@@ -62,7 +62,7 @@ export default {
 								<b>Error:</b> Debe seleccionar una especialidad
 							</div>
 
-							<Select2Ajax :url="url_especialidad" v-model="filtro_id_especialidad"  class="form-control" />
+							<Select2Ajax :url="url_especialidad" v-model="filtro_id_especialidad"  class="form-control" :datosEditar="datosEditar" />
 
 						</div>
                         <div class="form-group">
@@ -166,408 +166,416 @@ export default {
     
 </div>
 	`,
-	components: { Select2Ajax, Spinner },
-	data() {
-		return {
-			dropify: null,
-			select2: null,
-			file: null,
-			arc: null,
-			src: '',
-			inputDocumento: null,
-			modalVistaPrevia: false,
-			listaEspecialidades: [],
-			listaTipos: [],
-			listaCategorias: [],
-			listaAnios: [],
-			error: {
-				errorfile: false,
-				titulo: false,
-				resumen: false,
-				autor: false,
-				tutor: false,
-				id_version: false,
-				sede: false,
-				id_tipo: false,
-				id_categoria: false,
-				sinfile: false,
-				anio: false,
-				id_especialidad: false,
-			},
+    components: { Select2Ajax, Spinner },
+    data() {
+        return {
+            dropify: null,
+            select2: null,
+            file: null,
+            arc: null,
+            src: '',
+            inputDocumento: null,
+            modalVistaPrevia: false,
+            listaEspecialidades: [],
+            listaTipos: [],
+            listaCategorias: [],
+            listaAnios: [],
+            datosEditar: null,
+            error: {
+                errorfile: false,
+                titulo: false,
+                resumen: false,
+                autor: false,
+                tutor: false,
+                id_version: false,
+                sede: false,
+                id_tipo: false,
+                id_categoria: false,
+                sinfile: false,
+                anio: false,
+                id_especialidad: false,
+            },
 
-			datosArchivo: {
+            datosArchivo: {
 
-				anio_creacion: '',
-				autor: "",
-				categoria: "",
-				descripcion: "",
-				especialidad: "",
-				fecha_publicacion: '',
-				formato: '',
-				id_archivo: '',
-				id_categoria: '',
-				id_especialidad: '',
-				id_metadato: '',
-				id_tipo: '',
-				id_ver_esp: '',
-				id_version: '',
-				lenguaje: '',
-				nombre: '',
-				resumen: '',
-				sede: '',
-				tamanio: '',
-				tipo: '',
-				titulo: '',
-				tutor: '',
-				uuid: '',
-				version: '',
-				nro_paginas:'',
-			},
-			datosArchivoDefault: {
-				anio_creacion: '',
-				autor: "",
-				categoria: "",
-				descripcion: "",
-				especialidad: "",
-				fecha_publicacion: '',
-				formato: '',
-				id_archivo: '',
-				id_categoria: '',
-				id_especialidad: '',
-				id_metadato: '',
-				id_tipo: '',
-				id_ver_esp: '',
-				id_version: '',
-				lenguaje: '',
-				nombre: '',
-				resumen: '',
-				sede: '',
-				tamanio: '',
-				tipo: '',
-				titulo: '',
-				tutor: '',
-				uuid: '',
-				version: '',
-			},
-			especialidaSeleccionada: null,
-			filtro_id_especialidad:'',
+                anio_creacion: '',
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
+                fecha_publicacion: '',
+                formato: '',
+                id_archivo: '',
+                id_categoria: '',
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: '',
+                id_version: '',
+                lenguaje: '',
+                nombre: '',
+                resumen: '',
+                sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
+                nro_paginas: '',
+            },
+            datosArchivoDefault: {
+                anio_creacion: '',
+                autor: "",
+                categoria: "",
+                descripcion: "",
+                especialidad: "",
+                fecha_publicacion: '',
+                formato: '',
+                id_archivo: '',
+                id_categoria: '',
+                id_especialidad: '',
+                id_metadato: '',
+                id_tipo: '',
+                id_ver_esp: '',
+                id_version: '',
+                lenguaje: '',
+                nombre: '',
+                resumen: '',
+                sede: '',
+                tamanio: '',
+                tipo: '',
+                titulo: '',
+                tutor: '',
+                uuid: '',
+                version: '',
+            },
+            especialidaSeleccionada: null,
+            filtro_id_especialidad: '',
             url_especialidad: base_url + "archivo/buscar_especialidad",
-			
-
-
-		}
-	},
-	created() {
-		this.listarEspecialidades()
-		this.generarAnios()
-	},
-
-	mounted() {
-		this.fileDropy()
-		if (this.editarArchivo) {
-
-			this.asignarEditar()
-			this.modalVistaPrevia = true
-			this.file = true
-			this.src = base_url + 'uploads/' + this.datosArchivo.nombre + '#toolbar=0'
-			//document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
-			setTimeout(() => {
-				this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
-			}, 1000);
-
-
-		}
-
-		setInterval(() => {
-			this.verificarInput()
-		}, 2000);
-
-
-		this.inputDocumento = document.getElementById('documento')
-	},
-
-	methods: {
-
-		verificarInput() {
-			// console.log(this.inputDocumento.value);
-			if (!this.inputDocumento.value) {
-				this.src = ''
-				this.datosArchivo.nro_paginas=''
-			}
-		},
-		archivoSubido(e) {
-
-			let fileInput = document.getElementById('documento');
-			let filePath = fileInput.value;
-			let allowedExtensions = /(.pdf)$/i;
-			if (!allowedExtensions.exec(filePath)) {
-				fileInput.value = '';
-				this.error.errorfile = true
-				this.modalVistaPrevia = false
-				setTimeout(() => {
-					this.error.errorfile = false
-				}, 3000);
-				return false;
-			} else {
-				this.file = e.target.files[0];
-				this.error.errorfile = false
-				let doc = document.getElementById('documento').files[0]
-				let urldoc = URL.createObjectURL(doc);
-				this.src = urldoc + '#toolbar=0'
-				//document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
-				this.modalVistaPrevia = true
-			}
-
-			let input = e.target.files[0]
-			
-			this.contarPaginas(input,this.asignarNroPaginas)
-		},
-		contarPaginas(input,asignarPaginas){
-			let reader = new FileReader();
-			reader.readAsBinaryString(input);			
-			reader.onloadend = function(){ 
-				
-				try{
-					let total= reader.result.match(/\/Type[\s*]*\/Page[^s]/g).length 
-					asignarPaginas(total);
-				}catch(e){
-					asignarPaginas('');
-				}
-			}
-		},
-		asignarNroPaginas(total){
-			this.datosArchivo.nro_paginas=total;
-		},
-		fileDropy() {
-
-
-			this.dropify = $(".dropify").dropify({
-				messages: {
-					default: 'Arrastra y suelta el archivo PDF aquí o haz clic',
-					replace: 'Arrastra y suelta o haz clic para reemplazar',
-					remove: 'Eliminar',
-					error: 'Ooops, sucedio un error, Intenta de nuevo'
-				},
-				error: {
-					'fileSize': 'El Tamaño maximo admintido es ({{ value }} ).',
-					'imageFormat': 'El formato de archivo ({{ value }} no esta permitido).'
-				}
-			});
-
-
-
-
-
-		},
-		save() {
-			if (this.validarCampos()) {
-				let fm = new FormData()
-
-				fm.append('id_ver_esp', this.datosArchivo.id_ver_esp)
-				fm.append('titulo', this.datosArchivo.titulo)
-				fm.append('resumen', this.datosArchivo.resumen)
-				fm.append('autor', this.datosArchivo.autor)
-				fm.append('tutor', this.datosArchivo.tutor)
-				fm.append('id_version', this.datosArchivo.id_version)
-				fm.append('sede', this.datosArchivo.sede)
-				fm.append('id_tipo', this.datosArchivo.id_tipo)
-				fm.append('id_categoria', this.datosArchivo.id_categoria)
-				fm.append('anio', this.datosArchivo.anio_creacion)
-				fm.append('actualizar', true)
-				fm.append('id_archivo', this.datosArchivo.id_archivo)
 
-				if (!this.editarArchivo) {
-					fm.append('archivo', this.file, this.file.name)
-
-					fm.append('actualizar', false)
-				}
-
-				$('#modalSpinner').modal('show');
 
 
-
-
-				axios.post(base_url + 'archivo/save', fm)
-					.then(res => {
-						setTimeout(() => {
-							$('#modalSpinner').modal('hide');
-						}, 1000);
-
-						if (res.data.error == 0) {
-
-							Swal.fire({
-								position: 'top-end',
-								icon: 'success',
-								title: 'Documento Publicado',
-								showConfirmButton: false,
-								timer: 1500
-							})
-							this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
-							this.file = null
-							if (this.editarArchivo) {
-								setTimeout(() => {
-									this.salir()
-								}, 1000);
-							} else {
-								let drEvent = this.dropify
-								drEvent = drEvent.data('dropify')
-								drEvent.resetPreview()
-								drEvent.clearElement()
-								this.modalVistaPrevia = false
-								$("#select-especialidades").empty();
-								document.getElementById('documento').value = ''
-							}
-
-						} else {
-							Swal.fire({
-								position: 'top-end',
-								icon: 'error',
-								title: 'Ocurrio un error, Intente de nuevo',
-								showConfirmButton: false,
-								timer: 1500
-							})
-						}
-					})
-					.catch(err => {
-						$('#modalSpinner').modal('hide');
-						Swal.fire({
-							position: 'top-end',
-							icon: 'error',
-							title: 'Ocurrio un error, Intente de nuevo',
-							showConfirmButton: false,
-							timer: 1500
-						})
-					})
-
-
-
-			} else {
-				console.log("falta llenar");
-			}
-			//
-
-		},
-
-		listarEspecialidades() {
-			axios.get(base_url + 'archivo/datosSelect')
-				.then(res => {
-
-
-					this.listaEspecialidades = res.data.especialidades.map((obj) => {
-						var rObj = { id: obj.id_ver_esp, text: obj.especialidad + ' ' + obj.version };
-
-						return rObj;
-					});
-
-					let def = { id: 0, text: 'Seleccione' }
-
-					this.listaEspecialidades.unshift(def)
-
-					this.listaCategorias = res.data.categorias
-					this.listaTipos = res.data.tipos
-
-				})
-				.catch(err => {
-					console.error(err);
-				})
-		},
-		validarCampos() {
-
-
-
-			if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-				this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio_creacion && this.file) {
-				return true;
-			}
-
-			if (!this.datosArchivo.id_ver_esp || this.datosArchivo == '') {
-				this.error.id_especialidad = true
-
-			}
-			if (!this.datosArchivo.titulo) {
-				this.error.titulo = true
-
-			}
-			if (!this.datosArchivo.id_categoria) {
-				this.error.id_categoria = true
-			}
-
-			if (!this.datosArchivo.id_tipo) {
-				this.error.id_tipo = true
-			}
-			if (!this.datosArchivo.resumen) {
-				this.error.resumen = true
-			}
-			if (!this.datosArchivo.autor) {
-				this.error.autor = true
-			}
-
-			if (!this.datosArchivo.sede) {
-				this.error.sede = true
-			}
-			if (!this.datosArchivo.anio_creacion) {
-				this.error.anio = true
-			}
-			if (!this.file) {
-				this.error.sinfile = true
-				this.modalVistaPrevia = false
-			}
-
-			setTimeout(() => {
-				this.error.id_especialidad = false
-				this.error.titulo = false
-				this.error.id_categoria = false
-				this.error.id_version = false
-				this.error.id_tipo = false
-				this.error.resumen = false
-				this.error.autor = false
-				this.error.tutor = false
-				this.error.sede = false
-				this.error.sinfile = false
-				this.error.anio = false
-			}, 5000);
-
-
-
-		},
-		generarAnios() {
-			let d = new Date();
-			let n = d.getFullYear();
-			let arr = []
-			for (let i = n; i >= 2000; i--) {
-				arr.push(i)
-			}
-			this.listaAnios = arr
-
-
-
-		},
-		asignarEditar() {
-
-			this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
-
-		},
-
-		asignarTitulo() {
-			return this.editarArchivo ? 'Editar' : 'Publicar'
-		},
-		salir() {
-			this.setDefaultStateEditarArchivo(this.datosArchivoDefault)
-			this.$router.push('/archivos/listar')
-		},
-		...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
-
-
-	},
-	computed: {
-		...Vuex.mapState(['stateEditarArchivo', 'editarArchivo'])
-
-	},
-	watch:{
-		filtro_id_especialidad:function (val) { 
-		this.datosArchivo.id_ver_esp=val;
-		}
-	}
+        }
+    },
+    created() {
+        this.listarEspecialidades()
+        this.generarAnios()
+
+        if (this.editarArchivo) {
+            this.asignarEditar()
+        }
+    },
+
+    mounted() {
+        this.fileDropy()
+        if (this.editarArchivo) {
+
+
+            this.modalVistaPrevia = true
+            this.file = true
+            this.src = base_url + 'uploads/' + this.datosArchivo.nombre + '#toolbar=0'
+                //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
+                // setTimeout(() => {
+                //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
+                // }, 1000);
+
+
+
+        }
+
+
+        setInterval(() => {
+            this.verificarInput()
+        }, 2000);
+
+
+        this.inputDocumento = document.getElementById('documento')
+    },
+
+    methods: {
+
+        verificarInput() {
+            // console.log(this.inputDocumento.value);
+            if (!this.inputDocumento.value) {
+                this.src = ''
+                this.datosArchivo.nro_paginas = ''
+            }
+        },
+        archivoSubido(e) {
+
+            let fileInput = document.getElementById('documento');
+            let filePath = fileInput.value;
+            let allowedExtensions = /(.pdf)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                fileInput.value = '';
+                this.error.errorfile = true
+                this.modalVistaPrevia = false
+                setTimeout(() => {
+                    this.error.errorfile = false
+                }, 3000);
+                return false;
+            } else {
+                this.file = e.target.files[0];
+                this.error.errorfile = false
+                let doc = document.getElementById('documento').files[0]
+                let urldoc = URL.createObjectURL(doc);
+                this.src = urldoc + '#toolbar=0'
+                    //document.querySelector('#vistaDocumento').setAttribute('src', urldoc)
+                this.modalVistaPrevia = true
+            }
+
+            let input = e.target.files[0]
+
+            this.contarPaginas(input, this.asignarNroPaginas)
+        },
+        contarPaginas(input, asignarPaginas) {
+            let reader = new FileReader();
+            reader.readAsBinaryString(input);
+            reader.onloadend = function() {
+
+                try {
+                    let total = reader.result.match(/\/Type[\s*]*\/Page[^s]/g).length
+                    asignarPaginas(total);
+                } catch (e) {
+                    asignarPaginas('');
+                }
+            }
+        },
+        asignarNroPaginas(total) {
+            this.datosArchivo.nro_paginas = total;
+        },
+        fileDropy() {
+
+
+            this.dropify = $(".dropify").dropify({
+                messages: {
+                    default: 'Arrastra y suelta el archivo PDF aquí o haz clic',
+                    replace: 'Arrastra y suelta o haz clic para reemplazar',
+                    remove: 'Eliminar',
+                    error: 'Ooops, sucedio un error, Intenta de nuevo'
+                },
+                error: {
+                    'fileSize': 'El Tamaño maximo admintido es ({{ value }} ).',
+                    'imageFormat': 'El formato de archivo ({{ value }} no esta permitido).'
+                }
+            });
+
+
+
+
+
+        },
+        save() {
+            if (this.validarCampos()) {
+                let fm = new FormData()
+
+                fm.append('id_ver_esp', this.datosArchivo.id_ver_esp)
+                fm.append('titulo', this.datosArchivo.titulo)
+                fm.append('resumen', this.datosArchivo.resumen)
+                fm.append('autor', this.datosArchivo.autor)
+                fm.append('tutor', this.datosArchivo.tutor)
+                fm.append('id_version', this.datosArchivo.id_version)
+                fm.append('sede', this.datosArchivo.sede)
+                fm.append('id_tipo', this.datosArchivo.id_tipo)
+                fm.append('id_categoria', this.datosArchivo.id_categoria)
+                fm.append('anio', this.datosArchivo.anio_creacion)
+                fm.append('actualizar', true)
+                fm.append('id_archivo', this.datosArchivo.id_archivo)
+
+                if (!this.editarArchivo) {
+                    fm.append('archivo', this.file, this.file.name)
+
+                    fm.append('actualizar', false)
+                }
+
+                $('#modalSpinner').modal('show');
+
+
+
+
+                axios.post(base_url + 'archivo/save', fm)
+                    .then(res => {
+                        setTimeout(() => {
+                            $('#modalSpinner').modal('hide');
+                        }, 1000);
+
+                        if (res.data.error == 0) {
+
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Documento Publicado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
+                            this.file = null
+                            if (this.editarArchivo) {
+                                setTimeout(() => {
+                                    this.salir()
+                                }, 1000);
+                            } else {
+                                let drEvent = this.dropify
+                                drEvent = drEvent.data('dropify')
+                                drEvent.resetPreview()
+                                drEvent.clearElement()
+                                this.modalVistaPrevia = false
+                                $("#select-especialidades").empty();
+                                document.getElementById('documento').value = ''
+                            }
+
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Ocurrio un error, Intente de nuevo',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        $('#modalSpinner').modal('hide');
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Ocurrio un error, Intente de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+
+
+
+            } else {
+                console.log("falta llenar");
+            }
+            //
+
+        },
+
+        listarEspecialidades() {
+            axios.get(base_url + 'archivo/datosSelect')
+                .then(res => {
+
+
+                    this.listaEspecialidades = res.data.especialidades.map((obj) => {
+                        var rObj = { id: obj.id_ver_esp, text: obj.especialidad + ' ' + obj.version };
+
+                        return rObj;
+                    });
+
+                    let def = { id: 0, text: 'Seleccione' }
+
+                    this.listaEspecialidades.unshift(def)
+
+                    this.listaCategorias = res.data.categorias
+                    this.listaTipos = res.data.tipos
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        },
+        validarCampos() {
+
+
+
+            if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
+                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio_creacion && this.file) {
+                return true;
+            }
+
+            if (!this.datosArchivo.id_ver_esp || this.datosArchivo == '') {
+                this.error.id_especialidad = true
+
+            }
+            if (!this.datosArchivo.titulo) {
+                this.error.titulo = true
+
+            }
+            if (!this.datosArchivo.id_categoria) {
+                this.error.id_categoria = true
+            }
+
+            if (!this.datosArchivo.id_tipo) {
+                this.error.id_tipo = true
+            }
+            if (!this.datosArchivo.resumen) {
+                this.error.resumen = true
+            }
+            if (!this.datosArchivo.autor) {
+                this.error.autor = true
+            }
+
+            if (!this.datosArchivo.sede) {
+                this.error.sede = true
+            }
+            if (!this.datosArchivo.anio_creacion) {
+                this.error.anio = true
+            }
+            if (!this.file) {
+                this.error.sinfile = true
+                this.modalVistaPrevia = false
+            }
+
+            setTimeout(() => {
+                this.error.id_especialidad = false
+                this.error.titulo = false
+                this.error.id_categoria = false
+                this.error.id_version = false
+                this.error.id_tipo = false
+                this.error.resumen = false
+                this.error.autor = false
+                this.error.tutor = false
+                this.error.sede = false
+                this.error.sinfile = false
+                this.error.anio = false
+            }, 5000);
+
+
+
+        },
+        generarAnios() {
+            let d = new Date();
+            let n = d.getFullYear();
+            let arr = []
+            for (let i = n; i >= 2000; i--) {
+                arr.push(i)
+            }
+            this.listaAnios = arr
+
+
+
+        },
+        asignarEditar() {
+
+            this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
+            this.datosEditar = { id: this.stateEditarArchivo.id_ver_esp, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
+
+        },
+
+        asignarTitulo() {
+            return this.editarArchivo ? 'Editar' : 'Publicar'
+        },
+        salir() {
+            this.setDefaultStateEditarArchivo(this.datosArchivoDefault)
+            this.$router.push('/archivos/listar')
+        },
+        ...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
+
+
+    },
+    computed: {
+        ...Vuex.mapState(['stateEditarArchivo', 'editarArchivo'])
+
+    },
+    watch: {
+        filtro_id_especialidad: function(val) {
+            this.datosArchivo.id_ver_esp = val;
+        }
+    }
 
 
 }

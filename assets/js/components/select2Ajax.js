@@ -1,5 +1,5 @@
 export default {
-    props: ['options', 'value', 'url'],
+    props: ['options', 'value', 'url', 'datosEditar'],
     template: //html
         ` 
 	<select style="width:100%">
@@ -11,7 +11,7 @@ export default {
         $(this.$el)
             // init select2
             .select2({
-
+                data: this.datosEditar,
                 language: {
                     noResults: function() {
 
@@ -35,6 +35,7 @@ export default {
                     dataType: 'json',
                     type: "POST",
                     data: function(term) {
+                        console.log("buscansdo");
                         return {
                             term: term.term
                         };
@@ -58,7 +59,9 @@ export default {
             // emit event on change.
             .on('change', function() {
                 vm.$emit('input', this.value)
-            })
+            });
+
+        this.asignarValor();
     },
     watch: {
         value: function(value) {
@@ -74,5 +77,14 @@ export default {
     },
     destroyed: function() {
         $(this.$el).off().select2('destroy')
-    }
+    },
+    methods: {
+        asignarValor() {
+            if (this.datosEditar) {
+                var newOption = new Option(this.datosEditar.text, this.datosEditar.id, true, true);
+                $(this.$el).append(newOption).trigger('change');
+
+            }
+        }
+    },
 }
