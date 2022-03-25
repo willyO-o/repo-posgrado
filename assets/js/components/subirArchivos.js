@@ -125,10 +125,7 @@ export default {
 									<div class="alert alert-danger" role="alert"  v-if="error.anio" >
 											<b>Error:</b> Debe seleccionar un año de creacion
 									</div>
-									<select class="form-control" required id="anio"  v-model="datosArchivo.anio_creacion">
-										<option value=""  selected disabled>Seleccione </option>
-										<option :value="anio" v-for="anio of listaAnios"> {{anio}} </option>
-									</select>
+									<input  id="campotutor" class="form-control" required v-model="datosArchivo.anio_creacion">
 								</div>
 							</div>
 
@@ -213,7 +210,7 @@ export default {
                 id_ver_esp: '',
                 id_version: '',
                 lenguaje: '',
-                nombre: '',
+                nombre_archivo: '',
                 resumen: '',
                 sede: '',
                 tamanio: '',
@@ -240,7 +237,7 @@ export default {
                 id_ver_esp: '',
                 id_version: '',
                 lenguaje: '',
-                nombre: '',
+                nombre_archivo: '',
                 resumen: '',
                 sede: '',
                 tamanio: '',
@@ -274,7 +271,7 @@ export default {
 
             this.modalVistaPrevia = true
             this.file = true
-            this.src = base_url + 'uploads/' + this.datosArchivo.nombre + '#toolbar=0'
+            this.src = base_url + 'uploads/' + this.datosArchivo.nombre_archivo + '#toolbar=0'
                 //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
                 // setTimeout(() => {
                 //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
@@ -382,6 +379,8 @@ export default {
                 fm.append('anio', this.datosArchivo.anio_creacion)
                 fm.append('actualizar', true)
                 fm.append('id_archivo', this.datosArchivo.id_archivo)
+                fm.append('nro_paginas', this.datosArchivo.nro_paginas)
+
 
                 if (!this.editarArchivo) {
                     fm.append('archivo', this.file, this.file.name)

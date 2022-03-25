@@ -24,6 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 	<script>
 		let base_url = "<?= base_url() ?>"
+		console.log(base_url);
 	</script>
 
 	<script src="<?= base_url() ?>assets/js/vue/vue.js"></script>

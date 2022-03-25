@@ -25,6 +25,7 @@ class Principal extends CI_Controller
 
 			$this->load->view('base', $data);
 		} else {
+			//si no loguea llama index
 			redirect(base_url());
 		}
 	}

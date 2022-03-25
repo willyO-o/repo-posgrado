@@ -35,7 +35,7 @@ export default {
                     dataType: 'json',
                     type: "POST",
                     data: function(term) {
-                        console.log("buscansdo");
+                       
                         return {
                             term: term.term
                         };

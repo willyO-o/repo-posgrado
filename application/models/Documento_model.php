@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Archivo_model extends CI_Model {
+class Documento_model extends CI_Model {
 
     public function get_archivos($limit=10,$ofset=0,$id_especialidad,$id_categoria,$id_tipo_documento)
     {
@@ -33,28 +33,26 @@ class Archivo_model extends CI_Model {
 		$filtros=(object)$filtros;
 		$this->db->start_cache() ;
 		$this->db->select('SUBSTRING( titulo,0,70) as titulo, autor, anio_creacion, resumen,  
-							anio_creacion, fecha_publicacion,   sede, tutor,  id_metadato ');
-		$this->db->from('metadatos');
+							anio_creacion, fecha_publicacion,   sede, tutor,  id_documento ');
+		$this->db->from('srp_documentos');
 		
 		if (!$es_admin) {
-			$this->db->where('metadatos.estado_documento !=', "eliminado");
-			
+			$this->db->where('srp_documentos.estado_documento !=', "eliminado");
 		}
 
 		if ($filtros->texto_buscar!="") {
 			$this->db->like("titulo", strtoupper($filtros->texto_buscar));
 		//	$this->db->or_like("autor", strtoupper($filtros->texto_buscar));
-
 		}
 		
 		if ($filtros->id_especialidad!=0) {
-			$this->db->where('metadatos.id_ver_esp', $filtros->id_especialidad);
+			$this->db->where('srp_documentos.id_ver_esp', $filtros->id_especialidad);
 		}
 		if ($filtros->id_categoria!=0) {
-			$this->db->where('metadatos.id_categoria', $filtros->id_categoria);
+			$this->db->where('srp_documentos.id_categoria', $filtros->id_categoria);
 		}
 		if ($filtros->id_tipo_documento!=0) {
-			$this->db->where('metadatos.id_tipo', $filtros->id_tipo_documento);
+			$this->db->where('srp_documentos.id_tipo', $filtros->id_tipo_documento);
 		}
 
 
@@ -64,7 +62,7 @@ class Archivo_model extends CI_Model {
 
 		$this->db->limit($limit,$ofset);
         $resultado["archivos"]= $this->db->get()->result(); 
-		$resultado["q"]=$this->db->last_query();
+		
 		$this->db->flush_cache();
 		return $resultado;
 
@@ -75,20 +73,19 @@ class Archivo_model extends CI_Model {
 	{
 	
 		$this->db->start_cache() ;
-		$this->db->select('uuid, titulo, autor, anio_creacion, resumen, usuario,categoria,version,especialidad, metadatos.id_categoria ,metadatos.id_tipo, metadatos.id_ver_esp, 
-							anio_creacion, fecha_publicacion, formato, lenguaje,  sede, tipo, tutor, usuarios.nombre as nombre_usuario, apellido, archivos.nombre, id_metadato ');
-		$this->db->from('archivos');
-		$this->db->join('metadatos', 'metadatos.id_archivo = archivos.id_archivo', 'left');
-		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = metadatos.id_ver_esp', 'left');
+		$this->db->select('uuid, titulo, autor, anio_creacion, resumen, usuario,categoria,version,especialidad, srp_documentos.id_categoria ,srp_documentos.id_tipo, srp_documentos.id_ver_esp, 
+							anio_creacion, fecha_publicacion, lenguaje,  sede, tipo, tutor, usuarios.nombre as nombre_usuario, apellido, nombre_archivo,tamanio_archivo,nro_paginas ,  id_documento ');
+		$this->db->from('srp_documentos');
+		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = srp_documentos.id_ver_esp', 'left');
 		$this->db->join('especialidades', 'especialidades.id_especialidad = ver_esp.id_especialidad', 'left');
 		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
-		$this->db->join('categorias', 'categorias.id_categoria = metadatos.id_categoria', 'left');
-		$this->db->join('tipos', 'tipos.id_tipo = metadatos.id_tipo', 'left');
-		$this->db->join('usuarios', 'usuarios.id_usuario = metadatos.id_usuario', 'left');
+		$this->db->join('categorias', 'categorias.id_categoria = srp_documentos.id_categoria', 'left');
+		$this->db->join('tipos', 'tipos.id_tipo = srp_documentos.id_tipo', 'left');
+		$this->db->join('usuarios', 'usuarios.id_usuario = srp_documentos.id_usuario', 'left');
 		if (!$es_admin) {
-			$this->db->where('metadatos.estado_documento !=', "eliminado");
+			$this->db->where('srp_documentos.estado_documento !=', "eliminado");
 		}
-		$this->db->where('metadatos.id_metadato', $id_documento);
+		$this->db->where('srp_documentos.id_documento', $id_documento);
 		
 		$resultado= $this->db->get()->row();
 		
@@ -110,64 +107,28 @@ class Archivo_model extends CI_Model {
 		
 	}
 
-    public function get_archivo_id(int $id_archivo)
-    {
-        $this->db->where('id_archivo', $id_archivo);
-        return $this->db->get('archivos')->row();
-        
-    }
-	public function get_view_archivo_uuid($uuid)
+	public function registrar_documento(array $datos)
 	{
-		$this->db->where('uuid', $uuid);
-		return $this->db->get('view_archivo')->row();
+		$this->db->insert('srp_documentos', $datos);
+		return $this->db->insert_id();
+		
 	}
 
-    public function set_archivos($datos)
-    {
-        $this->db->insert('archivos', $datos);
-		return $this->db->insert_id();
-		 
-        
-    }
-	public function set_metadatos($datos)
-    {
-        $this->db->insert('metadatos', $datos);
-		return $this->db->insert_id();
-		 
-        
-    }
-    public function update_metadatos($datos,int $id_archivo)
-    {
-        $this->db->where('id_archivo', $id_archivo);
-        return $this->db->update('metadatos', $datos);
-        
-    }
-
-    public function delete_archivo(int $id_archivo)
-    {
-        $this->db->where('id_archivo', $id_archivo);
-		return $this->db->update('archivos', ["estado_documento"=>"eliminado"]);
-		
-    }
-
-	public function delete_documento(int $id_documento)
-    {
-        $this->db->where('id_metadato', $id_documento);
-		return $this->db->update('metadatos', ["estado_documento"=>"eliminado"]);
-		
-    }
-
-	public function get_ver_est_id(int $id_ver_esp)
-    {
-        $this->db->where('id_ver_esp', $id_ver_esp);
-        return $this->db->get('ver_esp')->row();
-        
-    }
-
-	public function get_total_archivos()
+	public function actualizar_documento(array $datos, int $id_documento)
 	{
-		return $this->db->count_all('view_archivo');
+		$this->db->where('id_documento', $id_documento);
+		return $this->db->update('srp_documentos', $datos);
+		
 	}
+
+	public function eliminar_documento(int $id_documento)
+	{
+		$this->db->where('id_documento', $id_documento);
+		return $this->db->update('srb_documentos', ["estado_documento"=>"eliminado"]);
+	}
+
+
+
 
 	//******************  categorias y tipos de  documentos***************
 
@@ -190,4 +151,4 @@ class Archivo_model extends CI_Model {
 
 }
 
-/* End of file archivo_model.php */
+/* End of file Documento_model.php */

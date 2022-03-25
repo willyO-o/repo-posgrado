@@ -140,6 +140,9 @@ export default {
         this.getDataPagina(1)
 
     },
+	created() {
+		console.log($router.currentRoute.name);
+	},
 
 
     methods: {

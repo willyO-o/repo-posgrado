@@ -83,13 +83,13 @@ export default {
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(item,index) of listaArchivos" :key="item.id_metadato">
+							<tr v-for="(item,index) of listaArchivos" :key="item.id_documento">
 								<td>{{index + indicePagina()+1 }}</td>
 								<td>{{item.titulo}}...</td>
 								<td>{{item.autor}}</td>
 								<td>
-									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_metadato)"></i>
-									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_metadato)"></i>
+									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_documento)"></i>
+									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_documento)"></i>
 									<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
 								</td>
 							</tr>
@@ -190,7 +190,7 @@ export default {
                 id_archivo: '',
                 id_categoria: '',
                 id_especialidad: '',
-                id_metadato: '',
+                id_documento: '',
                 id_tipo: '',
                 id_ver_esp: '',
                 id_version: '',
@@ -323,7 +323,7 @@ export default {
         },
 
         verDetallesArchivo(id_documento) {
-
+			console.log(id_documento);
             let fm = new FormData();
             fm.append("id_documento", id_documento);
             axios.post(this.url + "archivo/archivo_id", fm)
@@ -339,7 +339,7 @@ export default {
 
         confirm(item) {
             this.mostrarModalEliminar()
-            this.idArchivo = item.id_metadato
+            this.idArchivo = item.id_documento
             this.archivoEliminar = item.titulo
             console.log(item);
         },
@@ -348,7 +348,7 @@ export default {
         eliminarConfirmado() {
 
             let data = new FormData();
-            data.append('id_metadato', this.idArchivo)
+            data.append('id_documento', this.idArchivo)
             console.log(this.idArchivo);
             axios.post(this.url + "archivo/delete", data)
                 .then(res => {
@@ -421,6 +421,7 @@ export default {
             fm.append("id_documento", id_documento);
             axios.post(this.url + "archivo/archivo_id", fm)
                 .then(res => {
+			
                     this.detallesArchivo = Object.assign({}, res.data.documento);
                     this.setStateEditarArchivo(this.detallesArchivo);
                     this.irEditar();

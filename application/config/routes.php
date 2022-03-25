@@ -54,3 +54,5 @@ $route['404_override'] = 'error404';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['admin'] = 'principal/admin';
+
+

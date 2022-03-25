@@ -143,7 +143,7 @@ export default {
 
             //this.verDocumento = true;
             this.setStateVerDocumento(true)
-            this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre
+            this.srcDocumento = base_url + 'uploads/' + this.detallesArchivo.nombre_archivo
         },
         ocultarDocumento() {
             //this.verDocumento = false;
