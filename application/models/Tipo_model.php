@@ -11,13 +11,9 @@ class Tipo_model extends CI_Model {
 		
 	}
 
-	public function listar_tipos($es_option=false)
+	public function listar_tipos()
 	{
-		$resultado= $this->db->get('tipos')->result();
-		if($es_option){
-			array_unshift($resultado,(Object)["id_tipo"=>0,"tipo"=>"Todos"]);
-		}
-
+		$resultado= $this->db->get('srp_tipos')->result();
 		return $resultado;
 	}
 	

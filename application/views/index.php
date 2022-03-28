@@ -1,3 +1,5 @@
 
-
-      <router-view></router-view>
+<div class="contenedor-router">
+	 <router-view></router-view>
+</div>
+     

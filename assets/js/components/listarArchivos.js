@@ -3,7 +3,7 @@ import Select2Ajax from './select2Ajax.js';
 export default {
     template: //html
         `
-	<div class="">
+	<div >
 		<h1>Documentos</h1>
 	
 		<!-- Modal -->
@@ -49,6 +49,7 @@ export default {
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Tipo Documento</label>
 								<select v-model="filtro_id_tipo" class="form-control" >
+									<option value="0"> Todos</option>
 									<option :selected="tipo.tipo === 'Todos'" :value="tipo.id_tipo" v-for="tipo in listaTipoDocumentos" :key="tipo.id_tipo"> {{tipo.tipo}} </option>
 
 								</select>
@@ -56,6 +57,7 @@ export default {
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Categoria </label>
 								<select v-model="filtro_id_categoria" class="form-control" >
+									<option value="0"> Todos</option>
 									<option selected :value="categ.id_categoria" v-for="categ in listaCategorias" :key="categ.id_categoria"> {{categ.categoria}} </option>
 								</select>
 							</div>
@@ -86,7 +88,7 @@ export default {
 							<tr v-for="(item,index) of listaArchivos" :key="item.id_documento">
 								<td>{{index + indicePagina()+1 }}</td>
 								<td>{{item.titulo}}...</td>
-								<td>{{item.autor}}</td>
+								<td>{{item.nombre_autor}} {{item.paterno_autor}} {{item.materno_autor}}</td>
 								<td>
 									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_documento)"></i>
 									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_documento)"></i>
@@ -181,7 +183,10 @@ export default {
             detallesArchivo: {
 
                 anio_creacion: 0,
-                autor: "",
+                nombre_autor: "",
+                paterno_autor: "",
+                materno_autor: "",
+                ci_autor: "",
                 categoria: "",
                 descripcion: "",
                 especialidad: "",
@@ -201,9 +206,10 @@ export default {
                 tamanio: '',
                 tipo: '',
                 titulo: '',
-                tutor: '',
                 uuid: '',
                 version: '',
+                observaciones: '',
+                es_publico: '',
 
             },
             filtros: {
@@ -214,7 +220,7 @@ export default {
                 textoBuscar: "",
             },
 
-
+            es_filtro_especialidad: true,
             idArchivo: '',
 
             especialidad: {
@@ -233,7 +239,7 @@ export default {
             indicePaginaSuma: 0,
 
             url_autor: base_url + "archivo/buscar_autor",
-            url_especialidad: base_url + "archivo/buscar_especialidad",
+            url_especialidad: base_url + "archivo/buscar_especialidad_filtro",
 
 
         }
@@ -323,7 +329,7 @@ export default {
         },
 
         verDetallesArchivo(id_documento) {
-			console.log(id_documento);
+
             let fm = new FormData();
             fm.append("id_documento", id_documento);
             axios.post(this.url + "archivo/archivo_id", fm)
@@ -421,7 +427,8 @@ export default {
             fm.append("id_documento", id_documento);
             axios.post(this.url + "archivo/archivo_id", fm)
                 .then(res => {
-			
+
+                    console.log(res.data);
                     this.detallesArchivo = Object.assign({}, res.data.documento);
                     this.setStateEditarArchivo(this.detallesArchivo);
                     this.irEditar();

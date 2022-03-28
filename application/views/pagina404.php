@@ -264,8 +264,10 @@ h1.head span:after {
 			<h3 class="text-uppercase">ERROR</h3>
 		</div>
 		<h1 class="head"><span class="texto-blanco">404</span></h1>
-		<p span class="texto-blanco">¡UPS! ¡No se encontró la página solicitada!</p>
+		<p span class="texto-blanco"><?=isset($is_iframe)? '¡UPS! ¡No se encontró la página solicitada': '¡UPS! ¡No se encontró el Documento solicitado, Puede que el Archivo haya sido eliminado'?>!</p>
+		<?php if(isset($is_iframe)):?>
 		<a href="<?=base_url()?>" class="btn-outline"> Volver a Inicio</a>
+		<?php endif; ?>
 	</div>
 
 

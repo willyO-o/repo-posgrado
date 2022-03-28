@@ -19,7 +19,7 @@ class Categoria_model extends CI_Model {
 	}
 	public function listar_categorias($es_option=false)
 	{
-		$resultado=$this->db->get('categorias')->result();
+		$resultado=$this->db->get('srp_categorias')->result();
 		if($es_option){
 			array_unshift($resultado,(Object)["id_categoria"=>0,"categoria"=>"TODOS"]);
 		}

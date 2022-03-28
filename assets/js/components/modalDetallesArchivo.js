@@ -37,13 +37,15 @@ export default {
 							<h4 class="heading">Informacion</h4>
 							<dl class="row">
 							<dt class="col-sm-4">Autor:</dt>
-							<dd class="col-sm-8 text-right">{{detallesArchivo.autor}}</dd>
+							<dd class="col-sm-8 text-right">{{detallesArchivo.nombre_autor}} {{detallesArchivo.paterno_autor}} {{detallesArchivo.materno_autor}}</dd>
 
-							<dt class="col-sm-4" v-if="detallesArchivo.tutor!='' ">Tutor:</dt>
-							<dd class="col-sm-8 text-right"  v-if="detallesArchivo.tutor!='' ">{{detallesArchivo.tutor}}</dd>
+							<dt class="col-sm-8" v-if="detallesArchivo.tutor!='' ">Nro de Paginas:</dt>
+							<dd class="col-sm-4 text-right"  v-if="detallesArchivo.tutor!='' ">{{detallesArchivo.nro_paginas}}</dd>
 
 							<dt class="col-sm-4">Sede:</dt>
 							<dd class="col-sm-8 text-right"> {{detallesArchivo.sede}} </dd>
+							<dt class="col-sm-8">Tiene permiso Publico:</dt>
+							<dd class="col-sm-4 text-right"> {{detallesArchivo.es_publico}} </dd>
 
 							</dl>
 						</div>
@@ -55,7 +57,7 @@ export default {
 						</div>
 						<div class="text-center">
 							
-								<button class="btn btn-warning" @click="irEditar(); setStateEditarArchivo(detallesArchivo)">Editar Archivo</button>
+								<button class="btn btn-warning" @click="irEditar(); setStateEditarArchivo(detallesArchivo)">Editar Documento</button>
 							
 						
 						</div>
@@ -106,10 +108,10 @@ export default {
 							</li>
 							<li>
 								<i class="fa fa-user activity-icon"></i>
-								<p>{{detallesArchivo.nombre_usuario+' '+detallesArchivo.apellido}} ({{detallesArchivo.usuario}}) <span class="timestamp">Usuario publicador</span></p>
+								<p>{{detallesArchivo.nombre_usuario+' '+detallesArchivo.apellido}} <span class="timestamp">Usuario publicador</span></p>
 							</li>
 							<li>
-								<button class="btn btn-info" @click="mostrarDocumento()">Ver Documento</button>
+								<button class="btn btn-info" @click="mostrarDocumento()">Ver Documento en PDF <i class="fa fa-file-pdf-o" ></i></button>
 							</li>
 							</ul>
 							

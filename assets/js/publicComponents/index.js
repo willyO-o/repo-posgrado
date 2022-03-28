@@ -38,7 +38,7 @@ export default {
 											<router-link :to="'/document/'+row.uuid"class="trans_200" >{{row.titulo}} </router-link>
 										</div>
 										<div class="event_location"> autor:  <b>{{row.autor}} </b> ({{row.anio_creacion}})</div>
-										<p> {{row.resumen.slice(0, 150)}}...  
+										<p> {{row.resumen}}...  
 										<router-link :to="'/document/'+row.uuid"class="trans_200" >Leer mas </router-link>
 										</p>
 									</div>
@@ -137,12 +137,13 @@ export default {
     },
     mounted() {
 
-        this.getDataPagina(1)
+        this.getDataPagina(1);
+        this.cargarParametros();
 
     },
-	created() {
-		console.log($router.currentRoute.name);
-	},
+    created() {
+
+    },
 
 
     methods: {
@@ -166,7 +167,6 @@ export default {
             this.cargarDocumentos(inicio);
 
             setTimeout(() => {
-                this.loader = false
                 this.fin = (this.totalResultados() <= fin) ? this.totalResultados() : fin
             }, 1500);
 
@@ -186,31 +186,56 @@ export default {
             this.getDataPagina(this.paginaActual)
         },
         cargarDocumentos(ofset) {
+            let fm = new FormData();
+            fm.append("elementos_pagina", this.elementosPagina)
+            fm.append("ofset", ofset);
+            fm.append("paginar", this.paginar);
+            fm.append("filtro_area", this.filtroArea);
+            fm.append("filtro_categoria", this.filtroCategoria);
+            fm.append("filtro_tipo_documento", this.filtroTipoDocumento);
 
-            axios.get(this.url + `archivo/listar/${this.elementosPagina}/${ofset}/${this.paginar}/${this.filtroArea}/${this.filtroCategoria}/${this.filtroTipoDocumento}`)
+
+            axios.post(this.url + `publico/listar_documentos`, fm)
                 .then(res => {
 
+                    console.log(res);
 
-                    this.totalArchivos = res.data.total_archivos
+                    this.totalArchivos = res.data.total_resultados
                     this.datosPaginados = res.data.archivos
 
                     if (!this.paginar) {
 
                         this.listadoDocumentos = res.data.archivos
                         this.listadoDocumentosFiltrado = this.listadoDocumentos
-                        this.listadoEspecialidades = res.data.especialidades
-                        this.listadoCategorias = res.data.categorias
-                        this.listadoTipos = res.data.tipos
+
                         this.datosPaginados = res.data.archivos
 
                         this.paginar = 1
                     }
+                    this.loader = false
+
 
                 })
                 .catch(err => {
                     alert("Ocrrio un error, Intente de nuevo")
+                    this.loader = false
+
                 })
 
+        },
+        cargarParametros() {
+            axios.get(this.url + "publico/listar_parametros")
+                .then(res => {
+                    this.listadoEspecialidades = res.data.especialidades
+                    this.listadoCategorias = res.data.categorias
+                    this.listadoTipos = res.data.tipos
+                })
+                .catch(err => {
+                    alert("Ocurrio un Error, pagina no disponible por el momento")
+                    this.listadoEspecialidades = []
+                    this.listadoCategorias = []
+                    this.listadoTipos = []
+                });
         },
         consultarDocumentosEspecialidad(id_especialidad) {
             this.filtroCategoria = 0;

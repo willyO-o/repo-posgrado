@@ -35,9 +35,8 @@ export default {
                     dataType: 'json',
                     type: "POST",
                     data: function(term) {
-                       
                         return {
-                            term: term.term
+                            term: term.term,
                         };
                     },
                     processResults: function(data) {

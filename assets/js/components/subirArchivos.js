@@ -3,7 +3,7 @@ import Spinner from './spinner.js'
 export default {
     template: //html
         `
-<div>
+<div >
 	
 	<button  class="btn btn-danger mb-2" @click="salir()"><i class="ti-arrow-left"></i> <span class="title">Cancelar </span></button>
 	<div class="card">
@@ -16,16 +16,19 @@ export default {
 						
 							<div class="form-group" v-if="!editarArchivo">
 								<h4 class="h6">Tamaño maximo admitido 100Mb</h4>
-								<div class="alert alert-danger" role="alert"  v-if="error.errorfile" >
+								
+								<input type="file" class="dropify"  data-max-file-size="100M" 
+								data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento"  >
+								<input type="hidden" :class="{'is-invalid':error.errorfile || error.sinfile }">
+
+								<div class="invalid-feedback"  v-if="error.errorfile" >
 									<b>Error:</b> Solo se Admiten Archivos PDF
 								</div>
-                                <div class="alert alert-danger" role="alert"  v-if="error.sinfile" >
+                                <div class="invalid-feedback"  v-if="error.sinfile" >
 									<b>Error:</b> Debe adjuntar un Documento
 								</div>
-								<input type="file" class="dropify"  data-max-file-size="100M" 
-								data-allowed-file-extensions="pdf" @change="archivoSubido"  id="documento">
 							</div>
-							<p>Vista previa</p>
+							<p>Vista previa del Documento</p>
                             
 
 							<iframe  :src="src"   width="100%" height="600rem"></iframe>
@@ -34,7 +37,15 @@ export default {
 								<div class="row">
 									<div class="col-md-6">
 										<label for="campo_nro_paginas">N° Total de Paginas </label>
-										<input type="number" id="campo_nro_paginas" class="form-control" required v-model="datosArchivo.nro_paginas">
+										<input type="number" id="campo_nro_paginas" class="form-control" required v-model="datosArchivo.nro_paginas" required @keydown="validarInputNumber" :class="{'is-invalid':error.nro_paginas }">
+										<div class="invalid-feedback"  v-if="error.nro_paginas" >
+											debe Ingresar la cantidad de paginas del Documento
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<label for="campo_codigo_documento">Codigo Documento </label>
+										<input type="text" id="campo_codigo_documento" class="form-control" required v-model="datosArchivo.codigo_documento">
 									</div>
 								</div>
 								
@@ -44,98 +55,115 @@ export default {
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="campotitulo">Titulo</label>
-								<div class="alert alert-danger" role="alert"  v-if="error.titulo" >
-										<b>Error:</b> Debe ingresar un Titulo
+								
+								<textarea id="campotitulo" class="form-control " :class="{'is-invalid':error.titulo }" required v-model="datosArchivo.titulo" rows="3" ></textarea>
+								<div class="invalid-feedback" >
+										 Debe ingresar un Titulo
 								</div>
-							<textarea id="campotitulo" class="form-control" required v-model="datosArchivo.titulo" rows="3"></textarea>
 						</div>
-                        <div class="form-group">
-                            <label for="campoautor">Autor</label>
-                            <div class="alert alert-danger" role="alert"  v-if="error.autor" >
-									<b>Error:</b> Debe ingresar un Autor
+
+						<div class="form-group">
+							<label>Seleccione un Autor</label>
+								
+
+							<Select2Ajax :url="url_autor" v-model="id_autor"  class="form-control" :datosEditar="datosEditarAutor"   />
+							<input type="hidden" :class="{'is-invalid':error.autor }" >
+							<div class="invalid-feedback"  >
+									 Debe seleccionar un  Autor
 							</div>
-                            <input id="campoautor" class="form-control" required v-model="datosArchivo.autor">
-                        </div>
+						</div>
 						<div class="form-group">
 							<label>Seleccione una Especialidad</label>
-							<div class="alert alert-danger" role="alert"  v-if="error.id_especialidad" >
-								<b>Error:</b> Debe seleccionar una especialidad
+							
+							<Select2Ajax :url="url_especialidad" v-model="id_especialidad"  class="form-control" :datosEditar="datosEditarEspecialidad" />
+							<input type="hidden" :class="{'is-invalid':error.id_especialidad }" >
+
+							<div class="invalid-feedback"   >
+								 Debe seleccionar una especialidad
 							</div>
 
-							<Select2Ajax :url="url_especialidad" v-model="filtro_id_especialidad"  class="form-control" :datosEditar="datosEditar" />
-
 						</div>
-                        <div class="form-group">
-                            <label for="campotutor">Tutor <small>(opcional, si amerita)</small></label>
-                            <input id="campotutor" class="form-control" required v-model="datosArchivo.tutor">
-                        </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-							        <label for="camposede">Sede</label>
-                                    <div class="alert alert-danger" role="alert"  v-if="error.sede" >
-                                            <b>Error:</b> Debe Seleccionar una sede
-                                    </div>
-                                    <select class="form-control" required id="camposede" v-model="datosArchivo.sede" placeholder="Seleccione">
+							        <label for="camposede">Sede/Ciudad</label>
+                                   
+                                    <select class="form-control" required id="camposede" v-model="datosArchivo.id_sede" placeholder="Seleccione" :class="{'is-invalid':error.sede }">
                                         <option value="" selected disabled>Seleccione </option>
-                                        <option value="La Paz - El Alto">La Paz - El Alto</option>
-                                        <option value="Cochabamba">Cochabamba</option>
-										<option value="Potosi">Potosi</option>
-										<option value="Sucre">Sucre</option>
-										<option value="Santa Cruz">Santa Cruz</option>
-                                    </select>
+                                        <option :value="sede.id_sede" v-for="sede in listaSedes">{{sede.sede_ciudad}} </option>
+									</select>
+									<div class="invalid-feedback"  >
+											Debe Seleccionar una Sede/Ciudad
+									</div>
                                 </div>
                                 <div class="col-md-6">
 							        <label for="campotipo">Tipo</label>
-                                    <div class="alert alert-danger" role="alert"  v-if="error.id_tipo" >
-                                            <b>Error:</b> Debe Seleccionar el tipo de documento
-                                    </div>
-                                    <select class="form-control" required id="campotipo" v-model="datosArchivo.id_tipo">
+                                    
+                                    <select class="form-control" required id="campotipo" v-model="datosArchivo.id_tipo" :class="{'is-invalid':error.id_tipo }">
                                         <option value="" selected disabled>Seleccione </option>
                                         <option :value='tipo.id_tipo' v-for="tipo of listaTipos"> {{tipo.tipo}} </option>
                                     </select>
+									<div class="invalid-feedback"   >
+                                             Debe Seleccionar el tipo de documento
+                                    </div>
                                 </div>
                             </div>
 	
 						</div>
-						
-                        <div class="form-group">
-                            <label for="resumen">Resumen</label>
-                            <div class="alert alert-danger" role="alert"  v-if="error.resumen" >
-									<b>Error:</b> Debe ingresar un Resumen
-							</div>
-                            <textarea class="form-control"  rows="12" required v-model="datosArchivo.resumen" id="resumen"></textarea>
-                        </div>
-                    
-
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-6">
 									<label for="categoria">Categoria</label>
-									<div class="alert alert-danger" role="alert"  v-if="error.id_categoria" >
-											<b>Error:</b> Debe seleccionar una Categoria
-									</div>
-									<select class="form-control" required id="categoria"  v-model="datosArchivo.id_categoria">
+									
+									<select class="form-control" required id="categoria"  v-model="datosArchivo.id_categoria" :class="{'is-invalid':error.id_categoria }">
 										<option value=""  selected disabled>Seleccione </option>
 										<option :value="categoria.id_categoria" v-for="categoria of listaCategorias"> {{categoria.categoria}} </option>
 									</select>
+									<div class="invalid-feedback"  >
+											 Debe seleccionar una Categoria
+									</div>
 								</div>
 								<div class="col-md-6">
-									<label for="categoria">Año de publicacion</label>
-									<div class="alert alert-danger" role="alert"  v-if="error.anio" >
-											<b>Error:</b> Debe seleccionar un año de creacion
+									<label for="anio_publicacion">Año de publicacion</label>
+									
+									<input  id="anio_publicacion" class="form-control" required v-model="datosArchivo.anio_creacion" @keydown="validarInputNumber" :class="{'is-invalid':error.anio }"> 
+									<div class="invalid-feedback"  >
+											 Debe ingresar un año 
 									</div>
-									<input  id="campotutor" class="form-control" required v-model="datosArchivo.anio_creacion">
 								</div>
 							</div>
-
-
-					</div>
-                    
-
-                    <div class="col-md-6">
-						
 						</div>
+						<div class="form-group">
+							<label for="anio_publicacion">Permitido para Publico</label> <br>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio"  id="exampleRadios1" value="SI" checked v-model="datosArchivo.es_publico">
+								<label class="form-check-label" for="exampleRadios1">
+									SI
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio"  id="exampleRadios2" value="NO" v-model="datosArchivo.es_publico">
+								<label class="form-check-label" for="exampleRadios2">
+									NO
+								</label>
+							</div>
+						</div>
+						
+                        <div class="form-group">
+                            <label for="resumen">Resumen</label>
+                            
+                            <textarea class="form-control"  rows="10" required v-model="datosArchivo.resumen" id="resumen" :class="{'is-invalid':error.resumen }"></textarea>
+							<div class="invalid-feedback"   >
+									 Debe ingresar un Resumen
+							</div>
+                        </div>
+                    
+						<div class="form-group">
+							<label for="observaciones">Observaciones</label>
+							
+							<input class="form-control"  rows="10" required v-model="datosArchivo.observaciones" id="observaciones" >
+						</div>
+						
 								
                     </div>
                     
@@ -176,14 +204,14 @@ export default {
             listaEspecialidades: [],
             listaTipos: [],
             listaCategorias: [],
-            listaAnios: [],
-            datosEditar: null,
+            listaSedes: [],
+            datosEditarEspecialidad: null,
+            datosEditarAutor: null,
             error: {
                 errorfile: false,
                 titulo: false,
                 resumen: false,
                 autor: false,
-                tutor: false,
                 id_version: false,
                 sede: false,
                 id_tipo: false,
@@ -191,6 +219,7 @@ export default {
                 sinfile: false,
                 anio: false,
                 id_especialidad: false,
+                nro_paginas: false,
             },
 
             datosArchivo: {
@@ -212,14 +241,20 @@ export default {
                 lenguaje: '',
                 nombre_archivo: '',
                 resumen: '',
-                sede: '',
+                id_sede: '',
                 tamanio: '',
                 tipo: '',
                 titulo: '',
-                tutor: '',
                 uuid: '',
                 version: '',
                 nro_paginas: '',
+                id_autor: '',
+                nombre_autor: '',
+                paterno_autor: '',
+                materno_autor: '',
+                codigo_documento: '',
+                observaciones: '',
+                es_publico: 'SI',
             },
             datosArchivoDefault: {
                 anio_creacion: '',
@@ -239,39 +274,50 @@ export default {
                 lenguaje: '',
                 nombre_archivo: '',
                 resumen: '',
-                sede: '',
+                id_sede: '',
                 tamanio: '',
                 tipo: '',
                 titulo: '',
-                tutor: '',
                 uuid: '',
                 version: '',
+                nro_paginas: '',
+                id_autor: '',
+                nombre_autor: '',
+                paterno_autor: '',
+                materno_autor: '',
+                codigo_documento: '',
+                es_publico: 'SI',
             },
             especialidaSeleccionada: null,
-            filtro_id_especialidad: '',
+            id_especialidad: '',
+            id_autor: '',
+
             url_especialidad: base_url + "archivo/buscar_especialidad",
-
-
+            url_autor: base_url + "archivo/buscar_autor",
 
         }
     },
     created() {
-        this.listarEspecialidades()
-        this.generarAnios()
+
 
         if (this.editarArchivo) {
             this.asignarEditar()
         }
+
+        this.cargarDatosSelect();
+
     },
 
     mounted() {
+
+
         this.fileDropy()
         if (this.editarArchivo) {
 
 
             this.modalVistaPrevia = true
             this.file = true
-            this.src = base_url + 'uploads/' + this.datosArchivo.nombre_archivo + '#toolbar=0'
+            this.src = base_url + 'archivo/pdf/' + this.datosArchivo.nombre_archivo + '/1'
                 //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
                 // setTimeout(() => {
                 //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
@@ -282,7 +328,7 @@ export default {
         }
 
 
-        setInterval(() => {
+        const intervalo = setInterval(() => {
             this.verificarInput()
         }, 2000);
 
@@ -292,12 +338,32 @@ export default {
 
     methods: {
 
+        cargarDatosSelect() {
+            axios.get(base_url + "archivo/listar_parametros")
+                .then(res => {
+                    console.log(res)
+
+                    this.listaCategorias = res.data.categorias
+                    this.listaTipos = res.data.tipos_documento
+                    this.listaSedes = res.data.sedes
+
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("ocurrio un error Vuelva a Intentarlo mas tarde")
+                })
+        },
         verificarInput() {
             // console.log(this.inputDocumento.value);
-            if (!this.inputDocumento.value) {
-                this.src = ''
-                this.datosArchivo.nro_paginas = ''
+            try {
+                if (!this.inputDocumento.value) {
+                    this.src = ''
+                    this.datosArchivo.nro_paginas = ''
+                }
+            } catch (error) {
+
             }
+
         },
         archivoSubido(e) {
 
@@ -367,23 +433,26 @@ export default {
             if (this.validarCampos()) {
                 let fm = new FormData()
 
-                fm.append('id_ver_esp', this.datosArchivo.id_ver_esp)
-                fm.append('titulo', this.datosArchivo.titulo)
-                fm.append('resumen', this.datosArchivo.resumen)
-                fm.append('autor', this.datosArchivo.autor)
-                fm.append('tutor', this.datosArchivo.tutor)
+                fm.append('id_ver_esp', this.datosArchivo.id_ver_esp) //
+                fm.append('titulo', this.datosArchivo.titulo) //
+                fm.append('resumen', this.datosArchivo.resumen) //
+                fm.append('id_autor', this.datosArchivo.id_autor) //
+                fm.append('observaciones', this.datosArchivo.observaciones) //
                 fm.append('id_version', this.datosArchivo.id_version)
-                fm.append('sede', this.datosArchivo.sede)
-                fm.append('id_tipo', this.datosArchivo.id_tipo)
-                fm.append('id_categoria', this.datosArchivo.id_categoria)
-                fm.append('anio', this.datosArchivo.anio_creacion)
+                fm.append('id_sede', this.datosArchivo.id_sede) //
+                fm.append('id_tipo', this.datosArchivo.id_tipo) //
+                fm.append('id_categoria', this.datosArchivo.id_categoria) //
+                fm.append('anio', this.datosArchivo.anio_creacion) //
                 fm.append('actualizar', true)
-                fm.append('id_archivo', this.datosArchivo.id_archivo)
-                fm.append('nro_paginas', this.datosArchivo.nro_paginas)
+                fm.append('id_documento', this.datosArchivo.id_documento)
+                fm.append('nro_paginas', this.datosArchivo.nro_paginas) //
+                fm.append('codigo_documento', this.datosArchivo.codigo_documento) //
+                fm.append('es_publico', this.datosArchivo.es_publico) //
+
 
 
                 if (!this.editarArchivo) {
-                    fm.append('archivo', this.file, this.file.name)
+                    fm.append('archivo', this.file, this.file.name) //
 
                     fm.append('actualizar', false)
                 }
@@ -395,9 +464,12 @@ export default {
 
                 axios.post(base_url + 'archivo/save', fm)
                     .then(res => {
+
                         setTimeout(() => {
                             $('#modalSpinner').modal('hide');
-                        }, 1000);
+                        }, 500);
+
+
 
                         if (res.data.error == 0) {
 
@@ -409,6 +481,8 @@ export default {
                                 timer: 1500
                             })
                             this.datosArchivo = Object.assign({}, this.datosArchivoDefault)
+                            this.id_autor = '';
+                            this.id_especialidad = '';
                             this.file = null
                             if (this.editarArchivo) {
                                 setTimeout(() => {
@@ -420,7 +494,6 @@ export default {
                                 drEvent.resetPreview()
                                 drEvent.clearElement()
                                 this.modalVistaPrevia = false
-                                $("#select-especialidades").empty();
                                 document.getElementById('documento').value = ''
                             }
 
@@ -435,17 +508,19 @@ export default {
                         }
                     })
                     .catch(err => {
-                        $('#modalSpinner').modal('hide');
+                        setTimeout(() => {
+                            $('#modalSpinner').modal('hide');
+                        }, 500);
+
                         Swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: 'Ocurrio un error, Intente de nuevo',
+                            title: 'Ocurrio un error, Intente de nuevo catch',
                             showConfirmButton: false,
                             timer: 1500
                         })
+
                     })
-
-
 
             } else {
                 console.log("falta llenar");
@@ -482,7 +557,7 @@ export default {
 
 
             if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.autor && this.datosArchivo.sede && this.datosArchivo.anio_creacion && this.file) {
+                this.datosArchivo.resumen && this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion && this.file && this.datosArchivo.nro_paginas) {
                 return true;
             }
 
@@ -492,10 +567,12 @@ export default {
             }
             if (!this.datosArchivo.titulo) {
                 this.error.titulo = true
+                this.errorTitulo = true
 
             }
             if (!this.datosArchivo.id_categoria) {
                 this.error.id_categoria = true
+
             }
 
             if (!this.datosArchivo.id_tipo) {
@@ -504,11 +581,12 @@ export default {
             if (!this.datosArchivo.resumen) {
                 this.error.resumen = true
             }
-            if (!this.datosArchivo.autor) {
+            if (!this.datosArchivo.id_autor) {
                 this.error.autor = true
+
             }
 
-            if (!this.datosArchivo.sede) {
+            if (!this.datosArchivo.id_sede) {
                 this.error.sede = true
             }
             if (!this.datosArchivo.anio_creacion) {
@@ -517,6 +595,10 @@ export default {
             if (!this.file) {
                 this.error.sinfile = true
                 this.modalVistaPrevia = false
+            }
+            if (!this.datosArchivo.nro_paginas) {
+                this.error.nro_paginas = true
+
             }
 
             setTimeout(() => {
@@ -531,19 +613,9 @@ export default {
                 this.error.sede = false
                 this.error.sinfile = false
                 this.error.anio = false
+                this.error.nro_paginas = false
+
             }, 5000);
-
-
-
-        },
-        generarAnios() {
-            let d = new Date();
-            let n = d.getFullYear();
-            let arr = []
-            for (let i = n; i >= 2000; i--) {
-                arr.push(i)
-            }
-            this.listaAnios = arr
 
 
 
@@ -551,7 +623,8 @@ export default {
         asignarEditar() {
 
             this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
-            this.datosEditar = { id: this.stateEditarArchivo.id_ver_esp, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
+            this.datosEditarEspecialidad = { id: this.stateEditarArchivo.id_ver_esp, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
+            this.datosEditarAutor = { id: this.stateEditarArchivo.id_autor, text: this.stateEditarArchivo.nombre_autor + " " + this.stateEditarArchivo.paterno_autor + " " + this.stateEditarArchivo.materno_autor + ", " + this.stateEditarArchivo.ci_autor }
 
         },
 
@@ -564,6 +637,16 @@ export default {
         },
         ...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
 
+        //validaciones
+
+        validarInputNumber(e) {
+            if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode !== 110 && e.keyCode !== 8 && e.keyCode !== 9) {
+                e.preventDefault()
+            }
+
+        },
+
+
 
     },
     computed: {
@@ -571,9 +654,13 @@ export default {
 
     },
     watch: {
-        filtro_id_especialidad: function(val) {
+        id_especialidad: function(val) {
             this.datosArchivo.id_ver_esp = val;
+        },
+        id_autor: function(val) {
+            this.datosArchivo.id_autor = val
         }
+
     }
 
 

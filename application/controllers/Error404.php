@@ -7,4 +7,11 @@ class Error404 extends CI_Controller {
 		$this->load->view('pagina404');
 		
    }
+
+	public function error404Iframe()
+	{
+		$data['is_iframe']=true;
+		$this->load->view('pagina404');
+		
+	}
 }

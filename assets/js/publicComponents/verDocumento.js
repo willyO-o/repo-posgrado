@@ -90,18 +90,25 @@ export default {
 
     methods: {
         getDocumento() {
-            axios.get(this.url + 'archivo/getArchivoName/' + this.uuid)
+            let fm = new FormData()
+            fm.append("uuid", this.uuid)
+            axios.post(this.url + 'publico/documento_uuid', fm)
                 .then(res => {
-                    
-                    this.documento = res.data.documento
+                    if (res.data.existe == true) {
+                        this.documento = Object.assign({}, res.data.documento)
+                        console.log(res.data.documento);
+
+                    } else {
+                        this.$router.push('/404')
+                    }
 
                 })
-				.catch(err => {
+                .catch(err => {
                     console.error(err);
                 })
         },
 
-		
+
 
 
 

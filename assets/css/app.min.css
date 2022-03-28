@@ -1715,6 +1715,9 @@ html.fullscreen-bg body {
     .layout-table .cell.text-right {
         text-align: left
     }
+    .contenedor-router {
+        margin-bottom: 6rem;
+    }
 }
 
 .has-content-menu .main-content .container-fluid,
@@ -17581,4 +17584,15 @@ a.page-link {
 
 .dropify-wrapper {
     height: 100px !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+}
+
+#modal .card-profile {
+    margin-bottom: 0 !important;
 }
