@@ -378,6 +378,12 @@ class Archivo extends CI_Controller
 			$this->db->where('id_archivo', $id);
 		}
 	}
+
+	public function pdfjs()
+	{
+
+		
+	}
 }
 
 /* End of file Archivo.php */

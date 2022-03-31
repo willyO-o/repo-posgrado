@@ -58,10 +58,13 @@ $route['admin'] = 'principal/admin';
 
 
 
+
+
+
 //  publico
 
 $route['publico/listar_parametros'] = 'Publico/principal_publico/listar_parametros_ajax';
 $route['publico/listar_documentos'] = 'Publico/principal_publico/listar_documentos_ajax';
 $route['publico/documento_uuid'] = 'Publico/principal_publico/listar_documento_uuid_ajax';
 
-
+$route["ver/pdf/(:any)"] ="publico/principal_publico/visualizar_pdf/$1";

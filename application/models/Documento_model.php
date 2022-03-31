@@ -102,13 +102,14 @@ class Documento_model extends CI_Model
 	public function listar_documentos_publico($limit = 10, $ofset = 0, int $id_especialidad=0, int $id_categoria=0,int  $id_tipo_documento=0)
 	{
 		$this->db->start_cache();
-		$this->db->select('uuid, titulo, autor, anio_creacion,SUBSTRING( resumen,0,150) as resumen,
-							anio_creacion, fecha_publicacion');
+		$this->db->select("uuid, titulo,nombre_autor||' '||paterno_autor||' '||materno_autor as autor, anio_creacion,SUBSTRING( resumen,0,150) as resumen,
+							anio_creacion, fecha_publicacion");
 		$this->db->from('srp_documentos');
 		$this->db->join('srp_autores', 'srp_documentos.id_autor = srp_autores.id_autor', 'inner');
 		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = srp_documentos.id_ver_esp', 'inner');
 		$this->db->join('srp_especialidades', 'srp_especialidades.id_especialidad = ver_esp.id_especialidad', 'inner');
 		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'inner');
+		
 		$this->db->where('srp_documentos.estado_documento !=', "eliminado");
 
 		if ($id_especialidad!=0) {
@@ -137,14 +138,16 @@ class Documento_model extends CI_Model
 	{
 
 		$this->db->start_cache();
-		$this->db->select('uuid, titulo, autor, anio_creacion, resumen,categoria,version,especialidad, srp_documentos.id_categoria ,srp_documentos.id_tipo, srp_documentos.id_ver_esp, 
-							anio_creacion, fecha_publicacion, lenguaje,  sede_ciudad, id_sede, tipo,   tamanio_archivo, nro_paginas ,  id_documento , nombre_archivo as nombre ');
+		$this->db->select("uuid, titulo,nombre_autor||' '||paterno_autor||' '||materno_autor as autor, anio_creacion, resumen,categoria,version,especialidad, srp_documentos.id_categoria ,srp_documentos.id_tipo, srp_documentos.id_ver_esp, 
+							anio_creacion, fecha_publicacion, lenguaje,  sede_ciudad, srp_documentos.id_sede, tipo,   tamanio_archivo, nro_paginas ,  id_documento , nombre_archivo as nombre");
 		$this->db->from('srp_documentos');
+		$this->db->join('srp_autores', 'srp_documentos.id_autor = srp_autores.id_autor', 'inner');
 		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = srp_documentos.id_ver_esp', 'left');
 		$this->db->join('srp_especialidades', 'srp_especialidades.id_especialidad = ver_esp.id_especialidad', 'left');
 		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
 		$this->db->join('srp_categorias', 'srp_categorias.id_categoria = srp_documentos.id_categoria', 'left');
 		$this->db->join('srp_tipos', 'srp_tipos.id_tipo = srp_documentos.id_tipo', 'left');
+		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'left');
 
 		$this->db->where('srp_documentos.estado_documento !=', "eliminado");
 
@@ -152,6 +155,13 @@ class Documento_model extends CI_Model
 
 		$resultado= $this->db->get()->row();
 		return $resultado;
+	}
+
+	public function verificar_codigo($codigo_documento)
+	{
+		$this->db->where('uuid', $codigo_documento);
+		return $this->db->count_all_results("srp_documentos");
+		
 	}
 
 

@@ -22,6 +22,8 @@
 	<script src="<?= base_url() ?>assets/js/axios.js"> </script>
 
 	<script src="<?= base_url() ?>assets/js/jquery-3.2.1.min.js"></script>
+    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
 	<script src="<?= base_url() ?>assets/plugins/styles/bootstrap4/popper.js"></script>
 	<script src="<?= base_url() ?>assets/plugins/styles/bootstrap4/bootstrap.min.js"></script>
 	<script src="<?= base_url() ?>assets/plugins/greensock/TweenMax.min.js"></script>
