@@ -1722,7 +1722,7 @@ input:last-of-type {
     transition: opacity 2s;
     pointer-events: none;
     overflow-y: scroll;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 .modalmask.open {
@@ -1752,8 +1752,8 @@ input:last-of-type {
 }
 
 .modalmask.open .resize {
-    max-width: 2000px;
-    width: auto;
+    /* max-width: 800px; */
+    width: 800px;
     height: auto;
     overflow: hidden;
 }
@@ -1855,7 +1855,7 @@ a:not([href]) {
 #zoom-bar {
     background-color: #000000Bf;
     height: 44px;
-    width: 250px;
+    width: 275px;
     margin: 0 auto;
     border-radius: 3px;
     display: flex;
@@ -1884,7 +1884,7 @@ a:not([href]) {
 }
 
 .zoom-bar .zoom-buttons {
-    padding: 2px 15px;
+    padding: 2px 5px;
 }
 
 .zoom-bar .btn-search:hover {
