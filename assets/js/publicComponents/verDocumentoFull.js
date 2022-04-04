@@ -1,3 +1,5 @@
+import modalPdf from '../publicComponents/modalPdf.js'
+
 export default {
     template: //html
         `
@@ -101,10 +103,10 @@ export default {
                   </tr>
                     <tr>
                         <td> {{documento.nombre}} </td>
-                        <td> {{documento.tamanio}}Mb</td>
-                        <td> {{documento.formato}} </td>
+                        <td> {{documento.tamanio_archivo}}Mb</td>
+                        <td> PDF </td>
                         <td>
-                            <a :href="url+'archivo/pdf/'+documento.nombre" target="_blank"> <i class="fas fa-file-pdf fa-2x"> </i> Ver PDF  </a>
+                            <a @click="openModal()" > <i class="fas fa-file-pdf fa-2x"> </i> Ver PDF  </a>
                         </td>
                         
                     </tr>
@@ -116,16 +118,22 @@ export default {
 
 
 			</div>
+
+			<modalPdf :pdfUrl="pdfUrl" ref="modal"/>
+
 	</div>
 
 
 
 	`,
+    components: { modalPdf },
     data() {
         return {
             uuid: this.$route.params.name,
             url: base_url,
-            documento: {}
+            documento: {},
+            pdfUrl: '',
+            filesDirectory: base_url + 'uploads/',
 
         }
     },
@@ -136,16 +144,26 @@ export default {
 
     methods: {
         getDocumento() {
-            axios.get(this.url + 'archivo/getArchivoName/' + this.uuid)
+            let fm = new FormData()
+            fm.append("uuid", this.uuid)
+            axios.post(this.url + 'publico/documento_uuid', fm)
                 .then(res => {
-                    
-                    this.documento = res.data.documento
-
+                    if (res.data.existe == true) {
+                        this.documento = Object.assign({}, res.data.documento)
+                        console.log(res.data.documento);
+                        this.pdfUrl = this.filesDirectory + this.documento.nombre
+                    } else {
+                        this.$router.push('/404')
+                    }
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert("ocurrio un error!, Intente de Nuevo")
+
                 })
         },
+        openModal() {
+            this.$refs.modal.abrirModal();
+        }
 
 
 

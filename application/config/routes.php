@@ -53,9 +53,12 @@ $route['default_controller'] = 'principal';
 $route['404_override'] = 'error404';
 $route['translate_uri_dashes'] = FALSE;
 
+
+
+//admin
 $route['admin'] = 'principal/admin';
 
-
+$route['autor/listar'] = 'Admin/Autores_programa/autores_programa_listar_ajax';
 
 
 

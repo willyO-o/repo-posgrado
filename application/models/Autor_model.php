@@ -17,6 +17,31 @@ class Autor_model extends CI_Model {
 
 	}
 
+	public function filtrar_autores($limit, $ofset, $palabra_buscar)
+	{
+		$palabra_buscar=strtolower($palabra_buscar);
+		$this->db->start_cache();
+		$this->db->from('srp_autores');
+		
+		if ($palabra_buscar!='') {
+			$this->db->like('LOWER(nombre_autor)', $palabra_buscar);
+			$this->db->or_like('LOWER(paterno_autor)', $palabra_buscar);
+			$this->db->or_like('LOWER(materno_autor)', $palabra_buscar);
+			$this->db->or_like('ci_autor', $palabra_buscar);
+		}
+
+		$this->db->order_by('id_autor', 'desc');
+		$this->db->stop_cache();
+		$resultado["total_resultados"] = $this->db->count_all_results();
+
+		$this->db->limit($limit, $ofset);
+		$resultado["autores"] = $this->db->get()->result();
+		$resultado["q"]=$this->db->last_query();
+		
+		$this->db->flush_cache();
+		return $resultado;
+	}
+
 	public function insertar_autores(array $datos_autor)
 	{
 		$this->db->insert('srp_autores', $datos_autor);

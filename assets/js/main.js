@@ -1,3 +1,5 @@
+import autores from './components/autores.js';
+
 const Dashboard = () =>
     import ('./components/dashboard.js');
 const User = () =>
@@ -8,6 +10,8 @@ const subirArchivos = () =>
     import ('./components/subirArchivos.js');
 const listarArchivos = () =>
     import ('./components/listarArchivos.js');
+const Autores = () =>
+    import ('./components/autores.js');
 const page404 = () =>
     import ('./components/page404.js');
 
@@ -34,6 +38,11 @@ const routes = [{
     {
         path: '/archivos/listar',
         component: listarArchivos,
+
+    },
+    {
+        path: '/autores',
+        component: Autores,
 
     },
     {

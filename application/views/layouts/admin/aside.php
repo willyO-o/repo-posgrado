@@ -16,12 +16,15 @@
 				<li>
 					<router-link to="/especialidades" ><i class="ti-widget"></i> <span class="title">Especialidades</span></router-link>
 				</li>
-				<li class="menu-group">Archivos</li>
 				<li>
-					<router-link to="/archivos/subir"><i class="ti-export"></i> <span class="title">Publicar Archivo</span></router-link>
+					<router-link to="/autores" ><i class="ti-widget"></i> <span class="title">Autores</span></router-link>
+				</li>
+				<li class="menu-group">Documentos</li>
+				<li>
+					<router-link to="/archivos/subir"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
 				</li>
 				<li>
-					<router-link to="/archivos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Archivos</span></router-link>
+					<router-link to="/archivos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Documento</span></router-link>
 				</li>
 
 				<!-- <li class="panel">

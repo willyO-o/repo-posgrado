@@ -24,9 +24,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
-$config['base_url'] = $_SERVER['SERVER_NAME']=='localhost'? "$protocol://{$_SERVER['HTTP_HOST']}/repo-posgrado/": "$protocol://{$_SERVER['HTTP_HOST']}/";
-//$config['base_url'] = '';
+// $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
+// $config['base_url'] = $_SERVER['SERVER_NAME']=='localhost'? "$protocol://{$_SERVER['HTTP_HOST']}/repo-posgrado/": "$protocol://{$_SERVER['HTTP_HOST']}/";
+
+ $config['base_url'] = 'http://localhost/repo-posgrado/';
+
+//$config['base_url'] = 'http://192.168.56.1/repo-posgrado/';
+
+$config['base_url'] = 'http://603b-2800-cd0-2811-6600-3c1d-71dc-2129-e418.ngrok.io/repo-posgrado/';
+
+
 
 /*
 |--------------------------------------------------------------------------
