@@ -72,14 +72,16 @@ export default {
         }
     },
     created() {
-        this.anio = (new Date).getFullYear()
-        this.getCantidades()
+        this.get_ultimo_anio()
+		this.getCantidades()
+
     },
     methods: {
         getCantidades() {
 
-            axios.get(this.url + 'archivo/getEstadisticas')
+            axios.get(this.url + 'archivo/get_estadisticas')
                 .then(res => {
+					
                     this.cantidadArchivos = res.data.nroArchivos
                     this.cantidadEspecialidades = res.data.nroEspecialidades
                     this.listadoAnios = res.data.anios
@@ -88,6 +90,17 @@ export default {
                     console.error(err);
                 })
         },
+		get_ultimo_anio(){
+			axios.get(this.url+"archivo/get_ultimo_anio")
+			.then(res => {
+		
+				this.anio=res.data.anio
+
+			})
+			.catch(err => {
+				console.error(err); 
+			})
+		}
 
     },
     mounted() {

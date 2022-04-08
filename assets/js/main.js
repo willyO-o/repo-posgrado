@@ -45,6 +45,7 @@ const routes = [{
         component: Autores,
 
     },
+	
     {
         path: "*",
         component: page404

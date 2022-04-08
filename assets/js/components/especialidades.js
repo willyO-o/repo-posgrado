@@ -63,7 +63,7 @@ export default {
 			</div>
 
 		
-			<div class="card mb-5">
+				<div class="card mb-5">
 					<div class="card-header d-flex justify-content-between">
 						<h2 class="card-title mt-2">Listado de Especialidades</h2>
                         <button type="button" class="btn btn-primary"   @click="mostrarModal()">
@@ -71,38 +71,82 @@ export default {
                         </button>
 					</div>
 					<div class="card-body">
-							<div class="table-responsive">
-								<table id="datatable-export" class="table table-striped">
-									<thead class="thead-light">
-										<tr>
-											<th>#</th>
-											<th>Especialidad</th>
-											<th>Version</th>
-											<th>Acciones</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(item,index) of listaEspecialidades" :key="item.id_especialidad">
-											<td>{{index+1}}</td>
-											<td>{{item.especialidad}}</td>
-											<td>{{item.version}}</td>
-											<td>
-												<button type="button" class="btn btn-warning btn-sm"   
-													@click="editarEspecialidad(item)">
-												<i class="ti-pencil"></i>
-												</button>
-												<button type="button" class="btn btn-danger btn-sm"   @click="confirm(item.id_especialidad)">
-													<i class="ti-trash"></i>
-												</button>
-											
-											</td>
-					
-										</tr>
-									</tbody>
-								</table>
+					<!-- table-responsive-->
+	
+						<div class="caja-buscardor">
+							<div class="input-group  mb-3">
+								<input type="search" class="form-control" v-model="palabra_buscar" placeholder="Buscar"  aria-label="Recipient's username" aria-describedby="button-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2"><i class="ti-search"></i></button>
+								</div>
 							</div>
+						</div>
+					
+						<table id="tabla" class="table table-striped">
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th>especialidad</th>
+
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(item,index) of listado_especialidades" :key="item.id_autor">
+									<td>{{index + indicePagina()+1 }}</td>
+									<td>{{item.especialidad}}</td>
+			
+	
+									<td>
+										<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_autor)"></i>
+										<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_autor)"></i>
+										<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
+									</td>
+								</tr>
+								<tr v-if="totalResultadosQuery==0">
+									<td colspan="4" class="text-center">No se encontraron Resultados</td>
+	
+								</tr>
+							</tbody>
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th>Especialidad</th>
+
+									<th>Acciones</th>
+	
+								</tr>
+							</thead>
+						</table>
+						<div class="paginador" id="paginador">
+							<nav aria-label="Page navigation example" v-if="totalResultados()!=0">
+								<ul class="pagination">
+									<li class="page-item " :class="esDisableAnterior()" @click="botonAnterior()">
+										<a class="page-link" aria-label="Previous">
+											Anterior
+										</a>
+									</li>
+	
+									<li class="page-item"  v-if="esPrincipio()"><a class="page-link">1</a></li>
+									<li class="page-item disabled" v-if="esPrincipio()"><a class="page-link">...</a></li>
+	
+									<li class="page-item"  v-for="pagina in nroPaginas()" @click="buscar(pagina)" :class="esActivo(pagina)"><a class="page-link">{{pagina}}</a></li>
+									
+									<li class="page-item disabled"  v-if="esPrincipio()"><a class="page-link">...</a></li>
+									<li class="page-item" v-if="esPrincipio()"><a class="page-link">2</a></li>
+	
+									<li class="page-item" :class="esDisableSiguiente()" @click="botonSiguiente()">
+										<a class="page-link" aria-label="Next">
+											Siguiente
+										</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					
+						
 					</div>
-	  		</div>
+	  			</div>
 
 			  
 			<h1>Versiones</h1>
@@ -228,16 +272,22 @@ export default {
             contador: base_url,
             tablaEspecialidades: null,
             listaVersiones: null,
-            listaEspecialidades: null,
+            listado_especialidades: [],
             tituloEspecialidad: '',
             editar: false,
             tablaVersiones: null,
             url: base_url,
             editarVersion: false,
+			totalResultadosQuery: 0,
+            pagina_actual: 1,
+            paginar: 0,
+            elementos_pagina: 10,
             version: {
                 version: '',
                 id_version: '',
             },
+            palabra_buscar: '',
+
             especialidad: {
                 id: 0,
                 espec: '',
@@ -266,15 +316,87 @@ export default {
                 especialidad: false,
                 version: false,
             },
+			filtros: {
+                textoBuscar: "",
+            },
         }
     },
     created() {
 
-        this.listar();
+        this.buscar();
         this.listarVersiones()
     },
 
     methods: {
+		nroPaginas() {
+            let total_paginas = Math.ceil(this.totalResultadosQuery / this.elementos_pagina)
+            let nro_paginas = total_paginas;
+            if (total_paginas > 5) {
+                nro_paginas = 5;
+            }
+            return nro_paginas;
+        },
+        esActivo(pagina) {
+            return this.pagina_actual == pagina ? "active" : "";
+        },
+        esDisableAnterior() {
+            return this.pagina_actual == 1 ? "disabled" : "";
+        },
+        esDisableSiguiente() {
+            return this.pagina_actual == this.nroPaginas() ? "disabled" : ""
+        },
+
+        esPrincipio() {
+            return false;
+        },
+        botonAnterior() {
+            if (this.pagina_actual > 1) {
+                this.pagina_actual--;
+                this.buscar(this.pagina_actual);
+
+            }
+
+        },
+        botonSiguiente() {
+            if (this.pagina_actual < this.nroPaginas()) {
+                this.pagina_actual++;
+                this.buscar(this.pagina_actual);
+
+            }
+
+        },
+        indicePagina() {
+            return this.pagina_actual != 1 ? (this.pagina_actual - 1) * 10 : 0;
+        },
+		totalResultados() {
+            return this.totalResultadosQuery;
+        },
+
+		buscar(pagina = 0) {
+            this.pagina_actual = pagina != 0 ? pagina : 1;
+            pagina != 0 ? pagina = (pagina - 1) * 10 : 0;
+            let fm = new FormData();
+            fm.append("palabra_buscar", this.filtros.textoBuscar);
+            fm.append("ofset", pagina);
+
+
+            axios.post(this.url + "especialidad/filtrar", fm)
+                .then(res => {
+                    console.log(res)
+                    this.listado_especialidades = res.data.especialidades;
+                    this.totalResultadosQuery = res.data.total_resultados;
+
+                })
+                .catch(err => {
+
+                    this.listaArchivos = [];
+                    this.totalResultadosQuery = 0;
+
+                })
+
+
+
+        },
         sumar() {
             this.contador = this.contador + 2
         },
@@ -377,20 +499,14 @@ export default {
             }, 3000);
 
         },
-        async listar() {
-            const res = await axios.get(base_url + "especialidad")
 
-            this.listaVersiones = res.data.versiones
-            this.listaEspecialidades = res.data.especialidades
+		
+        listar() {
 
-            //this.articulos = res.data;
+
         },
         datatab() {
 
-            setTimeout(() => {
-                this.tablaEspecialidades = $("#datatable-export").DataTable({ language: espaniol, pageLength: 5, destroy: true, dom: "Bfrtip", buttons: ["print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"] });
-
-            }, 1000);
 
 
         },
@@ -563,9 +679,7 @@ export default {
             this.mostrarModalVersion()
         },
         datatableVersion() {
-            setTimeout(() => {
-                this.tablaVersiones = $('#tabla-versiones').DataTable({ language: espaniol, pageLength: 5, bLengthChange: false });
-            }, 1000);
+
 
         },
 
@@ -574,5 +688,11 @@ export default {
         this.datatab();
         this.datatableVersion()
     },
+	watch:{
+		palabra_buscar: function(val) {
+            this.filtros.textoBuscar = val;
+            this.buscar();
+        }
+	}
 
 }

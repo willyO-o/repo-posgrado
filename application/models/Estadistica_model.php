@@ -1,45 +1,49 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Estadistica_model extends CI_Model {
+class Estadistica_model extends CI_Model
+{
 
 	//contador de documentos subidos, cantidad especialidades etc
 
-	public function nroArchivos()
+	public function nro_archivos()
 	{
-		$sql="SELECT COUNT(*) as nro FROM metadatos";
-		return $this->db->query($sql)->row()->nro;
-		
+
+		return $this->db->count_all("srp_documentos");
 	}
-	public function nroEspecialidades()
+	public function nro_especialidades()
 	{
-		$sql="SELECT COUNT(*) as nro FROM especialidades";
-		return $this->db->query($sql)->row()->nro;
-		
+		return $this->db->count_all("srp_especialidades");
 	}
 
 
 	public function get_barra($anio)
 	{
-		$sql="SELECT mes,coalesce(t,0) as publicados  
+
+		$sql = "SELECT mes,coalesce(t,0) as publicados  
 			FROM meses
 			LEFT JOIN (SELECT to_char(fecha_publicacion, 'MM')  as id_mes, COUNT(*) as t 
-							from metadatos
-							WHERE to_char(fecha_publicacion, 'yyyy') ='".$anio."'
+							from srp_documentos
+							WHERE to_char(fecha_publicacion, 'yyyy') ='" . $anio . "'
 							GROUP BY id_mes) CC USING(id_mes) ORDER BY id_mes ASC";
 		return $this->db->query($sql)->result();
 	}
 
 	public function get_anios()
 	{
-		$sql="SELECT to_char(fecha_publicacion,'yyyy') as anios 
-			FROM metadatos
-			GROUP BY  anios";
+		$sql = "SELECT to_char(fecha_publicacion,'yyyy') as anios 
+			FROM srp_documentos
+			GROUP BY  anios 
+			ORDER BY anios DESC";
 		return $this->db->query($sql)->result();
 	}
 
-
+	public function get_ultimo_anio()
+	{
+		$sql = "SELECT max(to_char(fecha_publicacion,'yyyy')) as max_anio FROM srp_documentos ";
+		return $this->db->query($sql)->row()->max_anio;
+	}
 }
 
 /* End of file Estadistica_model.php */

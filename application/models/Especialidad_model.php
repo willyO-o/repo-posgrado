@@ -13,6 +13,28 @@ class Especialidad_model extends CI_Model
 		return $this->db->get()->result();
 	}
 
+	public function filtrar_especialidades($limit,$ofset,$palabra_buscar)
+	{
+		$palabra_buscar=strtolower($palabra_buscar);
+		$this->db->start_cache();
+		$this->db->from('srp_especialidades');
+		
+		if ($palabra_buscar!='') {
+			$this->db->like('LOWER(especialidad)', $palabra_buscar);
+		}
+
+		$this->db->order_by('id_especialidad', 'desc');
+		$this->db->stop_cache();
+		$resultado["total_resultados"] = $this->db->count_all_results();
+
+		$this->db->limit($limit, $ofset);
+		$resultado["especialidades"] = $this->db->get()->result();
+		$resultado["q"]=$this->db->last_query();
+		
+		$this->db->flush_cache();
+		return $resultado;
+	}
+
 
 
 

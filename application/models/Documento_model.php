@@ -7,7 +7,7 @@ class Documento_model extends CI_Model
 
 
 
-	public function filtrar_datos(array $filtros, int $limit, int $ofset, bool $es_admin = false)
+	public function filtrar_datos( $filtros,  $limit,  $ofset,  $es_admin = false)
 	{
 		$filtros = (object)$filtros;
 		$this->db->start_cache();
@@ -49,6 +49,50 @@ class Documento_model extends CI_Model
 		return $resultado;
 	}
 
+	public function filtrar_datos_reporte( $filtros,  $limit=0,  $ofset=0,  $es_admin = false)
+	{
+		$filtros = (object)$filtros;
+		$this->db->start_cache();
+		$this->db->select('titulo, anio_creacion, resumen,  
+							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   id_documento , nombre_autor, paterno_autor, materno_autor,es_publico ');
+		$this->db->from('srp_documentos');
+		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'inner');
+		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'inner');
+				
+
+		if (!$es_admin) {
+			$this->db->where('srp_documentos.estado_documento !=', "eliminado");
+		}
+
+		if ($filtros->texto_buscar != "") {
+			$this->db->like("titulo", strtoupper($filtros->texto_buscar));
+			//	$this->db->or_like("autor", strtoupper($filtros->texto_buscar));
+		}
+
+		if ($filtros->id_especialidad != 0) {
+			$this->db->where('srp_documentos.id_ver_esp', $filtros->id_especialidad);
+		}
+		if ($filtros->id_categoria != 0) {
+			$this->db->where('srp_documentos.id_categoria', $filtros->id_categoria);
+		}
+		if ($filtros->id_tipo_documento != 0) {
+			$this->db->where('srp_documentos.id_tipo', $filtros->id_tipo_documento);
+		}
+
+
+		$this->db->order_by('id_documento', 'desc');
+		$this->db->stop_cache();
+
+		if($limit==0){
+			$limit=$this->db->count_all_results();
+		}
+
+		$this->db->limit($limit, $ofset);
+		$resultado= $this->db->get()->result();
+
+		$this->db->flush_cache();
+		return $resultado;
+	}
 
 	public function listar_documento_id(int $id_documento, bool $es_admin = false)
 	{

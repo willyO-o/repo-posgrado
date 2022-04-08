@@ -73,8 +73,8 @@ class Archivo extends CI_Controller
 			'id_tipo' 			=> $this->input->post('id_tipo'),
 			'id_ver_esp'		=> $this->input->post('id_ver_esp'),
 			'id_categoria'		=> $this->input->post('id_categoria'),
-			'observaciones'		=> $this->input->post('observaciones') !="" ?  $this->input->post('observaciones'): "-",
-			'codigo_documento'	=> $this->input->post('codigo_documento')!="" ?strtoupper($this->input->post('codigo_documento')): "-",
+			'observaciones'		=> $this->input->post('observaciones') != "" ?  $this->input->post('observaciones') : "-",
+			'codigo_documento'	=> $this->input->post('codigo_documento') != "" ? strtoupper($this->input->post('codigo_documento')) : "-",
 			'es_publico'		=> strtoupper($this->input->post('es_publico')),
 
 		);
@@ -91,7 +91,6 @@ class Archivo extends CI_Controller
 			} else {
 				$respuesta = array('error' => 1);
 			}
-
 		} else {
 
 			$uuid = uniqid();
@@ -187,7 +186,6 @@ class Archivo extends CI_Controller
 				redirect(base_url() . "error404");
 				die();
 			}
-
 		} else {
 			if ($pdf == '') {
 
@@ -261,14 +259,21 @@ class Archivo extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function getEstadisticas()
+	public function get_estadisticas()
 	{
 		$this->load->model('estadistica_model');
 
-		$data['nroArchivos'] = $this->estadistica_model->nroArchivos();
-		$data['nroEspecialidades'] = $this->estadistica_model->nroEspecialidades();
+		$data['nroArchivos'] = $this->estadistica_model->nro_archivos();
+		$data['nroEspecialidades'] = $this->estadistica_model->nro_especialidades();
 		$data['anios'] = $this->estadistica_model->get_anios();
 
+		echo json_encode($data);
+	}
+	public function get_ultimo_anio()
+	{
+		$this->load->model('estadistica_model');
+
+		$data["anio"] = $this->estadistica_model->get_ultimo_anio();
 		echo json_encode($data);
 	}
 
@@ -277,7 +282,7 @@ class Archivo extends CI_Controller
 		$this->load->model('estadistica_model');
 
 		$data['barras'] = $this->estadistica_model->get_barra($anio);
-
+		
 		echo json_encode($data);
 	}
 
@@ -381,8 +386,6 @@ class Archivo extends CI_Controller
 
 	public function pdfjs()
 	{
-
-		
 	}
 }
 

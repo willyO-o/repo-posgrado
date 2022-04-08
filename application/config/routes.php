@@ -59,6 +59,10 @@ $route['translate_uri_dashes'] = FALSE;
 $route['admin'] = 'principal/admin';
 
 $route['autor/listar'] = 'Admin/Autores_programa/autores_programa_listar_ajax';
+$route['especialidad/filtrar'] = 'Especialidad/listar_especialidades_ajax';
+
+$route['documentos/reporte'] = 'Admin/Reportes_documento/reportes_documento_generar_reporte';
+
 
 
 

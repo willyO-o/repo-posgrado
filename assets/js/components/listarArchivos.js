@@ -65,15 +65,28 @@ export default {
 						</div>
 						
 					</fieldset>
-					
-					<div class="caja-buscardor">
-						<div class="input-group  mb-3">
-							<input type="search" class="form-control" v-model="filtros.textoBuscar" placeholder="Buscar"  @input="buscar()" aria-label="Recipient's username" aria-describedby="button-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="button" id="button-addon2"><i class="ti-search"></i></button>
+					<div class="justify-content-between d-flex">
+						<form  :action="action_post" method="POST" target="_blank" >
+							<button class="btn btn-danger mb-2" type="submit"  name="accion" value="pdf"><i class="fa fa-file-pdf-o" ></i> PDF</button>
+							<button class="btn btn-success mb-2" type="submit" name="accion" value="excel"><i class="fa fa-file-excel-o" ></i> EXCEL</button>
+							<input type="hidden" name="filtro_especialidad" :value="filtros.id_especialidad">
+							<input type="hidden" name="filtro_autor" :value="filtros.id_autor">
+							<input type="hidden" name="filtro_tipo" :value="filtros.id_tipo">
+							<input type="hidden" name="filtro_categoria" :value="filtros.id_categoria">
+							<input type="hidden" name="filtro_texto_buscar" :value="filtros.textoBuscar">
+						</form>
+						
+
+						<div class="caja-buscardor">
+							<div class="input-group  mb-3">
+								<input type="search" class="form-control" v-model="filtros.textoBuscar" placeholder="Buscar"  @input="buscar()" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2"><i class="ti-search"></i></button>
+								</div>
 							</div>
 						</div>
 					</div>
+					
 				
 					<table id="tabla" class="table table-striped">
 						<thead class="thead-light">
@@ -168,6 +181,7 @@ export default {
     components: { ModalArchivo, Select2Ajax },
     data() {
         return {
+			action_post:base_url+"documentos/reporte",
             url: base_url,
             datatable: null,
             listaArchivos: [],
@@ -230,6 +244,7 @@ export default {
                 version: '',
                 id_ver_esp: 0
             },
+
             probando: 2,
             textoBuscar: "",
             filtro_id_especialidad: 0,

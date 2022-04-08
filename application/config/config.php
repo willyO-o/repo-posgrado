@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //$config['base_url'] = 'http://192.168.56.1/repo-posgrado/';
 
-$config['base_url'] = 'http://603b-2800-cd0-2811-6600-3c1d-71dc-2129-e418.ngrok.io/repo-posgrado/';
+//$config['base_url'] = 'http://603b-2800-cd0-2811-6600-3c1d-71dc-2129-e418.ngrok.io/repo-posgrado/';
 
 
 
@@ -146,8 +146,8 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
-
+// $config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = 'vendor/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Allowed URL Characters

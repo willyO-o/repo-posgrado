@@ -20,6 +20,18 @@ class Especialidad extends CI_Controller
 		echo json_encode($data);
 	}
 
+
+	public function listar_especialidades_ajax()
+	{
+		$limit=$this->input->post('limit') !=null ? $limit=$this->input->post('limit') : 10;
+		$ofset=$this->input->post('ofset') != null ? $this->input->post('ofset') : 0 ;
+		$palabra_buscar=$this->input->post('palabra_buscar');
+
+		$data= $this->especialidad_model->filtrar_especialidades($limit,$ofset,$palabra_buscar);
+
+		echo json_encode($data);
+	}
+
 	public function save()
 	{
 		// echo json_encode($this->request);
