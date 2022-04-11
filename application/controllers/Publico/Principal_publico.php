@@ -12,7 +12,7 @@ class Principal_publico extends CI_Controller
 	}
 
 
-	public function listar_parametros_ajax()
+	public function principal_publico_listar_parametros_ajax()
 	{
 
 		$this->load->model('especialidad_model');
@@ -26,7 +26,7 @@ class Principal_publico extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function listar_documentos_ajax($limit = 10, $ofset = 0, $paginar = 1, $id_especialidad = 0, $id_categoria = 0, $id_tipo_documento = 0)
+	public function principal_publico_listar_documentos_ajax($limit = 10, $ofset = 0, $paginar = 1, $id_especialidad = 0, $id_categoria = 0, $id_tipo_documento = 0)
 	{
 
 		
@@ -46,7 +46,7 @@ class Principal_publico extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function listar_documento_uuid_ajax()
+	public function principal_publico_listar_documento_uuid_ajax()
 	{
 		
 
@@ -60,7 +60,7 @@ class Principal_publico extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function visualizar_pdf(string $codigo_documento)
+	public function principal_publico_visualizar_pdf(string $codigo_documento)
 	{
 		$existe_documento=$this->documento_model->verificar_codigo($codigo_documento);
 		if(!$existe_documento){

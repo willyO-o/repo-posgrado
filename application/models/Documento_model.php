@@ -36,11 +36,15 @@ class Documento_model extends CI_Model
 		if ($filtros->id_tipo_documento != 0) {
 			$this->db->where('srp_documentos.id_tipo', $filtros->id_tipo_documento);
 		}
+		if ($filtros->id_autor != 0) {
+			$this->db->where('srp_documentos.id_autor', $filtros->id_autor);
+		}
 
 
-		$this->db->order_by('id_documento', 'desc');
 		$this->db->stop_cache();
 		$resultado["total_resultados"] = $this->db->count_all_results();
+
+		$this->db->order_by('srp_documentos.id_documento', 'desc');
 
 		$this->db->limit($limit, $ofset);
 		$resultado["archivos"] = $this->db->get()->result();
@@ -78,7 +82,9 @@ class Documento_model extends CI_Model
 		if ($filtros->id_tipo_documento != 0) {
 			$this->db->where('srp_documentos.id_tipo', $filtros->id_tipo_documento);
 		}
-
+		if ($filtros->id_autor != 0) {
+			$this->db->where('srp_documentos.id_autor', $filtros->id_autor);
+		}
 
 		$this->db->order_by('id_documento', 'desc');
 		$this->db->stop_cache();
@@ -122,22 +128,23 @@ class Documento_model extends CI_Model
 
 
 
-	public function registrar_documento(array $datos)
+	public function registrar_documento( $datos)
 	{
 		$this->db->insert('srp_documentos', $datos);
 		return $this->db->insert_id();
 	}
 
-	public function actualizar_documento(array $datos, int $id_documento)
+	public function actualizar_documento( $datos,  $id_documento)
 	{
 		$this->db->where('id_documento', $id_documento);
 		return $this->db->update('srp_documentos', $datos);
 	}
 
-	public function eliminar_documento(int $id_documento)
+	public function eliminar_documento( $id_documento)
 	{
 		$this->db->where('id_documento', $id_documento);
-		return $this->db->update('srb_documentos', ["estado_documento" => "eliminado"]);
+		return $this->db->update('srp_documentos', ["estado_documento" => "eliminado"]);
+		
 	}
 
 

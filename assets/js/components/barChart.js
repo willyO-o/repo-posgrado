@@ -67,7 +67,7 @@ export default {
 			this.datacollection.labels = []
 			this.datacollection.datasets[0].data = []
 			if (this.anio != '') {
-				axios.get(this.url + 'archivo/barras/' + anio)
+				axios.get(this.url + 'estadisticas/listar_barras/' + anio)
 					.then(res => {
 						res.data.barras.map((datos) => {
 							this.datacollection.labels.push(datos.mes)

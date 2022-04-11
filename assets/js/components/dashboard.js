@@ -15,7 +15,7 @@ export default {
 				</div>
 				<div class="media-body">
 				<span class="title">Total Documentos Publicados</span>
-				<span class="value">{{cantidadArchivos}}</span>
+				<span class="value">{{cantidad_archivos}}</span>
 				</div>
 			</div>
 			<p class="footer text-primary"><i class="fa fa-arrow-right"></i> 
@@ -32,7 +32,7 @@ export default {
 				</div>
 				<div class="media-body">
 				<span class="title">Total de Especialidades Registradas </span>
-				<span class="value">{{cantidadEspecialidades}}</span>
+				<span class="value">{{cantidad_especialidades}}</span>
 				</div>
 			</div>
 			<p class="footer text-primary"><i class="fa fa-arrow-right"></i> 
@@ -48,7 +48,7 @@ export default {
 				<div>Grafica Documentos publicados por mes,  (año {{anio}}) </div>
 				<div>
 					<select class="form-control" v-model="anio" >
-						<option v-for="row in listadoAnios " :value="row.anios"> {{row.anios}} </option>
+						<option v-for="row in listado_anios " :value="row.anios"> {{row.anios}} </option>
 					</select>
 				</div>
 			</div>
@@ -61,37 +61,37 @@ export default {
     components: { varChart },
     data: () => {
         return {
-            cantidadArchivos: 0,
-            cantidadEspecialidades: 0,
+            cantidad_archivos: 0,
+            cantidad_especialidades: 0,
             cantidadArchivoMes: 0,
             url: base_url,
             alerta: true,
-            listadoAnios: [],
+            listado_anios: [],
             anio: '',
 
         }
     },
     created() {
         this.get_ultimo_anio()
-		this.getCantidades()
+		this.get_cantidades()
 
     },
     methods: {
-        getCantidades() {
+        get_cantidades() {
 
-            axios.get(this.url + 'archivo/get_estadisticas')
+            axios.get(this.url + 'estadisticas/listar_totales')
                 .then(res => {
 					
-                    this.cantidadArchivos = res.data.nroArchivos
-                    this.cantidadEspecialidades = res.data.nroEspecialidades
-                    this.listadoAnios = res.data.anios
+                    this.cantidad_archivos = res.data.total_archivos
+                    this.cantidad_especialidades = res.data.total_especialidades
+                    this.listado_anios = res.data.anios
                 })
                 .catch(err => {
                     console.error(err);
                 })
         },
 		get_ultimo_anio(){
-			axios.get(this.url+"archivo/get_ultimo_anio")
+			axios.get(this.url+"estadisticas/extraer_ultimo_anio")
 			.then(res => {
 		
 				this.anio=res.data.anio

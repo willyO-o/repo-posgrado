@@ -7,10 +7,12 @@ class Estadistica_model extends CI_Model
 
 	//contador de documentos subidos, cantidad especialidades etc
 
-	public function nro_archivos()
+	public function contar_documentos()
 	{
-
-		return $this->db->count_all("srp_documentos");
+		
+		$this->db->where('estado_documento !=', "eliminado");
+		
+		return $this->db->count_all_results("srp_documentos");
 	}
 	public function nro_especialidades()
 	{
@@ -18,7 +20,7 @@ class Estadistica_model extends CI_Model
 	}
 
 
-	public function get_barra($anio)
+	public function listar_barra($anio)
 	{
 
 		$sql = "SELECT mes,coalesce(t,0) as publicados  
@@ -30,7 +32,7 @@ class Estadistica_model extends CI_Model
 		return $this->db->query($sql)->result();
 	}
 
-	public function get_anios()
+	public function listar_anios()
 	{
 		$sql = "SELECT to_char(fecha_publicacion,'yyyy') as anios 
 			FROM srp_documentos

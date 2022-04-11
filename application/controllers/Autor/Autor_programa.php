@@ -3,7 +3,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Autores_programa extends CI_Controller {
+class Autor_programa extends CI_Controller {
 
 	
 	public function __construct()
@@ -16,7 +16,7 @@ class Autores_programa extends CI_Controller {
 	}
 	
 
-	public function autores_programa_listar_ajax()
+	public function autor_programa_listar_ajax()
 	{
 		$limit=$this->input->post('limit') !=null ? $this->input->post('limit'):10;
 		$ofset=$this->input->post('ofset') !=null ? $this->input->post('ofset') : 0;

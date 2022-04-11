@@ -1758,6 +1758,7 @@ input:last-of-type {
     overflow: hidden;
     padding: 0;
     margin-bottom: 20px;
+	margin-top: 55px;
 }
 
 .modal-close {
@@ -1799,11 +1800,14 @@ input:last-of-type {
 .tool-bar {
     height: 50px;
     width: 100%;
-    position: relative;
+    position: fixed;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     font-family: 'Google Sans', Roboto, arial, sans-serif;
+	padding: 0 30px;
+	z-index: 999;
+	background: rgba(0, 0, 0, .8);
 }
 
 .modal-document-tittle {

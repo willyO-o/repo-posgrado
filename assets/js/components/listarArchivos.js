@@ -42,9 +42,7 @@ export default {
 							</div>
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Autor</label>
-								<select v-model="filtro_id_autor" class="form-control" >
-									<option value="0"> Todos</option>
-								</select>
+								<Select2Ajax :url="url_autor" v-model="filtro_id_autor"  class="form-control" />
 							</div>
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Tipo Documento</label>
@@ -165,7 +163,7 @@ export default {
 					<div class="modal-body">
 						Esta Usted Seguro?
 						<h6>Desea eliminar el documento:</h6>
-						<h5>{{archivoEliminar}}</h5>
+						<h5>{{archivoEliminar}}...</h5>
 						<p>Esta accion no se puede deshacer!</p>
 					</div>
 					<div class="modal-footer">
@@ -181,7 +179,7 @@ export default {
     components: { ModalArchivo, Select2Ajax },
     data() {
         return {
-			action_post:base_url+"documentos/reporte",
+			action_post:base_url+"documento/reporte",
             url: base_url,
             datatable: null,
             listaArchivos: [],
@@ -253,8 +251,8 @@ export default {
             filtro_id_categoria: 0,
             indicePaginaSuma: 0,
 
-            url_autor: base_url + "archivo/buscar_autor",
-            url_especialidad: base_url + "archivo/buscar_especialidad_filtro",
+            url_autor: base_url + "documento/buscar_autor_filtro",
+            url_especialidad: base_url + "documento/buscar_especialidad_filtro",
 
 
         }
@@ -330,7 +328,7 @@ export default {
 
         cargarFiltros() {
 
-            axios.post(this.url + "archivo/listar_filtros")
+            axios.post(this.url + "documento/listar_filtros")
                 .then(respuesta => {
                     this.listaCategorias = respuesta.data.categorias;
                     this.listaTipoDocumentos = respuesta.data.tipos_documento;
@@ -347,7 +345,7 @@ export default {
 
             let fm = new FormData();
             fm.append("id_documento", id_documento);
-            axios.post(this.url + "archivo/archivo_id", fm)
+            axios.post(this.url + "documento/listar_id", fm)
                 .then(res => {
                     this.detallesArchivo = Object.assign({}, res.data.documento);
                     this.mostrarModal();
@@ -360,18 +358,18 @@ export default {
 
         confirm(item) {
             this.mostrarModalEliminar()
-            this.idArchivo = item.id_documento
+            this.id_documento = item.id_documento
             this.archivoEliminar = item.titulo
-            console.log(item);
+ 
         },
 
 
         eliminarConfirmado() {
 
             let data = new FormData();
-            data.append('id_documento', this.idArchivo)
-            console.log(this.idArchivo);
-            axios.post(this.url + "archivo/delete", data)
+            data.append('id_documento', this.id_documento)
+
+            axios.post(this.url + "documento/eliminar", data)
                 .then(res => {
                     if (res.data.respuesta) {
 
@@ -420,7 +418,7 @@ export default {
             fm.append("ofset", pagina);
 
 
-            axios.post(this.url + "archivo/filtrar_datos", fm)
+            axios.post(this.url + "documento/filtrar", fm)
                 .then(res => {
                     //console.log(res)
                     this.listaArchivos = res.data.archivos;
@@ -440,7 +438,7 @@ export default {
         setEditarDocumento(id_documento) {
             let fm = new FormData();
             fm.append("id_documento", id_documento);
-            axios.post(this.url + "archivo/archivo_id", fm)
+            axios.post(this.url + "documento/listar_id", fm)
                 .then(res => {
 
                     console.log(res.data);
@@ -462,6 +460,10 @@ export default {
     watch: {
         filtro_id_especialidad: function(val) {
             this.filtros.id_especialidad = val;
+            this.buscar();
+        },
+		filtro_id_autor: function(val) {
+            this.filtros.id_autor = val;
             this.buscar();
         },
         filtro_id_categoria: function(val) {

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Especialidad extends CI_Controller
+class Especialidad_programa extends CI_Controller
 {
 
 	public function __construct()
@@ -21,7 +21,7 @@ class Especialidad extends CI_Controller
 	}
 
 
-	public function listar_especialidades_ajax()
+	public function especialidad_programa_listar_especialidades_ajax()
 	{
 		$limit=$this->input->post('limit') !=null ? $limit=$this->input->post('limit') : 10;
 		$ofset=$this->input->post('ofset') != null ? $this->input->post('ofset') : 0 ;

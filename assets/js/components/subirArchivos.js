@@ -292,8 +292,8 @@ export default {
             id_especialidad: '',
             id_autor: '',
 
-            url_especialidad: base_url + "archivo/buscar_especialidad",
-            url_autor: base_url + "archivo/buscar_autor",
+            url_especialidad: base_url + "documento/buscar_especialidad",
+            url_autor: base_url + "documento/buscar_autor",
 
         }
     },
@@ -323,7 +323,7 @@ export default {
                 //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
                 // }, 1000);
 
-
+			console.log(this.src);
 
         }
 
@@ -339,7 +339,7 @@ export default {
     methods: {
 
         cargarDatosSelect() {
-            axios.get(base_url + "archivo/listar_parametros")
+            axios.get(base_url + "documento/listar_parametros")
                 .then(res => {
                     console.log(res)
 
@@ -462,7 +462,7 @@ export default {
 
 
 
-                axios.post(base_url + 'archivo/save', fm)
+                axios.post(base_url + 'documento/guardar', fm)
                     .then(res => {
 
                         setTimeout(() => {
@@ -529,29 +529,6 @@ export default {
 
         },
 
-        listarEspecialidades() {
-            axios.get(base_url + 'archivo/datosSelect')
-                .then(res => {
-
-
-                    this.listaEspecialidades = res.data.especialidades.map((obj) => {
-                        var rObj = { id: obj.id_ver_esp, text: obj.especialidad + ' ' + obj.version };
-
-                        return rObj;
-                    });
-
-                    let def = { id: 0, text: 'Seleccione' }
-
-                    this.listaEspecialidades.unshift(def)
-
-                    this.listaCategorias = res.data.categorias
-                    this.listaTipos = res.data.tipos
-
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        },
         validarCampos() {
 
 

@@ -58,10 +58,31 @@ $route['translate_uri_dashes'] = FALSE;
 //admin
 $route['admin'] = 'principal/admin';
 
-$route['autor/listar'] = 'Admin/Autores_programa/autores_programa_listar_ajax';
-$route['especialidad/filtrar'] = 'Especialidad/listar_especialidades_ajax';
+$route['autor/listar'] = 'Autor/Autor_programa/autor_programa_listar_ajax';
 
-$route['documentos/reporte'] = 'Admin/Reportes_documento/reportes_documento_generar_reporte';
+$route['especialidad/filtrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_listar_especialidades_ajax';
+
+
+
+$route['estadisticas/listar_totales'] = 'Tablero/Tablero_estadisticas/tablero_estadisticas_listar_totales';
+$route['estadisticas/listar_barras/(:any)'] = 'Tablero/Tablero_estadisticas/tablero_estadisticas_listar_barras/$1';
+$route['estadisticas/extraer_ultimo_anio'] = 'Tablero/Tablero_estadisticas/tablero_estadisticas_ultimo_anio/$1';
+
+
+$route['documento/filtrar'] = 'Documento/Documento_programa/documento_programa_filtrar_datos_ajax';
+$route['documento/listar_filtros'] = 'Documento/Documento_programa/documento_programa_listar_filtros';
+$route['documento/buscar_especialidad_filtro'] = 'Documento/Documento_programa/documento_programa_buscar_especialidad_filtro';
+$route['documento/buscar_autor_filtro'] = 'Documento/Documento_programa/documento_programa_buscar_autor_filtro';
+$route['documento/buscar_especialidad'] = 'Documento/Documento_programa/documento_programa_buscar_especialidad';
+$route['documento/buscar_autor'] = 'Documento/Documento_programa/documento_programa_buscar_autor';
+$route['documento/listar_parametros'] = 'Documento/Documento_programa/documento_programa_listar_parametros';
+$route['documento/guardar'] = 'Documento/Documento_programa/documento_programa_registrar_documento';
+$route['documento/listar_id'] = 'Documento/Documento_programa/documento_programa_lista_id_ajax';
+$route['documento/eliminar'] = 'Documento/Documento_programa/documento_programa_eliminar';
+$route['documento/reporte'] = 'Documento/Reportes_documento/reportes_documento_generar_reporte';
+$route['archivo/pdf/(:any)/(:any)'] = 'Documento/Documento_programa/documento_programa_ver_archivo_pdf/$1/$2';
+
+
 
 
 
@@ -70,8 +91,8 @@ $route['documentos/reporte'] = 'Admin/Reportes_documento/reportes_documento_gene
 
 //  publico
 
-$route['publico/listar_parametros'] = 'Publico/principal_publico/listar_parametros_ajax';
-$route['publico/listar_documentos'] = 'Publico/principal_publico/listar_documentos_ajax';
-$route['publico/documento_uuid'] = 'Publico/principal_publico/listar_documento_uuid_ajax';
+$route['publico/listar_parametros'] = 'Publico/Principal_publico/principal_publico_listar_parametros_ajax';
+$route['publico/listar_documentos'] = 'Publico/Principal_publico/principal_publico_listar_documentos_ajax';
+$route['publico/documento_uuid'] = 'Publico/Principal_publico/principal_publico_listar_documento_uuid_ajax';
 
-$route["ver/pdf/(:any)"] ="publico/principal_publico/visualizar_pdf/$1";
+$route["ver/pdf/(:any)"] ="Publico/Principal_publico/principal_publico_visualizar_pdf/$1";
