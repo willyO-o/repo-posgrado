@@ -1,4 +1,4 @@
-import modalPdf from './modalPdf.js'
+import modalPdf from './Modal_pdf.js'
 export default {
     template: //html
         `

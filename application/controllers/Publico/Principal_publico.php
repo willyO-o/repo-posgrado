@@ -60,7 +60,7 @@ class Principal_publico extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function principal_publico_visualizar_pdf(string $codigo_documento)
+	public function principal_publico_visualizar_pdf( $codigo_documento)
 	{
 		$existe_documento=$this->documento_model->verificar_codigo($codigo_documento);
 		if(!$existe_documento){
@@ -71,6 +71,34 @@ class Principal_publico extends CI_Controller
 		$data["vista"]="layouts/publico/pdf_publico";
 		$this->load->view('layouts/publico/base_publico', $data);
 		
+	}
+
+	public function principal_publico_filtrar_busqueda_ajax()
+	{
+
+		$filtros['palabra_buscar']=$this->input->post('texto_buscar');
+		$filtros['filtro']=$this->input->post('filtro');
+		$filtros['relacion_filtro']=$this->input->post('relacion_filtro');
+		$limit = $this->input->post('limit') !=null ? $this->input->post('limit'): 10;
+		$ofset = $this->input->post('ofset') !=null ? $this->input->post('ofset'): 0;
+
+		$data=$this->documento_model->filtrar_documentos_publico($filtros, $limit , $ofset);
+
+		echo json_encode($data);
+
+		
+	}
+
+	public function principal_publico_buscar_ajax()
+	{
+		// echo json_encode($this->input->post());die();
+
+		$palabra_buscar=$this->input->post('texto_buscar');
+		$limit = $this->input->post('limit') !=null ? $this->input->post('limit'): 10;
+		$ofset = $this->input->post('ofset') !=null ? $this->input->post('ofset'): 0;
+		$data=$this->documento_model->buscar_documentos_publico($palabra_buscar, $limit , $ofset);
+
+		echo json_encode($data);
 	}
 }
 

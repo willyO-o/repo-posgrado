@@ -4,7 +4,7 @@ export default {
 	<div class="event_items">
 
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-8 contenedor-listado-publico">
 			<h1>Contenido de la Institucion</h1>
 
 				<div id="loader" vi-if="loader" :class="{'display-none':!loader,'display-block':loader}"></div>

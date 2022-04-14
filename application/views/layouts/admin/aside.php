@@ -21,10 +21,10 @@
 				</li>
 				<li class="menu-group">Documentos</li>
 				<li>
-					<router-link to="/archivos/subir"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
+					<router-link to="/documentos/registar"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
 				</li>
 				<li>
-					<router-link to="/archivos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Documento</span></router-link>
+					<router-link to="/documentos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Documento</span></router-link>
 				</li>
 
 				<!-- <li class="panel">

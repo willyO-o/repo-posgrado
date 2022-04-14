@@ -1,26 +1,26 @@
-import autores from './components/autores.js';
 
-const Dashboard = () =>
-    import ('./components/dashboard.js');
+
+const Tablero_estadisticas = () =>
+    import ('./components/Tablero_estadisticas.js');
 const User = () =>
     import ('./components/user.js');
-const Especialidades = () =>
-    import ('./components/especialidades.js');
-const subirArchivos = () =>
-    import ('./components/subirArchivos.js');
-const listarArchivos = () =>
-    import ('./components/listarArchivos.js');
-const Autores = () =>
-    import ('./components/autores.js');
-const page404 = () =>
-    import ('./components/page404.js');
+const Especialidad_programa = () =>
+    import ('./components/Especialidad_programa.js');
+const Documeno_programa_registrar = () =>
+    import ('./components/Documeno_programa_registrar.js');
+const Documeno_programa = () =>
+    import ('./components/Documeno_programa.js');
+const Autor_programa = () =>
+    import ('./components/Autor_programa.js');
+const Pagina_404 = () =>
+    import ('./components/Pagina_404.js');
 
 
 
 
 const routes = [{
         path: '/',
-        component: Dashboard
+        component: Tablero_estadisticas
     },
     {
         path: '/users',
@@ -28,27 +28,27 @@ const routes = [{
     },
     {
         path: '/especialidades',
-        component: Especialidades
+        component: Especialidad_programa
     },
     {
-        path: '/archivos/subir',
-        component: subirArchivos,
+        path: '/documentos/registar',
+        component: Documeno_programa_registrar,
 
     },
     {
-        path: '/archivos/listar',
-        component: listarArchivos,
+        path: '/documentos/listar',
+        component: Documeno_programa,
 
     },
     {
         path: '/autores',
-        component: Autores,
+        component: Autor_programa,
 
     },
 	
     {
         path: "*",
-        component: page404
+        component: Pagina_404
     }
 ]
 

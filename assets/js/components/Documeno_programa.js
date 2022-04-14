@@ -1,4 +1,4 @@
-import ModalArchivo from './modalDetallesArchivo.js';
+import ModalArchivo from './Modal_detalles_documento.js';
 import Select2Ajax from './select2Ajax.js';
 export default {
     template: //html

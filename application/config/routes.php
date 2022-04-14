@@ -89,10 +89,17 @@ $route['archivo/pdf/(:any)/(:any)'] = 'Documento/Documento_programa/documento_pr
 
 
 
+
+
 //  publico
 
 $route['publico/listar_parametros'] = 'Publico/Principal_publico/principal_publico_listar_parametros_ajax';
 $route['publico/listar_documentos'] = 'Publico/Principal_publico/principal_publico_listar_documentos_ajax';
 $route['publico/documento_uuid'] = 'Publico/Principal_publico/principal_publico_listar_documento_uuid_ajax';
+
+$route['publico/buscar_filtrado'] = 'Publico/Principal_publico/principal_publico_filtrar_busqueda_ajax';
+$route['publico/buscar'] = 'Publico/Principal_publico/principal_publico_buscar_ajax';
+
+
 
 $route["ver/pdf/(:any)"] ="Publico/Principal_publico/principal_publico_visualizar_pdf/$1";

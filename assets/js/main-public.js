@@ -1,13 +1,13 @@
-const Index = () =>
-    import ('./publicComponents/index.js');
-const Login = () =>
-    import ('./publicComponents/login.js');
-const verDocumento = () =>
-    import ('./publicComponents/verDocumento.js');
-const verDocumentoFull = () =>
-    import ('./publicComponents/verDocumentoFull.js');
-const resultadosBusqueda = () =>
-    import ('./publicComponents/resultadosBusqueda.js');
+const Principal_publico = () =>
+    import ('./publicComponents/Principal_publico.js');
+const Autenticacion_programa_login = () =>
+    import ('./publicComponents/Autenticacion_programa_login.js');
+const Principal_publico_ver_documento = () =>
+    import ('./publicComponents/Principal_publico_ver_documento.js');
+const Principal_publico_ver_documento_metadato = () =>
+    import ('./publicComponents/Principal_publico_ver_documento_metadato.js');
+const Principal_publico_busquedas = () =>
+    import ('./publicComponents/Principal_publico_busquedas.js');
 const page404 = () =>
     import ('./components/page404.js');
 
@@ -15,23 +15,23 @@ const page404 = () =>
 
 const routes = [{
         path: '/',
-        component: Index
+        component: Principal_publico
     },
     {
         path: '/login',
-        component: Login
+        component: Autenticacion_programa_login
     },
     {
         path: '/document/:name',
-        component: verDocumento
+        component: Principal_publico_ver_documento
     },
     {
         path: '/document/full/:name',
-        component: verDocumentoFull
+        component: Principal_publico_ver_documento_metadato
     },
     {
         path: '/search',
-        component: resultadosBusqueda
+        component: Principal_publico_busquedas
     },
     {
         path: "/*",
