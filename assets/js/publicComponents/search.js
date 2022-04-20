@@ -18,8 +18,12 @@ Vue.component('Search', {
         ...Vuex.mapMutations(['setStateSearch']),
         buscar() {
             this.setStateSearch(this.search)
-            this.$router.push('/search')
+            if (this.$route.path !== "/search") {
+                this.$router.push('/search')
+            }
+
             this.search = ''
+
         },
 
     },

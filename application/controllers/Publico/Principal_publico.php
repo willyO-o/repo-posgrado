@@ -75,10 +75,11 @@ class Principal_publico extends CI_Controller
 
 	public function principal_publico_filtrar_busqueda_ajax()
 	{
+		// echo json_encode($this->input->post());die();
 
 		$filtros['palabra_buscar']=$this->input->post('texto_buscar');
 		$filtros['filtro']=$this->input->post('filtro');
-		$filtros['relacion_filtro']=$this->input->post('relacion_filtro');
+		$filtros['relacion_filtro']=$this->input->post('relacio_filtro');
 		$limit = $this->input->post('limit') !=null ? $this->input->post('limit'): 10;
 		$ofset = $this->input->post('ofset') !=null ? $this->input->post('ofset'): 0;
 
@@ -91,12 +92,32 @@ class Principal_publico extends CI_Controller
 
 	public function principal_publico_buscar_ajax()
 	{
-		// echo json_encode($this->input->post());die();
+		//  echo json_encode($this->input->post());die();
 
 		$palabra_buscar=$this->input->post('texto_buscar');
 		$limit = $this->input->post('limit') !=null ? $this->input->post('limit'): 10;
 		$ofset = $this->input->post('ofset') !=null ? $this->input->post('ofset'): 0;
 		$data=$this->documento_model->buscar_documentos_publico($palabra_buscar, $limit , $ofset);
+
+		echo json_encode($data);
+	}
+
+	public function principal_publico_listar_autores_ajax()
+	{
+		
+		$this->load->model('autor_model');
+
+		$data=$this->autor_model->listar_autores_publico();
+
+		echo json_encode($data);
+		
+	}
+
+	public function principal_publico_listar_documentos_autor_ajax()
+	{
+		$id_autor=$this->input->post('id_autor');
+		
+		$data=$this->documento_model->listar_docuemnto_id_autor($id_autor);
 
 		echo json_encode($data);
 	}

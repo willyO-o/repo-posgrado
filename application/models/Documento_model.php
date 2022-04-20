@@ -214,35 +214,7 @@ class Documento_model extends CI_Model
 	}
 
 
-	public function filtrar_documentos_publico($filtros,  $limit,  $ofset)
-	{
-		$filtros = (object)$filtros;
-		$this->db->start_cache();
-		$this->db->select('SUBSTRING( titulo,0,70) as titulo, anio_creacion, resumen,  
-							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   id_documento , nombre_autor, paterno_autor, materno_autor ');
-		$this->db->from('srp_documentos');
-		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'inner');
-		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'inner');
-
-
-		$this->db->where('srp_documentos.estado_documento !=', "eliminado");
-
-		//selecciona y asigna los tipos de filtro
-		$this->asignar_filtro($filtros->filtro, $filtros->relacion_filtro, $filtros->palabra_buscar);
-
-		$this->db->stop_cache();
-		$resultado["total_resultados"] = $this->db->count_all_results();
-
-		$this->db->order_by('srp_documentos.id_documento', 'desc');
-
-		$this->db->limit($limit, $ofset);
-		$resultado["archivos"] = $this->db->get()->result();
-		$resultado["q"] = $this->db->last_query();
-
-
-		$this->db->flush_cache();
-		return $resultado;
-	}
+	
 
 	public function buscar_documentos_publico($palabra_buscar,  $limit,  $ofset)
 	{
@@ -269,6 +241,36 @@ class Documento_model extends CI_Model
 
 		$this->db->limit($limit, $ofset);
 		$resultado["archivos"] = $this->db->get()->result();
+		$resultado["q"] = $this->db->last_query();
+
+		$this->db->flush_cache();
+		return $resultado;
+	}
+	public function filtrar_documentos_publico($filtros,  $limit,  $ofset)
+	{
+		$filtros = (object)$filtros;
+		$this->db->start_cache();
+		$this->db->select("SUBSTRING( titulo,0,70) as titulo, anio_creacion, resumen,  uuid,
+							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   id_documento , nombre_autor||' '||paterno_autor||' '||materno_autor as autor ");
+		$this->db->from('srp_documentos');
+		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'inner');
+		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'inner');
+
+
+		$this->db->where('srp_documentos.estado_documento !=', "eliminado");
+
+		//selecciona y asigna los tipos de filtro
+		$this->asignar_filtro($filtros->filtro, $filtros->relacion_filtro, $filtros->palabra_buscar);
+
+		$this->db->stop_cache();
+		$resultado["total_resultados"] = $this->db->count_all_results();
+
+		$this->db->order_by('srp_documentos.id_documento', 'desc');
+
+		$this->db->limit($limit, $ofset);
+		$resultado["archivos"] = $this->db->get()->result();
+		$resultado["q"] = $this->db->last_query();
+
 
 		$this->db->flush_cache();
 		return $resultado;
@@ -323,16 +325,16 @@ class Documento_model extends CI_Model
 			case 3:
 				switch ($relacion_filtro) {
 					case 1:
-						$this->db->like('LOWER(srp_documentos.anio_creacion)', $palabra_buscar);
+						$this->db->like('LOWER(CAST(srp_documentos.anio_creacion as varchar))', $palabra_buscar);
 						break;
 					case 2:
-						$this->db->where('LOWER(srp_documentos.anio_creacion)', $palabra_buscar);
+						$this->db->where('srp_documentos.anio_creacion', $palabra_buscar);
 						break;
 					case 3:
-						$this->db->not_like('LOWER(srp_documentos.anio_creacion)', $palabra_buscar);
+						$this->db->not_like('LOWER(CAST(srp_documentos.anio_creacion as varchar))', $palabra_buscar);
 						break;
 					case 2:
-						$this->db->where('LOWER(srp_documentos.anio_creacion) != ', $palabra_buscar);
+						$this->db->where('LOWER(CAST(srp_documentos.anio_creacion as varchar)) != ', $palabra_buscar);
 						break;
 					default:
 
@@ -345,7 +347,7 @@ class Documento_model extends CI_Model
 				switch ($relacion_filtro) {
 					case 1:
 						$this->db->like('LOWER(srp_documentos.titulo)', $palabra_buscar);
-						$this->db->like('LOWER(srp_documentos.resumen)', $palabra_buscar);
+						$this->db->or_like('LOWER(srp_documentos.resumen)', $palabra_buscar);
 
 						break;
 					case 2:
@@ -373,6 +375,34 @@ class Documento_model extends CI_Model
 
 				break;
 		}
+	}
+
+
+	public function listar_docuemnto_id_autor($id_autor)
+	{
+		$this->db->start_cache();
+		$this->db->select("uuid, titulo,nombre_autor||' '||paterno_autor||' '||materno_autor as autor, anio_creacion,SUBSTRING( resumen,0,150) as resumen,
+							anio_creacion, fecha_publicacion");
+		$this->db->from('srp_documentos');
+		$this->db->join('srp_autores', 'srp_documentos.id_autor = srp_autores.id_autor', 'inner');
+		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = srp_documentos.id_ver_esp', 'inner');
+		$this->db->join('srp_especialidades', 'srp_especialidades.id_especialidad = ver_esp.id_especialidad', 'inner');
+		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'inner');
+
+		$this->db->where('srp_documentos.estado_documento !=', "eliminado");
+		$this->db->where('srp_documentos.es_publico', "SI");
+		
+		$this->db->where('srp_documentos.id_autor', $id_autor);
+		$this->db->stop_cache();
+		$resultado["total_resultados"] = $this->db->count_all_results();
+
+		$resultado["archivos"] = $this->db->get()->result();
+		$resultado["q"] = $this->db->last_query();
+
+
+		$this->db->flush_cache();
+		return $resultado;
+	
 	}
 
 

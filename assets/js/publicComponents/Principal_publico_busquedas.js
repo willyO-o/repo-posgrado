@@ -1,6 +1,6 @@
 export default {
-	template: //html
-		`
+    template: //html
+        `
 	<div class="event_items">
 
 		<div class="row">
@@ -8,10 +8,10 @@ export default {
 				<h1>Realizar Busquedas</h1>
 				<div class="input-group my-2">
 					<div class="custom-file">
-						<input class="form-control" placeholder="Buscar" v-model="texto_buscar" v-on:keyup.enter="getDataPagina()" >
+						<input class="form-control" placeholder="Buscar" v-model="texto_buscar" v-on:keyup.enter="es_filtrado=false,getDataPagina(1)" >
 					</div>
 					<div class="input-group-append " >
-						<button class="btn btn-outline-secondary border" type="button" @click="getDataPagina()"><i class="fas fa-search"></i></button>
+						<button class="btn btn-outline-secondary border" type="button" @click="es_filtrado=false,getDataPagina(1)"><i class="fas fa-search"></i></button>
 					</div>
 				</div>
 
@@ -51,10 +51,10 @@ export default {
 								</div>
 								<div class="input-group my-2">
 									<div class="custom-file">
-										<input class="form-control" placeholder="Texto a buscar" v-model="texto_buscar_filtro" v-on:keyup.enter="buscar_filtrado()" >
+										<input class="form-control" placeholder="Texto a buscar" v-model="texto_buscar_filtro" v-on:keyup.enter="es_filtrado=true,getDataPagina(1)" >
 									</div>
 									<div class="input-group-append " >
-										<button class="btn btn-outline-secondary border" type="button" @click="buscar_filtrado()"><i class="fas fa-search"></i></button>
+										<button class="btn btn-outline-secondary border" type="button" @click="es_filtrado=true,getDataPagina(1)"><i class="fas fa-search"></i></button>
 									</div>
 								</div>
 							</div>
@@ -70,9 +70,9 @@ export default {
 					<div  :class="{'display-none':loader,'display-block':!loader}"  class="animate-bottom">
 
 						<div class="mb-3" v-if="totalResultados()!=0">
-							mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados
+							mostrando {{inicio}} a {{fin}} de {{totalResultados()}} resultados para: {{etiqueta_busqueda}}
 						</div>
-						<h2 v-if="totalResultados()==0">No hay Archivos que coinciden con la busqueda </h2>
+						<h2 v-if="totalResultados()==0">No se Encontraron Documentos que coinciden con la busqueda {{etiqueta_busqueda}}  </h2>
 						<div class="row event_item"  v-for="row in lista_documentos">
 							<div class="col">
 								<div class="row d-flex flex-row align-items-end">
@@ -132,27 +132,16 @@ export default {
 						<!-- categorias -->
 					<div class="sidebar_section">
 						<div class="sidebar_section_title">
-							<h3>Categorias</h3>
+							<h3>Autor</h3>
 						</div>
 						<ul class="sidebar_list">
-							<li class="sidebar_list_item pointer" v-for="row in listadoCategorias" @click="consultarDocumentosCategoria(row.id_categoria)"><a > {{row.categoria}} </a></li>
+							<li class="sidebar_list_item pointer" v-for="row in listado_autores" @click="consultar_autor(row.id_autor,row.autor)"><a > {{row.autor}} </a></li>
 			
 						</ul>
 					</div>
 			
 					<!-- Tags -->
 			
-					<div class="sidebar_section">
-						<div class="sidebar_section_title">
-							<h3>Listar</h3>
-						</div>
-						<div class="tags d-flex flex-row flex-wrap">
-							
-							<div class="tag pointer" @click="listarTodo()"><a >Listar todos</a></div>
-			
-						</div>
-
-					</div>
 			
 				</div>
 			</div>
@@ -163,177 +152,206 @@ export default {
 
 	`,
 
-	data() {
-		return {
-			listadoDocumentos: [],
-			listadoDocumentosFiltrado: [],
+    data() {
+        return {
+            listadoDocumentos: [],
+            listadoDocumentosFiltrado: [],
 
-			listadoCategorias: [],
+            listadoCategorias: [],
+            listado_autores: [],
+            url: base_url,
+            elementosPagina: 10,
+            datosPaginados: [],
+            paginaActual: 1,
+            inicio: 1,
+            fin: 10,
+            variable_fin: 0,
+            accordion: false,
+            listaAnios: [],
 
-			url: base_url,
-			elementosPagina: 10,
-			datosPaginados: [],
-			paginaActual: 1,
-			inicio: 1,
-			fin: 10,
-			accordion: false,
-			listaAnios: [],
-
-			lista_documentos: [],
-			totalArchivos: 0,
-
-
-			filtro: 1,
-			relacion_filtro: 1,
-			texto_buscar_filtro: '',
-
-			texto_buscar: '',
+            lista_documentos: [],
+            totalArchivos: 0,
 
 
-			es_filtro: false,
+            filtro: 1,
+            relacion_filtro: 1,
+            texto_buscar_filtro: '',
 
-			search: '',
-			loader: false,
+            es_filtrado: false,
+
+            texto_buscar: '',
 
 
+            etiqueta_busqueda: "",
+            es_filtro: false,
 
-		}
-	},
-	mounted() {
-
-		if (this.stateSearch != '') {
-
-		}
+            search: '',
+            loader: false,
 
 
 
-	},
+        }
+    },
+    mounted() {
 
 
-	methods: {
-		totalPaginas() {
-			return Math.ceil(this.totalArchivos / this.elementosPagina)
-		},
-		totalResultados() {
-			return this.totalArchivos
-		},
-		isActive(nroPagina) {
-			return this.paginaActual == nroPagina ? 'active' : ''
-		},
-		getDataPagina(nroPagina=1) {
-			this.loader = true
-			this.paginaActual = nroPagina
-			let inicio = (nroPagina * this.elementosPagina) - this.elementosPagina
+        if (this.stateSearch != '') {
+            this.texto_buscar = this.stateSearch
+            this.getDataPagina(1);
 
-			let fin = (nroPagina * this.elementosPagina)
-			this.inicio = inicio + 1
-
-			this.buscar(inicio);
-			
-			setTimeout(()=> {
-				this.fin = (this.totalResultados() < fin) ? this.totalResultados() : fin
-				console.log(this.fin);
-			}, 1500);
-
-		},
-		getPreviusPage() {
-
-			if (this.paginaActual > 1) {
-				this.paginaActual--
-			}
-			this.getDataPagina(this.paginaActual)
-
-		},
-		getNextPage() {
-			if (this.paginaActual < this.totalPaginas()) {
-				this.paginaActual++
-			}
-			this.getDataPagina(this.paginaActual)
-		},
+        }
+        this.listar_autores();
 
 
-		consultarDocumentosEspecialidad(id_especialidad) {
-			this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_especialidad == id_especialidad)
-			this.getDataPagina(1);
-		},
-		consultarDocumentosCategoria(id_categoria) {
-			this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_categoria == id_categoria)
-			this.getDataPagina(1);
-		},
-
-		consultarDocumentosTipo(id_tipo) {
-			this.listadoDocumentosFiltrado = this.listadoDocumentos.filter((documento) => documento.id_tipo == id_tipo)
-			this.getDataPagina(1);
-		},
-		listarTodo() {
-			this.search = ''
-			this.setStateSearch(this.search)
-			this.relacion_filtro = 0
-			this.filtro = 0
-			this.cargarDocumentos()
-
-		},
-		...Vuex.mapMutations(['setStateSearch']),
+    },
 
 
-		generarBusqueda() {
-			this.setStateSearch(this.search)
-			this.cargarDocumentos()
-			this.search = ''
-		},
-		estadoAcordeon() {
-			this.accordion = !this.accordion
-			if (!this.accordion) {
+    methods: {
+        totalPaginas() {
+            return Math.ceil(this.totalArchivos / this.elementosPagina)
+        },
+        totalResultados() {
+            return this.totalArchivos
+        },
+        isActive(nroPagina) {
+            return this.paginaActual == nroPagina ? 'active' : ''
+        },
+        getDataPagina(nroPagina = 1) {
+            this.loader = true
+            this.paginaActual = nroPagina
+            let inicio = (nroPagina * this.elementosPagina) - this.elementosPagina
 
-				this.relacion_filtro = 0
-				this.filtro = 0
-			}
-		},
+            this.variable_fin = (nroPagina * this.elementosPagina)
+            this.inicio = inicio + 1
 
-		buscar_filtrado(ofset) {
 
-			let fm = new FormData();
+            if (this.es_filtrado) {
+                this.buscar_filtrado(inicio)
+            } else {
+                this.buscar(inicio);
+            }
+
+
+
+        },
+        getPreviusPage() {
+
+            if (this.paginaActual > 1) {
+                this.paginaActual--
+            }
+            this.getDataPagina(this.paginaActual)
+
+        },
+        getNextPage() {
+            if (this.paginaActual < this.totalPaginas()) {
+                this.paginaActual++
+            }
+            this.getDataPagina(this.paginaActual)
+        },
+
+
+        ...Vuex.mapMutations(['setStateSearch']),
+
+
+
+        estadoAcordeon() {
+            this.accordion = !this.accordion
+            if (!this.accordion) {
+
+                this.relacion_filtro = 0
+                this.filtro = 0
+            }
+        },
+
+        buscar_filtrado(ofset) {
+
+            let fm = new FormData();
             fm.append("ofset", ofset);
-			fm.append("texto_buscar", this.texto_buscar_filtro);
-			fm.append("filtro", this.filtro);
-			fm.append("relacio_filtro", this.relacion_filtro)
+            fm.append("texto_buscar", this.texto_buscar_filtro);
+            fm.append("filtro", this.filtro);
+            fm.append("relacio_filtro", this.relacion_filtro)
+            this.asignar_etiqueta_busqueda(this.texto_buscar_filtro)
 
-			axios.post(this.url + "publico/buscar_filtrado", fm)
-				.then(res => {
-					this.lista_documentos = res.data.archivos;
-					console.log(res)
-				})
-				.catch(err => {
-					console.error(err);
-				})
-		},
+            axios.post(this.url + "publico/buscar_filtrado", fm)
+                .then(res => {
+                    this.lista_documentos = res.data.archivos;
+                    this.totalArchivos = res.data.total_resultados
 
-		buscar(ofset) {
-			let fm = new FormData();
+                    this.fin = (this.totalResultados() < this.variable_fin) ? this.totalResultados() : this.variable_fin
+
+
+                    this.loader = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.loader = false
+                })
+        },
+
+        buscar(ofset) {
+            let fm = new FormData();
             fm.append("ofset", ofset);
-			fm.append("texto_buscar", this.texto_buscar);
+            fm.append("texto_buscar", this.texto_buscar);
+            this.asignar_etiqueta_busqueda(this.texto_buscar)
 
-			axios.post(this.url + "publico/buscar", fm)
-				.then(res => {
-					console.log(res)
-
-					this.lista_documentos = res.data.archivos;
-					this.totalArchivos = res.data.total_resultados
-					this.loader=false;
-				})
-				.catch(err => {
-					console.error(err);
-					this.loader=false;
-
-				})
-		},
+            axios.post(this.url + "publico/buscar", fm)
+                .then(res => {
 
 
+                    this.lista_documentos = res.data.archivos;
+                    this.totalArchivos = res.data.total_resultados
+                    this.fin = (this.totalResultados() < this.variable_fin) ? this.totalResultados() : this.variable_fin
 
-	},
-	computed: {
-		...Vuex.mapState(['stateSearch'])
+                    this.loader = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.loader = false;
 
-	},
+                })
+        },
+
+        listar_autores() {
+            axios.get(base_url + "publico/autores")
+                .then(res => {
+                    this.listado_autores = res.data.autores;
+
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        },
+
+        consultar_autor(id_autor, autor) {
+            this.loader = true;
+            this.asignar_etiqueta_busqueda(autor);
+            let fm = new FormData();
+            fm.append("id_autor", id_autor);
+            axios.post(base_url + "publico/documentos_autor", fm)
+                .then(res => {
+
+                    this.lista_documentos = res.data.archivos;
+                    this.totalArchivos = res.data.total_resultados
+                    this.fin = res.data.total_resultados
+                    this.loader = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.loader = false;
+
+                })
+        },
+
+        asignar_etiqueta_busqueda(text) {
+            this.etiqueta_busqueda = '\"' + text + '\"'
+        },
+
+
+    },
+    computed: {
+        ...Vuex.mapState(['stateSearch'])
+
+    },
 
 }

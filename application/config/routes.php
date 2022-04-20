@@ -100,6 +100,11 @@ $route['publico/documento_uuid'] = 'Publico/Principal_publico/principal_publico_
 $route['publico/buscar_filtrado'] = 'Publico/Principal_publico/principal_publico_filtrar_busqueda_ajax';
 $route['publico/buscar'] = 'Publico/Principal_publico/principal_publico_buscar_ajax';
 
+$route['publico/autores'] = 'Publico/Principal_publico/principal_publico_listar_autores_ajax';
+
+$route['publico/documentos_autor'] = 'Publico/Principal_publico/principal_publico_listar_documentos_autor_ajax';
+
+
 
 
 $route["ver/pdf/(:any)"] ="Publico/Principal_publico/principal_publico_visualizar_pdf/$1";

@@ -323,7 +323,7 @@ export default {
                 //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
                 // }, 1000);
 
-			console.log(this.src);
+            console.log(this.src);
 
         }
 
@@ -610,7 +610,7 @@ export default {
         },
         salir() {
             this.setDefaultStateEditarArchivo(this.datosArchivoDefault)
-            this.$router.push('/archivos/listar')
+            this.$router.push('/documentos/listar')
         },
         ...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
 

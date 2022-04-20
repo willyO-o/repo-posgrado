@@ -179,7 +179,7 @@ export default {
     components: { ModalArchivo, Select2Ajax },
     data() {
         return {
-			action_post:base_url+"documento/reporte",
+            action_post: base_url + "documento/reporte",
             url: base_url,
             datatable: null,
             listaArchivos: [],
@@ -360,7 +360,7 @@ export default {
             this.mostrarModalEliminar()
             this.id_documento = item.id_documento
             this.archivoEliminar = item.titulo
- 
+
         },
 
 
@@ -400,7 +400,7 @@ export default {
         irEditar() {
 
             $('#modal').modal('hide')
-            this.$router.push('/archivos/subir')
+            this.$router.push('/documentos/registar')
 
         },
         totalResultados() {
@@ -462,7 +462,7 @@ export default {
             this.filtros.id_especialidad = val;
             this.buscar();
         },
-		filtro_id_autor: function(val) {
+        filtro_id_autor: function(val) {
             this.filtros.id_autor = val;
             this.buscar();
         },
