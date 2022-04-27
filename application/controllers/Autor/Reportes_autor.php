@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 // use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class Reportes_documento extends CI_Controller
+class Reportes_autor extends CI_Controller
 {
 
 
@@ -15,10 +15,10 @@ class Reportes_documento extends CI_Controller
 	{
 		parent::__construct();
 
-		$this->load->model('documento_model');
+		$this->load->model('autor_model');
 	}
 
-	public function reportes_documento_generar_reporte()
+	public function reportes_autor_generar_reporte()
 	{
 		//var_dump($this->input->post());
 
@@ -28,28 +28,23 @@ class Reportes_documento extends CI_Controller
 			die();
 		}
 
-
-		$filtros['id_especialidad'] = $this->input->post('filtro_especialidad');
-		$filtros['id_autor'] = $this->input->post('filtro_autor');
-		$filtros['id_tipo_documento'] = $this->input->post('filtro_tipo');
-		$filtros['id_categoria'] = $this->input->post('filtro_categoria');
-		$filtros['texto_buscar'] = $this->input->post('filtro_texto_buscar');
+		$texto_buscar= $this->input->post('filtro_texto_buscar');
 		$limit = $this->input->post('limit') != null ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') != null ? $this->input->post('ofset') : 0;
 
 
-		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, $limit, $ofset);
+		$persona = $this->autor_model->filtrar_autores_reporte($limit, $ofset,$texto_buscar);
 
 
 		if ($accion == "pdf") {
-			$this->reportes_documento_generar_reporte_pdf($documentos);
+			$this->reportes_autor_generar_reporte_pdf($persona);
 		}
 		if ($accion == "excel") {
-			$this->reportes_documento_generar_reporte_excel($documentos);
+			$this->reportes_autor_generar_reporte_excel($persona);
 		}
 	}
 
-	public function reportes_documento_generar_reporte_pdf($documentos)
+	public function reportes_autor_generar_reporte_pdf($persona)
 	{
 
 
@@ -61,9 +56,9 @@ class Reportes_documento extends CI_Controller
 		$pdf->SetWidths(array(10,70, 15, 20, 30,30,20));
 		$pdf->SetTableHeader([
 			utf8_decode("#"),
-			utf8_decode("Titulo"),
-			utf8_decode("Año "),
-			utf8_decode("Fecha Publicacion"),
+			utf8_decode("Nombre(s)"),
+			utf8_decode("Ap. Paterno"),
+			utf8_decode("Ap. Materno"),
 			utf8_decode("Sede"),
 			utf8_decode("Autor"),
 			utf8_decode("Permiso Publico"),
@@ -73,7 +68,7 @@ class Reportes_documento extends CI_Controller
 		$pdf->SetAligns(['C', 'L', 'C', 'C', 'L', 'L',]);
 		$pdf->SetFont('Arial', '', 9);
 		$contador = 1;
-		foreach ($documentos as $fila_doc) {
+		foreach ($persona as $fila_doc) {
 			// echo count($fila_doc);
 			$pdf->Row([
 				$contador++,
@@ -94,9 +89,9 @@ class Reportes_documento extends CI_Controller
 
 
 
-	public function reportes_documento_generar_reporte_excel($documentos)
+	public function reportes_autor_generar_reporte_excel($persona)
 	{
-		//var_dump($documentos);
+		//var_dump($persona);
 
 		$documento = new Spreadsheet();
 		$documento->getProperties()
@@ -121,7 +116,7 @@ class Reportes_documento extends CI_Controller
 		$contador = 1;
 		$contador_fila = 2;
 
-		foreach ($documentos as $row) {
+		foreach ($persona as $row) {
 
 			$hoja_calculo->setCellValueByColumnAndRow(1, $contador_fila, $contador);
 			$hoja_calculo->setCellValueByColumnAndRow(2, $contador_fila, $row->titulo);
@@ -148,3 +143,5 @@ class Reportes_documento extends CI_Controller
 }
 
 /* End of file Reportes_documento.php */
+
+/* End of file Reportes_autor.php */

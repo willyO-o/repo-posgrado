@@ -5,19 +5,76 @@ export default {
 		<h1>Autores</h1>
 	
 		<!-- Modal -->
-		<div class="modal fade" id="modal" aria-hidden="true" data-backdrop="static">
-			<div class="modal-dialog modal-xl">
+		<div class="modal fade" id="modalAutor" aria-hidden="true" data-backdrop="static" >
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Detalles del Documento</h5>
-						<button type="button" class="close" @click="ocultarModal()">
-							<span aria-hidden="true">&times;</span>
-						</button>
+					<h5 class="modal-title" id="exampleModalLabel">{{titulo_autor}} Autor</h5>
+					<button type="button" class="close" @click="ocultar_modal_formulario()">
+						<span aria-hidden="true">&times;</span>
+					</button>
 					</div>
 					<div class="modal-body">
+					
+
+
+					<div class="container-fluid">
+					<!-- validation by Bootstrap -->
+		
+						<div class="row">
+						<div class="col-12">
+							<form class="needs-validation">
+							<div class="form-group">
+								<div class="mb-3">
+									<label for="ci_autor">C.I. Autor *</label>
+									<input class="form-control"  v-model="datos_autor.ci_autor" id="ci_autor"   :class="{'is-invalid':error_autor.ci_autor}" >
+									<div class="invalid-feedback">
+										Por favor rellene el campo
+									</div>
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<div class="mb-3">
+									<label for="nombre_autor">Nombres Autor *</label>
+									<input class="form-control"  v-model="datos_autor.nombre_autor" id="nombre_autor"   :class="{'is-invalid':error_autor.nombre_autor}" >
+									<div class="invalid-feedback">
+										Por favor rellene el campo
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="mb-3">
+									<label for="paterno_autor">Apellido Paterno Autor *</label>
+									<input class="form-control"  v-model="datos_autor.paterno_autor" id="paterno_autor"   :class="{'is-invalid':error_autor.paterno_autor}" >
+									<div class="invalid-feedback">
+										Por favor rellene el campo
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="mb-3">
+									<label for="materno_autor">Apellido Materno Autor *</label>
+									<input class="form-control"  v-model="datos_autor.materno_autor" id="materno_autor"   :class="{'is-invalid':error_autor.materno_autor}" >
+									<div class="invalid-feedback">
+										Por favor rellene el campo
+									</div>
+								</div>
+							</div>
+
+
+							</form>
+						</div>
+
+						</div>
+				<!-- end validation by Bootstrap -->
+				</div>
+
+				
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" @click="ocultarModal()">Cerrar</button>
+					<button type="button" class="btn btn-secondary"  @click="ocultar_modal_formulario()" >Cerrar</button>
+					<button type="button" class="btn btn-primary"  @click="registrar_autor();">Registrar</button>
 					</div>
 				</div>
 			</div>
@@ -26,7 +83,7 @@ export default {
 		<div class="card mb-0">
 			<div class="card-header d-flex justify-content-between">
 				<h3 class="card-title mt-2">Listado de Autores</h3>
-				<router-link to="/archivos/subir" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Documento</span></router-link>
+				<button  class="btn btn-primary" @click="mostrar_modal_formulario()"><i class="ti-plus"></i> <span class="title">Registrar Nuevo</span></button>
 			</div>
 			<div class="card-body">
 				<!-- table-responsive-->
@@ -61,8 +118,7 @@ export default {
 								<td>{{item.ci_autor}}</td>
 
 								<td>
-									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_autor)"></i>
-									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_autor)"></i>
+									<i class="icon-list ti-pencil text-warning mx-2" @click="mostrar_modal_formulario(item)"></i>
 									<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
 								</td>
 							</tr>
@@ -126,7 +182,7 @@ export default {
 					<div class="modal-body">
 						Esta Usted Seguro?
 						<h6>Desea eliminar el documento:</h6>
-						<h5>{{archivoEliminar}}</h5>
+						<h5>{{autor_eliminar}}</h5>
 						<p>Esta accion no se puede deshacer!</p>
 					</div>
 					<div class="modal-footer">
@@ -142,70 +198,45 @@ export default {
     data() {
         return {
             url: base_url,
-            datatable: null,
-            listaArchivos: [],
             modalEliminar: false,
-            archivoEliminar: '',
-            verDoc: false,
+            autor_eliminar: '',
             totalResultadosQuery: 0,
             pagina_actual: 1,
             paginar: 0,
             elementos_pagina: 10,
-            listaTipoDocumentos: [],
-            listaCategorias: [],
 
+
+            es_editar: false,
+            default_autor: {
+                ci_autor: '',
+                grado_academico: '',
+                id_autor: '',
+                nombre_autor: '',
+                paterno_autor: '',
+                materno_autor: '',
+            },
+            datos_autor: {
+                ci_autor: '',
+                grado_academico: '',
+                id_autor: '',
+                nombre_autor: '',
+                paterno_autor: '',
+                materno_autor: '',
+            },
+            error_autor: {
+                ci_autor: false,
+                grado_academico: false,
+                id_autor: false,
+                nombre_autor: false,
+                paterno_autor: false,
+                materno_autor: false,
+            },
+
+            titulo_autor: "Registrar",
             //autores
             listadoAutores: [],
-            datosAutor: {
-                id_autor: 0,
-                nombre_autor: '',
-                paterno_autor: '',
-                materno_autor: '',
-                ci_autor: '',
 
-            },
-            palabra_buscar: '',
-            //autores
-            datosAutorDefault: {
-                id_autor: 0,
-                nombre_autor: '',
-                paterno_autor: '',
-                materno_autor: '',
-                ci_autor: '',
 
-            },
-            detallesArchivo: {
-
-                anio_creacion: 0,
-                nombre_autor: "",
-                paterno_autor: "",
-                materno_autor: "",
-                ci_autor: "",
-                categoria: "",
-                descripcion: "",
-                especialidad: "",
-                fecha_publicacion: '',
-                formato: '',
-                id_archivo: '',
-                id_categoria: '',
-                id_especialidad: '',
-                id_documento: '',
-                id_tipo: '',
-                id_ver_esp: '',
-                id_version: '',
-                lenguaje: '',
-                nombre: '',
-                resumen: '',
-                sede: '',
-                tamanio: '',
-                tipo: '',
-                titulo: '',
-                uuid: '',
-                version: '',
-                observaciones: '',
-                es_publico: '',
-
-            },
             filtros: {
                 textoBuscar: "",
             },
@@ -220,24 +251,15 @@ export default {
                 version: '',
                 id_ver_esp: 0
             },
-            probando: 2,
             textoBuscar: "",
-            filtro_id_especialidad: 0,
-            filtro_id_autor: 0,
-            filtro_id_tipo: 0,
-            filtro_id_categoria: 0,
-            indicePaginaSuma: 0,
-
-            url_autor: base_url + "archivo/buscar_autor",
-            url_especialidad: base_url + "archivo/buscar_especialidad_filtro",
-
+            palabra_buscar: '',
 
         }
     },
     created() {
 
         this.buscar();
-        //this.cargarFiltros();
+
 
     },
 
@@ -296,33 +318,19 @@ export default {
         },
         ocultarModal() {
             $('#modal').modal('hide')
-            this.setStateVerDocumento(false)
+
         },
         limpiar() {
             this.idArchivo = 0
-            this.archivoEliminar = ''
+            this.autor_eliminar = ''
         },
 
 
-        verDetallesArchivo(id_documento) {
-
-            let fm = new FormData();
-            fm.append("id_documento", id_documento);
-            axios.post(this.url + "archivo/archivo_id", fm)
-                .then(res => {
-                    this.detallesArchivo = Object.assign({}, res.data.documento);
-                    this.mostrarModal();
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-
-        },
 
         confirm(item) {
             this.mostrarModalEliminar()
             this.idArchivo = item.id_documento
-            this.archivoEliminar = item.titulo
+            this.autor_eliminar = item.titulo
             console.log(item);
         },
 
@@ -360,12 +368,7 @@ export default {
                     alert('error ! ' + erro)
                 })
         },
-        irEditar() {
 
-            $('#modal').modal('hide')
-            this.$router.push('/archivos/subir')
-
-        },
         totalResultados() {
             return this.totalResultadosQuery;
         },
@@ -386,7 +389,7 @@ export default {
                 })
                 .catch(err => {
 
-                    this.listaArchivos = [];
+                    this.listadoAutores = [];
                     this.totalResultadosQuery = 0;
 
                 })
@@ -394,24 +397,86 @@ export default {
 
 
         },
-        setEditarDocumento(id_documento) {
-            let fm = new FormData();
-            fm.append("id_documento", id_documento);
-            axios.post(this.url + "archivo/archivo_id", fm)
-                .then(res => {
 
-                    console.log(res.data);
-                    this.detallesArchivo = Object.assign({}, res.data.documento);
-                    this.setStateEditarArchivo(this.detallesArchivo);
-                    this.irEditar();
+        ocultar_modal_formulario() {
+            $("#modalAutor").modal("hide")
+            this.datos_autor = Object.assign({}, this.default_autor);
+        },
+        mostrar_modal_formulario(item = false) {
+
+
+            if (item) {
+                this.titulo_autor = "Editar";
+                this.datos_autor = Object.assign({}, item);
+            } else {
+                this.datos_autor = Object.assign({}, this.default_autor);
+
+                this.titulo_autor = "Registrar";
+            }
+            $("#modalAutor").modal("show");
+
+        },
+        registrar_autor() {
+
+            let fm = new FormData();
+            fm.append("ci_autor", this.datos_autor.ci_autor);
+            fm.append("nombre_autor", this.datos_autor.nombre_autor);
+            fm.append("paterno_autor", this.datos_autor.paterno_autor);
+            fm.append("materno_autor", this.datos_autor.materno_autor);
+            let accion = "registrar";
+
+            if (this.es_editar) {
+                fm.append("id_autor", this.datos_autor.id_autor);
+                accion = "actualizar";
+
+            }
+
+
+
+            axios.post(this.url + "autor/" + accion, fm)
+                .then(res => {
+                    console.log(res)
+                    if (res.data.error) {
+                        this.datos_autor = Object.assign({}, this.default_autor);
+                    } else {
+
+                    }
+
+
+
                 })
                 .catch(err => {
                     console.error(err);
                 })
-
-
         },
-        ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
+
+        validar_autor() {
+
+            if (this.datos_autor.ci_autor && this.datos_autor.nombre_autor && this.datos_autor.paterno_autor && this.datos_autor.materno_autor) {
+                return true;
+            }
+
+            if (!this.datos_autor.ci_autor) {
+                this.error_autor.ci_autor = true;
+            }
+            if (!this.datos_autor.nombre_autor) {
+                this.error_autor.nombre_autor = true;
+            }
+            if (!this.datos_autor.paterno_autor) {
+                this.error_autor.paterno_autor = true;
+            }
+            if (!this.datos_autor.materno_autor) {
+                this.error_autor.materno_autor = true;
+            }
+
+            setTimeout(() => {
+                this.error_autor.ci_autor = false;
+                this.error_autor.nombre_autor = false;
+                this.error_autor.paterno_autor = false;
+                this.error_autor.materno_autor = false;
+
+            }, 5000);
+        },
 
 
 
@@ -424,10 +489,6 @@ export default {
     },
 
 
-    computed: {
-        ...Vuex.mapState(['verDocumento'])
-
-    },
 
 
 }

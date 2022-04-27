@@ -4,8 +4,11 @@
 	<div class="header_content d-flex flex-row align-items-center">
 		<!-- Logo -->
 		<div class="logo_container">
-			<div class="logo" style="width: 10rem;">
-				<img src="<?= base_url() ?>assets/img/posgrado.png" alt="" width="100%">
+			<div class="logo" style="width: 9rem;">
+				<a href="<?= base_url() ?>">
+					<img src="<?= base_url() ?>assets/img/logo_blanco_posgrado.svg" alt="" width="100%">
+
+				</a>
 
 			</div>
 		</div>

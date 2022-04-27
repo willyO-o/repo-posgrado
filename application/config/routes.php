@@ -60,6 +60,10 @@ $route['admin'] = 'principal/admin';
 
 $route['autor/listar'] = 'Autor/Autor_programa/autor_programa_listar_ajax';
 
+$route['autor/registrar'] = 'Autor/Autor_programa/autor_programa_registrar';
+
+
+
 $route['especialidad/filtrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_listar_especialidades_ajax';
 
 

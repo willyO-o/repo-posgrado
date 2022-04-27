@@ -27,6 +27,50 @@ class Autor_programa extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function autor_programa_registrar()
+	{
+		$datos_autor['ci_autor']= strtoupper($this->input->post('ci_autor')) ;
+		$datos_autor['nombre_autor']=strtoupper($this->input->post('nombre_autor'));
+		$datos_autor['paterno_autor']=strtoupper($this->input->post('paterno_autor'));
+		$datos_autor['materno_autor']=strtoupper($this->input->post('materno_autor'));
+
+		$resultado=$this->autor_model->insertar_autores( $datos_autor);
+		if($resultado>0){
+			$respuesta['error']=0;
+			$respuesta['mensaje']="Autor registrado..";
+
+		}else{
+			$respuesta['error']=1;
+			$respuesta['mensaje']="Ocurrio un error intente de nuevo";
+		}
+
+		echo json_encode($respuesta);
+		
+	}
+
+	public function autor_programa_actualizar()
+	{
+		$datos_autor['ci_autor']= strtoupper($this->input->post('ci_autor')) ;
+		$datos_autor['nombre_autor']=strtoupper($this->input->post('nombre_autor'));
+		$datos_autor['paterno_autor']=strtoupper($this->input->post('paterno_autor'));
+		$datos_autor['materno_autor']=strtoupper($this->input->post('materno_autor'));
+		$id_autor = $this->input->post('id_autor');
+		
+
+		$resultado=$this->autor_model->actualizar_autores( $id_autor, $datos_autor);
+		if($resultado>0){
+			$respuesta['error']=0;
+			$respuesta['mensaje']="Autor Actualizado..";
+
+		}else{
+			$respuesta['error']=1;
+			$respuesta['mensaje']="Ocurrio un error intente de nuevo";
+		}
+
+		echo json_encode($respuesta);
+		
+	}
+
 
 }
 
