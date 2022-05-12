@@ -41,7 +41,7 @@ class Autor_model extends CI_Model
 		return $resultado;
 	}
 
-	public function insertar_autores( $datos_autor)
+	public function insertar_autores($datos_autor)
 	{
 		$this->db->insert('srp_autores', $datos_autor);
 		return $this->db->insert_id();
@@ -54,37 +54,7 @@ class Autor_model extends CI_Model
 		return $this->db->insert_id();
 	}
 
-	public function buscar_autor( $texto,  $es_filtro = false)
-	{
-		$psg = $this->load->database('psg', TRUE);
-		
-		$texto = strtolower($texto);
 
-
-		$psg->select("id_persona as id, nombre || ' '|| paterno || ' ' ||materno|| ', ' || ci as text");
-		$psg->from('principal.psg_persona');
-		$psg->like("LOWER(nombre)", $texto);
-		$psg->or_like("LOWER(paterno)", $texto);
-		$psg->or_like("LOWER(materno)", $texto);
-		$psg->or_like("LOWER(ci)", $texto);
-		$psg->limit(15);
-		
-		$data = $psg->get()->result();
-
-		// $this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
-		// $this->db->from('srp_autores');
-		// $this->db->like("LOWER(nombre_autor)", $texto);
-		// $this->db->or_like("LOWER(paterno_autor)", $texto);
-		// $this->db->or_like("LOWER(materno_autor)", $texto);
-		// $this->db->or_like("LOWER(ci_autor)", $texto);
-		// $data = $this->db->get()->result();
-
-		if ($es_filtro) {
-			array_unshift($data, (object)["id" => 0, "text" => "Todos"]);
-		}
-
-		return $data;
-	}
 
 	public function listar_autores_publico()
 	{
@@ -96,15 +66,14 @@ class Autor_model extends CI_Model
 		$this->db->limit(20);
 		$sub_query = $this->db->get_compiled_select();
 
-		
+
 		$this->db->select("paterno_autor||' '||materno_autor||' ,'||nombre_autor as autor , id_autor  ");
 		$this->db->from('srp_autores');
 		$this->db->where(" id_autor  IN ($sub_query)", NULL, FALSE);
-		$resultado["autores"]=$this->db->get()->result();
+		$resultado["autores"] = $this->db->get()->result();
 		$resultado["q"] = $this->db->last_query();
 
 		return $resultado;
-
 	}
 
 	public function filtrar_autores_reporte($limit, $ofset, $palabra_buscar)
@@ -131,6 +100,71 @@ class Autor_model extends CI_Model
 		$this->db->flush_cache();
 		return $resultado;
 	}
+
+	public function verificar_autor($id_autor)
+	{
+		$this->db->where('id_autor', $id_autor);
+		$this->db->from('srp_autores');
+		return $this->db->count_all_results();
+
+		
+	}
+
+	/////////////////********************   autores psg */
+
+	public function buscar_autor($texto,  $es_filtro = false)
+	{
+		$psg = $this->load->database('psg', TRUE);
+
+		$texto = strtolower($texto);
+
+
+		$psg->select("id_persona as id, nombre || ' '|| paterno || ' ' ||materno|| ', ' || ci as text");
+		$psg->from('principal.psg_persona');
+		$psg->like("LOWER(nombre)", $texto);
+		$psg->or_like("LOWER(paterno)", $texto);
+		$psg->or_like("LOWER(materno)", $texto);
+		$psg->or_like("LOWER(ci)", $texto);
+		$psg->or_like("LOWER( nombre || ' '|| paterno || ' ' ||materno)", $texto);
+
+		$psg->limit(15);
+
+		$data = $psg->get()->result();
+
+		// $this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
+		// $this->db->from('srp_autores');
+		// $this->db->like("LOWER(nombre_autor)", $texto);
+		// $this->db->or_like("LOWER(paterno_autor)", $texto);
+		// $this->db->or_like("LOWER(materno_autor)", $texto);
+		// $this->db->or_like("LOWER(ci_autor)", $texto);
+		// $data = $this->db->get()->result();
+		$array_aux=[];
+		foreach ($data as $persona) {
+			$persona->id= $this->encryption->encrypt($persona->id);
+			$array_aux[]=$persona;
+		}
+
+		if ($es_filtro) {
+			array_unshift($array_aux, (object)["id" => 0, "text" => "Todos"]);
+		}
+
+		return $data;
+	}
+
+	public function listar_autor_id_psg($id_persona)
+	{
+
+		$psg = $this->load->database('psg', TRUE);
+		$psg->select("id_persona as id, nombre   , paterno ,materno, ci, oficio_trabajo ");
+		$psg->from('principal.psg_persona');
+		$psg->where('id_persona', $id_persona);
+		
+		$persona= $psg->get()->row();
+		$persona->id_persona=$this->encryption->encrypt($persona->id_persona);
+
+	}
+
+	
 }
 
 /* End of file Autor_model.php */

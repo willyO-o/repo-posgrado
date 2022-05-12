@@ -39,9 +39,10 @@ class Documento_programa extends CI_Controller
 
 	public function documento_programa_registrar_documento()
 	{
+		$this->load->model('autor_model');
+		
 		$this->load->library('session');
 		$documento = array(
-			'id_autor'			=> $this->input->post('id_autor'),
 			'anio_creacion'	 	=> $this->input->post('anio'),
 			'resumen'		 	=> $this->input->post('resumen'),
 			'titulo'			=> strtoupper($this->input->post('titulo')),
@@ -54,6 +55,13 @@ class Documento_programa extends CI_Controller
 			'es_publico'		=> strtoupper($this->input->post('es_publico')),
 
 		);
+
+		$id_autor=	 $this->input->post('id_autor');
+		$existe_autor= $this->autor_model->verificar_autor($id_autor);
+		if($existe_autor){
+			
+		}
+
 
 		if ($this->input->post('actualizar') == 'true') {
 
