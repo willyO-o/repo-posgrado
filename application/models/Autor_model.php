@@ -54,16 +54,28 @@ class Autor_model extends CI_Model
 		return $this->db->insert_id();
 	}
 
-	public function buscar_autor(string $texto, bool $es_filtro = false)
+	public function buscar_autor( $texto,  $es_filtro = false)
 	{
+		$psg = $this->load->database('psg', TRUE);
+		
 		$texto = strtolower($texto);
-		$this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
-		$this->db->from('srp_autores');
-		$this->db->like("LOWER(nombre_autor)", $texto);
-		$this->db->or_like("LOWER(paterno_autor)", $texto);
-		$this->db->or_like("LOWER(materno_autor)", $texto);
-		$this->db->or_like("LOWER(ci_autor)", $texto);
-		$data = $this->db->get()->result();
+
+
+		$psg->select("id_persona as id, nombre || ' '|| paterno || ' ' ||materno|| ', ' || ci as text");
+		$psg->from('principal.psg_persona');
+		$psg->like("LOWER(nombre)", $texto);
+		$psg->or_like("LOWER(paterno)", $texto);
+		$psg->or_like("LOWER(materno)", $texto);
+		$psg->or_like("LOWER(ci)", $texto);
+		$data = $psg->get()->result();
+
+		// $this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
+		// $this->db->from('srp_autores');
+		// $this->db->like("LOWER(nombre_autor)", $texto);
+		// $this->db->or_like("LOWER(paterno_autor)", $texto);
+		// $this->db->or_like("LOWER(materno_autor)", $texto);
+		// $this->db->or_like("LOWER(ci_autor)", $texto);
+		// $data = $this->db->get()->result();
 
 		if ($es_filtro) {
 			array_unshift($data, (object)["id" => 0, "text" => "Todos"]);
