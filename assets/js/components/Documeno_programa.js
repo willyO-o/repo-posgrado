@@ -1,5 +1,8 @@
 import ModalArchivo from './Modal_detalles_documento.js';
 import Select2Ajax from './select2Ajax.js';
+import select2PersonaAjax from './select2PersonaAjax.js';
+
+
 export default {
     template: //html
         `
@@ -42,7 +45,7 @@ export default {
 							</div>
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Autor</label>
-								<Select2Ajax :url="url_autor" v-model="filtro_id_autor"  class="form-control" />
+								<select2PersonaAjax :url="url_autor" v-model="filtro_id_autor"  class="form-control" />
 							</div>
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Tipo Documento</label>
@@ -176,7 +179,7 @@ export default {
 	</div>
 	
 	`,
-    components: { ModalArchivo, Select2Ajax },
+    components: { ModalArchivo, Select2Ajax, select2PersonaAjax },
     data() {
         return {
             action_post: base_url + "documento/reporte",

@@ -22,10 +22,10 @@ export default {
                         return "Buscando..";
                     },
                     inputTooShort: function() {
-                        return "Escriba almenos 1 caracter para comenzar busqueda";
+                        return "Escriba almenos 2 caracter para comenzar busqueda";
                     }
                 },
-                minimumInputLength: 1,
+                minimumInputLength: 2,
                 placeholder: {
                     id: -1,
                     text: "Buscar"
@@ -43,9 +43,10 @@ export default {
                         return {
                             results: $.map(data, function(respuesta) {
                                 //console.log(respuesta);
+
                                 return {
-                                    text: respuesta.text,
-                                    id: respuesta.id,
+                                    text: respuesta.nombre + " " + respuesta.paterno + " " + respuesta.materno + ", " + respuesta.ci,
+                                    id: respuesta.id_persona,
                                 }
                             })
                         };
@@ -80,7 +81,8 @@ export default {
     methods: {
         asignarValor() {
             if (this.datosEditar) {
-                var newOption = new Option(this.datosEditar.text, this.datosEditar.id, true, true);
+                let texto = this.datosEditar.nombre + " " + this.datosEditar.paterno + " " + this.datosEditar.materno + " ," + this.datosEditar.ci
+                var newOption = new Option(texto, this.datosEditar.id, true, true);
                 $(this.$el).append(newOption).trigger('change');
 
             }
