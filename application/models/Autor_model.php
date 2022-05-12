@@ -61,23 +61,23 @@ class Autor_model extends CI_Model
 		$texto = strtolower($texto);
 
 
-		$psg->select("id_persona as id, nombre || ' '|| paterno || ' ' ||materno|| ', ' || ci as text");
-		$psg->from('principal.psg_persona');
-		$psg->like("LOWER(nombre)", $texto);
-		$psg->or_like("LOWER(paterno)", $texto);
-		$psg->or_like("LOWER(materno)", $texto);
-		$psg->or_like("LOWER(ci)", $texto);
-		$psg->limit(15);
+		// $psg->select("id_persona as id, nombre || ' '|| paterno || ' ' ||materno|| ', ' || ci as text");
+		// $psg->from('principal.psg_persona');
+		// $psg->like("LOWER(nombre)", $texto);
+		// $psg->or_like("LOWER(paterno)", $texto);
+		// $psg->or_like("LOWER(materno)", $texto);
+		// $psg->or_like("LOWER(ci)", $texto);
+		// $psg->limit(15);
 		
-		$data = $psg->get()->result();
+		// $data = $psg->get()->result();
 
-		// $this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
-		// $this->db->from('srp_autores');
-		// $this->db->like("LOWER(nombre_autor)", $texto);
-		// $this->db->or_like("LOWER(paterno_autor)", $texto);
-		// $this->db->or_like("LOWER(materno_autor)", $texto);
-		// $this->db->or_like("LOWER(ci_autor)", $texto);
-		// $data = $this->db->get()->result();
+		$this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
+		$this->db->from('srp_autores');
+		$this->db->like("LOWER(nombre_autor)", $texto);
+		$this->db->or_like("LOWER(paterno_autor)", $texto);
+		$this->db->or_like("LOWER(materno_autor)", $texto);
+		$this->db->or_like("LOWER(ci_autor)", $texto);
+		$data = $this->db->get()->result();
 
 		if ($es_filtro) {
 			array_unshift($data, (object)["id" => 0, "text" => "Todos"]);
