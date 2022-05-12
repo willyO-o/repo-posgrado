@@ -358,7 +358,7 @@ export default {
             try {
                 if (!this.inputDocumento.value) {
                     this.src = ''
-                    this.datosArchivo.nro_paginas = ''
+                        // this.datosArchivo.nro_paginas = ''
                 }
             } catch (error) {
 
@@ -452,7 +452,13 @@ export default {
 
 
                 if (!this.editarArchivo) {
-                    fm.append('archivo', this.file, this.file.name) //
+                    if (this.file != null) {
+                        fm.append('archivo', this.file, this.file.name) //
+                    } else {
+                        fm.append('archivo', ""); //
+
+                    }
+
 
                     fm.append('actualizar', false)
                 }
@@ -534,7 +540,7 @@ export default {
 
 
             if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion && this.file && this.datosArchivo.nro_paginas) {
+                this.datosArchivo.resumen && this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion && this.datosArchivo.nro_paginas) {
                 return true;
             }
 
@@ -569,10 +575,10 @@ export default {
             if (!this.datosArchivo.anio_creacion) {
                 this.error.anio = true
             }
-            if (!this.file) {
-                this.error.sinfile = true
-                this.modalVistaPrevia = false
-            }
+            // if (!this.file) {
+            //     // this.error.sinfile = true
+            //     this.modalVistaPrevia = false
+            // }
             if (!this.datosArchivo.nro_paginas) {
                 this.error.nro_paginas = true
 
@@ -588,7 +594,7 @@ export default {
                 this.error.autor = false
                 this.error.tutor = false
                 this.error.sede = false
-                this.error.sinfile = false
+                    // this.error.sinfile = false
                 this.error.anio = false
                 this.error.nro_paginas = false
 

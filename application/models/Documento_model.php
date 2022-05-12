@@ -58,10 +58,18 @@ class Documento_model extends CI_Model
 		$filtros = (object)$filtros;
 		$this->db->start_cache();
 		$this->db->select('titulo, anio_creacion, resumen,  
-							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   id_documento , nombre_autor, paterno_autor, materno_autor,es_publico ');
+							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   srp_documentos.id_documento , nombre_autor, paterno_autor, materno_autor,es_publico,nro_paginas, version, especialidad, categoria,tipo ,observaciones');
 		$this->db->from('srp_documentos');
-		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'inner');
-		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'inner');
+		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'left');
+		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'left');
+		$this->db->join('srp_tipos', 'srp_tipos.id_tipo = srp_documentos.id_tipo', 'left');
+		$this->db->join('ver_esp', 'ver_esp.id_ver_esp = srp_documentos.id_ver_esp', 'left');
+		$this->db->join('srp_especialidades', 'srp_especialidades.id_especialidad = ver_esp.id_especialidad', 'left');
+		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
+		
+		$this->db->join('srp_categorias', 'srp_categorias.id_categoria = srp_documentos.id_categoria', 'left');
+		
+		
 
 
 		if (!$es_admin) {

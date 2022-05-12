@@ -66,6 +66,8 @@ class Fpdf_mc_table extends FPDF
 		//If the height h would cause an overflow, add a new page immediately
 		if ($this->GetY() + $h > $this->PageBreakTrigger)
 			$this->AddPage($this->CurOrientation);
+
+
 	}
 
 	function NbLines($w, $txt)
@@ -117,11 +119,11 @@ class Fpdf_mc_table extends FPDF
 	{
 
 		$this->SetFont('Arial', 'B', 14);
-		$this->Image($this->img_url, 10, 10, -300);
+		$this->Image($this->img_url, 10, 10, 45);
 		$this->Cell(0, 0, $this->title_pdf, 0, 1, 'C');
 		$this->SetFont('Arial', 'B', 9);
 		$this->Ln(20);
-		$this->SetAligns(['C', 'C', 'C', 'C', 'C', 'C', 'C',]);
+		$this->SetAligns(['C', 'L', 'C', 'C', 'C', 'C', 'C', 'C']);
 		$this->Row($this->table_header);
 
 		//$this->Image(base_url("assets/img/posgrado.png"), 10, 10, -300);

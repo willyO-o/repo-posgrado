@@ -29,7 +29,7 @@ export default {
 		<div class="card mb-0">
 			<div class="card-header d-flex justify-content-between">
 				<h3 class="card-title mt-2">Listado de Documentos</h3>
-				<router-link to="/archivos/subir" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Subir Documento</span></router-link>
+				<router-link to="/documentos/registar" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
 			</div>
 			<div class="card-body">
 				<!-- table-responsive-->

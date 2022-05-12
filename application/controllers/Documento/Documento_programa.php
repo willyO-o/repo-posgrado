@@ -102,7 +102,27 @@ class Documento_programa extends CI_Controller
 					unlink($this->ruta_archivos . $documento['nombre_archivo']);
 				}
 			} else {
-				$respuesta = array('error' => $this->upload->display_errors());
+
+				date_default_timezone_set('America/La_Paz');
+				$documento['tamanio_archivo'] = "0";
+				$documento['uuid'] = $uuid;
+				$documento['lenguaje'] = "ES";
+				$documento['nro_paginas'] = $this->input->post('nro_paginas');
+				$documento['fecha_publicacion'] = date("Y-m-d");
+				$documento['id_usuario'] = $this->session->userdata('id');
+				$documento['estado_documento'] = "registrado";
+
+
+				$id_archivo = $this->documento_model->registrar_documento($documento);
+
+				if ($id_archivo > 0) {
+
+					$respuesta = array('error' => 0);
+				} else {
+					$respuesta = array('error' => 1);
+					unlink($this->ruta_archivos . $documento['nombre_archivo']);
+				}
+				
 			}
 		}
 		echo json_encode($respuesta);
@@ -169,7 +189,7 @@ class Documento_programa extends CI_Controller
 
 	public function documento_programa_eliminar()
 	{
-		
+
 		$id_documento = $this->input->post('id_documento');
 		$res = $this->documento_model->eliminar_documento($id_documento);
 		if ($res) {
@@ -180,7 +200,7 @@ class Documento_programa extends CI_Controller
 
 		echo json_encode($res);
 	}
-	
+
 
 	public function documento_programa_buscar_especialidad()
 	{
@@ -203,7 +223,7 @@ class Documento_programa extends CI_Controller
 		$data = $this->autor_model->buscar_autor($texto);
 		echo json_encode($data);
 	}
-	
+
 	public function documento_programa_buscar_autor_filtro()
 	{
 
@@ -211,7 +231,7 @@ class Documento_programa extends CI_Controller
 
 		$texto = $this->input->post('term');
 
-		$data = $this->autor_model->buscar_autor($texto,true);
+		$data = $this->autor_model->buscar_autor($texto, true);
 		echo json_encode($data);
 	}
 
@@ -277,11 +297,9 @@ class Documento_programa extends CI_Controller
 		$this->load->model('estadistica_model');
 
 		$data['barras'] = $this->estadistica_model->get_barra($anio);
-		
+
 		echo json_encode($data);
 	}
-
-
 }
 
 /* End of file Archivo.php */

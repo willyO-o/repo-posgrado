@@ -155,7 +155,7 @@ export default {
 
             $('#modal').modal('hide')
 
-            this.$router.push('/archivos/subir')
+            this.$router.push('/documentos/registar')
 
         },
         ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
