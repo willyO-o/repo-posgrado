@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand fixed-top " style="background: #023887;opacity:.9">
     <div class="navbar-brand d-none d-lg-block">
-        <a href="<?=base_url()?>"><img src="<?= base_url() ?>assets/img/logo-posgrado.png" alt="Klorofil Pro Logo" class="img-fluid logo" width="160" ></a>
+        <a href="<?=base_url()?>"><img src="<?= base_url() ?>assets/img/logo_blanco_posgrado.svg" alt="Klorofil Pro Logo" class="img-fluid logo" width="160" ></a>
     </div>
     <div class="container-fluid p-0">
         <button id="tour-fullwidth" type="button" class="btn btn-default btn-toggle-fullwidth"><i class="ti-menu"></i></button>

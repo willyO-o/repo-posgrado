@@ -34,8 +34,8 @@ class Reportes_documento extends CI_Controller
 		$filtros['id_tipo_documento'] = $this->input->post('filtro_tipo');
 		$filtros['id_categoria'] = $this->input->post('filtro_categoria');
 		$filtros['texto_buscar'] = $this->input->post('filtro_texto_buscar');
-		$limit = $this->input->post('limit') != null ? $this->input->post('limit') : 0;
-		$ofset = $this->input->post('ofset') != null ? $this->input->post('limit') : 0;
+		$limit = $this->input->post('limit') != null ? $this->input->post('limit') : 10;
+		$ofset = $this->input->post('ofset') != null ? $this->input->post('ofset') : 0;
 
 
 		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, $limit, $ofset);
