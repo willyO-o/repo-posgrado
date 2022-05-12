@@ -10,6 +10,10 @@ application/logs/*
 
 composer.lock
 
+/application/config/config.php
+/application/config/database.php
+*.sql
+
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*

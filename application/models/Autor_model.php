@@ -67,6 +67,8 @@ class Autor_model extends CI_Model
 		$psg->or_like("LOWER(paterno)", $texto);
 		$psg->or_like("LOWER(materno)", $texto);
 		$psg->or_like("LOWER(ci)", $texto);
+		$psg->limit(15);
+		
 		$data = $psg->get()->result();
 
 		// $this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
