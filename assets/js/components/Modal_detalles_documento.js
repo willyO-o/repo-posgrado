@@ -111,6 +111,10 @@ export default {
 								<p>{{detallesArchivo.nombre_usuario+' '+detallesArchivo.apellido}} <span class="timestamp">Usuario publicador</span></p>
 							</li>
 							<li>
+								<i class="fa fa-eye activity-icon"></i>
+								<p>{{detallesArchivo.observaciones}} <span class="timestamp">Observaciones</span></p>
+							</li>
+							<li>
 								<button class="btn btn-info" @click="mostrarDocumento()">Ver Documento en PDF <i class="fa fa-file-pdf-o" ></i></button>
 							</li>
 							</ul>

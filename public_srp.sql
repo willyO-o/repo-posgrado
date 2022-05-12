@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : postgres13
+ Source Server         : postgres
  Source Server Type    : PostgreSQL
- Source Server Version : 130001
+ Source Server Version : 140002
  Source Host           : localhost:5432
  Source Catalog        : srp
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
- Target Server Version : 130001
+ Target Server Version : 140002
  File Encoding         : 65001
 
- Date: 03/04/2022 21:48:29
+ Date: 11/05/2022 23:10:49
 */
 
 
@@ -301,7 +301,7 @@ DROP TABLE IF EXISTS "public"."srp_documentos";
 CREATE TABLE "public"."srp_documentos" (
   "id_documento" int4 NOT NULL DEFAULT nextval('metadatos_id_metadato_seq'::regclass),
   "fecha_publicacion" date NOT NULL,
-  "anio_creacion" numeric(4,0) NOT NULL,
+  "anio_creacion" numeric(4) NOT NULL,
   "resumen" text COLLATE "pg_catalog"."default" NOT NULL,
   "lenguaje" varchar(10) COLLATE "pg_catalog"."default",
   "titulo" varchar(1500) COLLATE "pg_catalog"."default" NOT NULL,
@@ -440,6 +440,7 @@ ISO 9126, también se aplicó el modelo Cocomo II, para hallar el costo del sist
 finalizar el proyecto se vio que se lograron todos los objetivos planteados en el presente
 documento.', 'ES', 'SISTEMA WEB DE COMPRA, VENTA E INVENTARIO DE
 MEDICAMENTOS Y SERVICIOS COMPLEMENTARIOS', 2, 17, 1, 1, 1, 111, '-', 'registrado', 7, 7.84, '60c22310e0082.pdf', '60c22310e0082', '-', 'SI');
+INSERT INTO "public"."srp_documentos" VALUES (80, '2022-05-11', 2021, '-', 'ES', 'REGISTRANDO SIN DOCUMENTO EDITANDO', 1, 13, 2, 1, 18, 400, 'el documento no cuenta con CD y no tiene permitido publicar', 'actualizado', 6, 0.00, NULL, '627c787253a20', 'F/555', 'NO');
 INSERT INTO "public"."srp_documentos" VALUES (42, '2021-06-10', 2021, 'El presente proyecto de grado pretende automatizar los procesos más importantes que
 tiene la Caja Nacional de Salud Regional sección equipos electrónicos realizando el
 ingreso, salida y bajas de equipos electrónicos ya que esos procesos son vital
@@ -752,33 +753,6 @@ de calidad y seguridad. También se realiza en el análisis de costos COCOMO.
 Finalmente se desarrolla el capítulo cinco que menciona si se concretaron los
 objetivos planteados, y también se hace mención a algunas recomendaciones. ', 'ES', 'SEGUIMIENTO DE LA INFORMACIÓN
 RESPECTO A EXÁMENES RADIOLÓGICOS', 4, 14, 2, 1, 1, 123, '-', 'registrado', 7, 4.50, '60c22f47754f7.pdf', '60c22f47754f7', '-', 'NO');
-INSERT INTO "public"."srp_documentos" VALUES (52, '2021-06-10', 2016, 'La presente tesis abordo el tema denominado Modelo matemático para pruebas
-de contagio en entidades de intermediación financiera en Bolivia surge de una
-investigación, debido a que en Bolivia, la supervisión financiera realizada por ASFI,
-tiene falencia para conocer en que cuantía las entidades de intermediación financiera
-son afectadas por efecto de contagio lo que genera que el sistema financiero no pueda
-cuantificar los efectos adversos que pueda ocasionar en toma de decisiones en el
-sistema financiero.
-El objetivo principal de la presente tesis es construir el modelo matemático para
-coadyuvar de forma eficiente en la cuantificación financiera de Bolivia. Se plantea una
-metodología de modelo de vectores autorregresivo para ver el fenómeno del contagio
-El desarrollo de la investigación de tesis se fundamenta teóricamente a partir de
-estudios realizados sobre antecedentes, Siguiendo a Demirgüç-Kunt y Huizinga (1999,
-2000) y estudios similares en esta área, la calidad de los activos se mide por NPLs
-para el banco i en el tiempo t (NPLi, t) y está relacionada con una serie de factores
-macroeconómicos y financieros, que afectan a los bancos:
-Como resultados de la presente tesis se describen con base en el cálculo de las
-ratios mostrados y descritos la estimación de los parámetros de varios modelos
-econométricos. Finalmente se realizan simulaciones para crear escenarios de estrés y
-alcanzar los resultados que se dan a conocer en las pruebas de tensión.
-VIII
-Los resultados del análisis de las variables o ratios calculados se expresan en la
-descripción del comportamiento y evolución de cada una de ellas, expresando la
-existencia de un quiebre estructural en el intervalo de tiempo comprendido entre 1997
-al 2005 y el de 2006 al 2017.
-El modelo de data panel expresa que el banco con mayor tasa en mora relativa
-al banco unión es el Banco Mercantil Santa Cruz.', 'ES', 'MODELO MATEMÁTICO PARA PRUEBAS DE CONTAGIO EN ENTIDADES
-DE INTERMEDIACIÓN FINANCIERA EN BOLIVIA|', 1, 23, 3, 1, 1, 177, '-', 'registrado', 17, 6.71, '60c22fd8f2330.pdf', '60c22fd8f2330', 'M344', 'SI');
 INSERT INTO "public"."srp_documentos" VALUES (31, '2021-05-10', 2017, 'Las telecomunicaciones móviles en los últimos años son de mayor crecimiento y demanda
 dentro de los sistemas de comunicaciones a nivel mundial. En todo el mundo existe millones
 de usuarios que demandan el uso de teléfonos inteligentes con acceso a internet para
@@ -893,7 +867,6 @@ programación elegido para crear la aplicación del lado del servidor, Laravel 5
 un framework que utiliza la arquitectura MVC y MySQL como gestor de Base de
 Datos.', 'ES', 'SISTEMA DE INFORMACIÓN PARA EL CONTROL DE INVENTARIO
 DE VENTAS', 2, 10, 1, 2, 1, 222, '-', 'registrado', 12, 16.65, '60c2208510cce.pdf', '60c2208510cce', '-', 'SI');
-INSERT INTO "public"."srp_documentos" VALUES (75, '2022-03-27', 2019, 'probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 ', 'ES', 'PROBANDO 3 PROBANDO 3 PROBANDO 3 PROBANDO 3 PROBANDO 3 ', 2, 1, 1, 2, 1, 1, '-', 'registrado', 7, 0.35, '62410080a8f2a.pdf', '62410080a8f2a', '-', 'SI');
 INSERT INTO "public"."srp_documentos" VALUES (44, '2021-06-10', 2015, 'Los sistemas de información web se han convertido en una herramienta primordial
 para toda institución sea pública o privada que brinde servicios en el área de negocios,
 permitiendo almacenar, procesar y acceder a la información desde cualquier lugar, y
@@ -911,6 +884,37 @@ el control de asociados, El flujo de información para la institución es primor
 toma de decisiones, permitirá desarrollar un “Sistema de información web de control y
 seguimiento de asociados”, con el fin de obtener información oportuna y confiable', 'ES', 'INFORMACIÓN WEB DE CONTROL Y SEGUIMIENTO
 DE ASOCIADOS XD', 2, 20, 1, 1, 1, 343, 'el documento tiene 3 copias', 'actualizado', 11, 11.88, '60c22d32e8b16.pdf', '60c22d32e8b16', 'M222', 'NO');
+INSERT INTO "public"."srp_documentos" VALUES (52, '2021-06-10', 2016, 'La presente tesis abordo el tema denominado Modelo matemático para pruebas
+de contagio en entidades de intermediación financiera en Bolivia surge de una
+investigación, debido a que en Bolivia, la supervisión financiera realizada por ASFI,
+tiene falencia para conocer en que cuantía las entidades de intermediación financiera
+son afectadas por efecto de contagio lo que genera que el sistema financiero no pueda
+cuantificar los efectos adversos que pueda ocasionar en toma de decisiones en el
+sistema financiero.
+El objetivo principal de la presente tesis es construir el modelo matemático para
+coadyuvar de forma eficiente en la cuantificación financiera de Bolivia. Se plantea una
+metodología de modelo de vectores autorregresivo para ver el fenómeno del contagio
+El desarrollo de la investigación de tesis se fundamenta teóricamente a partir de
+estudios realizados sobre antecedentes, Siguiendo a Demirgüç-Kunt y Huizinga (1999,
+2000) y estudios similares en esta área, la calidad de los activos se mide por NPLs
+para el banco i en el tiempo t (NPLi, t) y está relacionada con una serie de factores
+macroeconómicos y financieros, que afectan a los bancos:
+Como resultados de la presente tesis se describen con base en el cálculo de las
+ratios mostrados y descritos la estimación de los parámetros de varios modelos
+econométricos. Finalmente se realizan simulaciones para crear escenarios de estrés y
+alcanzar los resultados que se dan a conocer en las pruebas de tensión.
+VIII
+Los resultados del análisis de las variables o ratios calculados se expresan en la
+descripción del comportamiento y evolución de cada una de ellas, expresando la
+existencia de un quiebre estructural en el intervalo de tiempo comprendido entre 1997
+al 2005 y el de 2006 al 2017.
+El modelo de data panel expresa que el banco con mayor tasa en mora relativa
+al banco unión es el Banco Mercantil Santa Cruz.', 'ES', 'MODELO MATEMÁTICO PARA PRUEBAS DE CONTAGIO EN ENTIDADES
+DE INTERMEDIACIÓN FINANCIERA EN BOLIVIA|', 1, 23, 3, 1, 1, 177, '-', 'actualizado', 17, 6.71, '60c22fd8f2330.pdf', '60c22fd8f2330', 'M344', 'NO');
+INSERT INTO "public"."srp_documentos" VALUES (75, '2022-03-27', 2019, 'probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 probando 3 ', 'ES', 'PROBADO HOY 11/5/2022', 2, 1, 1, 2, 1, 1, '-', 'actualizado', 7, 0.35, '62410080a8f2a.pdf', '62410080a8f2a', '-', 'SI');
+INSERT INTO "public"."srp_documentos" VALUES (77, '2022-05-11', 2018, '-', 'ES', 'ASDAS', 2, 1, 1, 1, 18, 456, 'ninguna', 'registrado', 4, 0.00, NULL, '627c732bef258', 'F/555', 'NO');
+INSERT INTO "public"."srp_documentos" VALUES (78, '2022-05-11', 2018, '-', 'ES', 'ASDAS', 2, 1, 1, 1, 18, 456, 'ninguna', 'registrado', 4, 0.00, NULL, '627c73423b6ad', 'F/555', 'NO');
+INSERT INTO "public"."srp_documentos" VALUES (79, '2022-05-11', 2017, 'resumen de la publicacion easdasdask dasd asd asd', 'ES', 'MI MATRICULA', 1, 2, 2, 1, 18, 1, '-', 'registrado', 4, 0.29, '627c73b1079de.pdf', '627c73b1079de', 'F/444', 'NO');
 
 -- ----------------------------
 -- Table structure for srp_especialidades
@@ -980,8 +984,8 @@ CREATE TABLE "public"."srp_tipos" (
 -- ----------------------------
 INSERT INTO "public"."srp_tipos" VALUES (1, 'Tesis');
 INSERT INTO "public"."srp_tipos" VALUES (2, 'Monografia');
-INSERT INTO "public"."srp_tipos" VALUES (3, 'Especialidad');
 INSERT INTO "public"."srp_tipos" VALUES (4, 'Tesina');
+INSERT INTO "public"."srp_tipos" VALUES (3, 'Tesina');
 
 -- ----------------------------
 -- Table structure for srp_ubicacion_documentos
@@ -1025,6 +1029,7 @@ INSERT INTO "public"."usuarios" VALUES (2, 'CQMARCOS1111', '$2y$10$197Z96hhwqVyL
 INSERT INTO "public"."usuarios" VALUES (10, 'PRUEBA1234', '$2y$10$J.7dKU0/IEZkBpIZODp2ZusXWhfvPx6xzjiMFY30eRa7LvnE99tVC', 'PRUEBA', 'PRUEBA', 't', 2);
 INSERT INTO "public"."usuarios" VALUES (11, 'ADMIN1234', '$2y$10$6aG68ShEIOg74wDhnwCPU.m7dkv09/806Ok7X.dHNB4Q2iE0PW8d2', 'ADMIN', 'ADMIN', 't', 1);
 INSERT INTO "public"."usuarios" VALUES (12, 'PRUEBA', '$2y$10$myNmHG9K22Furgvm8ub82ekN0ZFuLbr6b2f3ItNRREPuo5efiYXOK', 'PRUEBA', 'PRUEBA', 'f', 2);
+INSERT INTO "public"."usuarios" VALUES (18, 'CTMARCOS1412', '$2y$10$ZiWordy3wpuUlhRb8E46h.5YLx4OLQ/5JAX/jxLwOPmQgghnHnLBq', 'WILLY MARCOS', 'CHANA TITO', 't', 2);
 
 -- ----------------------------
 -- Table structure for ver_esp
@@ -1093,84 +1098,84 @@ INSERT INTO "public"."versiones" VALUES (19, 'VERSION XXX');
 -- ----------------------------
 ALTER SEQUENCE "public"."archivos_id_archivo_seq"
 OWNED BY "public"."archivos"."id_archivo";
-SELECT setval('"public"."archivos_id_archivo_seq"', 62, true);
+SELECT setval('"public"."archivos_id_archivo_seq"', 63, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."autor_id_autor_seq"
 OWNED BY "public"."srp_autores"."id_autor";
-SELECT setval('"public"."autor_id_autor_seq"', 25, true);
+SELECT setval('"public"."autor_id_autor_seq"', 26, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."srp_categorias"."id_categoria";
-SELECT setval('"public"."categorias_id_categoria_seq"', 13, true);
+SELECT setval('"public"."categorias_id_categoria_seq"', 14, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."especialidades_id_especialidad_seq"
 OWNED BY "public"."srp_especialidades"."id_especialidad";
-SELECT setval('"public"."especialidades_id_especialidad_seq"', 34, true);
+SELECT setval('"public"."especialidades_id_especialidad_seq"', 35, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."srp_documentos"."id_documento";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 76, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 81, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."roles_id_rol_seq"
 OWNED BY "public"."roles"."id_rol";
-SELECT setval('"public"."roles_id_rol_seq"', 10, false);
+SELECT setval('"public"."roles_id_rol_seq"', 11, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."srp_sedes_id_sede_seq"
 OWNED BY "public"."srp_sedes"."id_sede";
-SELECT setval('"public"."srp_sedes_id_sede_seq"', 6, true);
+SELECT setval('"public"."srp_sedes_id_sede_seq"', 7, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."srp_ubicacion_documentos_id_ubicacion_seq"
 OWNED BY "public"."srp_ubicacion_documentos"."id_ubicacion";
-SELECT setval('"public"."srp_ubicacion_documentos_id_ubicacion_seq"', 2, false);
+SELECT setval('"public"."srp_ubicacion_documentos_id_ubicacion_seq"', 3, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."tipos_id_tipo_seq"
 OWNED BY "public"."srp_tipos"."id_tipo";
-SELECT setval('"public"."tipos_id_tipo_seq"', 13, true);
+SELECT setval('"public"."tipos_id_tipo_seq"', 14, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."usuarios_id_usuario_seq"
 OWNED BY "public"."usuarios"."id_usuario";
-SELECT setval('"public"."usuarios_id_usuario_seq"', 17, true);
+SELECT setval('"public"."usuarios_id_usuario_seq"', 19, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."ver_esp_id_ver_esp_seq"
 OWNED BY "public"."ver_esp"."id_ver_esp";
-SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 34, true);
+SELECT setval('"public"."ver_esp_id_ver_esp_seq"', 35, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "public"."verisiones_id_version_seq"
 OWNED BY "public"."versiones"."id_version";
-SELECT setval('"public"."verisiones_id_version_seq"', 24, true);
+SELECT setval('"public"."verisiones_id_version_seq"', 25, true);
 
 -- ----------------------------
 -- Primary Key structure for table archivos
