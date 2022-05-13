@@ -115,7 +115,7 @@ export default {
 								<p>{{detallesArchivo.observaciones}} <span class="timestamp">Observaciones</span></p>
 							</li>
 							<li>
-								<button class="btn btn-info" @click="mostrarDocumento()">Ver Documento en PDF <i class="fa fa-file-pdf-o" ></i></button>
+								<button class="btn btn-info" @click="mostrarDocumento()"  :disabled="estado_boton()">{{detallesArchivo.nombre_archivo != "" &&  detallesArchivo.nombre_archivo != null ? "Ver Documento en PDF" : "Sin Archivo Digital"}}  <i class="fa fa-file-pdf-o" ></i></button>
 							</li>
 							</ul>
 							
@@ -161,6 +161,9 @@ export default {
 
             this.$router.push('/documentos/registar')
 
+        },
+        estado_boton() {
+            return (this.detallesArchivo.nombre_archivo != '' && this.detallesArchivo.nombre_archivo != null) ? false : true
         },
         ...Vuex.mapMutations(['setStateEditarArchivo', 'setStateVerDocumento']),
     },

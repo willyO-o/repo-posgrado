@@ -8,7 +8,7 @@ export default {
 				<h1>Realizar Busquedas</h1>
 				<div class="input-group my-2">
 					<div class="custom-file">
-						<input class="form-control" placeholder="Buscar" v-model="texto_buscar" v-on:keyup.enter="es_filtrado=false,getDataPagina(1)" >
+						<input type="search" class="form-control" placeholder="Buscar" v-model="texto_buscar" v-on:keyup.enter="es_filtrado=false,getDataPagina(1)" >
 					</div>
 					<div class="input-group-append " >
 						<button class="btn btn-outline-secondary border" type="button" @click="es_filtrado=false,getDataPagina(1)"><i class="fas fa-search"></i></button>
@@ -51,7 +51,7 @@ export default {
 								</div>
 								<div class="input-group my-2">
 									<div class="custom-file">
-										<input class="form-control" placeholder="Texto a buscar" v-model="texto_buscar_filtro" v-on:keyup.enter="es_filtrado=true,getDataPagina(1)" >
+										<input type="search" class="form-control" placeholder="Texto a buscar" v-model="texto_buscar_filtro" v-on:keyup.enter="es_filtrado=true,getDataPagina(1)" >
 									</div>
 									<div class="input-group-append " >
 										<button class="btn btn-outline-secondary border" type="button" @click="es_filtrado=true,getDataPagina(1)"><i class="fas fa-search"></i></button>

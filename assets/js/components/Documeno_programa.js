@@ -55,7 +55,6 @@ export default {
 							<div class="col-md-3 col-sm-6">
 								<label class="text-center w-100"> Categoria </label>
 								<select v-model="filtro_id_categoria" class="form-control" >
-									<option value="0"> Todos</option>
 									<option selected :value="categ.id_categoria" v-for="categ in listaCategorias" :key="categ.id_categoria"> {{categ.categoria}} </option>
 								</select>
 							</div>

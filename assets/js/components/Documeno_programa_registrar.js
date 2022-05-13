@@ -236,7 +236,6 @@ export default {
                 id_especialidad: '',
                 id_metadato: '',
                 id_tipo: '',
-                id_ver_esp: '',
                 id_version: '',
                 lenguaje: '',
                 nombre_archivo: '',
@@ -269,7 +268,6 @@ export default {
                 id_especialidad: '',
                 id_metadato: '',
                 id_tipo: '',
-                id_ver_esp: '',
                 id_version: '',
                 lenguaje: '',
                 nombre_archivo: '',
@@ -319,9 +317,7 @@ export default {
             this.file = true
             this.src = base_url + 'archivo/pdf/' + this.datosArchivo.nombre_archivo + '/1'
                 //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
-                // setTimeout(() => {
-                //     this.datosArchivo.id_ver_esp = this.stateEditarArchivo.id_ver_esp
-                // }, 1000);
+
 
             console.log(this.src);
 
@@ -433,7 +429,7 @@ export default {
             if (this.validarCampos()) {
                 let fm = new FormData()
 
-                fm.append('id_ver_esp', this.datosArchivo.id_ver_esp) //
+                fm.append('id_especialidad', this.datosArchivo.id_especialidad) //
                 fm.append('titulo', this.datosArchivo.titulo) //
                 fm.append('resumen', this.datosArchivo.resumen) //
                 fm.append('id_autor', this.datosArchivo.id_autor) //
@@ -521,7 +517,7 @@ export default {
                         Swal.fire({
                             position: 'center',
                             icon: 'error',
-                            title: 'Ocurrio un error, Intente de nuevo catch',
+                            title: 'Ocurrio un error, Intente de nuevo ',
                             showConfirmButton: false,
                             timer: 1500
                         })
@@ -539,12 +535,12 @@ export default {
 
 
 
-            if (this.datosArchivo.id_ver_esp && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
+            if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
                 this.datosArchivo.resumen && this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion && this.datosArchivo.nro_paginas) {
                 return true;
             }
 
-            if (!this.datosArchivo.id_ver_esp || this.datosArchivo == '') {
+            if (!this.datosArchivo.id_especialidad || this.datosArchivo == '') {
                 this.error.id_especialidad = true
 
             }
@@ -606,7 +602,7 @@ export default {
         asignarEditar() {
 
             this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
-            this.datosEditarEspecialidad = { id: this.stateEditarArchivo.id_ver_esp, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
+            this.datosEditarEspecialidad = { id: this.stateEditarArchivo.id_especialidad, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
             this.datosEditarAutor = { id: this.stateEditarArchivo.id_autor, text: this.stateEditarArchivo.nombre_autor + " " + this.stateEditarArchivo.paterno_autor + " " + this.stateEditarArchivo.materno_autor + ", " + this.stateEditarArchivo.ci_autor }
 
         },
@@ -638,7 +634,7 @@ export default {
     },
     watch: {
         id_especialidad: function(val) {
-            this.datosArchivo.id_ver_esp = val;
+            this.datosArchivo.id_especialidad = val;
         },
         id_autor: function(val) {
             this.datosArchivo.id_autor = val

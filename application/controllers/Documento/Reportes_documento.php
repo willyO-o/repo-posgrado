@@ -167,7 +167,7 @@ class Reportes_documento extends CI_Controller
 			$hoja_calculo->setCellValueByColumnAndRow(6, $contador_fila, $row->nombre_autor . " " . $row->paterno_autor . " " . $row->materno_autor);
 			$hoja_calculo->setCellValueByColumnAndRow(7, $contador_fila, $row->es_publico);
 			$hoja_calculo->setCellValueByColumnAndRow(8, $contador_fila, $row->nro_paginas);
-			$hoja_calculo->setCellValueByColumnAndRow(9, $contador_fila, $row->especialidad." VERSION ".$row->version );
+			$hoja_calculo->setCellValueByColumnAndRow(9, $contador_fila, $row->especialidad );
 			$hoja_calculo->setCellValueByColumnAndRow(10, $contador_fila, $row->categoria);
 			$hoja_calculo->setCellValueByColumnAndRow(11, $contador_fila, $row->tipo);
 			$hoja_calculo->setCellValueByColumnAndRow(12, $contador_fila, $row->observaciones);

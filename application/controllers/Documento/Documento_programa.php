@@ -41,6 +41,9 @@ class Documento_programa extends CI_Controller
 	{
 		$this->load->model('autor_model');
 		
+		$this->load->model('especialidad_model');
+		
+		
 		$this->load->library('session');
 		$documento = array(
 			'anio_creacion'	 	=> $this->input->post('anio'),
@@ -48,7 +51,6 @@ class Documento_programa extends CI_Controller
 			'titulo'			=> strtoupper($this->input->post('titulo')),
 			'id_sede'		 	=> $this->input->post('id_sede'),
 			'id_tipo' 			=> $this->input->post('id_tipo'),
-			'id_ver_esp'		=> $this->input->post('id_ver_esp'),
 			'id_categoria'		=> $this->input->post('id_categoria'),
 			'observaciones'		=> $this->input->post('observaciones') != "" ?  $this->input->post('observaciones') : "-",
 			'codigo_documento'	=> $this->input->post('codigo_documento') != "" ? strtoupper($this->input->post('codigo_documento')) : "-",
@@ -76,6 +78,25 @@ class Documento_programa extends CI_Controller
 
 			$this->autor_model->insertar_autores($datos_autor);
 		}
+
+
+		$id_especialidad = $this->input->post('id_especialidad');
+		$existe_especialidad= $this->especialidad_model->verificar_especialidad_id($id_especialidad);
+		if ($existe_especialidad==0) {
+			$especialidad= $this->especialidad_model->listar_especialidad_id_psg($id_especialidad);
+			$datos_especialidad=[
+				"id_especialidad"=>$especialidad->id_planificacion_programa,
+				"especialidad" =>$especialidad->descripcion_grado_academico."  EN  ". $especialidad->nombre_programa,
+				"estado_especialidad" => "REGISTRADO",
+			];
+
+			$this->especialidad_model->set_especialidad($datos_especialidad);
+		}
+
+		$documento["id_autor"]=$id_autor;
+		$documento["id_especialidad"]=$id_especialidad;
+		// echo $id_especialidad; die();
+
 
 
 		if ($this->input->post('actualizar') == 'true') {
@@ -188,8 +209,8 @@ class Documento_programa extends CI_Controller
 				redirect(base_url() . "error404");
 				die();
 			}
-			$this->db->where('nombre', $pdf);
-			$this->db->from('archivos');
+			$this->db->where('nombre_archivo', $pdf);
+			$this->db->from('srp_documentos');
 			if (!$this->db->count_all_results() > 0) {
 				redirect(base_url() . "error404");
 				die();
@@ -200,8 +221,8 @@ class Documento_programa extends CI_Controller
 				redirect(base_url() . "error404/error404Iframe");
 				die();
 			}
-			$this->db->where('nombre', $pdf);
-			$this->db->from('archivos');
+			$this->db->where('nombre_archivo', $pdf);
+			$this->db->from('srp_documentos');
 			if (!$this->db->count_all_results() > 0) {
 				redirect(base_url() . "error404/error404Iframe");
 				die();

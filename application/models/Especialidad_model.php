@@ -36,6 +36,14 @@ class Especialidad_model extends CI_Model
 	}
 
 
+	public function verificar_especialidad_id($id_especialidad)
+	{
+		$this->db->where('id_especialidad', $id_especialidad);
+		$this->db->from('srp_especialidades');
+		return $this->db->count_all_results();
+		
+	}
+
 
 
 
@@ -47,9 +55,9 @@ class Especialidad_model extends CI_Model
 
 	public function set_especialidad($datos)
 	{
-		$this->db->insert('srp_especialidades', $datos);
-		return $this->db->insert_id();
-	}
+		return  $this->db->insert('srp_especialidades', $datos);
+		
+		}
 	public function update_especialidad($datos, int $id_esp)
 	{
 		$this->db->where('id_especialidad', $id_esp);
@@ -63,57 +71,34 @@ class Especialidad_model extends CI_Model
 	}
 
 
-
-	// versiones
-	public function get_versiones()
-	{
-		return $this->db->get('versiones')->result();
-	}
-
-	public function get_version_id(int $id_version)
-	{
-		$this->db->where('id_version', $id_version);
-		return $this->db->get('versiones')->row();
-	}
-
-	public function set_version($datos)
-	{
-		return $this->db->insert('versiones', $datos);
-	}
-	public function update_version($datos, int $id_version)
-	{
-		$this->db->where('id_version', $id_version);
-		return $this->db->update('versiones', $datos);
-	}
-
-	public function delete_version(int $id_version)
-	{
-		$this->db->where('id_version', $id_version);
-		return $this->db->delete('verisiones');
-	}
-
-	//tabla intermedia
-	public function set_ver_esp($datos)
-	{
-		return $this->db->insert('ver_esp', $datos);
-	}
-
-	public function update_ver_esp($datos, int $id_ver_esp)
-	{
-		$this->db->where('id_ver_esp', $id_ver_esp);
-		return $this->db->update('ver_esp', $datos);
-	}
+	// base de datos  psg
 
 	public function buscar_especialidad(string $texto,  $es_filtro = false)
 	{
+		$psg = $this->load->database('psg', TRUE);
+
 		$texto = strtolower($texto);
-		$this->db->select("ver_esp.id_ver_esp as id, especialidad || ' ' || version as text ");
-		$this->db->from('srp_especialidades');
-		$this->db->join('ver_esp', 'ver_esp.id_especialidad = srp_especialidades.id_especialidad', 'left');
-		$this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
-		$this->db->like('LOWER(especialidad)', $texto);
-		$this->db->or_like('LOWER(version)', $texto);
-		$data = $this->db->get()->result();
+
+
+		$psg->select("id_planificacion_programa as id, descripcion_grado_academico||' EN  '||nombre_programa  as text");
+		$psg->from('public.psg_vista_programas');
+		$psg->like("LOWER(descripcion_grado_academico)", $texto);
+		$psg->or_like("LOWER(nombre_programa)", $texto);
+		$psg->or_like("LOWER(descripcion_grado_academico||' '||nombre_programa)", $texto);
+
+		$psg->limit(15);
+
+		$data = $psg->get()->result();
+
+
+		// $texto = strtolower($texto);
+		// $this->db->select("ver_esp.id_ver_esp as id, especialidad || ' ' || version as text ");
+		// $this->db->from('srp_especialidades');
+		// $this->db->join('ver_esp', 'ver_esp.id_especialidad = srp_especialidades.id_especialidad', 'left');
+		// $this->db->join('versiones', 'versiones.id_version = ver_esp.id_version', 'left');
+		// $this->db->like('LOWER(especialidad)', $texto);
+		// $this->db->or_like('LOWER(version)', $texto);
+		// $data = $this->db->get()->result();
 
 		if ($es_filtro) {
 			array_unshift($data, (object)["id" => 0, "text" => "Todos"]);
@@ -121,6 +106,23 @@ class Especialidad_model extends CI_Model
 
 		return $data;
 	}
+
+	public function listar_especialidad_id_psg($id_especialidad)
+	{
+		$psg = $this->load->database('psg', TRUE);
+
+		$psg->select("id_planificacion_programa , descripcion_grado_academico, nombre_programa ");
+		$psg->from('public.psg_vista_programas');
+		$psg->where('id_planificacion_programa', $id_especialidad);
+
+		$especialidad= $psg->get()->row();
+		return $especialidad;
+		
+		
+		
+	}
+
+
 }
 
 /* End of file especialidad_model.php */
