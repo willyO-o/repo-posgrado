@@ -56,10 +56,25 @@ class Documento_programa extends CI_Controller
 
 		);
 
-		$id_autor=	 $this->input->post('id_autor');
+		// $id_autor=	 $this->input->post('id_autor');
+		$id_autor=$this->encryption->decrypt($this->input->post('id_autor'));
+
+		
+
 		$existe_autor= $this->autor_model->verificar_autor($id_autor);
-		if($existe_autor){
-			
+		// echo json_encode($existe_autor); die();
+		if($existe_autor==0){
+			$persona= $this->autor_model->listar_autor_id_psg($id_autor);
+			$datos_autor=[
+				"id_autor"=> $this->encryption->decrypt( $persona->id_persona),
+				"nombre_autor"=>$persona->nombre,
+				"paterno_autor"=>$persona->paterno,
+				"materno_autor"=>$persona->materno,
+				"ci_autor"=>$persona->ci,
+				"grado_academico" => $persona->oficio_trabajo,
+			];
+
+			$this->autor_model->insertar_autores($datos_autor);
 		}
 
 

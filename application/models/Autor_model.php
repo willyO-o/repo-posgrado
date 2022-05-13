@@ -43,15 +43,15 @@ class Autor_model extends CI_Model
 
 	public function insertar_autores($datos_autor)
 	{
-		$this->db->insert('srp_autores', $datos_autor);
-		return $this->db->insert_id();
+		return $this->db->insert('srp_autores', $datos_autor);
+		 
 	}
 
 	public function actualizar_autores($id_autor, $datos_autor)
 	{
 		$this->db->where('id_autor', $id_autor);
 		$this->db->update('srp_autores', $datos_autor);
-		return $this->db->insert_id();
+		return $this->db->affected_rows();
 	}
 
 
@@ -105,9 +105,7 @@ class Autor_model extends CI_Model
 	{
 		$this->db->where('id_autor', $id_autor);
 		$this->db->from('srp_autores');
-		return $this->db->count_all_results();
-
-		
+		return $this->db->count_all_results();		
 	}
 
 	/////////////////********************   autores psg */
@@ -155,13 +153,16 @@ class Autor_model extends CI_Model
 	{
 
 		$psg = $this->load->database('psg', TRUE);
-		$psg->select("id_persona as id, nombre   , paterno ,materno, ci, oficio_trabajo ");
+
+		$psg->select("id_persona , nombre   , paterno ,materno, ci, oficio_trabajo ");
 		$psg->from('principal.psg_persona');
 		$psg->where('id_persona', $id_persona);
 		
 		$persona= $psg->get()->row();
+		
 		$persona->id_persona=$this->encryption->encrypt($persona->id_persona);
 
+		return $persona;
 	}
 
 	

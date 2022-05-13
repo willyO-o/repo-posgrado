@@ -480,7 +480,7 @@ export default {
                         if (res.data.error == 0) {
 
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
                                 title: 'Documento Publicado',
                                 showConfirmButton: false,
@@ -505,7 +505,7 @@ export default {
 
                         } else {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'error',
                                 title: 'Ocurrio un error, Intente de nuevo',
                                 showConfirmButton: false,
@@ -519,7 +519,7 @@ export default {
                         }, 500);
 
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'error',
                             title: 'Ocurrio un error, Intente de nuevo catch',
                             showConfirmButton: false,
