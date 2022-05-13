@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=srp',
+	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=srp_fin',
 	'hostname' => 'localhost',
 	'username' => 'postgres',
 	'password' => 'root',
-	'database' => 'srp',
+	'database' => 'srp_fin',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

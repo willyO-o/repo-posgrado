@@ -45,6 +45,24 @@ class Especialidad_model extends CI_Model
 	}
 
 
+	
+	public function buscar_especialidad(string $texto,  $es_filtro = false)
+	{
+
+
+
+		$texto = strtolower($texto);
+		$this->db->select("id_especialidad as id, especialidad  as text ");
+		$this->db->from('srp_especialidades');
+		$this->db->like('LOWER(especialidad)', $texto);
+		$data = $this->db->get()->result();
+
+		if ($es_filtro) {
+			array_unshift($data, (object)["id" => 0, "text" => "Todos"]);
+		}
+
+		return $data;
+	}
 
 
 	public function get_especialidad_id(int $id_esp)
@@ -73,7 +91,7 @@ class Especialidad_model extends CI_Model
 
 	// base de datos  psg
 
-	public function buscar_especialidad(string $texto,  $es_filtro = false)
+	public function buscar_especialidad_psg(string $texto,  $es_filtro = false)
 	{
 		$psg = $this->load->database('psg', TRUE);
 

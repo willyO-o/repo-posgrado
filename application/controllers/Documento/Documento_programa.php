@@ -16,15 +16,15 @@ class Documento_programa extends CI_Controller
 
 	public function documento_programa_filtrar_datos_ajax()
 	{
-		$datos['id_categoria'] = $this->input->post('id_categoria');
-		$datos['id_tipo_documento'] = $this->input->post('id_tipo');
-		$datos['id_autor'] = $this->input->post('id_autor');
-		$datos['id_especialidad'] = $this->input->post('id_especialidad');
-		$datos['texto_buscar'] = $this->input->post('texto_buscar');
+		$filtros['id_categoria'] = $this->input->post('id_categoria');
+		$filtros['id_tipo_documento'] = $this->input->post('id_tipo');
+		$filtros['id_autor'] =$this->encryption->decrypt( $this->input->post('id_autor'));
+		$filtros['id_especialidad'] = $this->input->post('id_especialidad');
+		$filtros['texto_buscar'] = $this->input->post('texto_buscar');
 		$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') ? $this->input->post('ofset') : 0;
 
-		$data = $this->documento_model->filtrar_datos($datos, $limit, $ofset);
+		$data = $this->documento_model->filtrar_datos($filtros, $limit, $ofset);
 
 		echo json_encode($data);
 	}
@@ -253,7 +253,7 @@ class Documento_programa extends CI_Controller
 
 		$texto = $this->input->post('term');
 
-		$data = $this->especialidad_model->buscar_especialidad($texto);
+		$data = $this->especialidad_model->buscar_especialidad_psg($texto);
 		echo json_encode($data);
 	}
 
@@ -264,7 +264,7 @@ class Documento_programa extends CI_Controller
 
 		$texto = $this->input->post('term');
 
-		$data = $this->autor_model->buscar_autor($texto);
+		$data = $this->autor_model->buscar_autor_psg($texto);
 		echo json_encode($data);
 	}
 

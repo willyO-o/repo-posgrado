@@ -16,6 +16,31 @@ class Autor_model extends CI_Model
 		return $this->db->get('srp_autores');
 	}
 
+	public function buscar_autor($texto,  $es_filtro = false)
+	{
+
+		$this->db->select("id_autor as id, nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor|| ', ' || ci_autor as text");
+		$this->db->from('srp_autores');
+		$this->db->like("LOWER(nombre_autor)", $texto);
+		$this->db->or_like("LOWER(paterno_autor)", $texto);
+		$this->db->or_like("LOWER(materno_autor)", $texto);
+		$this->db->or_like("LOWER(ci_autor)", $texto);
+		$this->db->or_like("LOWER(nombre_autor || ' '|| paterno_autor || ' ' ||materno_autor)", $texto);
+
+		$data = $this->db->get()->result();
+		$array_aux = [];
+		foreach ($data as $persona) {
+			$persona->id = $this->encryption->encrypt($persona->id);
+			$array_aux[] = $persona;
+		}
+
+		if ($es_filtro) {
+			array_unshift($array_aux, (object)["id" => 0, "text" => "Todos"]);
+		}
+
+		return $data;
+	}
+
 	public function filtrar_autores($limit, $ofset, $palabra_buscar)
 	{
 		$palabra_buscar = strtolower($palabra_buscar);
@@ -44,7 +69,6 @@ class Autor_model extends CI_Model
 	public function insertar_autores($datos_autor)
 	{
 		return $this->db->insert('srp_autores', $datos_autor);
-		 
 	}
 
 	public function actualizar_autores($id_autor, $datos_autor)
@@ -105,12 +129,12 @@ class Autor_model extends CI_Model
 	{
 		$this->db->where('id_autor', $id_autor);
 		$this->db->from('srp_autores');
-		return $this->db->count_all_results();		
+		return $this->db->count_all_results();
 	}
 
 	/////////////////********************   autores psg */
 
-	public function buscar_autor($texto,  $es_filtro = false)
+	public function buscar_autor_psg($texto,  $es_filtro = false)
 	{
 		$psg = $this->load->database('psg', TRUE);
 
@@ -136,10 +160,10 @@ class Autor_model extends CI_Model
 		// $this->db->or_like("LOWER(materno_autor)", $texto);
 		// $this->db->or_like("LOWER(ci_autor)", $texto);
 		// $data = $this->db->get()->result();
-		$array_aux=[];
+		$array_aux = [];
 		foreach ($data as $persona) {
-			$persona->id= $this->encryption->encrypt($persona->id);
-			$array_aux[]=$persona;
+			$persona->id = $this->encryption->encrypt($persona->id);
+			$array_aux[] = $persona;
 		}
 
 		if ($es_filtro) {
@@ -157,15 +181,13 @@ class Autor_model extends CI_Model
 		$psg->select("id_persona , nombre   , paterno ,materno, ci, oficio_trabajo ");
 		$psg->from('principal.psg_persona');
 		$psg->where('id_persona', $id_persona);
-		
-		$persona= $psg->get()->row();
-		
-		$persona->id_persona=$this->encryption->encrypt($persona->id_persona);
+
+		$persona = $psg->get()->row();
+
+		$persona->id_persona = $this->encryption->encrypt($persona->id_persona);
 
 		return $persona;
 	}
-
-	
 }
 
 /* End of file Autor_model.php */
