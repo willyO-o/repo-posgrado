@@ -9,7 +9,6 @@ class Especialidad_programa extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('especialidad_model');
-		$this->request = json_decode(file_get_contents('php://input'));
 	}
 
 	public function index()
@@ -23,78 +22,84 @@ class Especialidad_programa extends CI_Controller
 
 	public function especialidad_programa_listar_especialidades_ajax()
 	{
-		$limit=$this->input->post('limit') !=null ? $limit=$this->input->post('limit') : 10;
-		$ofset=$this->input->post('ofset') != null ? $this->input->post('ofset') : 0 ;
-		$palabra_buscar=$this->input->post('palabra_buscar');
+		$limit = $this->input->post('limit') != null ? $limit = $this->input->post('limit') : 10;
+		$ofset = $this->input->post('ofset') != null ? $this->input->post('ofset') : 0;
+		$palabra_buscar = $this->input->post('palabra_buscar');
 
-		$data= $this->especialidad_model->filtrar_especialidades($limit,$ofset,$palabra_buscar);
+		$data = $this->especialidad_model->filtrar_especialidades($limit, $ofset, $palabra_buscar);
 
 		echo json_encode($data);
 	}
 
-	public function save()
+	public function especialidad_programa_registrar()
 	{
-		// echo json_encode($this->request);
-		// exit();
 
-		$datos = array(
-			'especialidad' => strtoupper($this->request->espec),
+		$this->load->library('form_validation');
+
+
+
+
+		$this->form_validation->set_rules(
+			'especialidad',
+			'Especialidad',
+			'required',
+			['required' => 'El campo %s. es requerido']
 		);
-		$id_version = $this->request->id_version;
-		$id_especialidad = $this->especialidad_model->set_especialidad($datos);
-		if ($id_especialidad) {
-			$data = array('id_especialidad' =>  $id_especialidad, 'id_version' => $id_version);
-			if ($this->especialidad_model->set_ver_esp($data)) {
-				$respuesta['respuesta'] = true;
-			} else {
-				$respuesta['respuesta'] = false;
-			}
-		} else {
-			$respuesta['respuesta'] = false;
-		}
 
-		echo json_encode($respuesta);
-	}
 
-	public function update()
-	{
-		// echo json_encode($this->request);
-		// die();
-
-		$id_especialidad = $this->request->id;
-		$datos = array(
-			'especialidad' => strtoupper($this->request->espec),
-		);
-		$id_version = $this->request->id_version;
-		$id_ver_esp = $this->request->id_ver_esp;
-
-		if ($this->especialidad_model->update_especialidad($datos, $id_especialidad)) {
-
-			$data = array(
-				'id_especialidad' =>  $id_especialidad,
-				'id_version' => $id_version
+		if ($this->form_validation->run()) {
+			$accion = $this->input->post('accion');
+			$datos = array(
+				'especialidad' => strtoupper($this->input->post("especialidad")),
 			);
-			if ($this->especialidad_model->update_ver_esp($data, $id_ver_esp)) {
-				$respuesta['respuesta'] = true;
+			if ($accion == "nuevo") {
+
+				$resultado = $this->especialidad_model->set_especialidad($datos,true);
+				if ($resultado) {
+					$respuesta = [
+						"exito" => true,
+						"mensaje" => "Programa Registrado Exitosamente."
+					];
+				} else {
+					$respuesta = [
+						"exito" => false,
+						"mensaje" => "Ocurrio un error, intente nuevamente."
+					];
+				}
 			} else {
-				$respuesta['respuesta'] = false;
+				$id_especialidad=$this->input->post('id_especialidad');
+				
+				$resultado = $this->especialidad_model->update_especialidad($id_especialidad,$datos);
+				if ($resultado) {
+					$respuesta = [
+						"exito" => true,
+						"mensaje" => "Programa Actualizado Exitosamente."
+					];
+				} else {
+					$respuesta = [
+						"exito" => false,
+						"mensaje" => "Ocurrio un error, intente nuevamente."
+					];
+				}
 			}
 		} else {
-			$respuesta['respuesta'] = false;
+			$respuesta = [
+				"exito" => false,
+				"mensaje" => validation_errors(),
+			];
 		}
+
 
 		echo json_encode($respuesta);
 	}
 
-	public function delete()
-	{
-		$id_especialidad = $this->request->id_especialidad;
 
-		if ($this->especialidad_model->delete_especialidad($id_especialidad)) {
-			$respuesta['respuesta'] = true;
-		} else {
-			$respuesta['respuesta'] = false;
-		}
+
+	public function especialidad_programa_eliminar()
+	{
+		$id_especialidad = $this->input->post('id_especialidad');
+		
+		$respuesta["exito"]=$this->especialidad_model->delete_especialidad($id_especialidad);
 		echo json_encode($respuesta);
 	}
 
@@ -127,15 +132,15 @@ class Especialidad_programa extends CI_Controller
 		$datos = array(
 			'version' => strtoupper($this->request->version),
 		);
-		$id_version=$this->request->id_version;
-		$resultado = $this->especialidad_model->update_version($datos,$id_version);
+		$id_version = $this->request->id_version;
+		$resultado = $this->especialidad_model->update_version($datos, $id_version);
 		$respuesta['error'] = ($resultado) ? false : true;
 
 		echo json_encode($respuesta);
 	}
 	public function deleteVersion()
 	{
-		$id_version=$this->request->id_version;
+		$id_version = $this->request->id_version;
 		$resultado = $this->especialidad_model->delete_version($id_version);
 		$respuesta['error'] = ($resultado) ? false : true;
 		echo json_encode($respuesta);

@@ -37,8 +37,9 @@ class Reportes_documento extends CI_Controller
 		$limit = $this->input->post('limit') != null ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') != null ? $this->input->post('ofset') : 0;
 
+		$es_admin=$this->session->userdata("id_rol") == 1 ? true: false;
 
-		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, 0, $ofset);
+		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, 0, $ofset, $es_admin);
 
 
 		if ($accion == "pdf") {

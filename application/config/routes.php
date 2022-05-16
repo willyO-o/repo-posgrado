@@ -87,6 +87,8 @@ $route['documento/reporte'] = 'Documento/Reportes_documento/reportes_documento_g
 $route['archivo/pdf/(:any)/(:any)'] = 'Documento/Documento_programa/documento_programa_ver_archivo_pdf/$1/$2';
 
 
+$route['especialidad/registrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_registrar';
+$route['especialidad/eliminar'] = 'Especialidad/Especialidad_programa/especialidad_programa_eliminar';
 
 
 

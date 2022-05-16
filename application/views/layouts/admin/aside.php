@@ -14,7 +14,7 @@
 					</li>
 				<?php endif ?>
 				<li>
-					<router-link to="/especialidades" ><i class="ti-widget"></i> <span class="title">Especialidades</span></router-link>
+					<router-link to="/especialidades" ><i class="ti-widget"></i> <span class="title">Programas</span></router-link>
 				</li>
 				<li>
 					<router-link to="/autores" ><i class="ti-widget"></i> <span class="title">Autores</span></router-link>

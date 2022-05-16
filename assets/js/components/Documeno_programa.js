@@ -37,7 +37,7 @@ export default {
 						<legend class="w-auto px-3">Filtrar</legend>
 						<div class="row">
 							<div class="col-md-3 col-sm-6">
-								<label class="text-center w-100"> Especialidad</label>
+								<label class="text-center w-100"> Programa</label>
 								<Select2Ajax :url="url_especialidad" v-model="filtro_id_especialidad"  class="form-control" />
 							</div>
 							<div class="col-md-3 col-sm-6">
@@ -85,41 +85,60 @@ export default {
 					</div>
 					
 				
-					<table id="tabla" class="table table-striped">
-						<thead class="thead-light">
-							<tr>
-								<th>#</th>
-								<th style="width: 50% !important;">Titulo</th>
-								<th>Autor</th>
-								<th>Acciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(item,index) of listaArchivos" :key="item.id_documento">
-								<td>{{index + indicePagina()+1 }}</td>
-								<td>{{item.titulo}}...</td>
-								<td>{{item.nombre_autor}} {{item.paterno_autor}} {{item.materno_autor}}</td>
-								<td>
-									<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_documento)"></i>
-									<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_documento)"></i>
-									<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
-								</td>
-							</tr>
-							<tr v-if="totalResultadosQuery==0">
-								<td colspan="4" class="text-center">No se encontraron Resultados</td>
+					<div class="table-responsive-md">
+						<table id="tabla-documentos" class="table table-striped">
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th style="width: 30% !important;">Titulo</th>
+									<th>Autor</th>
+									<th> Año</th>
 
-							</tr>
-						</tbody>
-						<thead class="thead-light">
-							<tr>
-								<th>#</th>
-								<th style="width: 50% !important;">Titulo</th>
-								<th>Autor</th>
-								<th>Acciones</th>
-							</tr>
-						</thead>
-					</table>
-					<div class="paginador" id="paginador">
+									<th># <br> Paginas</th>
+									<th>tipo</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(item,index) of listaArchivos" :key="item.id_documento">
+									<td>{{index + indicePagina()+1 }}</td>
+									<td>{{item.titulo}}</td>
+									<td>{{item.nombre_autor}} {{item.paterno_autor}} {{item.materno_autor}}</td>
+									<td>{{item.anio_creacion}}</td>
+
+									<td>{{item.nro_paginas}}</td>
+
+									<td>{{item.tipo}}</td>
+
+
+									<td>
+										<i class="icon-list ti-eye text-primary" @click="verDetallesArchivo(item.id_documento)"></i>
+										<i class="icon-list ti-pencil text-warning mx-2" @click="setEditarDocumento(item.id_documento)"></i>
+										<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
+									</td>
+								</tr>
+								<tr v-if="totalResultadosQuery==0">
+									<td colspan="4" class="text-center">No se encontraron Resultados</td>
+
+								</tr>
+							</tbody>
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th style="width: 50% !important;">Titulo</th>
+									<th>Autor</th>
+									<th> Año</th>
+
+									<th># <br> Paginas</th>
+
+									<th>tipo</th>
+
+									<th>Acciones</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="paginador mt-3" id="paginador">
 						<nav aria-label="Page navigation example" v-if="totalResultados()!=0">
 							<ul class="pagination">
 								<li class="page-item " :class="esDisableAnterior()" @click="botonAnterior()">

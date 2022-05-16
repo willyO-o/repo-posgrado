@@ -17597,4 +17597,6 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom: 0 !important;
 }
 
-
+#tabla-documentos td {
+    font-size: 10px;
+}

@@ -11,11 +11,14 @@ class Documento_model extends CI_Model
 	{
 		$filtros = (object)$filtros;
 		$this->db->start_cache();
-		$this->db->select('SUBSTRING( titulo,0,70) as titulo, anio_creacion, resumen,  
-							anio_creacion, fecha_publicacion,   sede_ciudad as sede,   id_documento , nombre_autor, paterno_autor, materno_autor ');
+		$this->db->select(' titulo, anio_creacion, resumen,  
+							anio_creacion, fecha_publicacion,   sede_ciudad as sede, tipo, anio_creacion,nro_paginas,  id_documento , nombre_autor, paterno_autor, materno_autor ');
 		$this->db->from('srp_documentos');
-		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'inner');
-		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'inner');
+		$this->db->join('srp_autores', 'srp_autores.id_autor = srp_documentos.id_autor', 'left');
+		$this->db->join('srp_sedes', 'srp_sedes.id_sede = srp_documentos.id_sede', 'left');
+		$this->db->join('srp_tipos', 'srp_tipos.id_tipo = srp_documentos.id_tipo', 'left');
+
+		
 
 
 		if (!$es_admin) {
@@ -28,7 +31,7 @@ class Documento_model extends CI_Model
 		}
 
 		if ($filtros->id_especialidad != 0) {
-			$this->db->where('srp_documentos.id_ver_esp', $filtros->id_especialidad);
+			$this->db->where('srp_documentos.id_especialidad', $filtros->id_especialidad);
 		}
 		if ($filtros->id_categoria != 0) {
 			$this->db->where('srp_documentos.id_categoria', $filtros->id_categoria);
@@ -80,7 +83,7 @@ class Documento_model extends CI_Model
 		}
 
 		if ($filtros->id_especialidad != 0) {
-			$this->db->where('srp_documentos.id_ver_esp', $filtros->id_especialidad);
+			$this->db->where('srp_documentos.id_especialidad', $filtros->id_especialidad);
 		}
 		if ($filtros->id_categoria != 0) {
 			$this->db->where('srp_documentos.id_categoria', $filtros->id_categoria);
@@ -126,6 +129,7 @@ class Documento_model extends CI_Model
 		$this->db->where('srp_documentos.id_documento', $id_documento);
 
 		$resultado = $this->db->get()->row();
+		$resultado->id_autor= $this->encryption->encrypt($resultado->id_autor);
 
 		return $resultado;
 	}

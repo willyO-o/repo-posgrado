@@ -24,7 +24,8 @@ class Documento_programa extends CI_Controller
 		$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') ? $this->input->post('ofset') : 0;
 
-		$data = $this->documento_model->filtrar_datos($filtros, $limit, $ofset);
+		$es_admin=$this->session->userdata("id_rol") == 1 ? true: false;
+		$data = $this->documento_model->filtrar_datos($filtros, $limit, $ofset,$es_admin);
 
 		echo json_encode($data);
 	}

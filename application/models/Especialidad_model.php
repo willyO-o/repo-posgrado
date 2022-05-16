@@ -13,24 +13,26 @@ class Especialidad_model extends CI_Model
 		return $this->db->get()->result();
 	}
 
-	public function filtrar_especialidades($limit,$ofset,$palabra_buscar)
+	public function filtrar_especialidades($limit, $ofset, $palabra_buscar)
 	{
-		$palabra_buscar=strtolower($palabra_buscar);
+		$palabra_buscar = strtolower($palabra_buscar);
 		$this->db->start_cache();
 		$this->db->from('srp_especialidades');
+		$this->db->where('estado_especialidad !=', "ELIMINADO");
 		
-		if ($palabra_buscar!='') {
+
+		if ($palabra_buscar != '') {
 			$this->db->like('LOWER(especialidad)', $palabra_buscar);
 		}
 
-		$this->db->order_by('id_especialidad', 'desc');
 		$this->db->stop_cache();
 		$resultado["total_resultados"] = $this->db->count_all_results();
+		$this->db->order_by('id_especialidad', 'desc');
 
 		$this->db->limit($limit, $ofset);
+
 		$resultado["especialidades"] = $this->db->get()->result();
-		$resultado["q"]=$this->db->last_query();
-		
+
 		$this->db->flush_cache();
 		return $resultado;
 	}
@@ -41,12 +43,17 @@ class Especialidad_model extends CI_Model
 		$this->db->where('id_especialidad', $id_especialidad);
 		$this->db->from('srp_especialidades');
 		return $this->db->count_all_results();
-		
+	}
+
+	public function verificar_nombre_especialidad($especialidad)
+	{
+		$this->db->where('especialidad', $especialidad);
+		$this->db->from('srp_especialidades');
+		return $this->db->count_all_results();
 	}
 
 
-	
-	public function buscar_especialidad(string $texto,  $es_filtro = false)
+	public function buscar_especialidad( $texto,  $es_filtro = false)
 	{
 
 
@@ -71,21 +78,31 @@ class Especialidad_model extends CI_Model
 		return $this->db->get('srp_especialidades')->row();
 	}
 
-	public function set_especialidad($datos)
+	public function set_especialidad($datos, $es_manual = false)
 	{
-		return  $this->db->insert('srp_especialidades', $datos);
-		
+		if ($es_manual) {
+			$this->db->set('id_especialidad', "nextval('serial_especialidades')", FALSE); //false escape
+			$this->db->set('especialidad', $datos["especialidad"]);
+			$this->db->set('estado_especialidad', "REGISTRADO");
+			return  $this->db->insert('srp_especialidades');
+		} else {
+			return $this->db->insert('srp_especialidades', $datos);
+			
 		}
-	public function update_especialidad($datos, int $id_esp)
+	}
+	public function update_especialidad($id_esp, $datos)
 	{
 		$this->db->where('id_especialidad', $id_esp);
 		return $this->db->update('srp_especialidades', $datos);
 	}
 
-	public function delete_especialidad(int $id_esp)
+	public function delete_especialidad( $id_esp)
 	{
 		$this->db->where('id_especialidad', $id_esp);
-		return $this->db->delete('srp_especialidades');
+		$this->db->update('srp_especialidades', ["estado_especialidad"=>"ELIMINADO"]);
+		
+		return $this->db->affected_rows();
+		
 	}
 
 
@@ -98,7 +115,7 @@ class Especialidad_model extends CI_Model
 		$texto = strtolower($texto);
 
 
-		$psg->select("id_planificacion_programa as id, descripcion_grado_academico||' EN  '||nombre_programa  as text");
+		$psg->select("id_planificacion_programa as id, descripcion_grado_academico||' EN  '||nombre_programa as text");
 		$psg->from('public.psg_vista_programas');
 		$psg->like("LOWER(descripcion_grado_academico)", $texto);
 		$psg->or_like("LOWER(nombre_programa)", $texto);
@@ -133,14 +150,9 @@ class Especialidad_model extends CI_Model
 		$psg->from('public.psg_vista_programas');
 		$psg->where('id_planificacion_programa', $id_especialidad);
 
-		$especialidad= $psg->get()->row();
+		$especialidad = $psg->get()->row();
 		return $especialidad;
-		
-		
-		
 	}
-
-
 }
 
 /* End of file especialidad_model.php */
