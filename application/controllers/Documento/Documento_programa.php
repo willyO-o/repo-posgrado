@@ -10,6 +10,8 @@ class Documento_programa extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('control_sesion_model');
+
 		$this->load->model('documento_model');
 	}
 
@@ -75,6 +77,7 @@ class Documento_programa extends CI_Controller
 				"materno_autor"=>$persona->materno,
 				"ci_autor"=>$persona->ci,
 				"grado_academico" => $persona->oficio_trabajo,
+				"estado_autor" => "REGISTRADO",
 			];
 
 			$this->autor_model->insertar_autores($datos_autor);

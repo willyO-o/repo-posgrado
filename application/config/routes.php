@@ -55,16 +55,38 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 
-//admin
+//admin for vue router
 $route['admin'] = 'principal/admin';
+$route['admin/users'] = 'principal/admin';
+$route['admin/especialidades'] = 'principal/admin';
+$route['admin/autores'] = 'principal/admin';
+$route['admin/documentos/registar'] = 'principal/admin';
+$route['admin/documentos/listar'] = 'principal/admin';
+
+
+// publico for vue router 
+$route['login'] = 'principal';
+$route['search'] = 'principal';
+$route['document/(:any)'] = 'principal';
+$route['document/full/(:any)'] = 'principal';
+
+
+
+
+
+
+// admin ajax
 
 $route['autor/listar'] = 'Autor/Autor_programa/autor_programa_listar_ajax';
 
+
 $route['autor/registrar'] = 'Autor/Autor_programa/autor_programa_registrar';
+$route['autor/eliminar'] = 'Autor/Autor_programa/autor_programa_eliminar';
+$route['autor/reporte'] = 'Autor/Reportes_autor/reportes_autor_generar_reporte';
 
 
 
-$route['especialidad/filtrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_listar_especialidades_ajax';
+
 
 
 
@@ -89,6 +111,7 @@ $route['archivo/pdf/(:any)/(:any)'] = 'Documento/Documento_programa/documento_pr
 
 $route['especialidad/registrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_registrar';
 $route['especialidad/eliminar'] = 'Especialidad/Especialidad_programa/especialidad_programa_eliminar';
+$route['especialidad/filtrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_listar_especialidades_ajax';
 
 
 
@@ -97,7 +120,7 @@ $route['especialidad/eliminar'] = 'Especialidad/Especialidad_programa/especialid
 
 
 
-//  publico
+//  publico ajax
 
 $route['publico/listar_parametros'] = 'Publico/Principal_publico/principal_publico_listar_parametros_ajax';
 $route['publico/listar_documentos'] = 'Publico/Principal_publico/principal_publico_listar_documentos_ajax';

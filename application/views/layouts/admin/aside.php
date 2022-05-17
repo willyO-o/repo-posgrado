@@ -6,25 +6,25 @@
 				<li class="menu-group">Mi Panel</li>
 
 				<li>
-					<router-link to="/"><i class="ti-home"></i> <span class="title">Inicio</span></router-link>
+					<router-link to="/admin"><i class="ti-home"></i> <span class="title">Inicio</span></router-link>
 				</li>
 				<?php if ($usuario['id_rol'] == 1) : ?>
 					<li>
-						<router-link to="/users"><i class="ti-user"></i> <span class="title">Usuarios</span></router-link>
+						<router-link to="/admin/users"><i class="ti-user"></i> <span class="title">Usuarios</span></router-link>
 					</li>
 				<?php endif ?>
 				<li>
-					<router-link to="/especialidades" ><i class="ti-widget"></i> <span class="title">Programas</span></router-link>
+					<router-link to="/admin/especialidades" ><i class="ti-widget"></i> <span class="title">Programas</span></router-link>
 				</li>
 				<li>
-					<router-link to="/autores" ><i class="ti-widget"></i> <span class="title">Autores</span></router-link>
+					<router-link to="/admin/autores" ><i class="ti-widget"></i> <span class="title">Autores</span></router-link>
 				</li>
 				<li class="menu-group">Documentos</li>
 				<li>
-					<router-link to="/documentos/registar"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
+					<router-link to="/admin/documentos/registar"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
 				</li>
 				<li>
-					<router-link to="/documentos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Documento</span></router-link>
+					<router-link to="/admin/documentos/listar"><i class="ti-list-ol"></i> <span class="title">Listar Documento</span></router-link>
 				</li>
 
 				<!-- <li class="panel">

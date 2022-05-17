@@ -29,7 +29,7 @@ export default {
 		<div class="card mb-0">
 			<div class="card-header d-flex justify-content-between">
 				<h3 class="card-title mt-2">Listado de Documentos</h3>
-				<router-link to="/documentos/registar" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
+				<router-link to="/admin/documentos/registar" class="btn btn-primary"><i class="ti-export"></i> <span class="title">Publicar Documento</span></router-link>
 			</div>
 			<div class="card-body">
 				<!-- table-responsive-->
@@ -418,7 +418,7 @@ export default {
         irEditar() {
 
             $('#modal').modal('hide')
-            this.$router.push('/documentos/registar')
+            this.$router.push('/admin/documentos/registar')
 
         },
         totalResultados() {
@@ -459,7 +459,6 @@ export default {
             axios.post(this.url + "documento/listar_id", fm)
                 .then(res => {
 
-                    console.log(res.data);
                     this.detallesArchivo = Object.assign({}, res.data.documento);
                     this.setStateEditarArchivo(this.detallesArchivo);
                     this.irEditar();

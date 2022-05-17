@@ -8,6 +8,8 @@ class Especialidad_programa extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('control_sesion_model');
+
 		$this->load->model('especialidad_model');
 	}
 
@@ -54,6 +56,7 @@ class Especialidad_programa extends CI_Controller
 			);
 			if ($accion == "nuevo") {
 
+				$datos["estado_especialidad"]="REGISTRADO";
 				$resultado = $this->especialidad_model->set_especialidad($datos,true);
 				if ($resultado) {
 					$respuesta = [
@@ -68,6 +71,7 @@ class Especialidad_programa extends CI_Controller
 				}
 			} else {
 				$id_especialidad=$this->input->post('id_especialidad');
+				$datos["estado_especialidad"]="ACTUALIZADO";
 				
 				$resultado = $this->especialidad_model->update_especialidad($id_especialidad,$datos);
 				if ($resultado) {

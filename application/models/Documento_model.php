@@ -217,6 +217,8 @@ class Documento_model extends CI_Model
 	public function verificar_codigo($codigo_documento)
 	{
 		$this->db->where('uuid', $codigo_documento);
+		$this->db->where('es_publico', "SI");
+		
 		return $this->db->count_all_results("srp_documentos");
 	}
 

@@ -38,7 +38,7 @@ class Autor_model extends CI_Model
 			array_unshift($array_aux, (object)["id" => 0, "text" => "Todos"]);
 		}
 
-		return $data;
+		return $array_aux;
 	}
 
 	public function filtrar_autores($limit, $ofset, $palabra_buscar)
@@ -46,7 +46,8 @@ class Autor_model extends CI_Model
 		$palabra_buscar = strtolower($palabra_buscar);
 		$this->db->start_cache();
 		$this->db->from('srp_autores');
-
+		$this->db->where('estado_autor !=', "ELIMINADO");
+		
 		if ($palabra_buscar != '') {
 			$this->db->like('LOWER(nombre_autor)', $palabra_buscar);
 			$this->db->or_like('LOWER(paterno_autor)', $palabra_buscar);
@@ -54,9 +55,9 @@ class Autor_model extends CI_Model
 			$this->db->or_like('ci_autor', $palabra_buscar);
 		}
 
-		$this->db->order_by('id_autor', 'desc');
 		$this->db->stop_cache();
 		$resultado["total_resultados"] = $this->db->count_all_results();
+		$this->db->order_by('id_autor', 'desc');
 
 		$this->db->limit($limit, $ofset);
 		$resultado["autores"] = $this->db->get()->result();
@@ -66,9 +67,23 @@ class Autor_model extends CI_Model
 		return $resultado;
 	}
 
-	public function insertar_autores($datos_autor)
+	public function insertar_autores($datos_autor, $es_manual=false)
 	{
-		return $this->db->insert('srp_autores', $datos_autor);
+		if ($es_manual) {
+			$this->db->set('id_autor', "nextval('serial_autores_manual')", FALSE); //false escape
+			$this->db->set('nombre_autor', $datos_autor["nombre_autor"]);
+			$this->db->set('ci_autor', $datos_autor["ci_autor"]);
+			$this->db->set('paterno_autor', $datos_autor["paterno_autor"]);
+			$this->db->set('materno_autor', $datos_autor["materno_autor"]);
+			$this->db->set('grado_academico', $datos_autor["grado_academico"]);
+			$this->db->set('estado_autor', $datos_autor["estado_autor"]);
+
+
+			return $this->db->insert("srp_autores");
+		} else {
+			return $this->db->insert('srp_autores', $datos_autor);
+		}
+		
 	}
 
 	public function actualizar_autores($id_autor, $datos_autor)
@@ -77,6 +92,7 @@ class Autor_model extends CI_Model
 		$this->db->update('srp_autores', $datos_autor);
 		return $this->db->affected_rows();
 	}
+
 
 
 
@@ -104,6 +120,7 @@ class Autor_model extends CI_Model
 	{
 		$palabra_buscar = strtolower($palabra_buscar);
 		$this->db->start_cache();
+		$this->db->select('*');
 		$this->db->from('srp_autores');
 
 		if ($palabra_buscar != '') {
@@ -113,13 +130,12 @@ class Autor_model extends CI_Model
 			$this->db->or_like('ci_autor', $palabra_buscar);
 		}
 
-		$this->db->order_by('id_autor', 'desc');
 		$this->db->stop_cache();
 		$resultado["total_resultados"] = $this->db->count_all_results();
+		$this->db->order_by('id_autor', 'desc');
 
-		$this->db->limit($limit, $ofset);
-		$resultado["autores"] = $this->db->get()->result();
-		$resultado["q"] = $this->db->last_query();
+		// $this->db->limit($limit, $ofset);
+		$resultado= $this->db->get()->result();
 
 		$this->db->flush_cache();
 		return $resultado;

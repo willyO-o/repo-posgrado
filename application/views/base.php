@@ -21,7 +21,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
 						<li>
-                <router-link to="/"  class="breadcrumb-item">
+                <router-link to="/admin"  class="breadcrumb-item">
 								<i class="fa fa-home"></i> <span class="title">Inicio</span>
 								</router-link>
             </li>

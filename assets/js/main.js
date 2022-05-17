@@ -1,5 +1,3 @@
-
-
 const Tablero_estadisticas = () =>
     import ('./components/Tablero_estadisticas.js');
 const User = () =>
@@ -19,33 +17,33 @@ const Pagina_404 = () =>
 
 
 const routes = [{
-        path: '/',
+        path: '/admin',
         component: Tablero_estadisticas
     },
     {
-        path: '/users',
+        path: '/admin/users',
         component: User
     },
     {
-        path: '/especialidades',
+        path: '/admin/especialidades',
         component: Especialidad_programa
     },
     {
-        path: '/documentos/registar',
+        path: '/admin/documentos/registar',
         component: Documeno_programa_registrar,
 
     },
     {
-        path: '/documentos/listar',
+        path: '/admin/documentos/listar',
         component: Documeno_programa,
 
     },
     {
-        path: '/autores',
+        path: '/admin/autores',
         component: Autor_programa,
 
     },
-	
+
     {
         path: "*",
         component: Pagina_404
@@ -54,7 +52,7 @@ const routes = [{
 
 //router
 const router = new VueRouter({
-    //mode:'history',
+    mode: 'history',
     routes
 })
 

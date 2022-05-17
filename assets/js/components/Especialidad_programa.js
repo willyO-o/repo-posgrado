@@ -90,7 +90,7 @@ export default {
 				
 		
 										<td>
-											<i class="icon-list ti-pencil text-warning mx-2" @click="set_editar_especialidad(item)"></i>
+											<i class="icon-list ti-pencil text-warning mx-2" @click="mostrarModal(item)"></i>
 											<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
 										</td>
 									</tr>
@@ -270,7 +270,15 @@ export default {
         sumar() {
             this.contador = this.contador + 2
         },
-        mostrarModal() {
+        mostrarModal(item = false) {
+
+            if (item) {
+                this.editar = true;
+                this.especialidad.espec = item.especialidad;
+                this.especialidad.id = item.id_especialidad;
+            } else {
+                this.editar = false
+            }
             $('#modal').modal('show')
             this.cambiarTitulo()
         },
@@ -361,23 +369,8 @@ export default {
         },
 
 
-        listar() {
 
-
-        },
-
-        set_editar_especialidad(item) {
-            this.editar = true
-            this.cambiarTitulo()
-            this.especialidad.id = item.id_especialidad
-            this.especialidad.espec = item.especialidad
-
-
-            this.mostrarModal()
-
-        },
         confirm(item) {
-            this.especialidad.id = item
 
 
             Swal.fire({
@@ -406,7 +399,7 @@ export default {
                                 Swal.fire(
                                     'Error!',
                                     'Ocurrion un error, no se pudo procesar su solicitud',
-                                    'success'
+                                    'error'
                                 )
                             }
 
@@ -415,7 +408,7 @@ export default {
                             Swal.fire(
                                 'Error!',
                                 'Ocurrion un error, no se pudo procesar su solicitud',
-                                'success'
+                                'error'
                             )
                         })
 

@@ -319,7 +319,6 @@ export default {
                 //document.querySelector('#vistaDocumento').setAttribute('src', base_url + 'uploads/' + this.datosArchivo.nombre)
 
 
-            console.log(this.src);
 
         }
 
@@ -337,7 +336,6 @@ export default {
         cargarDatosSelect() {
             axios.get(base_url + "documento/listar_parametros")
                 .then(res => {
-                    console.log(res)
 
                     this.listaCategorias = res.data.categorias
                     this.listaTipos = res.data.tipos_documento
@@ -345,12 +343,10 @@ export default {
 
                 })
                 .catch(err => {
-                    console.error(err);
                     alert("ocurrio un error Vuelva a Intentarlo mas tarde")
                 })
         },
         verificarInput() {
-            // console.log(this.inputDocumento.value);
             try {
                 if (!this.inputDocumento.value) {
                     this.src = ''
@@ -524,8 +520,6 @@ export default {
 
                     })
 
-            } else {
-                console.log("falta llenar");
             }
             //
 
@@ -602,7 +596,7 @@ export default {
         asignarEditar() {
 
             this.datosArchivo = Object.assign({}, this.stateEditarArchivo)
-            this.datosEditarEspecialidad = { id: this.stateEditarArchivo.id_especialidad, text: this.stateEditarArchivo.especialidad + " " + this.stateEditarArchivo.version }
+            this.datosEditarEspecialidad = { id: this.stateEditarArchivo.id_especialidad, text: this.stateEditarArchivo.especialidad }
             this.datosEditarAutor = { id: this.stateEditarArchivo.id_autor, text: this.stateEditarArchivo.nombre_autor + " " + this.stateEditarArchivo.paterno_autor + " " + this.stateEditarArchivo.materno_autor + ", " + this.stateEditarArchivo.ci_autor }
 
         },
@@ -612,7 +606,7 @@ export default {
         },
         salir() {
             this.setDefaultStateEditarArchivo(this.datosArchivoDefault)
-            this.$router.push('/documentos/listar')
+            this.$router.push('/admin/documentos/listar')
         },
         ...Vuex.mapMutations(['setDefaultStateEditarArchivo']),
 

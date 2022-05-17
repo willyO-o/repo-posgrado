@@ -61,7 +61,12 @@ export default {
 									</div>
 								</div>
 							</div>
-
+							<div class="form-group">
+								<div class="mb-3">
+									<label for="grado_academico">Grado Academico/Ocupacion <small>(opcional) </small> </label>
+									<input class="form-control"  v-model="datos_autor.grado_academico" id="grado_academico"  placeholder="Lic. Dr.  Ing." >
+								</div>
+							</div>
 
 							</form>
 						</div>
@@ -88,57 +93,66 @@ export default {
 			<div class="card-body">
 				<!-- table-responsive-->
 
-					<div class="caja-buscardor">
-						<div class="input-group  mb-3">
-							<input type="search" class="form-control" v-model="palabra_buscar" placeholder="Buscar"  aria-label="Recipient's username" aria-describedby="button-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="button" id="button-addon2"><i class="ti-search"></i></button>
+					<div class="justify-content-between d-flex">
+						<form  :action="action_post" method="POST" target="_blank" >
+							<button class="btn btn-danger mb-2" type="submit"  name="accion" value="pdf"><i class="fa fa-file-pdf-o" ></i> PDF</button>
+							<button class="btn btn-success mb-2" type="submit" name="accion" value="excel"><i class="fa fa-file-excel-o" ></i> EXCEL</button>
+							<input type="hidden" name="filtro_texto_buscar" :value="palabra_buscar">
+						</form>
+						<div class="caja-buscardor">
+							<div class="input-group  mb-3">
+								<input type="search" class="form-control" v-model="palabra_buscar" placeholder="Buscar"  aria-label="Recipient's username" aria-describedby="button-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="button-addon2"><i class="ti-search"></i></button>
+								</div>
 							</div>
 						</div>
 					</div>
 				
-					<table id="tabla" class="table table-striped">
-						<thead class="thead-light">
-							<tr>
-								<th>#</th>
-								<th>Nombre</th>
-								<th>Ap.Paterno</th>
-								<th>Ap. Materno</th>
-								<th>C.I.</th>
+					<div class="table-responsive-md">
+						<table id="tabla" class="table table-striped">
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th>Nombre</th>
+									<th>Ap.Paterno</th>
+									<th>Ap. Materno</th>
+									<th>C.I.</th>
 
-								<th>Acciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(item,index) of listadoAutores" :key="item.id_autor">
-								<td>{{index + indicePagina()+1 }}</td>
-								<td>{{item.nombre_autor}}</td>
-								<td>{{item.paterno_autor}}</td>
-								<td>{{item.materno_autor}}</td>
-								<td>{{item.ci_autor}}</td>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(item,index) of listadoAutores" :key="item.id_autor">
+									<td>{{index + indicePagina()+1 }}</td>
+									<td>{{item.nombre_autor}}</td>
+									<td>{{item.paterno_autor}}</td>
+									<td>{{item.materno_autor}}</td>
+									<td>{{item.ci_autor}}</td>
 
-								<td>
-									<i class="icon-list ti-pencil text-warning mx-2" @click="mostrar_modal_formulario(item)"></i>
-									<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
-								</td>
-							</tr>
-							<tr v-if="totalResultadosQuery==0">
-								<td colspan="4" class="text-center">No se encontraron Resultados</td>
+									<td>
+										<i class="icon-list ti-pencil text-warning mx-2" @click="mostrar_modal_formulario(item)"></i>
+										<i class="icon-list ti-trash text-danger" @click="confirm(item)"></i>
+									</td>
+								</tr>
+								<tr v-if="totalResultadosQuery==0">
+									<td colspan="4" class="text-center">No se encontraron Resultados</td>
 
-							</tr>
-						</tbody>
-						<thead class="thead-light">
-							<tr>
-								<th>#</th>
-								<th>Nombre</th>
-								<th>Ap.Paterno</th>
-								<th>Ap. Materno</th>
-								<th>C.I.</th>
-								<th>Acciones</th>
+								</tr>
+							</tbody>
+							<thead class="thead-light">
+								<tr>
+									<th>#</th>
+									<th>Nombre</th>
+									<th>Ap.Paterno</th>
+									<th>Ap. Materno</th>
+									<th>C.I.</th>
+									<th>Acciones</th>
 
-							</tr>
-						</thead>
-					</table>
+								</tr>
+							</thead>
+						</table>
+					</div>
 					<div class="paginador" id="paginador">
 						<nav aria-label="Page navigation example" v-if="totalResultados()!=0">
 							<ul class="pagination">
@@ -170,33 +184,13 @@ export default {
 		<br />
 		<br />
 	
-		<div class="modal fade" id="modalConfimEliminarArchivo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-sm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="modalConfimEliminarArchivoLabel">Eliminar Archivo</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="limpiar()">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						Esta Usted Seguro?
-						<h6>Desea eliminar el documento:</h6>
-						<h5>{{autor_eliminar}}</h5>
-						<p>Esta accion no se puede deshacer!</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="limpiar()">Cancelar</button>
-						<button type="button" class="btn btn-danger" @click="eliminarConfirmado()">Confirmar</button>
-					</div>
-				</div>
-			</div>
-		</div>
+
 	</div>
 	
 	`,
     data() {
         return {
+            action_post: base_url + "autor/reporte",
             url: base_url,
             modalEliminar: false,
             autor_eliminar: '',
@@ -225,7 +219,6 @@ export default {
             },
             error_autor: {
                 ci_autor: false,
-                grado_academico: false,
                 id_autor: false,
                 nombre_autor: false,
                 paterno_autor: false,
@@ -328,46 +321,53 @@ export default {
 
 
         confirm(item) {
-            this.mostrarModalEliminar()
-            this.idArchivo = item.id_documento
-            this.autor_eliminar = item.titulo
-            console.log(item);
+
+            Swal.fire({
+                title: 'Esta Usted Seguro?',
+                text: "Desea Eliminar el autor: " + item.nombre_autor + " " + item.paterno_autor + " " + item.materno_autor,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si eliminar, Persona!'
+            }).then((result) => {
+                if (result.value) {
+                    let fm = new FormData();
+                    fm.append("id_autor", item.id_autor)
+                    axios.post(base_url + "autor/eliminar", fm)
+                        .then(res => {
+
+                            if (res.data.exito) {
+                                Swal.fire(
+                                    'Eliminado!',
+                                    'El Autor fue eliminado exitosamente.',
+                                    'success'
+                                )
+                                this.buscar();
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Ocurrion un error, no se pudo procesar su solicitud',
+                                    'error'
+                                )
+                            }
+
+                        })
+                        .catch(err => {
+                            Swal.fire(
+                                'Error!',
+                                'Ocurrion un error, no se pudo procesar su solicitud',
+                                'error'
+                            )
+                        })
+
+
+                }
+            })
+
         },
 
 
-        eliminarConfirmado() {
-
-            let data = new FormData();
-            data.append('id_documento', this.idArchivo)
-            console.log(this.idArchivo);
-            axios.post(this.url + "archivo/delete", data)
-                .then(res => {
-                    if (res.data.respuesta) {
-
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Especialidad Eliminada',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
-                        this.ocultarModalEliminar()
-                        this.limpiar()
-                    } else {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Ocurrio un error, Intente de nuevo',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    }
-
-                }).catch(erro => {
-                    alert('error ! ' + erro)
-                })
-        },
 
         totalResultados() {
             return this.totalResultadosQuery;
@@ -382,7 +382,6 @@ export default {
 
             axios.post(this.url + "autor/listar", fm)
                 .then(res => {
-                    console.log(res)
                     this.listadoAutores = res.data.autores;
                     this.totalResultadosQuery = res.data.total_resultados;
 
@@ -407,8 +406,11 @@ export default {
 
             if (item) {
                 this.titulo_autor = "Editar";
+                this.es_editar = true;
                 this.datos_autor = Object.assign({}, item);
             } else {
+                this.es_editar = false;
+
                 this.datos_autor = Object.assign({}, this.default_autor);
 
                 this.titulo_autor = "Registrar";
@@ -418,36 +420,65 @@ export default {
         },
         registrar_autor() {
 
-            let fm = new FormData();
-            fm.append("ci_autor", this.datos_autor.ci_autor);
-            fm.append("nombre_autor", this.datos_autor.nombre_autor);
-            fm.append("paterno_autor", this.datos_autor.paterno_autor);
-            fm.append("materno_autor", this.datos_autor.materno_autor);
-            let accion = "registrar";
+            if (this.validar_autor()) {
+                let fm = new FormData();
+                fm.append("ci_autor", this.datos_autor.ci_autor);
+                fm.append("nombre_autor", this.datos_autor.nombre_autor);
+                fm.append("paterno_autor", this.datos_autor.paterno_autor);
+                fm.append("materno_autor", this.datos_autor.materno_autor);
+                fm.append("grado_academico", this.datos_autor.grado_academico);
 
-            if (this.es_editar) {
-                fm.append("id_autor", this.datos_autor.id_autor);
-                accion = "actualizar";
+
+                if (this.es_editar) {
+                    fm.append("id_autor", this.datos_autor.id_autor);
+                    fm.append("accion", "actualizar");
+
+
+                } else {
+                    fm.append("accion", "nuevo");
+
+                }
+
+
+
+                axios.post(this.url + "autor/registrar", fm)
+                    .then(res => {
+                        if (res.data.exito) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: "Registrado.",
+                                html: res.data.mensaje,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            this.ocultar_modal_formulario();
+                            this.buscar();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                html: res.data.mensaje ? res.data.mensaje : 'Ocurrio un error, Intente de nuevo',
+                                title: "Error!.",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                        }
+
+
+
+                    })
+                    .catch(err => {
+                        Swal.fire(
+                            'Error!',
+                            'Ocurrion un error, no se pudo procesar su solicitud',
+                            'error'
+                        )
+                    })
 
             }
 
 
-
-            axios.post(this.url + "autor/" + accion, fm)
-                .then(res => {
-                    console.log(res)
-                    if (res.data.error) {
-                        this.datos_autor = Object.assign({}, this.default_autor);
-                    } else {
-
-                    }
-
-
-
-                })
-                .catch(err => {
-                    console.error(err);
-                })
         },
 
         validar_autor() {

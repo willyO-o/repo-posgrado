@@ -150,14 +150,17 @@ export default {
                 .then(res => {
                     if (res.data.existe == true) {
                         this.documento = Object.assign({}, res.data.documento)
-                        console.log(res.data.documento);
                         this.pdfUrl = this.filesDirectory + this.documento.nombre
                     } else {
-                        this.$router.push('/404')
+                        alert("ocurrio un error!, No Existe el documento solicitado")
+
+                        this.$router.push('/')
+
                     }
                 })
                 .catch(err => {
-                    alert("ocurrio un error!, Intente de Nuevo")
+                    alert("ocurrio un error!, No Existe el documento solicitado")
+                    this.$router.push('/')
 
                 })
         },

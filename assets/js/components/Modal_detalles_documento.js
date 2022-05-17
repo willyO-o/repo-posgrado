@@ -159,7 +159,7 @@ export default {
 
             $('#modal').modal('hide')
 
-            this.$router.push('/documentos/registar')
+            this.$router.push('/admin/documentos/registar')
 
         },
         estado_boton() {

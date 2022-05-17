@@ -30,7 +30,7 @@ class Reportes_documento extends CI_Controller
 
 
 		$filtros['id_especialidad'] = $this->input->post('filtro_especialidad');
-		$filtros['id_autor'] = $this->input->post('filtro_autor');
+		$filtros['id_autor'] = $this->encryption->decrypt($this->input->post('filtro_autor'));
 		$filtros['id_tipo_documento'] = $this->input->post('filtro_tipo');
 		$filtros['id_categoria'] = $this->input->post('filtro_categoria');
 		$filtros['texto_buscar'] = $this->input->post('filtro_texto_buscar');

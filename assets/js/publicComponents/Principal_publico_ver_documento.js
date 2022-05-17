@@ -18,7 +18,7 @@ export default {
 					<div class="sidebar_section">
 			
 						<div class="">
-							<img src="assets/img/documento.png"  width="200">
+							<img :src="img_route"  width="200">
 						</div>
 						<ul class="sidebar_list">
 							<li class="my-3 sidebar_list_item " >
@@ -81,6 +81,7 @@ export default {
     components: { modalPdf },
     data() {
         return {
+            img_route: base_url + "assets/img/documento.png",
             uuid: this.$route.params.name,
             url: base_url,
             documento: {},
@@ -112,15 +113,18 @@ export default {
                 .then(res => {
                     if (res.data.existe == true) {
                         this.documento = Object.assign({}, res.data.documento)
-                        console.log(res.data.documento);
                         this.pdfUrl = this.filesDirectory + this.documento.nombre
                     } else {
-                        alert("ocurrio un error!, Intente de Nuevo")
+                        alert("ocurrio un error!, No Existe el documento solicitado")
+
+                        this.$router.push('/')
                     }
 
                 })
                 .catch(err => {
-                    console.error(err);
+                    alert("ocurrio un error!, No Existe el documento solicitado")
+                    this.$router.push('/')
+
                 })
         },
         openModal() {

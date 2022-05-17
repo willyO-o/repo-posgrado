@@ -81,7 +81,7 @@ export default {
 										<div class="event_date d-flex flex-column align-items-center justify-content-center" >
 											<div class="event_day" >
 												<router-link :to="'/document/'+row.uuid"class="trans_200" >
-													<img src="assets/img/documento.png"  width="100">
+													<img :src="img_route"  width="100">
 												</router-link>
 					
 											</div>
@@ -154,6 +154,8 @@ export default {
 
     data() {
         return {
+            img_route: base_url + "assets/img/documento.png",
+
             listadoDocumentos: [],
             listadoDocumentosFiltrado: [],
 
