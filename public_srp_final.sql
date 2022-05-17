@@ -12,20 +12,9 @@
  Target Server Version : 140002
  File Encoding         : 65001
 
- Date: 15/05/2022 23:57:48
+ Date: 17/05/2022 01:01:12
 */
 
-
--- ----------------------------
--- Sequence structure for autor_id_autor_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "public"."autor_id_autor_seq";
-CREATE SEQUENCE "public"."autor_id_autor_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 32767
-START 1
-CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for categorias_id_categoria_seq
@@ -69,6 +58,17 @@ INCREMENT 1
 MINVALUE  1
 MAXVALUE 32767
 START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for serial_autores_manual
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."serial_autores_manual";
+CREATE SEQUENCE "public"."serial_autores_manual" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 100000000000
 CACHE 1;
 
 -- ----------------------------
@@ -184,41 +184,50 @@ INSERT INTO "public"."roles" VALUES (2, 'publicador');
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."srp_autores";
 CREATE TABLE "public"."srp_autores" (
-  "id_autor" int2 NOT NULL DEFAULT nextval('autor_id_autor_seq'::regclass),
+  "id_autor" int8 NOT NULL,
   "nombre_autor" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "paterno_autor" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "materno_autor" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "ci_autor" varchar(15) COLLATE "pg_catalog"."default" DEFAULT ''::character varying,
-  "grado_academico" varchar COLLATE "pg_catalog"."default"
+  "grado_academico" varchar COLLATE "pg_catalog"."default",
+  "estado_autor" varchar(15) COLLATE "pg_catalog"."default"
 )
 ;
 
 -- ----------------------------
 -- Records of srp_autores
 -- ----------------------------
-INSERT INTO "public"."srp_autores" VALUES (4, 'MARCOS', 'CHURA', 'TITO', '7777777', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (5, 'MARIA', 'PEREZ', 'MAMANI', '8888888', 'DR.');
-INSERT INTO "public"."srp_autores" VALUES (6, 'JORGE', 'COLQUE', 'COLQUE', '11273732', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (7, 'MANUEL', 'JIMENEZ', 'PARI', '72827282', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (9, 'NAYLA', 'PEREZ', 'PEREZ', '72728382', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (8, 'ANGEL', 'FRANXO', 'TITO', '12323333', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (10, 'SARA', 'ARPASI', 'ASPI', '72782818', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (11, 'LOURDEZ', 'NINA', 'NINA', '82828282', 'DR.');
-INSERT INTO "public"."srp_autores" VALUES (12, 'FRANZ', 'ISPI', 'PEREZ', '87373838', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (13, 'ARMANDO MIGUEL', 'PEREZ', 'CHAMBI', '29109222', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (14, 'EUGENIA', 'DANZ', 'LOPEZ', '12828292', 'DR.');
-INSERT INTO "public"."srp_autores" VALUES (15, 'MAURICIO', 'LAURA', 'COLQUE', '1872782', 'LIC');
-INSERT INTO "public"."srp_autores" VALUES (16, 'ANDREZ ', 'PACO', 'PACO', '12312222', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (17, 'EVA', 'MAMANI', 'CHOQUE', '1292292', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (18, 'CLAUDIO', 'PAREDES', 'CHURA', '12312322', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (19, 'LIDIA', 'ALCON', 'CONDORI', '1232222', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (20, 'FRANCISCO', 'PIZARRO', 'VALVERDE', '2223232', 'DR.');
-INSERT INTO "public"."srp_autores" VALUES (21, 'MARIA', 'FLORES', 'FLORES', '2131232', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (22, 'MARIO', 'PACO', 'TORREZ', '1232222', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (23, 'LUIS', 'CHURA', 'COLQUE', '1232222', 'LIC.');
-INSERT INTO "public"."srp_autores" VALUES (24, 'RAMIRO', 'CHURA', 'CHURA', '2222222', 'ING.');
-INSERT INTO "public"."srp_autores" VALUES (8138, 'HERNAN JESUS', 'HANNOVER', 'ALIAGA', '6727786', NULL);
-INSERT INTO "public"."srp_autores" VALUES (18946, 'BRAYAN GUIOMAR', 'SEGALES', 'PABLO', '7016111', NULL);
+INSERT INTO "public"."srp_autores" VALUES (4, 'MARCOS', 'CHURA', 'TITO', '7777777', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (5, 'MARIA', 'PEREZ', 'MAMANI', '8888888', 'DR.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (6, 'JORGE', 'COLQUE', 'COLQUE', '11273732', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (7, 'MANUEL', 'JIMENEZ', 'PARI', '72827282', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (9, 'NAYLA', 'PEREZ', 'PEREZ', '72728382', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (8, 'ANGEL', 'FRANXO', 'TITO', '12323333', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (10, 'SARA', 'ARPASI', 'ASPI', '72782818', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (11, 'LOURDEZ', 'NINA', 'NINA', '82828282', 'DR.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (12, 'FRANZ', 'ISPI', 'PEREZ', '87373838', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (13, 'ARMANDO MIGUEL', 'PEREZ', 'CHAMBI', '29109222', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (14, 'EUGENIA', 'DANZ', 'LOPEZ', '12828292', 'DR.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (15, 'MAURICIO', 'LAURA', 'COLQUE', '1872782', 'LIC', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (16, 'ANDREZ ', 'PACO', 'PACO', '12312222', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (17, 'EVA', 'MAMANI', 'CHOQUE', '1292292', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (18, 'CLAUDIO', 'PAREDES', 'CHURA', '12312322', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (19, 'LIDIA', 'ALCON', 'CONDORI', '1232222', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (20, 'FRANCISCO', 'PIZARRO', 'VALVERDE', '2223232', 'DR.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (21, 'MARIA', 'FLORES', 'FLORES', '2131232', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (22, 'MARIO', 'PACO', 'TORREZ', '1232222', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (23, 'LUIS', 'CHURA', 'COLQUE', '1232222', 'LIC.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (24, 'RAMIRO', 'CHURA', 'CHURA', '2222222', 'ING.', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (8138, 'HERNAN JESUS', 'HANNOVER', 'ALIAGA', '6727786', NULL, 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (18946, 'BRAYAN GUIOMAR', 'SEGALES', 'PABLO', '7016111', NULL, 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (2260, 'YURI NEWTON', 'PANTOJA', 'ROCHA', '5252970', NULL, 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (100000000000, 'PEDRO ', 'COSME', 'FULANITO', '7898987', '', 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (100000000004, 'JUANA', 'RAMIREZ', 'TICONA', '5554354', 'LIC.', 'ELIMINADO');
+INSERT INTO "public"."srp_autores" VALUES (100000000003, 'MARIA', 'PRADO', 'LUNAS', '7777222', '', 'ELIMINADO');
+INSERT INTO "public"."srp_autores" VALUES (100000000002, 'MANUEL JOSE', 'LOPEZ', 'MARTINEZ', '7898987', '', 'ACTUALIZADO');
+INSERT INTO "public"."srp_autores" VALUES (100000000001, 'ANDRES MANUELS', 'PEREZ', 'JIMENEZ', '7898888', 'DR.', 'ACTUALIZADO');
+INSERT INTO "public"."srp_autores" VALUES (12553, 'WILMER', 'NINA', 'ESPEJO', '6829523', NULL, 'REGISTRADO');
+INSERT INTO "public"."srp_autores" VALUES (10061, 'EDWIN', 'ATAHUACHI', 'SUXO', '6021094', NULL, 'REGISTRADO');
 
 -- ----------------------------
 -- Table structure for srp_categorias
@@ -860,6 +869,9 @@ actividades culturales y atractivos turísticos. Para su implementación se util
 la metodología UWE, misma que nos guiará desde la recopilación de los
 requerimientos, el diseño y su posterior desarrollo e implementación.', 'ES', 'PLAN ESTRATÉGICO PARA EL ACCESO RÁPIDO
 A RECURSOS Y SERVICIOS QUE BRINDA LA CIUDAD DE EL ALTO', 2, 20, 1, 1, 1, 234, '-', 'actualizado', 13, 7.04, '60c22dc2d9532.pdf', '60c22dc2d9532', 'M99', 'SI');
+INSERT INTO "public"."srp_documentos" VALUES (85, '2022-05-15', 2022, 'asd asd asd as', 'ES', 'ASD ASD', 1, 679, 1, 1, 1, 200, '-', 'registrado', 2260, 0.00, NULL, '6281cc286d6ec', 'F/555', 'NO');
+INSERT INTO "public"."srp_documentos" VALUES (87, '2022-05-17', 2019, 'aas dasd asda sd asd as asd asd asd ', 'ES', 'PROBANDOOOOOOO', 2, 282, 1, 2, 18, 1, 'el documento estaba en formato word', 'registrado', 12553, 0.29, '628324f94613a.pdf', '628324f94613a', 'F/444', 'SI');
+INSERT INTO "public"."srp_documentos" VALUES (86, '2022-05-17', 2020, 'ASD ASD ASD ASD ASD A SD', 'ES', 'MI ASDASD ASD ASD A EDITANDO 22 EDITANDO', 1, 923, 2, 1, 1, 1, '-', 'actualizado', 10061, 0.29, '62831e31d1e61.pdf', '62831e31d1e61', 'F/555', 'NO');
 
 -- ----------------------------
 -- Table structure for srp_especialidades
@@ -902,6 +914,10 @@ INSERT INTO "public"."srp_especialidades" VALUES (10000005, 'CCXCSSFASF', 'ELIMI
 INSERT INTO "public"."srp_especialidades" VALUES (10000004, 'ASSSSSSSS', 'ELIMINADO');
 INSERT INTO "public"."srp_especialidades" VALUES (10000006, 'ASDASDSFFFF', 'ELIMINADO');
 INSERT INTO "public"."srp_especialidades" VALUES (10000003, 'NUEVA ESPECIALIDAD XD  SS', 'REGISTRADO');
+INSERT INTO "public"."srp_especialidades" VALUES (679, 'POSDOCTORADO  EN  INVESTIGACIÓN Y TIC''S', 'REGISTRADO');
+INSERT INTO "public"."srp_especialidades" VALUES (10000007, 'NUEVA ESPECIALIDAD 2 DSDASDAS WEEE', 'ACTUALIZADO');
+INSERT INTO "public"."srp_especialidades" VALUES (282, 'DIPLOMADO  EN  (DESM-III-SEMI)DIPLOMADO EN EDUCACION MUSICAL,III,SEMIPRESENCIAL', 'REGISTRADO');
+INSERT INTO "public"."srp_especialidades" VALUES (923, 'MAESTRÍA  EN  DISEÑO, GESTIÓN Y GERENCIA DE PROYECTOS DE INVERSIÓN PÚBLICA Y PRIVADA', 'REGISTRADO');
 
 -- ----------------------------
 -- Table structure for srp_sedes
@@ -939,7 +955,6 @@ CREATE TABLE "public"."srp_tipos" (
 INSERT INTO "public"."srp_tipos" VALUES (1, 'Tesis');
 INSERT INTO "public"."srp_tipos" VALUES (2, 'Monografia');
 INSERT INTO "public"."srp_tipos" VALUES (4, 'Tesina');
-INSERT INTO "public"."srp_tipos" VALUES (3, 'Tesina');
 
 -- ----------------------------
 -- Table structure for srp_ubicacion_documentos
@@ -1017,13 +1032,6 @@ INSERT INTO "public"."versiones" VALUES (19, 'VERSION XXX');
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "public"."autor_id_autor_seq"
-OWNED BY "public"."srp_autores"."id_autor";
-SELECT setval('"public"."autor_id_autor_seq"', 27, true);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
 ALTER SEQUENCE "public"."categorias_id_categoria_seq"
 OWNED BY "public"."srp_categorias"."id_categoria";
 SELECT setval('"public"."categorias_id_categoria_seq"', 15, true);
@@ -1040,7 +1048,7 @@ SELECT setval('"public"."especialidades_id_especialidad_seq"', 36, true);
 -- ----------------------------
 ALTER SEQUENCE "public"."metadatos_id_metadato_seq"
 OWNED BY "public"."srp_documentos"."id_documento";
-SELECT setval('"public"."metadatos_id_metadato_seq"', 85, true);
+SELECT setval('"public"."metadatos_id_metadato_seq"', 88, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1052,7 +1060,12 @@ SELECT setval('"public"."roles_id_rol_seq"', 12, false);
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-SELECT setval('"public"."serial_especialidades"', 10000007, true);
+SELECT setval('"public"."serial_autores_manual"', 100000000005, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+SELECT setval('"public"."serial_especialidades"', 10000008, true);
 
 -- ----------------------------
 -- Alter sequences owned by
