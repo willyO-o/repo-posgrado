@@ -8,7 +8,7 @@
 					<div class="footer_copyright">
 						<span>
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							Copyright &copy; 2021 Todos los derechos reservados | Posgrado UPEA 
+							Copyright &copy; <?= date("Y") ?> Todos los derechos reservados | Posgrado UPEA 
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</span>
 					</div>
