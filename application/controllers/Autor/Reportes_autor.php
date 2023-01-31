@@ -51,7 +51,7 @@ class Reportes_autor extends CI_Controller
 		$this->load->library('fpdf_mc_table');
 
 		$pdf = new Fpdf_mc_table();
-		$pdf->SetImgUrl(base_url("assets/img/logo_posgrado.png"));
+		$pdf->SetImgUrl(FCPATH."assets/img/logo_posgrado.png");
 
 		$pdf->SetTitlePdf('REPORTE DE AUTORES REGISTRADOS');
 		$pdf->SetWidths(array(10,30, 25, 25, 25,20,35));

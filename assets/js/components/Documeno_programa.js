@@ -94,7 +94,7 @@ export default {
 									<th>Autor</th>
 									<th> Año</th>
 
-									<th># <br> Paginas</th>
+									<th>Nro de <br> Paginas</th>
 									<th>tipo</th>
 									<th>Acciones</th>
 								</tr>
@@ -118,7 +118,7 @@ export default {
 									</td>
 								</tr>
 								<tr v-if="totalResultadosQuery==0">
-									<td colspan="4" class="text-center">No se encontraron Resultados</td>
+									<td colspan="7" class="text-center">No se encontraron Resultados</td>
 
 								</tr>
 							</tbody>
@@ -129,7 +129,7 @@ export default {
 									<th>Autor</th>
 									<th> Año</th>
 
-									<th># <br> Paginas</th>
+									<th>Nro de <br> Paginas</th>
 
 									<th>tipo</th>
 

@@ -253,7 +253,7 @@ export default {
                 materno_autor: '',
                 codigo_documento: '',
                 observaciones: '',
-                es_publico: 'SI',
+                es_publico: 'NO',
             },
             datosArchivoDefault: {
                 anio_creacion: '',
@@ -284,7 +284,8 @@ export default {
                 paterno_autor: '',
                 materno_autor: '',
                 codigo_documento: '',
-                es_publico: 'SI',
+                observaciones: '',
+                es_publico: 'NO',
             },
             especialidaSeleccionada: null,
             id_especialidad: '',

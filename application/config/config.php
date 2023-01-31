@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //  $config['base_url'] = 'http://localhost/repo-posgrado/';
 
-$config['base_url'] = 'http://repositorioposgrado.upea.bo/';
+$config['base_url'] = 'https://repositorioposgrado.upea.bo/';
 
 //$config['base_url'] = 'http://603b-2800-cd0-2811-6600-3c1d-71dc-2129-e418.ngrok.io/repo-posgrado/';
 

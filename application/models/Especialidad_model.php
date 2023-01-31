@@ -7,10 +7,13 @@ class Especialidad_model extends CI_Model
 
 	public function listar_especialidades()
 	{
-		$this->db->from('srp_especialidades');
+		$this->db->from('public.srp_especialidades');
 		$this->db->order_by('RANDOM()');
 		$this->db->limit(10);
 		return $this->db->get()->result();
+
+
+
 	}
 
 	public function filtrar_especialidades($limit, $ofset, $palabra_buscar)

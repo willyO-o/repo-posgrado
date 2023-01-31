@@ -58,7 +58,7 @@ class Reportes_documento extends CI_Controller
 
 		$pdf = new Fpdf_mc_table();
 
-		$pdf->SetImgUrl(base_url("assets/img/logo_posgrado.png"));
+		$pdf->SetImgUrl(FCPATH. "assets/img/logo_posgrado.png");
 		$pdf->SetTitlePdf('REPORTE DE DOCUMENTOS REGISTRADOS');
 
 		$pdf->SetWidths(array(10, 80, 15, 20, 30, 30, 18,15,26, 20));
