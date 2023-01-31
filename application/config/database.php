@@ -6,10 +6,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'pgsql:host=10.10.10.5;port=5432;dbname=psg_upea_rp',
-	'hostname' => '10.10.10.5',
-	'username' => 'us_adminrp',
-	'password' => 'PsG@adminRP',
+	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=psg_upea_rp',
+	'hostname' => 'localhost',
+	'username' => 'postgres',
+	'password' => 'root',
 	'database' => 'psg_upea_rp',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
@@ -30,11 +30,11 @@ $db['default'] = array(
 
 
 $db['psg'] = array(
-	'dsn'	=> 'pgsql:host=10.10.10.5;port=5432;dbname=psg_upea_ws',
-	'hostname' => '10.10.10.5',
-	'username' => 'us_adminws',
-	'password' => 'PsG@adminWS',
-	'database' => 'psg_upea_ws',
+	'dsn'	=> 'pgsql:host=localhost;port=5432;dbname=proposgrado_d',
+	'hostname' => 'localhost',
+	'username' => 'postgres',
+	'password' => 'root',
+	'database' => 'proposgrado_d',
 	'dbdriver' => 'pdo',
 	'dbprefix' => 'psg_',
 	'pconnect' => FALSE,
