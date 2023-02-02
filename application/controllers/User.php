@@ -87,6 +87,13 @@ class User extends CI_Controller
 		}
 		echo json_encode($respuesta);
 	}
+
+	public function roles()
+	{
+		$lista=seleccionar_tabla('srp_roles',null,"id_rol ASC")->result();
+		
+		return $this->output->set_content_type('application/json')->set_output(json_encode($lista));
+	}
 }
 
 /* End of file User.php */

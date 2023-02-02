@@ -24,7 +24,7 @@ class Estadistica_model extends CI_Model
 	{
 
 		$sql = "SELECT mes,coalesce(t,0) as publicados  
-			FROM meses
+			FROM srp_meses
 			LEFT JOIN (SELECT to_char(fecha_publicacion, 'MM')  as id_mes, COUNT(*) as t 
 							from srp_documentos
 							WHERE to_char(fecha_publicacion, 'yyyy') ='" . $anio . "'

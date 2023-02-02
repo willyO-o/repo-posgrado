@@ -29,6 +29,9 @@ class Auth extends CI_Controller
 			$this->session->set_userdata('id', $datos_usuario->id_usuario);
 			$this->session->set_userdata('id_rol', $datos_usuario->id_rol);
 			$this->session->set_userdata('login', true);
+
+			$permisos = $this->usuario_model->get_permisos($datos_usuario->id_usuario);
+			$this->session->set_userdata('permisos',$permisos);
 			$respuesta['error'] = 0;
 		} else {
 			$respuesta['error'] = 1;

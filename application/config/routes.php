@@ -114,6 +114,7 @@ $route['especialidad/eliminar'] = 'Especialidad/Especialidad_programa/especialid
 $route['especialidad/filtrar'] = 'Especialidad/Especialidad_programa/especialidad_programa_listar_especialidades_ajax';
 
 
+$route['user/roles'] = 'User/roles';
 
 
 

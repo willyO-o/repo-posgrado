@@ -6,6 +6,7 @@ class Documento_programa extends CI_Controller
 {
 
 	private $ruta_archivos = "./uploads/";
+	protected $abreviaturas = ["1" => "DIP", "2" => "TM", "3" => "PH", "4" => "PPH", "5" => "ESP"];
 
 	public function __construct()
 	{
@@ -20,14 +21,14 @@ class Documento_programa extends CI_Controller
 	{
 		$filtros['id_categoria'] = $this->input->post('id_categoria');
 		$filtros['id_tipo_documento'] = $this->input->post('id_tipo');
-		$filtros['id_autor'] =$this->encryption->decrypt( $this->input->post('id_autor'));
+		$filtros['id_autor'] = base64_decode($this->input->post('id_autor'));
 		$filtros['id_especialidad'] = $this->input->post('id_especialidad');
 		$filtros['texto_buscar'] = $this->input->post('texto_buscar');
 		$limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') ? $this->input->post('ofset') : 0;
 
-		$es_admin=$this->session->userdata("id_rol") == 1 ? true: false;
-		$data = $this->documento_model->filtrar_datos($filtros, $limit, $ofset,$es_admin);
+		$rol = $this->session->userdata("id_rol");
+		$data = $this->documento_model->filtrar_datos($filtros, $limit, $ofset, $rol);
 
 		echo json_encode($data);
 	}
@@ -42,41 +43,50 @@ class Documento_programa extends CI_Controller
 
 	public function documento_programa_registrar_documento()
 	{
+		// return var_dump($_FILES);
 		$this->load->model('autor_model');
-		
+
 		$this->load->model('especialidad_model');
-		
-		
+
 		$this->load->library('session');
 		$documento = array(
 			'anio_creacion'	 	=> $this->input->post('anio'),
 			'resumen'		 	=> $this->input->post('resumen'),
-			'titulo'			=> strtoupper($this->input->post('titulo')),
+			"titulo"			=> mb_convert_case($this->input->post('titulo'), MB_CASE_UPPER, "UTF-8"),
 			'id_sede'		 	=> $this->input->post('id_sede'),
 			'id_tipo' 			=> $this->input->post('id_tipo'),
 			'id_categoria'		=> $this->input->post('id_categoria'),
-			'observaciones'		=> $this->input->post('observaciones') != "" ?  $this->input->post('observaciones') : "-",
-			'codigo_documento'	=> $this->input->post('codigo_documento') != "" ? strtoupper($this->input->post('codigo_documento')) : "-",
+			'observaciones'		=> nulo_si_vacio($this->input->post('observaciones')),
+			'codigo_documento'	=> nulo_si_vacio($this->input->post('codigo_documento')),
 			'es_publico'		=> strtoupper($this->input->post('es_publico')),
 
 		);
 
+		$exite = seleccionar_tabla("srp_documentos", ["titulo" => $documento['titulo'], "estado_documento" => "REGISTRADO"]);
+
+		if($exite->num_rows()){
+			return $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 1, "mensaje" => "Ya existe un documento registrado con el mismo titulo"]));
+		}
+
 		// $id_autor=	 $this->input->post('id_autor');
-		$id_autor=$this->encryption->decrypt($this->input->post('id_autor'));
+		$id_autor = base64_decode($this->input->post('id_autor'));
+		$existe_autor = $this->autor_model->verificar_autor($id_autor);
 
-		
+		if ($existe_autor == 0) {
+			$persona = $this->autor_model->autor_url($id_autor);
+			$persona = json_decode($persona);
 
-		$existe_autor= $this->autor_model->verificar_autor($id_autor);
-		// echo json_encode($existe_autor); die();
-		if($existe_autor==0){
-			$persona= $this->autor_model->listar_autor_id_psg($id_autor);
-			$datos_autor=[
-				"id_autor"=> $this->encryption->decrypt( $persona->id_persona),
-				"nombre_autor"=>$persona->nombre,
-				"paterno_autor"=>$persona->paterno,
-				"materno_autor"=>$persona->materno,
-				"ci_autor"=>$persona->ci,
-				"grado_academico" => $persona->oficio_trabajo,
+			if (empty($persona)) {
+				return $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 1, "mensaje" => "No se encontro el autor"]));
+			}
+
+			$datos_autor = [
+				"id_autor" => $persona->id_persona,
+				"nombre_autor" => $persona->nombre,
+				"paterno_autor" => $persona->paterno,
+				"materno_autor" => $persona->materno,
+				"ci_autor" => $persona->ci,
+				"grado_academico" => "LIC.",
 				"estado_autor" => "REGISTRADO",
 			];
 
@@ -84,39 +94,45 @@ class Documento_programa extends CI_Controller
 		}
 
 
-		$id_especialidad = $this->input->post('id_especialidad');
-		$existe_especialidad= $this->especialidad_model->verificar_especialidad_id($id_especialidad);
-		if ($existe_especialidad==0) {
-			$especialidad= $this->especialidad_model->listar_especialidad_id_psg($id_especialidad);
-			$datos_especialidad=[
-				"id_especialidad"=>$especialidad->id_planificacion_programa,
-				"especialidad" =>$especialidad->descripcion_grado_academico."  EN  ". $especialidad->nombre_programa,
+		$nombre_especialidad = $this->input->post('id_especialidad');
+		$nombre_especialidad = str_ireplace(["'", '"'], '', $nombre_especialidad);
+		$id_especialidad = null;
+		$especialidad = $this->especialidad_model->verificar_especialidad($nombre_especialidad);
+
+		if ($especialidad->num_rows() == 0) {
+			$datos_especialidad = [
+				"especialidad" => $nombre_especialidad,
 				"estado_especialidad" => "REGISTRADO",
 			];
 
-			$this->especialidad_model->set_especialidad($datos_especialidad);
+			$id_especialidad = insertar_tabla("srp_especialidades", $datos_especialidad);
+
+			if (is_numeric($id_especialidad)) {
+				return $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 1, "mensaje"=>"No se pudo obtener La Especialidad"]));
+			}
+		} else {
+			$id_especialidad = $especialidad->row()->id_especialidad;
 		}
 
-		$documento["id_autor"]=$id_autor;
-		$documento["id_especialidad"]=$id_especialidad;
-		// echo $id_especialidad; die();
-
+		$documento["id_autor"] = $id_autor;
+		$documento["id_especialidad"] = $id_especialidad;
 
 
 		if ($this->input->post('actualizar') == 'true') {
 
 			$id_documento = (int)$this->input->post('id_documento');
-			$documento['estado_documento'] = "actualizado";
+			$documento['estado_documento'] = "ACTUALIZADO";
 
 			$res = $this->documento_model->actualizar_documento($documento, $id_documento);
 			if ($res) {
 
 				$respuesta = array('error' => 0);
 			} else {
-				$respuesta = array('error' => 1);
+				$respuesta = array('error' => 1, "mensaje" => "No se pudo actualizar el documento");
 			}
 		} else {
 
+			$max_id = $this->documento_model->extraer_maximo_id();
 			$uuid = uniqid();
 			$config['file_name'] = $uuid;
 			$config['upload_path'] = $this->ruta_archivos;
@@ -134,11 +150,12 @@ class Documento_programa extends CI_Controller
 				$documento['nombre_archivo'] = $resultado['upload_data']['file_name'];
 				$documento['uuid'] = $uuid;
 				$documento['lenguaje'] = "ES";
-				$documento['nro_paginas'] = $this->input->post('nro_paginas');
+				$documento['nro_paginas'] = nulo_si_vacio($this->input->post('nro_paginas'));
 				$documento['fecha_publicacion'] = date("Y-m-d");
 				$documento['id_usuario'] = $this->session->userdata('id');
-				$documento['estado_documento'] = "registrado";
-
+				$documento['estado_documento'] = "REGISTRADO";
+				$documento['sigla'] = $this->abreviaturas[$this->input->post('id_categoria')] . "-" . ((int)$max_id + 1);
+				$documento['id_usuario_registro']=$this->session->userdata('id');
 
 				$id_archivo = $this->documento_model->registrar_documento($documento);
 
@@ -146,7 +163,7 @@ class Documento_programa extends CI_Controller
 
 					$respuesta = array('error' => 0);
 				} else {
-					$respuesta = array('error' => 1);
+					$respuesta = array('error' => 1, "mensaje" => "No se pudo registrar el documento");
 					unlink($this->ruta_archivos . $documento['nombre_archivo']);
 				}
 			} else {
@@ -155,11 +172,11 @@ class Documento_programa extends CI_Controller
 				$documento['tamanio_archivo'] = "0";
 				$documento['uuid'] = $uuid;
 				$documento['lenguaje'] = "ES";
-				$documento['nro_paginas'] = $this->input->post('nro_paginas');
+				$documento['nro_paginas'] =nulo_si_vacio( $this->input->post('nro_paginas'));
 				$documento['fecha_publicacion'] = date("Y-m-d");
 				$documento['id_usuario'] = $this->session->userdata('id');
-				$documento['estado_documento'] = "registrado";
-
+				$documento['estado_documento'] = "REGISTRADO";
+				$documento['id_usuario_registro']=$this->session->userdata('id');
 
 				$id_archivo = $this->documento_model->registrar_documento($documento);
 
@@ -167,10 +184,9 @@ class Documento_programa extends CI_Controller
 
 					$respuesta = array('error' => 0);
 				} else {
-					$respuesta = array('error' => 1);
+					$respuesta = array('error' => 1, "mensaje" => "No se pudo registrar el documento");
 					unlink($this->ruta_archivos . $documento['nombre_archivo']);
 				}
-				
 			}
 		}
 		echo json_encode($respuesta);

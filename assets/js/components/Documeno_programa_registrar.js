@@ -291,8 +291,8 @@ export default {
             id_especialidad: '',
             id_autor: '',
 
-            url_especialidad: base_url + "documento/buscar_especialidad",
-            url_autor: base_url + "documento/buscar_autor",
+            url_especialidad: "https://posgrado.upea.bo/API/V1/repositorio/buscarEspecialidad?authorizacion=2aaf44f48588015297845d50adaeb0bePSG",
+            url_autor: "https://posgrado.upea.bo/API/V1/repositorio/buscarAutor?authorizacion=2aaf44f48588015297845d50adaeb0bePSG",
 
         }
     },
@@ -348,6 +348,7 @@ export default {
                 })
         },
         verificarInput() {
+
             try {
                 if (!this.inputDocumento.value) {
                     this.src = ''
@@ -445,11 +446,10 @@ export default {
 
 
                 if (!this.editarArchivo) {
-                    if (this.file != null) {
+                    if (this.file != null && this.inputDocumento.value.trim() != '') {
                         fm.append('archivo', this.file, this.file.name) //
                     } else {
                         fm.append('archivo', ""); //
-
                     }
 
 
@@ -463,6 +463,7 @@ export default {
 
                 axios.post(base_url + 'documento/guardar', fm)
                     .then(res => {
+                        console.debug(res.data)
 
                         setTimeout(() => {
                             $('#modalSpinner').modal('hide');
@@ -500,8 +501,9 @@ export default {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'error',
-                                title: 'Ocurrio un error, Intente de nuevo',
+                                title: 'Error',
                                 showConfirmButton: false,
+                                html: res.data.mensaje || "Ocurrio un error al publicar el documento, Intente nuevamente",
                                 timer: 1500
                             })
                         }
@@ -531,7 +533,7 @@ export default {
 
 
             if (this.datosArchivo.id_especialidad && this.datosArchivo.titulo && this.datosArchivo.id_categoria && this.datosArchivo.id_tipo &&
-                this.datosArchivo.resumen && this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion && this.datosArchivo.nro_paginas) {
+                this.datosArchivo.id_autor && this.datosArchivo.id_sede && this.datosArchivo.anio_creacion) {
                 return true;
             }
 
@@ -552,9 +554,9 @@ export default {
             if (!this.datosArchivo.id_tipo) {
                 this.error.id_tipo = true
             }
-            if (!this.datosArchivo.resumen) {
-                this.error.resumen = true
-            }
+            // if (!this.datosArchivo.resumen) {
+            //     this.error.resumen = true
+            // }
             if (!this.datosArchivo.id_autor) {
                 this.error.autor = true
 
@@ -570,10 +572,10 @@ export default {
             //     // this.error.sinfile = true
             //     this.modalVistaPrevia = false
             // }
-            if (!this.datosArchivo.nro_paginas) {
-                this.error.nro_paginas = true
+            // if (!this.datosArchivo.nro_paginas) {
+            //     this.error.nro_paginas = true
 
-            }
+            // }
 
             setTimeout(() => {
                 this.error.id_especialidad = false
@@ -581,13 +583,13 @@ export default {
                 this.error.id_categoria = false
                 this.error.id_version = false
                 this.error.id_tipo = false
-                this.error.resumen = false
+                    // this.error.resumen = false
                 this.error.autor = false
                 this.error.tutor = false
                 this.error.sede = false
                     // this.error.sinfile = false
                 this.error.anio = false
-                this.error.nro_paginas = false
+                    // this.error.nro_paginas = false
 
             }, 5000);
 

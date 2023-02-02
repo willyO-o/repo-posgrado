@@ -6,6 +6,8 @@ class Autor_model extends CI_Model
 {
 
 
+	private $url_destino="https://posgrado.upea.bo/";
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,7 +32,7 @@ class Autor_model extends CI_Model
 		$data = $this->db->get()->result();
 		$array_aux = [];
 		foreach ($data as $persona) {
-			$persona->id = $this->encryption->encrypt($persona->id);
+			$persona->id = base64_encode($persona->id);
 			$array_aux[] = $persona;
 		}
 
@@ -178,7 +180,7 @@ class Autor_model extends CI_Model
 		// $data = $this->db->get()->result();
 		$array_aux = [];
 		foreach ($data as $persona) {
-			$persona->id = $this->encryption->encrypt($persona->id);
+			$persona->id = base64_encode($persona->id);
 			$array_aux[] = $persona;
 		}
 
@@ -200,9 +202,30 @@ class Autor_model extends CI_Model
 
 		$persona = $psg->get()->row();
 
-		$persona->id_persona = $this->encryption->encrypt($persona->id_persona);
+		$persona->id_persona = base64_encode($persona->id_persona);
 
 		return $persona;
+	}
+
+
+	public function autor_url($id_autor)
+	{
+		$persona = curl_init();
+
+		// corregir el error SSL certificate problem: self signed certificate
+		curl_setopt($persona, CURLOPT_URL, $this->url_destino."API/V1/repositorio/listarPersona?authorizacion=2aaf44f48588015297845d50adaeb0bePSG&idPersona=$id_autor");
+
+		curl_setopt($persona, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($persona, CURLOPT_SSL_VERIFYHOST, false);
+
+		curl_setopt($persona, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($persona, CURLOPT_CUSTOMREQUEST, 'GET');
+
+		$respuesta = curl_exec($persona);
+		curl_close($persona);
+
+		return $respuesta;
+		
 	}
 }
 

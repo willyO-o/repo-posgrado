@@ -11,9 +11,6 @@ class Especialidad_model extends CI_Model
 		$this->db->order_by('RANDOM()');
 		$this->db->limit(10);
 		return $this->db->get()->result();
-
-
-
 	}
 
 	public function filtrar_especialidades($limit, $ofset, $palabra_buscar)
@@ -22,7 +19,7 @@ class Especialidad_model extends CI_Model
 		$this->db->start_cache();
 		$this->db->from('srp_especialidades');
 		$this->db->where('estado_especialidad !=', "ELIMINADO");
-		
+
 
 		if ($palabra_buscar != '') {
 			$this->db->like('LOWER(especialidad)', $palabra_buscar);
@@ -41,11 +38,12 @@ class Especialidad_model extends CI_Model
 	}
 
 
-	public function verificar_especialidad_id($id_especialidad)
+	public function verificar_especialidad($especialidad)
 	{
-		$this->db->where('id_especialidad', $id_especialidad);
+		
+		$this->db->where('especialidad', $especialidad);
 		$this->db->from('srp_especialidades');
-		return $this->db->count_all_results();
+		return $this->db->get();
 	}
 
 	public function verificar_nombre_especialidad($especialidad)
@@ -56,7 +54,7 @@ class Especialidad_model extends CI_Model
 	}
 
 
-	public function buscar_especialidad( $texto,  $es_filtro = false)
+	public function buscar_especialidad($texto,  $es_filtro = false)
 	{
 
 
@@ -83,15 +81,8 @@ class Especialidad_model extends CI_Model
 
 	public function set_especialidad($datos, $es_manual = false)
 	{
-		if ($es_manual) {
-			$this->db->set('id_especialidad', "nextval('serial_especialidades')", FALSE); //false escape
-			$this->db->set('especialidad', $datos["especialidad"]);
-			$this->db->set('estado_especialidad', "REGISTRADO");
-			return  $this->db->insert('srp_especialidades');
-		} else {
-			return $this->db->insert('srp_especialidades', $datos);
-			
-		}
+
+		return $this->db->insert('srp_especialidades', $datos) ? $this->db->insert_id() : false;
 	}
 	public function update_especialidad($id_esp, $datos)
 	{
@@ -99,13 +90,12 @@ class Especialidad_model extends CI_Model
 		return $this->db->update('srp_especialidades', $datos);
 	}
 
-	public function delete_especialidad( $id_esp)
+	public function delete_especialidad($id_esp)
 	{
 		$this->db->where('id_especialidad', $id_esp);
-		$this->db->update('srp_especialidades', ["estado_especialidad"=>"ELIMINADO"]);
-		
+		$this->db->update('srp_especialidades', ["estado_especialidad" => "ELIMINADO"]);
+
 		return $this->db->affected_rows();
-		
 	}
 
 

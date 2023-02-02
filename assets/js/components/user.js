@@ -28,24 +28,27 @@ export default {
 
 									<div class="form-group">
 										<label for="nombre">Nombres</label>
-										<input  id="nombre" class="form-control" v-model="user.nombre" placeholder="Ingrese Nombres" :class="{'is-invalid':error.nombre }">
+										<input  id="nombre" class="form-control" v-model="user.nombre" placeholder="Ingrese Nombres" :class="{'is-invalid':error.nombre }" oninput="javascript:this.value=this.value.toUpperCase();">
 										<div class="invalid-feedback" v-if="error.nombre"> Por favor ingrese un nombre.</div>
 									</div>
 									<div class="form-group">
 										<label for="apellido">Apellidos</label>
-										<input  id="apellido" class="form-control" v-model="user.apellido" placeholder="Ingrese Apellidos" :class="{'is-invalid':error.apellido }">
+										<input  id="apellido" class="form-control" v-model="user.apellido" placeholder="Ingrese Apellidos" :class="{'is-invalid':error.apellido }"  oninput="javascript:this.value=this.value.toUpperCase();">
 										<div class="invalid-feedback" v-if="error.apellido"> Por favor ingrese apellidos.</div>
 									</div>
 									<div class="form-group">
 										<label for="usuario">Usuario</label>
-										<input id="usuario" class="form-control" v-model="user.usuario" placeholder="Ingrese Usuario" :class="{'is-invalid':error.usuario }">
+										<input id="usuario" class="form-control" v-model="user.usuario" placeholder="Ingrese Usuario" :class="{'is-invalid':error.usuario }"  oninput="javascript:this.value=this.value.toUpperCase();">
 										<div class="invalid-feedback" v-if="error.usuario"> Por favor ingrese un nombre de usuario.</div>
 									</div>
                                   </div>
-								  <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" class="form-control" v-model="user.password" placeholder="Ingrese Password" :class="{'is-invalid':error.password }">
-                                        <div class="invalid-feedback" v-if="error.password"> {{error.msjPassword}}</div>
+								   <label for="password">Password</label>
+								  <div class="input-group mb-3">
+                                        <input :type="mostrarClave()" id="password" class="form-control" v-model="user.password" placeholder="Ingrese Password" :class="{'is-invalid':error.password }">
+                                        <div class="input-group-append">
+											<button class="btn btn-outline-secondary" type="button" @click="verClave = !verClave"><i :class="iconoClave()"></i></button>
+										</div>
+										<div class="invalid-feedback" v-if="error.password"> {{error.msjPassword}}</div>
                                     </div>
                                     <div class="form-group">
                                         <label for="confirmPassword">Confirmar Password</label>
@@ -56,14 +59,11 @@ export default {
 									<div v-if="updatePassword">
 										 <div class="form-group">
 											<label for="customRadio">Tipo de Usuario</label>
-											<div class="custom-control custom-radio">
-												<input type="radio" id="customRadio1" v-model="user.rol" value="1" class="custom-control-input" checked>
-												<label class="custom-control-label" for="customRadio1">Admin</label>
+											<div class="custom-control custom-radio" v-for="rol in listaRoles" :key="rol.id_rol">
+												<input type="radio" :id="'customRadio'+rol.id_rol" v-model="user.rol" :value="rol.id_rol" class="custom-control-input" :checked="rol.id_rol==3">
+												<label class="custom-control-label" :for="'customRadio'+rol.id_rol">{{rol.rol}}</label>
 											</div>
-											<div class="custom-control custom-radio">
-												<input type="radio" id="customRadio2" v-model="user.rol" value="2" class="custom-control-input">
-												<label class="custom-control-label" for="customRadio2">Publicador</label>
-											</div>
+
 										</div>
 									</div>
 								 
@@ -116,7 +116,7 @@ export default {
 													{{ usuario.estado ? "activo":"inactivo" }}
 												</button>
 											</td>
-											<td>{{usuario.id_rol==1 ? "admin": "publicador"}}</td>
+											<td>{{usuario.rol}}</td>
 											
 											<td>
 												<button type="button" class="btn btn-warning btn-sm"   
@@ -163,6 +163,7 @@ export default {
     data() {
         return {
             listadoUsuarios: [],
+            listaRoles: [],
             rol: 0,
             editar: false,
             accionEliminar: true,
@@ -171,6 +172,7 @@ export default {
             eliminar_id: 0,
             estado_id: 0,
             updatePassword: false,
+            verClave: false,
             user: {
                 usuario: '',
                 password: '',
@@ -217,6 +219,12 @@ export default {
                 })
                 .catch(err => {
                     console.error(err);
+                })
+        },
+        listarRoles() {
+            axios.get(this.url + "user/roles")
+                .then(res => {
+                    this.listaRoles = res.data
                 })
         },
         tituloUsuario() {
@@ -415,6 +423,12 @@ export default {
             $('#modalConfimEliminar').modal('show')
 
         },
+        mostrarClave() {
+            return this.verClave ? 'text' : 'password';
+        },
+        iconoClave() {
+            return this.verClave ? 'ti-na' : 'ti-eye';
+        },
         validate() {
             if (this.user.nombre && this.user.apellido && this.user.usuario && this.user.rol &&
                 this.user.confirmPassword && this.user.password.length >= 8 && this.user.password === this.user.confirmPassword) {
@@ -459,6 +473,7 @@ export default {
 
     },
     created() {
-        this.getUsers()
+        this.getUsers();
+        this.listarRoles();
     },
 }

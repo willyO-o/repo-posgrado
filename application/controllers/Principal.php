@@ -22,7 +22,9 @@ class Principal extends CI_Controller
 		
 		if (isset($this->session->id) && $this->session->login) {
 			$data['usuario'] = $this->session->userdata();
+			$data['permisos']= $this->session->userdata('permisos');
 
+			// return var_dump($data['permisos']);
 			$this->load->view('base', $data);
 		} else {
 			//si no loguea llama index

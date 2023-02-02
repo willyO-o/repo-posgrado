@@ -30,16 +30,16 @@ class Reportes_documento extends CI_Controller
 
 
 		$filtros['id_especialidad'] = $this->input->post('filtro_especialidad');
-		$filtros['id_autor'] = $this->encryption->decrypt($this->input->post('filtro_autor'));
+		$filtros['id_autor'] = base64_decode($this->input->post('filtro_autor'));
 		$filtros['id_tipo_documento'] = $this->input->post('filtro_tipo');
 		$filtros['id_categoria'] = $this->input->post('filtro_categoria');
 		$filtros['texto_buscar'] = $this->input->post('filtro_texto_buscar');
 		$limit = $this->input->post('limit') != null ? $this->input->post('limit') : 10;
 		$ofset = $this->input->post('ofset') != null ? $this->input->post('ofset') : 0;
 
-		$es_admin=$this->session->userdata("id_rol") == 1 ? true: false;
+		$id_rol=$this->session->userdata("id_rol");
 
-		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, 0, $ofset, $es_admin);
+		$documentos = $this->documento_model->filtrar_datos_reporte($filtros, 0, $ofset, $id_rol);
 
 
 		if ($accion == "pdf") {
